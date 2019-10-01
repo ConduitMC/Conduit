@@ -1,0 +1,3 @@
+TweakClass: org.spongepowered.asm.launch.MixinTweaker
+TweakOrder: 0
+MixinConfigs: mixins.serverwrapper.json

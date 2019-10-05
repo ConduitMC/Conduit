@@ -1,4 +1,4 @@
-package me.ifydev.serverwrapper;
+package me.ifydev.serverwrapper.mixin;
 
 import net.minecraft.DetectedVersion;
 import org.spongepowered.asm.mixin.Final;

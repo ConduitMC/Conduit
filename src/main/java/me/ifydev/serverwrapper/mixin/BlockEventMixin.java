@@ -1,4 +1,4 @@
-package me.ifydev.serverwrapper.events;
+package me.ifydev.serverwrapper.mixin;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

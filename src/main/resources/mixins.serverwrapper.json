@@ -1,11 +1,12 @@
 {
   "required": true,
   "minVersion": "0.6.15",
-  "package": "me.ifydev.serverwrapper",
+  "package": "me.ifydev.serverwrapper.mixin",
   "target": "@env(DEFAULT)",
-  "compatibilityLevel": "JAVA_7",
+  "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "TestVersion",
-    "events.BlockEventMixin"
+    "VersionMixin",
+    "BlockEventMixin",
+    "StartupMixin"
   ]
 }

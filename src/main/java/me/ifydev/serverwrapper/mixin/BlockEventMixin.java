@@ -1,7 +1,6 @@
-package me.ifydev.serverwrapper.events;
+package me.ifydev.serverwrapper.mixin;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.game.ClientboundBlockBreakAckPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;

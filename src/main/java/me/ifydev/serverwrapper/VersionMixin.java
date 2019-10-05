@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(value = DetectedVersion.class, remap = false)
-public abstract class TestVersion {
+public abstract class VersionMixin {
 
     @Shadow @Final private String name;
 

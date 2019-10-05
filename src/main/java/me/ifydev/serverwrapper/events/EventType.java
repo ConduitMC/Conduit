@@ -10,7 +10,10 @@ import net.minecraft.world.level.block.state.BlockState;
  * @author Innectic
  * @since 10/2/2019
  */
-public class EventType {
+@Getter
+public abstract class EventType {
+
+    public abstract int getId();
 
     @AllArgsConstructor
     @Getter
@@ -18,6 +21,11 @@ public class EventType {
         private Player player;
         private BlockState blockState;
         private InteractionHand hand;
+
+        @Override
+        public int getId() {
+            return 0;
+        }
     }
 
     @AllArgsConstructor
@@ -25,6 +33,11 @@ public class EventType {
     public static class BlockBreakEvent extends EventType {
         private Player player;
         private BlockState blockState;
+
+        @Override
+        public int getId() {
+            return 1;
+        }
     }
 
     @AllArgsConstructor
@@ -32,17 +45,32 @@ public class EventType {
     public static class BlockPlaceEvent extends EventType {
         private Player player;
         private BlockState blockState;
+
+        @Override
+        public int getId() {
+            return 2;
+        }
     }
 
     @AllArgsConstructor
     @Getter
     public static class PlayerJoinEvent extends EventType {
         private Player player;
+
+        @Override
+        public int getId() {
+            return 3;
+        }
     }
 
     @AllArgsConstructor
     @Getter
     public static class PlayerLeaveEvent extends EventType {
         private Player player;
+
+        @Override
+        public int getId() {
+            return 4;
+        }
     }
 }

@@ -2,15 +2,17 @@ package me.ifydev.serverwrapper.mixin;
 
 import me.ifydev.serverwrapper.ServerWrapper;
 import me.ifydev.serverwrapper.events.EventType;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = PlayerList.class, remap = false)
 public abstract class PlayerListMixin {
@@ -21,13 +23,12 @@ public abstract class PlayerListMixin {
     private void playerJoinMessage(PlayerList playerList, Component component) {
     }
 
-    @Redirect(method = "placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;addNewPlayer(Lnet/minecraft/server/level/ServerPlayer;)V"))
-    private void onPlayerJoin(ServerLevel serverLevel, ServerPlayer player) {
+    @Inject(method = "placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;sendLevelInfo(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/server/level/ServerLevel;)V"))
+    private void onPlayerJoin(Connection connection, ServerPlayer player, CallbackInfo ci) {
         Component translateMsg = new TranslatableComponent("multiplayer.player.joined", player.getDisplayName());
         EventType.PlayerJoinEvent event = new EventType.PlayerJoinEvent(player, translateMsg);
         ServerWrapper.eventManager.dispatchEvent(event);
 
         broadcastMessage(event.getMessage());
-        serverLevel.addNewPlayer(player);
     }
 }

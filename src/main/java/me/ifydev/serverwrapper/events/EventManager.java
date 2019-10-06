@@ -76,9 +76,7 @@ public class EventManager {
             ServerWrapper.LOGGER.error("Invalid event type: " + eventType.getClass());
             return;
         }
-        System.out.println(registeredHandlers);
         registeredHandlers.getOrDefault(eventId, new HashMap<>()).forEach((instance, methods) -> methods.forEach(method -> {
-            System.out.println("Found an event method");
             try {
                 method.invoke(instance, eventType);
             } catch (IllegalAccessException | InvocationTargetException e) {

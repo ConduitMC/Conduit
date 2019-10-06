@@ -2,6 +2,8 @@ package me.ifydev.serverwrapper.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -40,6 +42,7 @@ public abstract class EventType {
     @Getter
     public static class PlayerJoinEvent extends EventType {
         private Player player;
+        @Setter private Component message;
     }
 
     @AllArgsConstructor

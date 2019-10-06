@@ -13,7 +13,7 @@ public class Testing implements EventListener {
 
     @EventHandler(EventType.PlayerJoinEvent.class)
     public void onPlayerJoin(EventType.PlayerJoinEvent event) {
-        event.getPlayer().sendMessage(new TextComponent("Wow you joined the game!"));
+        event.setMessage(new TextComponent("Wow ").append(event.getPlayer().getDisplayName()).append(" joined the game!"));
     }
 
     @EventHandler(EventType.PlayerDamageByEntityEvent.class)

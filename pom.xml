@@ -30,20 +30,13 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.20</version>
+            <version>1.18.10</version>
         </dependency>
         <dependency>
             <groupId>net.minecraft</groupId>
             <artifactId>server</artifactId>
             <version>1.14.4</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>authlib</artifactId>
-            <version>1.5.25</version>
-        </dependency>
-
         <dependency>
             <groupId>org.spongepowered</groupId>
             <artifactId>mixin</artifactId>

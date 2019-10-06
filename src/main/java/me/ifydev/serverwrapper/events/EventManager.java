@@ -59,7 +59,6 @@ public class EventManager {
 
         Map<EventListener, List<Method>> current = registeredHandlers.get(eventId);
         new HashMap<>(current).forEach((key, value) -> {
-            System.out.println(key.getClass() + "" + listener.getClass());
             if (key.getClass() == listener.getClass()) {
                 // If we found another handler that matches this one, then add to it.
                 value.add(method);
@@ -76,9 +75,7 @@ public class EventManager {
             ServerWrapper.LOGGER.error("Invalid event type: " + eventType.getClass());
             return;
         }
-        System.out.println(registeredHandlers);
         registeredHandlers.getOrDefault(eventId, new HashMap<>()).forEach((instance, methods) -> methods.forEach(method -> {
-            System.out.println("Found an event method");
             try {
                 method.invoke(instance, eventType);
             } catch (IllegalAccessException | InvocationTargetException e) {

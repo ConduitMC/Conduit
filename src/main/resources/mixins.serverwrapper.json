@@ -8,6 +8,7 @@
     "VersionMixin",
     "StartupMixin",
     "event.ServerPlayerMixin",
-    "event.ServerPlayerGameModeMixin"
+    "event.ServerPlayerGameModeMixin",
+    "event.ItemStackMixin"
   ]
 }

@@ -2,10 +2,12 @@ package me.ifydev.serverwrapper.events;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -17,22 +19,28 @@ public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
+    public static class BlockPlaceEvent extends EventType {
+        private Player player;
+        private BlockState blockState;
+        private InteractionHand hand;
+        private Direction clickedFace;
+    }
+
+    @AllArgsConstructor
+    @Getter
     public static class BlockInteractEvent extends EventType {
         private Player player;
         private BlockState blockState;
         private InteractionHand hand;
+        private ItemStack itemInHand;
+        private Direction clickedFace;
+        private boolean sneaking;
+        private boolean inside;
     }
 
     @AllArgsConstructor
     @Getter
     public static class BlockBreakEvent extends EventType {
-        private Player player;
-        private BlockState blockState;
-    }
-
-    @AllArgsConstructor
-    @Getter
-    public static class BlockPlaceEvent extends EventType {
         private Player player;
         private BlockState blockState;
     }

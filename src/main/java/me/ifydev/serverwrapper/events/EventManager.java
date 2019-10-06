@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class EventManager {
 
-    private Map<Integer, Map<EventListener, List<Method>>> registeredHandlers = new HashMap<>();  // TODO: Can this storage system be optimized?
+    private static Map<Integer, Map<EventListener, List<Method>>> registeredHandlers = new HashMap<>();  // TODO: Can this storage system be optimized?
 
     public void registerEventClass(Class<? extends EventListener> clazz) {
         // Attempt to create an instance of the listener.
@@ -47,17 +47,27 @@ public class EventManager {
             return;
         }
 
-        Map<EventListener, List<Method>> current = registeredHandlers.getOrDefault(eventId, new HashMap<>());
-        new HashMap<>(current).entrySet().forEach(entry -> {
-            if (entry.getKey().getClass() == listener.getClass()) {
+        if (!registeredHandlers.containsKey(eventId)) {
+            // No currently registered events on this.
+            Map<EventListener, List<Method>> handlers = new HashMap<>();
+            List<Method> methods = new ArrayList<>();
+            methods.add(method);
+            handlers.put(listener, methods);
+            registeredHandlers.put(eventId, handlers);
+            return;
+        }
+
+        Map<EventListener, List<Method>> current = registeredHandlers.get(eventId);
+        new HashMap<>(current).forEach((key, value) -> {
+            System.out.println(key.getClass() + "" + listener.getClass());
+            if (key.getClass() == listener.getClass()) {
                 // If we found another handler that matches this one, then add to it.
-                List<Method> currentMethods = current.getOrDefault(entry.getKey(), new ArrayList<>());
-                currentMethods.add(method);
-                current.put(entry.getKey(), currentMethods);
+                value.add(method);
+                current.put(key, value);
+                ServerWrapper.LOGGER.info("Registered handler: " + method.getName() + " " + listener.getClass());
             }
         });
         registeredHandlers.put(eventId, current);
-        ServerWrapper.LOGGER.info("Registered handler: " + method.getName() + " " + listener.getClass());
     }
 
     public void dispatchEvent(EventType eventType) {
@@ -66,7 +76,9 @@ public class EventManager {
             ServerWrapper.LOGGER.error("Invalid event type: " + eventType.getClass());
             return;
         }
+        System.out.println(registeredHandlers);
         registeredHandlers.getOrDefault(eventId, new HashMap<>()).forEach((instance, methods) -> methods.forEach(method -> {
+            System.out.println("Found an event method");
             try {
                 method.invoke(instance, eventType);
             } catch (IllegalAccessException | InvocationTargetException e) {

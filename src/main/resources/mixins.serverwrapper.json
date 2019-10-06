@@ -6,7 +6,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "VersionMixin",
-    "BlockEventMixin",
-    "StartupMixin"
+    "StartupMixin",
+    "event.PlayerEventMixin"
   ]
 }

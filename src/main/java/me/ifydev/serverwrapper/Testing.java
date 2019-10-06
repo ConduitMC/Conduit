@@ -13,6 +13,22 @@ public class Testing implements EventListener {
 
     @EventHandler(EventType.PlayerJoinEvent.class)
     public void onPlayerJoin(EventType.PlayerJoinEvent event) {
-        event.getPlayer().sendMessage(new TextComponent("Testing hello"));
+        event.getPlayer().sendMessage(new TextComponent("Wow you joined the game!"));
+    }
+
+    @EventHandler(EventType.PlayerDamageByEntityEvent.class)
+    public void onPlayerDamageByEntity(EventType.PlayerDamageByEntityEvent event) {
+        event.getDamaged().sendMessage(new TextComponent("Ow! " + event.getDamager().getType() + " is the type of the thing that harmed you!"));
+    }
+
+    @EventHandler(EventType.PlayerDamageByPlayerEvent.class)
+    public void onPlayerDamageByPlayer(EventType.PlayerDamageByPlayerEvent event) {
+        event.getDamaged().sendMessage(new TextComponent("Ow!"));
+        event.getDamager().sendMessage(new TextComponent("Pain causer!"));
+    }
+
+    @EventHandler(EventType.PlayerDamageByArrowEvent.class)
+    public void onPlayerDamageByArrow(EventType.PlayerDamageByArrowEvent event) {
+        event.getDamaged().sendMessage(new TextComponent("Ow! " + event.getShooter().getType().getDescription() + " shot you!"));
     }
 }

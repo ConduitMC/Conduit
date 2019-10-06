@@ -9,6 +9,7 @@
     "StartupMixin",
     "event.ServerPlayerMixin",
     "event.ServerPlayerGameModeMixin",
-    "event.ItemStackMixin"
+    "event.ItemStackMixin",
+    "PlayerListMixin"
   ]
 }

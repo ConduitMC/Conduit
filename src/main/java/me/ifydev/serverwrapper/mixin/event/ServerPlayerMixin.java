@@ -21,11 +21,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * @since 10/5/2019
  */
 @Mixin(value = ServerPlayer.class, remap = false)
-public abstract class PlayerEventMixin extends Player {
+public abstract class ServerPlayerMixin extends Player {
 
     @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
 
-    public PlayerEventMixin(Level level, GameProfile gameProfile) {
+    public ServerPlayerMixin(Level level, GameProfile gameProfile) {
         super(level, gameProfile);
     }
 

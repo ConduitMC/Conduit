@@ -50,11 +50,25 @@ public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
+    public static class DamageMeta {
+        private boolean isThorns;
+        private boolean bypassArmor;
+        private boolean bypassInvulnerability;
+        private boolean bypassMagic;
+        private boolean isCreativePlayer;
+        private boolean isExplosion;
+        private boolean isFire;
+        private boolean isMagic;
+        private boolean isProjectile;
+    }
+
+    @AllArgsConstructor
+    @Getter
     public static class PlayerDamageByEntityEvent extends EventType {
         private Player damaged;
         private Entity damager;
         private float damage;
-        // TODO: Add damage meta
+        private DamageMeta meta;
     }
 
     @AllArgsConstructor
@@ -63,7 +77,7 @@ public abstract class EventType {
         private Player damaged;
         private Player damager;
         private float damage;
-        // TODO: Add damage meta
+        private DamageMeta meta;
     }
 
     @AllArgsConstructor
@@ -73,6 +87,6 @@ public abstract class EventType {
         private Entity shooter;
         private AbstractArrow arrow;
         private float damage;
-        // TODO: Add damage meta
+        private DamageMeta meta;
     }
 }

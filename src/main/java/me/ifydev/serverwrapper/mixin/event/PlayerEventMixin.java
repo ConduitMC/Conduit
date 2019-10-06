@@ -32,32 +32,32 @@ public abstract class PlayerEventMixin extends Player {
     @Inject(at = @At("HEAD"), method = "hurt")
     public void hurt(DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayer damaged = (ServerPlayer) (Object) this;
-        ServerWrapper.LOGGER.info("A");
 
         if (source instanceof EntityDamageSource) {
             // Player was damaged by another entity. Lets see if we can narrow it down before calling it a generic damage event.
             EntityDamageSource entitySource = (EntityDamageSource) source;
             Entity entity = entitySource.getEntity();
-            ServerWrapper.LOGGER.info("B");
+            EventType.DamageMeta meta = new EventType.DamageMeta(entitySource.isThorns(), entitySource.isBypassArmor(),
+                    entitySource.isBypassMagic(), entitySource.isBypassInvul(), entitySource.isCreativePlayer(), entitySource.isExplosion(),
+                    entitySource.isFire(), entitySource.isMagic(), entitySource.isProjectile());
 
             if (entity instanceof AbstractArrow) {
                 // Player was damaged by an arrow.
-                ServerWrapper.LOGGER.info("C");
                 AbstractArrow arrow = (AbstractArrow) entitySource.getEntity();
-                EventType.PlayerDamageByArrowEvent event = new EventType.PlayerDamageByArrowEvent(damaged, arrow.getOwner(), arrow, damage);
+                if (arrow == null) return;
+
+                EventType.PlayerDamageByArrowEvent event = new EventType.PlayerDamageByArrowEvent(damaged, arrow.getOwner(), arrow, damage, meta);
                 ServerWrapper.eventManager.dispatchEvent(event);
                 return;
             } else if (entity instanceof ServerPlayer) {
                 // Player was attached by another player
-                ServerWrapper.LOGGER.info("C");
                 ServerPlayer damager = (ServerPlayer) entitySource.getEntity();
-                EventType.PlayerDamageByPlayerEvent event = new EventType.PlayerDamageByPlayerEvent(damaged, damager, damage);
+                EventType.PlayerDamageByPlayerEvent event = new EventType.PlayerDamageByPlayerEvent(damaged, damager, damage, meta);
                 ServerWrapper.eventManager.dispatchEvent(event);
                 return;
             }
 
-            ServerWrapper.LOGGER.info("D");
-            EventType.PlayerDamageByEntityEvent event = new EventType.PlayerDamageByEntityEvent(damaged, entitySource.getEntity(), damage);
+            EventType.PlayerDamageByEntityEvent event = new EventType.PlayerDamageByEntityEvent(damaged, entitySource.getEntity(), damage, meta);
             ServerWrapper.eventManager.dispatchEvent(event);
         }
     }

@@ -1,7 +1,7 @@
-package me.ifydev.serverwrapper.events;
+package me.ifydev.conduit.events;
 
-import me.ifydev.serverwrapper.ServerWrapper;
-import me.ifydev.serverwrapper.events.annotations.EventHandler;
+import me.ifydev.conduit.Conduit;
+import me.ifydev.conduit.events.annotations.EventHandler;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -24,7 +24,7 @@ public class EventManager {
         try {
             listener = clazz.getConstructor().newInstance();
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            ServerWrapper.LOGGER.error("Failed to create instance of event listener: " + clazz.getName());
+            Conduit.LOGGER.error("Failed to create instance of event listener: " + clazz.getName());
             e.printStackTrace();
         }
         if (listener == null) return;
@@ -43,7 +43,7 @@ public class EventManager {
         Class<? extends EventType> eventType = annotation.value();
         int eventId = EventTypeRegistry.getEventMappings().getOrDefault(eventType, -1);
         if (eventId == -1) {
-            ServerWrapper.LOGGER.error("Invalid event type: " + eventType);
+            Conduit.LOGGER.error("Invalid event type: " + eventType);
             return;
         }
 
@@ -63,7 +63,7 @@ public class EventManager {
                 // If we found another handler that matches this one, then add to it.
                 value.add(method);
                 current.put(key, value);
-                ServerWrapper.LOGGER.info("Registered handler: " + method.getName() + " " + listener.getClass());
+                Conduit.LOGGER.info("Registered handler: " + method.getName() + " " + listener.getClass());
             }
         });
         registeredHandlers.put(eventId, current);
@@ -72,14 +72,14 @@ public class EventManager {
     public void dispatchEvent(EventType eventType) {
         int eventId = EventTypeRegistry.getEventMappings().getOrDefault(eventType.getClass(), -1);
         if (eventId == -1) {
-            ServerWrapper.LOGGER.error("Invalid event type: " + eventType.getClass());
+            Conduit.LOGGER.error("Invalid event type: " + eventType.getClass());
             return;
         }
         registeredHandlers.getOrDefault(eventId, new HashMap<>()).forEach((instance, methods) -> methods.forEach(method -> {
             try {
                 method.invoke(instance, eventType);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                ServerWrapper.LOGGER.error("Failed to execute event handler method");
+                Conduit.LOGGER.error("Failed to execute event handler method");
                 e.printStackTrace();
             }
         }));

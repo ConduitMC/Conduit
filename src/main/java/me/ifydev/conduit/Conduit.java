@@ -1,17 +1,17 @@
-package me.ifydev.serverwrapper;
+package me.ifydev.conduit;
 
-import me.ifydev.serverwrapper.events.EventManager;
-import me.ifydev.serverwrapper.plugin.PluginLoader;
+import me.ifydev.conduit.events.EventManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import me.ifydev.conduit.plugin.PluginLoader;
 
 /**
  * @author Innectic
  * @since 10/2/2019
  */
-public class ServerWrapper {
+public class Conduit {
 
-    public final static Logger LOGGER = LogManager.getLogger("ServerWrapper");
+    public final static Logger LOGGER = LogManager.getLogger("Conduit");
     public static EventManager eventManager = new EventManager();
     public static PluginLoader pluginLoader = new PluginLoader();
 }

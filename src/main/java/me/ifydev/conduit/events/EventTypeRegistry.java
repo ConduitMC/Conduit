@@ -1,4 +1,4 @@
-package me.ifydev.serverwrapper.events;
+package me.ifydev.conduit.events;
 
 import java.util.HashMap;
 import java.util.Map;

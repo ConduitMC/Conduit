@@ -1,7 +1,7 @@
-package me.ifydev.serverwrapper.mixin.event;
+package me.ifydev.conduit.mixin.event;
 
-import me.ifydev.serverwrapper.ServerWrapper;
-import me.ifydev.serverwrapper.events.EventType;
+import me.ifydev.conduit.Conduit;
+import me.ifydev.conduit.events.EventType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.server.level.ServerLevel;
@@ -27,13 +27,13 @@ public abstract class ServerPlayerGameModeMixin {
     @Inject(method = "updateGameMode", at = @At("HEAD"))
     public void updateGameMode(GameType gameType, CallbackInfo ci) {
         // TODO: Event cancellations
-        ServerWrapper.eventManager.dispatchEvent(new EventType.PlayerGameModeChangeEvent(player, gameType));
+        Conduit.eventManager.dispatchEvent(new EventType.PlayerGameModeChangeEvent(player, gameType));
     }
 
     @Inject(method = "destroyAndAck", at = @At("HEAD"))
     public void destroyAndAck(BlockPos blockPos, ServerboundPlayerActionPacket.Action action, CallbackInfo ci) {
         // TODO: Event cancellations
         EventType.BlockBreakEvent event = new EventType.BlockBreakEvent(player, this.level.getBlockState(blockPos));
-        ServerWrapper.eventManager.dispatchEvent(event);
+        Conduit.eventManager.dispatchEvent(event);
     }
 }

@@ -1,6 +1,6 @@
-package me.ifydev.serverwrapper.plugin;
+package me.ifydev.conduit.plugin;
 
-import me.ifydev.serverwrapper.ServerWrapper;
+import me.ifydev.conduit.Conduit;
 
 import java.io.File;
 import java.lang.instrument.Instrumentation;
@@ -26,9 +26,9 @@ public class PluginLoader {
         File pluginsFolder = getPluginsFolder();
         if (!pluginsFolder.exists()) {
             // Plugins folder does not exist, make it.
-            ServerWrapper.LOGGER.info("Creating plugins folder...");
+            Conduit.LOGGER.info("Creating plugins folder...");
             if (!pluginsFolder.mkdirs()) {
-                ServerWrapper.LOGGER.fatal("Failed to create plugins folder!");
+                Conduit.LOGGER.fatal("Failed to create plugins folder!");
                 return false;
             }
         }

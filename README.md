@@ -1,5 +1,5 @@
-# ServerWrapper
+# Conduit
 
-ServerWrapper is the next-generation of Minecraft plugin systems.
+Introducing Conduit - A next-generation Minecraft plugin system.
 
 Stay tuned for more information.

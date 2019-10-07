@@ -1,7 +1,7 @@
-package me.ifydev.serverwrapper.plugin;
+package me.ifydev.conduit.plugin;
 
 import lombok.Getter;
-import me.ifydev.serverwrapper.plugin.annotation.PluginMeta;
+import me.ifydev.conduit.plugin.annotation.PluginMeta;
 
 import java.util.Optional;
 

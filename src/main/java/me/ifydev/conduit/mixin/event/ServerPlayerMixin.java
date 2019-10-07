@@ -1,8 +1,8 @@
-package me.ifydev.serverwrapper.mixin.event;
+package me.ifydev.conduit.mixin.event;
 
 import com.mojang.authlib.GameProfile;
-import me.ifydev.serverwrapper.ServerWrapper;
-import me.ifydev.serverwrapper.events.EventType;
+import me.ifydev.conduit.Conduit;
+import me.ifydev.conduit.events.EventType;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
@@ -47,18 +47,18 @@ public abstract class ServerPlayerMixin extends Player {
                 if (arrow == null) return;
 
                 EventType.PlayerDamageByArrowEvent event = new EventType.PlayerDamageByArrowEvent(damaged, arrow.getOwner(), arrow, damage, meta);
-                ServerWrapper.eventManager.dispatchEvent(event);
+                Conduit.eventManager.dispatchEvent(event);
                 return;
             } else if (entity instanceof ServerPlayer) {
                 // Player was attached by another player
                 ServerPlayer damager = (ServerPlayer) entitySource.getEntity();
                 EventType.PlayerDamageByPlayerEvent event = new EventType.PlayerDamageByPlayerEvent(damaged, damager, damage, meta);
-                ServerWrapper.eventManager.dispatchEvent(event);
+                Conduit.eventManager.dispatchEvent(event);
                 return;
             }
 
             EventType.PlayerDamageByEntityEvent event = new EventType.PlayerDamageByEntityEvent(damaged, entitySource.getEntity(), damage, meta);
-            ServerWrapper.eventManager.dispatchEvent(event);
+            Conduit.eventManager.dispatchEvent(event);
         }
     }
 }

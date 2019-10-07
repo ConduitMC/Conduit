@@ -1,4 +1,4 @@
-package me.ifydev.serverwrapper.plugin;
+package me.ifydev.conduit.plugin;
 
 /**
  * @author Innectic

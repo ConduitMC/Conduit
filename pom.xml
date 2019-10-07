@@ -3,8 +3,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.ifydev</groupId>
-    <artifactId>ServerWrapper</artifactId>
-    <version>1.0.0</version>
+    <artifactId>Conduit</artifactId>
+    <version>0.0.1</version>
 
     <properties>
         <java.version>1.7</java.version>

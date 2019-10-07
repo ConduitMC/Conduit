@@ -1,7 +1,7 @@
-package me.ifydev.serverwrapper.mixin;
+package me.ifydev.conduit.mixin;
 
-import me.ifydev.serverwrapper.ServerWrapper;
-import me.ifydev.serverwrapper.events.EventType;
+import me.ifydev.conduit.Conduit;
+import me.ifydev.conduit.events.EventType;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -27,7 +27,7 @@ public abstract class PlayerListMixin {
     private void onPlayerJoin(Connection connection, ServerPlayer player, CallbackInfo ci) {
         Component translateMsg = new TranslatableComponent("multiplayer.player.joined", player.getDisplayName());
         EventType.PlayerJoinEvent event = new EventType.PlayerJoinEvent(player, translateMsg);
-        ServerWrapper.eventManager.dispatchEvent(event);
+        Conduit.eventManager.dispatchEvent(event);
 
         broadcastMessage(event.getMessage());
     }

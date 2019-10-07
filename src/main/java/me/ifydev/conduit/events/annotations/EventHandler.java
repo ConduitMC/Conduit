@@ -1,6 +1,6 @@
-package me.ifydev.serverwrapper.events.annotations;
+package me.ifydev.conduit.events.annotations;
 
-import me.ifydev.serverwrapper.events.EventType;
+import me.ifydev.conduit.events.EventType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

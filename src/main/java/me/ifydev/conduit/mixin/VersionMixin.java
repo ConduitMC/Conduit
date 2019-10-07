@@ -1,4 +1,4 @@
-package me.ifydev.serverwrapper.mixin;
+package me.ifydev.conduit.mixin;
 
 import net.minecraft.DetectedVersion;
 import org.spongepowered.asm.mixin.Final;
@@ -11,8 +11,11 @@ public abstract class VersionMixin {
 
     @Shadow @Final private String name;
 
+    /**
+     * @author Clutch
+     */
     @Overwrite
     public String getName() {
-        return name + "/ServerWrapper";
+        return name + "/Conduit";
     }
 }

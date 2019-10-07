@@ -1,7 +1,7 @@
-package me.ifydev.serverwrapper.mixin.event;
+package me.ifydev.conduit.mixin.event;
 
-import me.ifydev.serverwrapper.ServerWrapper;
-import me.ifydev.serverwrapper.events.EventType;
+import me.ifydev.conduit.Conduit;
+import me.ifydev.conduit.events.EventType;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseOnContext;
@@ -22,6 +22,6 @@ public class ItemStackMixin {
         EventType.BlockInteractEvent event = new EventType.BlockInteractEvent(context.getPlayer(),
                 context.getLevel().getBlockState(context.getClickedPos()), context.getHand(), context.getItemInHand(),
                 context.getClickedFace(), context.isSneaking(), context.isInside());
-        ServerWrapper.eventManager.dispatchEvent(event);
+        Conduit.eventManager.dispatchEvent(event);
     }
 }

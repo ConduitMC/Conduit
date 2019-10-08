@@ -1,14 +1,14 @@
 package me.ifydev.conduit.plugin;
 
 import me.ifydev.conduit.Conduit;
+import me.ifydev.conduit.plugin.annotation.PluginMeta;
+import org.reflections.Reflections;
 
-import java.io.File;
-import java.lang.instrument.Instrumentation;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.file.Paths;
-import java.util.jar.JarFile;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author Innectic
@@ -16,59 +16,50 @@ import java.util.jar.JarFile;
  */
 public class PluginLoader {
 
-    private static Instrumentation inst = null;
+    private static Reflections reflections = new Reflections();
 
     /**
-     * Ensures that the server folder has all the required folders to enable
-     * plugin loading.
+     * Finds all classes in runtime that extend {@link Plugin} and are annotated with {@link me.ifydev.conduit.plugin.annotation.PluginMeta}
+     * and attempts to load it as a plugin.
      */
-    public boolean checkEnvironment() {
-        File pluginsFolder = getPluginsFolder();
-        if (!pluginsFolder.exists()) {
-            // Plugins folder does not exist, make it.
-            Conduit.LOGGER.info("Creating plugins folder...");
-            if (!pluginsFolder.mkdirs()) {
-                Conduit.LOGGER.fatal("Failed to create plugins folder!");
-                return false;
-            }
-        }
-        return true;
-    }
-
     public void loadPlugins() {
-        File pluginsFolder = getPluginsFolder();
-        File[] files = pluginsFolder.listFiles();
-        if (files == null) return;
+        Set<Class<? extends Plugin>> annotated = reflections.getSubTypesOf(Plugin.class).stream()
+                .filter(c -> c.isAnnotationPresent(PluginMeta.class)).collect(Collectors.toSet());
 
-        for (File file : files) {
-            // Skip folders
-            if (!file.isFile()) continue;
-            // Make sure that it ends with .jar
-            if (!file.getName().endsWith(".jar")) continue;
+        for (Class<? extends Plugin> pluginClass : annotated) {
+            // Since we have the plugin class, we'll first grab the annotation and make sure that all the values are present.
+            // TODO: Load plugins in order, based on the dependencies listed in the annotation.
 
-            // Since it is a file, and it ends with .jar, we can proceed with attempting to load it.
-            addPluginToClassLoader(file);
-        }
-    }
-
-    private File getPluginsFolder() {
-        return Paths.get("plugins").toFile();
-    }
-
-    private void addPluginToClassLoader(File file) {
-        ClassLoader cl = ClassLoader.getSystemClassLoader();
-        try {
-            if (inst != null) {
-                inst.appendToSystemClassLoaderSearch(new JarFile(file));
+            PluginMeta meta = pluginClass.getAnnotation(PluginMeta.class);
+            if (meta == null) {
+                Conduit.LOGGER.error("INTERNAL ERROR: failed to load plugin class: " + pluginClass.getName() + ": cannot find annotation that previously existed.");
                 return;
             }
-            Method m = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
-            m.setAccessible(true);
-            m.invoke(cl, file.toURI().toURL());
-        } catch (Throwable e) {
-            System.out.println("Add to classpath error!");
-            e.printStackTrace();
-            System.exit(0);
+
+            // Now that we have our meta information, we can attempt to create an instance of this plugin.
+            Optional<Plugin> plugin = Optional.empty();
+
+            try {
+                Constructor<? extends Plugin> constructor = pluginClass.getConstructor(PluginMeta.class);
+                plugin = Optional.of(constructor.newInstance(meta));
+            } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
+                Conduit.LOGGER.error("INTERNAL ERROR: failed to create instance of plugin: " + meta.name());
+                e.printStackTrace();
+            }
+
+            // Double check that we have an instance of the plugin
+            if (!plugin.isPresent()) {
+                Conduit.LOGGER.error("INTERNAL ERROR: empty plugin instance leaked past try for " + meta.name());
+                return;
+            }
+
+            // We definitely have an instance of the plugin created. Now we can attempt to enable the plugin.
+            plugin.get().setPluginState(PluginState.LOADING);
+            plugin.get().onEnable();
+            plugin.get().setPluginState(PluginState.LOADED);
+            // The plugin is now loaded, put it into the registry.
+            Conduit.pluginRegistry.registerPlugin(plugin.get());
+            Conduit.LOGGER.info("Enabled plugin: " + meta.name());
         }
     }
 }

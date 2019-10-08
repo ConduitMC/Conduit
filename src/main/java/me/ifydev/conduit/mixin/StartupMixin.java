@@ -19,6 +19,6 @@ public class StartupMixin {
         Conduit.LOGGER.info("Server starting initialization...");
         Conduit.LOGGER.info("Registering events...");
 
-        if (Conduit.pluginLoader.checkEnvironment()) Conduit.pluginLoader.loadPlugins();
+        Conduit.pluginLoader.loadPlugins();
     }
 }

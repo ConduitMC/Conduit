@@ -1,12 +1,14 @@
-package me.ifydev.conduit.mixin;
+package systems.conduit.main.mixin;
 
-import me.ifydev.conduit.Conduit;
-import me.ifydev.conduit.events.EventType;
+import systems.conduit.main.Conduit;
+import systems.conduit.main.events.EventType;
+
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

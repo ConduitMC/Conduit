@@ -1,8 +1,8 @@
-package me.ifydev.conduit.plugin;
+package systems.conduit.main.plugin;
 
-import me.ifydev.conduit.Conduit;
-import me.ifydev.conduit.plugin.annotation.PluginMeta;
 import org.reflections.Reflections;
+import systems.conduit.main.Conduit;
+import systems.conduit.main.plugin.annotation.PluginMeta;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -19,7 +19,7 @@ public class PluginLoader {
     private static Reflections reflections = new Reflections();
 
     /**
-     * Finds all classes in runtime that extend {@link Plugin} and are annotated with {@link me.ifydev.conduit.plugin.annotation.PluginMeta}
+     * Finds all classes in runtime that extend {@link Plugin} and are annotated with {@link systems.conduit.main.plugin.annotation.PluginMeta}
      * and attempts to load it as a plugin.
      */
     public void loadPlugins() {

@@ -1,4 +1,4 @@
-package me.ifydev.conduit.plugin;
+package systems.conduit.main.plugin;
 
 /**
  * @author Innectic

@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.6.15",
-  "package": "me.ifydev.conduit.mixin",
+  "package": "systems.conduit.main.mixin",
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [

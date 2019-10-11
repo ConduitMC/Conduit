@@ -1,4 +1,4 @@
-package me.ifydev.conduit.plugin.annotation;
+package systems.conduit.main.plugin.annotation;
 
 /**
  * @author Innectic

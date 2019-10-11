@@ -1,6 +1,7 @@
-package me.ifydev.conduit.mixin;
+package systems.conduit.main.mixin;
 
 import net.minecraft.DetectedVersion;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

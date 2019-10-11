@@ -1,9 +1,9 @@
-package me.ifydev.conduit.plugin;
+package systems.conduit.main.plugin;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import me.ifydev.conduit.plugin.annotation.PluginMeta;
+import systems.conduit.main.plugin.annotation.PluginMeta;
 
 /**
  * @author Innectic

@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin;
+package systems.conduit.main.mixin.event.player;
 
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.EventType;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = PlayerList.class, remap = false)
-public abstract class PlayerListMixin {
+public abstract class JoinMixin {
 
     @Shadow public abstract void broadcastMessage(Component component);
 

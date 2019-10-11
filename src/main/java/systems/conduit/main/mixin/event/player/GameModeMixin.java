@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin.event;
+package systems.conduit.main.mixin.event.player;
 
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.EventType;
@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = ServerPlayerGameMode.class, remap = false)
-public abstract class ServerPlayerGameModeMixin {
+public abstract class GameModeMixin {
 
     @Shadow public ServerPlayer player;
     @Shadow public ServerLevel level;

@@ -7,9 +7,9 @@
   "mixins": [
     "VersionMixin",
     "StartupMixin",
-    "event.ServerPlayerMixin",
-    "event.ServerPlayerGameModeMixin",
+    "event.player.DamageMixin",
+    "event.player.GameModeMixin",
     "event.ItemStackMixin",
-    "PlayerListMixin"
+    "event.player.JoinMixin"
   ]
 }

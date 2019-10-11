@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin.event;
+package systems.conduit.main.mixin.event.player;
 
 import com.mojang.authlib.GameProfile;
 
@@ -20,11 +20,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = ServerPlayer.class, remap = false)
-public abstract class ServerPlayerMixin extends Player {
+public abstract class DamageMixin extends Player {
 
     @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
 
-    public ServerPlayerMixin(Level level, GameProfile gameProfile) {
+    public DamageMixin(Level level, GameProfile gameProfile) {
         super(level, gameProfile);
     }
 

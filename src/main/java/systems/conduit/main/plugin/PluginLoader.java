@@ -10,10 +10,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * @author Innectic
- * @since 10/6/2019
- */
 public class PluginLoader {
 
     private static Reflections reflections = new Reflections();

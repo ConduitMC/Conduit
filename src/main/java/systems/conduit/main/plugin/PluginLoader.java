@@ -57,7 +57,8 @@ public class PluginLoader {
     }
 
     public void disablePlugins() {
-        if (!Conduit.pluginRegistry.getPlugins().isEmpty()) Conduit.LOGGER.info("Disabling plugins...");
+        if (Conduit.pluginRegistry.getPlugins().isEmpty()) return;
+        Conduit.LOGGER.info("Disabling plugins...");
         // Loop through all plugins and disable them
         Iterator<Map.Entry<String, Plugin> > iterator = Conduit.pluginRegistry.getPlugins().entrySet().iterator();
         while (iterator.hasNext()) {

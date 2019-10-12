@@ -16,6 +16,7 @@ public class EventTypeRegistry {
         eventMappings.put(EventType.PlayerDamageByEntityEvent.class, 6);
         eventMappings.put(EventType.PlayerDamageByPlayerEvent.class, 7);
         eventMappings.put(EventType.PlayerDamageByArrowEvent.class, 9);
+        eventMappings.put(EventType.PlayerGameModeChangeEvent.class, 10);
     }
 
     public static Map<Class<? extends EventType>, Integer> getEventMappings() {

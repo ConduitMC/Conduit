@@ -22,16 +22,21 @@ public abstract class GameModeMixin {
     @Shadow public ServerPlayer player;
     @Shadow public ServerLevel level;
 
+    @Shadow public abstract GameType getGameModeForPlayer();
+
     @Inject(method = "updateGameMode", at = @At("HEAD"))
     private void updateGameMode(GameType gameType, CallbackInfo ci) {
+        // Don't call if the gamemode is the same
+        if (getGameModeForPlayer() == gameType) return;
         // TODO: Event cancellations
-        Conduit.eventManager.dispatchEvent(new EventType.PlayerGameModeChangeEvent(player, gameType));
+        EventType.PlayerGameModeChangeEvent event = new EventType.PlayerGameModeChangeEvent(player, gameType);
+        Conduit.eventManager.dispatchEvent(event);
     }
 
     @Inject(method = "destroyAndAck", at = @At("HEAD"))
     private void destroyAndAck(BlockPos blockPos, ServerboundPlayerActionPacket.Action action, CallbackInfo ci) {
         // TODO: Event cancellations
-        EventType.BlockBreakEvent event = new EventType.BlockBreakEvent(player, this.level.getBlockState(blockPos));
+        EventType.BlockBreakEvent event = new EventType.BlockBreakEvent(player, level.getBlockState(blockPos));
         Conduit.eventManager.dispatchEvent(event);
     }
 }

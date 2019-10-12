@@ -11,7 +11,7 @@ public class PluginRegistry {
 
     @Getter(AccessLevel.MODULE) private Map<String, Plugin> plugins = new HashMap<>();
 
-    public void registerPlugin(Plugin plugin) {
+    void registerPlugin(Plugin plugin) {
         plugins.put(plugin.getMeta().name(), plugin);
     }
 

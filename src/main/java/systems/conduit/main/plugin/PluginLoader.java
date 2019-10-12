@@ -35,8 +35,8 @@ public class PluginLoader {
             // Now that we have our meta information, we can attempt to create an instance of this plugin.
             Optional<Plugin> plugin = Optional.empty();
             try {
-                Constructor<? extends Plugin> constructor = pluginClass.getConstructor(PluginMeta.class);
-                plugin = Optional.of(constructor.newInstance(meta));
+                Constructor<? extends Plugin> constructor = pluginClass.getConstructor();
+                plugin = Optional.of(constructor.newInstance());
             } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
                 Conduit.LOGGER.error("INTERNAL ERROR: failed to create instance of plugin: " + meta.name());
                 e.printStackTrace();
@@ -46,6 +46,7 @@ public class PluginLoader {
                 Conduit.LOGGER.error("INTERNAL ERROR: empty plugin instance leaked past try for " + meta.name());
                 return;
             }
+            plugin.get().setMeta(meta);
             // We definitely have an instance of the plugin created. Now we can attempt to enable the plugin.
             plugin.get().setPluginState(PluginState.LOADING);
             plugin.get().onEnable();

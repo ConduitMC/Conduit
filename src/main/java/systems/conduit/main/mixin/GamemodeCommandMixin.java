@@ -18,15 +18,15 @@ public abstract class GamemodeCommandMixin {
      * @author Clutch
      */
     @Overwrite
-    private static void logGamemodeChange(CommandSourceStack sourceStack, ServerPlayer player, GameType gameType) {
+    private static void logGamemodeChange(CommandSourceStack source, ServerPlayer player, GameType gameType) {
         Component var3 = new TranslatableComponent("gameMode." + player.gameMode.getGameModeForPlayer().getName());
-        if (sourceStack.getEntity() == player) {
-            sourceStack.sendSuccess(new TranslatableComponent("commands.gamemode.success.self", var3), true);
+        if (source.getEntity() == player) {
+            source.sendSuccess(new TranslatableComponent("commands.gamemode.success.self", var3), true);
         } else {
-            if (sourceStack.getLevel().getGameRules().getBoolean(GameRules.RULE_SENDCOMMANDFEEDBACK)) {
+            if (source.getLevel().getGameRules().getBoolean(GameRules.RULE_SENDCOMMANDFEEDBACK)) {
                 player.sendMessage(new TranslatableComponent("gameMode.changed", var3));
             }
-            sourceStack.sendSuccess(new TranslatableComponent("commands.gamemode.success.other", player.getDisplayName(), var3), true);
+            source.sendSuccess(new TranslatableComponent("commands.gamemode.success.other", player.getDisplayName(), var3), true);
         }
     }
 }

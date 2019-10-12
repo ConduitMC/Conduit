@@ -105,4 +105,18 @@ public abstract class EventType {
         private Player player;
         @Setter private GameType gamemode;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PlayerChatEvent extends EventType {
+        private Player player;
+        @Setter private String message;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PlayerCommandEvent extends EventType {
+        private Player player;
+        @Setter private String message;
+    }
 }

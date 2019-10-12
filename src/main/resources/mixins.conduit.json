@@ -10,6 +10,9 @@
     "event.ServerPlayerMixin",
     "event.ServerPlayerGameModeMixin",
     "event.ItemStackMixin",
+    "api.EntityMixin",
+    "api.LivingEntityMixin",
+    "api.PlayerMixin",
     "PlayerListMixin"
   ]
 }

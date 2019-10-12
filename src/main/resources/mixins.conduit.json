@@ -5,14 +5,16 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "GamemodeCommandMixin",
     "VersionMixin",
     "StartupMixin",
-    "event.ServerPlayerMixin",
-    "event.ServerPlayerGameModeMixin",
     "event.ItemStackMixin",
     "api.EntityMixin",
     "api.LivingEntityMixin",
     "api.PlayerMixin",
-    "PlayerListMixin"
+    "event.player.DamageMixin",
+    "event.player.ServerPlayerGameModeMixin",
+    "event.player.JoinMixin",
+    "event.player.ServerPlayerMixin"
   ]
 }

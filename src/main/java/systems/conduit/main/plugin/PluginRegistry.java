@@ -1,18 +1,17 @@
 package systems.conduit.main.plugin;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * @author Innectic
- * @since 10/7/2019
- */
 public class PluginRegistry {
 
-    private Map<String, Plugin> plugins = new HashMap<>();
+    @Getter(AccessLevel.MODULE) private Map<String, Plugin> plugins = new HashMap<>();
 
-    public void registerPlugin(Plugin plugin) {
+    void registerPlugin(Plugin plugin) {
         plugins.put(plugin.getMeta().name(), plugin);
     }
 

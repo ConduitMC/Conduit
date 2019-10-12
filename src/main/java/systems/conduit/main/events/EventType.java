@@ -103,6 +103,6 @@ public abstract class EventType {
     @Getter
     public static class PlayerGameModeChangeEvent extends EventType {
         private Player player;
-        private GameType gamemode;
+        @Setter private GameType gamemode;
     }
 }

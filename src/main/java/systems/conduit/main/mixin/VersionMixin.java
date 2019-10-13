@@ -1,7 +1,7 @@
 package systems.conduit.main.mixin;
 
 import net.minecraft.DetectedVersion;
-
+import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

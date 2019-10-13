@@ -9,6 +9,11 @@
     "ServerGamePacketListenerMixin",
     "VersionMixin",
     "StartupMixin",
+
+    "api.EntityMixin",
+    "api.LivingEntityMixin",
+    "api.PlayerMixin",
+
     "event.ItemStackMixin",
     "event.player.DamageMixin",
     "event.player.ServerPlayerGameModeMixin",

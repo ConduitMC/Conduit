@@ -32,6 +32,9 @@ public abstract class DamageMixin extends Player {
     private void hurt(DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayer damaged = (ServerPlayer) (Object) this;
 
+        systems.conduit.main.api.Player p =(systems.conduit.main.api.Player) damaged;
+        p.sendMessage(String.valueOf(p.getMaxHealth()));
+
         if (source instanceof EntityDamageSource) {
             // Player was damaged by another entity. Lets see if we can narrow it down before calling it a generic damage event.
             EntityDamageSource entitySource = (EntityDamageSource) source;

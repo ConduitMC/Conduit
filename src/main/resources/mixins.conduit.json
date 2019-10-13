@@ -8,10 +8,12 @@
     "GamemodeCommandMixin",
     "VersionMixin",
     "StartupMixin",
-    "event.ItemStackMixin",
+
     "api.EntityMixin",
     "api.LivingEntityMixin",
     "api.PlayerMixin",
+
+    "event.ItemStackMixin",
     "event.player.DamageMixin",
     "event.player.ServerPlayerGameModeMixin",
     "event.player.JoinMixin",

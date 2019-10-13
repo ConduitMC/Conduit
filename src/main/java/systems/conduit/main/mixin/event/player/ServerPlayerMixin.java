@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.api.Player;
 import systems.conduit.main.events.EventType;
 
 @Mixin(value = ServerPlayer.class, remap = false)
@@ -14,7 +15,7 @@ public abstract class ServerPlayerMixin {
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))
     private GameType updateGameMode(GameType gameType) {
         // TODO: Event cancellations
-        EventType.PlayerGameModeChangeEvent event = new EventType.PlayerGameModeChangeEvent((ServerPlayer)(Object) this, gameType);
+        EventType.PlayerGameModeChangeEvent event = new EventType.PlayerGameModeChangeEvent((Player) this, gameType);
         Conduit.eventManager.dispatchEvent(event);
         return event.getGamemode();
     }

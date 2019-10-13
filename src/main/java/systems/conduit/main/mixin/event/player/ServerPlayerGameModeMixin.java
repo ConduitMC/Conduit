@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.api.Player;
 import systems.conduit.main.events.EventType;
 
 @Mixin(value = ServerPlayerGameMode.class, remap = false)
@@ -22,7 +23,7 @@ public abstract class ServerPlayerGameModeMixin {
     @Inject(method = "destroyAndAck", at = @At("HEAD"))
     private void destroyAndAck(BlockPos blockPos, ServerboundPlayerActionPacket.Action action, CallbackInfo ci) {
         // TODO: Event cancellations
-        EventType.BlockBreakEvent event = new EventType.BlockBreakEvent(player, level.getBlockState(blockPos));
+        EventType.BlockBreakEvent event = new EventType.BlockBreakEvent((Player) player, level.getBlockState(blockPos));
         Conduit.eventManager.dispatchEvent(event);
     }
 }

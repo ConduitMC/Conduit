@@ -37,7 +37,7 @@ public class EventManager {
 
     private void registerHandler(Method method, EventListener listener, EventHandler annotation) {
         Class<? extends EventType> eventType = annotation.value();
-        int eventId = EventTypeRegistry.getEventMappings().getOrDefault(eventType, -1);
+        int eventId = EventTypeRegistry.getEventMappings().indexOf(eventType);
         if (eventId == -1) {
             Conduit.LOGGER.error("Invalid event type register: " + eventType);
             return;
@@ -66,7 +66,7 @@ public class EventManager {
     }
 
     public void dispatchEvent(EventType eventType) {
-        int eventId = EventTypeRegistry.getEventMappings().getOrDefault(eventType.getClass(), -1);
+        int eventId = EventTypeRegistry.getEventMappings().indexOf(eventType.getClass());
         if (eventId == -1) {
             Conduit.LOGGER.error("Invalid event type dispatch: " + eventType.getClass());
             return;

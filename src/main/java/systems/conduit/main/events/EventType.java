@@ -3,7 +3,6 @@ package systems.conduit.main.events;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -104,5 +103,19 @@ public abstract class EventType {
     public static class PlayerGameModeChangeEvent extends EventType {
         private Player player;
         @Setter private GameType gamemode;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PlayerChatEvent extends EventType {
+        private Player player;
+        @Setter private Component message;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PlayerCommandEvent extends EventType {
+        private Player player;
+        @Setter private String message;
     }
 }

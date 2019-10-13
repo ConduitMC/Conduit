@@ -1,17 +1,13 @@
 package systems.conduit.main.mixin.event.player;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.EventType;
 
@@ -21,15 +17,10 @@ public abstract class JoinMixin {
     @Shadow public abstract void broadcastMessage(Component component);
 
     @Redirect(method = "placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;)V"))
-    private void playerJoinMessage(PlayerList playerList, Component component) {
-    }
-
-    @Inject(method = "placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;sendLevelInfo(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/server/level/ServerLevel;)V"))
-    private void onPlayerJoin(Connection connection, ServerPlayer player, CallbackInfo ci) {
-        Component translateMsg = new TranslatableComponent("multiplayer.player.joined", player.getDisplayName()).withStyle(ChatFormatting.YELLOW);
-        EventType.PlayerJoinEvent event = new EventType.PlayerJoinEvent(player, translateMsg);
+    private void playerJoinMessage(PlayerList playerList, Component message, Connection connection, ServerPlayer player) {
+        EventType.PlayerJoinEvent event = new EventType.PlayerJoinEvent(player, message);
         Conduit.eventManager.dispatchEvent(event);
-
-        broadcastMessage(event.getMessage());
+        Component eventMessage = event.getMessage();
+        if (eventMessage != null) this.broadcastMessage(event.getMessage());
     }
 }

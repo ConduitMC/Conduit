@@ -1,13 +1,16 @@
 package systems.conduit.main.mixin;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.server.players.PlayerList;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.EventType;
 
@@ -15,17 +18,14 @@ import systems.conduit.main.events.EventType;
 public class ServerGamePacketListenerMixin {
 
     @Shadow public ServerPlayer player;
+    @Shadow @Final private MinecraftServer server;
 
-    @ModifyArg(method = "handleChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;Z)V"))
-    private Component handleChat(Component messageComp) {
-        TranslatableComponent translatedMessage = (TranslatableComponent) messageComp;
-        String message = (String) translatedMessage.getArgs()[1];
-
-        // TODO use component here?
-        EventType.PlayerChatEvent event = new EventType.PlayerChatEvent(this.player, message);
-
+    @Redirect(method = "handleChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;Z)V"))
+    private void handleChat(PlayerList playerList, Component component, boolean b) {
+        EventType.PlayerChatEvent event = new EventType.PlayerChatEvent(this.player, component);
         Conduit.eventManager.dispatchEvent(event);
-        return new TranslatableComponent("chat.type.text", this.player.getDisplayName(), event.getMessage());
+        Component eventMessage = event.getMessage();
+        if (eventMessage != null) this.server.getPlayerList().broadcastMessage(eventMessage, b);
     }
 
     @ModifyArg(method = "handleChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;handleCommand(Ljava/lang/String;)V"))

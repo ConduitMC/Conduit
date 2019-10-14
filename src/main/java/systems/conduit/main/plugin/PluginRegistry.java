@@ -5,17 +5,12 @@ import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 public class PluginRegistry {
 
-    @Getter(AccessLevel.MODULE) private Map<String, Plugin> plugins = new HashMap<>();
+    @Getter(AccessLevel.MODULE) private Map<Plugin, PluginClassLoader> plugins = new HashMap<>();
 
-    void registerPlugin(Plugin plugin) {
-        plugins.put(plugin.getMeta().name(), plugin);
-    }
-
-    public Optional<Plugin> getPlugin(String name) {
-        return Optional.ofNullable(plugins.getOrDefault(name, null));
+    void registerPlugin(Plugin plugin, PluginClassLoader classLoader) {
+        plugins.put(plugin, classLoader);
     }
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class PluginRegistry {
 
@@ -12,5 +13,9 @@ public class PluginRegistry {
 
     void registerPlugin(Plugin plugin, PluginClassLoader classLoader) {
         plugins.put(plugin, classLoader);
+    }
+
+    public Optional<Plugin> getPlugin(String name) {
+        return plugins.keySet().parallelStream().filter(plugin -> plugin.getMeta().name().equalsIgnoreCase(name)).findFirst();
     }
 }

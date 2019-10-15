@@ -36,7 +36,7 @@ public abstract class StartupMixin extends MinecraftServer {
     private void initServer(CallbackInfoReturnable<Boolean> callback) {
         Conduit.LOGGER.info("Server starting initialization...");
         Conduit.server = Optional.of(this);
-        
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> Conduit.pluginLoader.disablePlugins()));
         Conduit.LOGGER.info("Registering events...");
         Conduit.LOGGER.info("Loading plugins...");

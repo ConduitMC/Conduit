@@ -21,6 +21,7 @@ public class StartupMixin {
     private void initServer(CallbackInfoReturnable<Boolean> callback) {
         Conduit.LOGGER.info("Server starting initialization...");
         Runtime.getRuntime().addShutdownHook(new Thread(() -> Conduit.pluginManager.disablePlugins()));
+        Conduit.commands.loadDefaultCommands(((DedicatedServer) (Object) this).getCommands().getDispatcher());
         Conduit.pluginManager.loadPlugins();
     }
 }

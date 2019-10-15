@@ -1,5 +1,6 @@
 package systems.conduit.main.plugin;
 
+import javassist.tools.Callback;
 import lombok.AccessLevel;
 import lombok.Getter;
 import systems.conduit.main.Conduit;
@@ -7,7 +8,9 @@ import systems.conduit.main.Conduit;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Iterator;
+import java.util.Optional;
+import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -91,6 +94,10 @@ public class PluginManager {
         Conduit.LOGGER.info((reload ? "Reloaded ": "Enabled ") + "plugin: " + plugin.getMeta().name());
     }
 
+    public void reloadPlugins(Callback callback) {
+        getPlugins().forEach(this::reload);
+        callback.result(new Object[]{});
+    }
 
     public void reload(Plugin plugin) {
         // Unload the plugin

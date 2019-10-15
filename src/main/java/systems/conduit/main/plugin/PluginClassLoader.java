@@ -1,5 +1,6 @@
 package systems.conduit.main.plugin;
 
+import lombok.Getter;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import systems.conduit.main.Conduit;
@@ -15,10 +16,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class PluginClassLoader extends URLClassLoader {
+public class PluginClassLoader extends URLClassLoader {
+
+    @Getter private final File pluginFile;
 
     PluginClassLoader(File pluginFile, ClassLoader parent) throws MalformedURLException {
         super(new URL[] {pluginFile.toURI().toURL()}, parent);
+        this.pluginFile = pluginFile;
     }
 
     Optional<Plugin> load() {
@@ -47,11 +51,8 @@ class PluginClassLoader extends URLClassLoader {
                 Conduit.LOGGER.error("INTERNAL ERROR: empty plugin instance leaked past try for " + meta.name());
                 return Optional.empty();
             }
+            plugin.get().setClassLoader(this);
             plugin.get().setMeta(meta);
-            // We definitely have an instance of the plugin created. Now we can attempt to enable the plugin.
-            plugin.get().setPluginState(PluginState.LOADING);
-            plugin.get().onEnable();
-            plugin.get().setPluginState(PluginState.LOADED);
             return plugin;
         }
         return Optional.empty();

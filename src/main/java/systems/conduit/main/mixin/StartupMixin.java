@@ -14,15 +14,15 @@ public class StartupMixin {
     @Inject(method = "stopServer", at = @At("HEAD"))
     private void stopServer(CallbackInfo ci) {
         // Disable plugins on shutdown
-        Conduit.pluginLoader.disablePlugins();
+        Conduit.pluginManager.disablePlugins();
     }
 
     @Inject(method = "initServer", at = @At("HEAD"))
     private void initServer(CallbackInfoReturnable<Boolean> callback) {
         Conduit.LOGGER.info("Server starting initialization...");
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> Conduit.pluginLoader.disablePlugins()));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> Conduit.pluginManager.disablePlugins()));
         Conduit.LOGGER.info("Registering events...");
         Conduit.LOGGER.info("Loading plugins...");
-        Conduit.pluginLoader.loadPlugins();
+        Conduit.pluginManager.loadPlugins();
     }
 }

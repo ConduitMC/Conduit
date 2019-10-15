@@ -76,6 +76,7 @@ public class PluginManager {
     public void disable(Plugin plugin) {
         Conduit.LOGGER.info("Disabling plugin: " + plugin.getMeta().name());
         plugin.setPluginState(PluginState.DISABLING);
+        plugin.getEvents().clear();
         plugin.onDisable();
         plugin.setPluginState(PluginState.DISABLED);
         Conduit.LOGGER.info("Disabled plugin: " + plugin.getMeta().name());

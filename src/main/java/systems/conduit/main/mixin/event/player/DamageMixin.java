@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin.event;
+package systems.conduit.main.mixin.event.player;
 
 import com.mojang.authlib.GameProfile;
 
@@ -20,17 +20,20 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = ServerPlayer.class, remap = false)
-public abstract class ServerPlayerMixin extends Player {
+public abstract class DamageMixin extends Player {
 
     @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
 
-    public ServerPlayerMixin(Level level, GameProfile gameProfile) {
+    public DamageMixin(Level level, GameProfile gameProfile) {
         super(level, gameProfile);
     }
 
     @Inject(at = @At("HEAD"), method = "hurt")
     private void hurt(DamageSource source, float damage, CallbackInfoReturnable<Boolean> cir) {
         ServerPlayer damaged = (ServerPlayer) (Object) this;
+
+        systems.conduit.main.api.Player p =(systems.conduit.main.api.Player) damaged;
+        p.sendMessage(String.valueOf(p.getMaxHealth()));
 
         if (source instanceof EntityDamageSource) {
             // Player was damaged by another entity. Lets see if we can narrow it down before calling it a generic damage event.
@@ -45,18 +48,18 @@ public abstract class ServerPlayerMixin extends Player {
                 AbstractArrow arrow = (AbstractArrow) entitySource.getEntity();
                 if (arrow == null) return;
 
-                EventType.PlayerDamageByArrowEvent event = new EventType.PlayerDamageByArrowEvent(damaged, arrow.getOwner(), arrow, damage, meta);
+                EventType.PlayerDamageByArrowEvent event = new EventType.PlayerDamageByArrowEvent((systems.conduit.main.api.Player) damaged, arrow.getOwner(), arrow, damage, meta);
                 Conduit.eventManager.dispatchEvent(event);
                 return;
             } else if (entity instanceof ServerPlayer) {
                 // Player was attached by another player
                 ServerPlayer damager = (ServerPlayer) entitySource.getEntity();
-                EventType.PlayerDamageByPlayerEvent event = new EventType.PlayerDamageByPlayerEvent(damaged, damager, damage, meta);
+                EventType.PlayerDamageByPlayerEvent event = new EventType.PlayerDamageByPlayerEvent((systems.conduit.main.api.Player) damaged, (systems.conduit.main.api.Player) damager, damage, meta);
                 Conduit.eventManager.dispatchEvent(event);
                 return;
             }
 
-            EventType.PlayerDamageByEntityEvent event = new EventType.PlayerDamageByEntityEvent(damaged, entitySource.getEntity(), damage, meta);
+            EventType.PlayerDamageByEntityEvent event = new EventType.PlayerDamageByEntityEvent((systems.conduit.main.api.Player) damaged, entitySource.getEntity(), damage, meta);
             Conduit.eventManager.dispatchEvent(event);
         }
     }

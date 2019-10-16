@@ -3,16 +3,15 @@ package systems.conduit.main.events;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.state.BlockState;
+import systems.conduit.main.api.Player;
 
 public abstract class EventType {
 
@@ -103,6 +102,20 @@ public abstract class EventType {
     @Getter
     public static class PlayerGameModeChangeEvent extends EventType {
         private Player player;
-        private GameType gamemode;
+        @Setter private GameType gamemode;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PlayerChatEvent extends EventType {
+        private Player player;
+        @Setter private Component message;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PlayerCommandEvent extends EventType {
+        private Player player;
+        @Setter private String message;
     }
 }

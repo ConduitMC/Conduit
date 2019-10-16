@@ -49,18 +49,18 @@ public abstract class DamageMixin extends Player {
                 if (arrow == null) return;
 
                 EventType.PlayerDamageByArrowEvent event = new EventType.PlayerDamageByArrowEvent((systems.conduit.main.api.Player) damaged, arrow.getOwner(), arrow, damage, meta);
-                Conduit.eventManager.dispatchEvent(event);
+                Conduit.getEventManager().dispatchEvent(event);
                 return;
             } else if (entity instanceof ServerPlayer) {
                 // Player was attached by another player
                 ServerPlayer damager = (ServerPlayer) entitySource.getEntity();
                 EventType.PlayerDamageByPlayerEvent event = new EventType.PlayerDamageByPlayerEvent((systems.conduit.main.api.Player) damaged, (systems.conduit.main.api.Player) damager, damage, meta);
-                Conduit.eventManager.dispatchEvent(event);
+                Conduit.getEventManager().dispatchEvent(event);
                 return;
             }
 
             EventType.PlayerDamageByEntityEvent event = new EventType.PlayerDamageByEntityEvent((systems.conduit.main.api.Player) damaged, entitySource.getEntity(), damage, meta);
-            Conduit.eventManager.dispatchEvent(event);
+            Conduit.getEventManager().dispatchEvent(event);
         }
     }
 }

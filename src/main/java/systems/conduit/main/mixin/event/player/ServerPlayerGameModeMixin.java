@@ -24,6 +24,6 @@ public abstract class ServerPlayerGameModeMixin {
     private void destroyAndAck(BlockPos blockPos, ServerboundPlayerActionPacket.Action action, CallbackInfo ci) {
         // TODO: Event cancellations
         EventType.BlockBreakEvent event = new EventType.BlockBreakEvent((Player) player, level.getBlockState(blockPos));
-        Conduit.eventManager.dispatchEvent(event);
+        Conduit.getEventManager().dispatchEvent(event);
     }
 }

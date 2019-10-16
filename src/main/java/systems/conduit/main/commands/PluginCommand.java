@@ -13,7 +13,7 @@ public class PluginCommand extends BaseCommand {
     public void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("reload").executes(c -> {
             c.getSource().sendSuccess(new TextComponent("Server reloading..."), false);
-            Conduit.pluginManager.reloadPlugins(new Callback("Reload callback") {
+            Conduit.getPluginManager().reloadPlugins(new Callback("Reload callback") {
                 @Override
                 public void result(Object[] objects) {
                     c.getSource().sendSuccess(new TextComponent("Server reloaded!"), false);

@@ -8,9 +8,24 @@ import systems.conduit.main.plugin.PluginManager;
 
 public class Conduit {
 
-    public final static Logger LOGGER = LogManager.getLogger("Conduit");
-    public static EventManager eventManager = new EventManager();
-    public static PluginManager pluginManager = new PluginManager();
-    public static CommandManager commands = new CommandManager();
+    private final static Logger LOGGER = LogManager.getLogger("Conduit");
+    private static EventManager eventManager = new EventManager();
+    private static PluginManager pluginManager = new PluginManager();
+    private static CommandManager commandManager = new CommandManager();
 
+    public static Logger getLogger() {
+        return LOGGER;
+    }
+
+    public static EventManager getEventManager() {
+        return eventManager;
+    }
+
+    public static PluginManager getPluginManager() {
+        return pluginManager;
+    }
+
+    public static CommandManager getCommandManager() {
+        return commandManager;
+    }
 }

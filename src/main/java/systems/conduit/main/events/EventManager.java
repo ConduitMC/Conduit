@@ -19,7 +19,7 @@ public class EventManager {
         try {
             listener = clazz.getConstructor().newInstance();
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            Conduit.LOGGER.error("Failed to create instance of event listener: " + clazz.getName());
+            Conduit.getLogger().error("Failed to create instance of event listener: " + clazz.getName());
             e.printStackTrace();
         }
         if (listener == null) return;
@@ -37,7 +37,7 @@ public class EventManager {
         Class<? extends EventType> eventType = annotation.value();
         int eventId = EventTypeRegistry.getEventMappings().indexOf(eventType);
         if (eventId == -1) {
-            Conduit.LOGGER.error("Invalid event type register: " + eventType);
+            Conduit.getLogger().error("Invalid event type register: " + eventType);
             return;
         }
 
@@ -57,7 +57,7 @@ public class EventManager {
                 // If we found another handler that matches this one, then add to it.
                 value.add(method);
                 current.put(key, value);
-                Conduit.LOGGER.info("Registered handler: " + method.getName() + " " + listener.getClass());
+                Conduit.getLogger().info("Registered handler: " + method.getName() + " " + listener.getClass());
             }
         });
         plugin.getEvents().put(eventId, current);
@@ -66,14 +66,14 @@ public class EventManager {
     public void dispatchEvent(EventType eventType) {
         int eventId = EventTypeRegistry.getEventMappings().indexOf(eventType.getClass());
         if (eventId == -1) {
-            Conduit.LOGGER.error("Invalid event type dispatch: " + eventType.getClass());
+            Conduit.getLogger().error("Invalid event type dispatch: " + eventType.getClass());
             return;
         }
-        Conduit.pluginManager.getPlugins().forEach(plugin -> plugin.getEvents().getOrDefault(eventId, new HashMap<>()).forEach((instance, methods) -> methods.forEach(method -> {
+        Conduit.getPluginManager().getPlugins().forEach(plugin -> plugin.getEvents().getOrDefault(eventId, new HashMap<>()).forEach((instance, methods) -> methods.forEach(method -> {
             try {
                 method.invoke(instance, eventType);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                Conduit.LOGGER.error("Failed to execute event handler method");
+                Conduit.getLogger().error("Failed to execute event handler method");
                 e.printStackTrace();
             }
         })));

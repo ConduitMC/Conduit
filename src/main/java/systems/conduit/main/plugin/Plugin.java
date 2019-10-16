@@ -25,6 +25,6 @@ public abstract class Plugin {
 
     @SafeVarargs
     protected final void registerListeners(Class<? extends EventListener>... clazz) {
-        Arrays.stream(clazz).forEach(aClass -> Conduit.eventManager.registerEventClass(this, aClass));
+        Arrays.stream(clazz).forEach(aClass -> Conduit.getEventManager().registerEventClass(this, aClass));
     }
 }

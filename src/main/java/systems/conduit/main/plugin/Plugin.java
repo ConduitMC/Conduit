@@ -3,6 +3,8 @@ package systems.conduit.main.plugin;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TextComponent;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.EventListener;
 import systems.conduit.main.plugin.annotation.PluginMeta;
@@ -26,6 +28,13 @@ public abstract class Plugin {
     @SafeVarargs
     protected final void registerListeners(Class<? extends EventListener>... clazz) {
         Arrays.stream(clazz).forEach(aClass -> Conduit.getEventManager().registerEventClass(this, aClass));
+    }
+
+    public String toStringColored() {
+        ChatFormatting color = ChatFormatting.RED;
+        if (pluginState == PluginState.ENABLING || pluginState == PluginState.DISABLING) color = ChatFormatting.YELLOW;
+        if (pluginState == PluginState.ENABLED) color = ChatFormatting.GREEN;
+        return new TextComponent(meta.name()).withStyle(color).getColoredString();
     }
 
     @Override

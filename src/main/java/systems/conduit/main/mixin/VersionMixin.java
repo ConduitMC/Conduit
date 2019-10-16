@@ -12,7 +12,7 @@ public abstract class VersionMixin {
     @Shadow @Final private String name;
 
     /**
-     * @author Clutch
+     * @author ConduitMC
      */
     @Overwrite
     public String getName() {

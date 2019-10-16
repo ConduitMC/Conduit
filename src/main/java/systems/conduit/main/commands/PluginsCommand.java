@@ -20,9 +20,11 @@ public class PluginsCommand extends BaseCommand {
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> baseCommand() {
+        // TODO replace colors if console
         return Commands.literal("plugins").executes(c -> {
-            // TODO: Color based on states
-            c.getSource().sendSuccess(new TextComponent("Plugins: " + Conduit.getPluginManager().getPlugins().toString()), false);
+            Conduit.getPluginManager().getPlugins().stream().map(Plugin::toStringColored).reduce((a, b) -> a.concat(",").concat(b)).ifPresent(s -> {
+                c.getSource().sendSuccess(new TextComponent("Plugins: " + s), false);
+            });
             return 1;
         });
     }
@@ -53,7 +55,6 @@ public class PluginsCommand extends BaseCommand {
     private LiteralArgumentBuilder<CommandSourceStack> changeStateSubcommand(boolean enable) {
         String state = (enable ? "enable" : "disable");
         String stateText = (enable ? "Enabled" : "Disabled");
-        System.out.println(state);
         return Commands.literal(state).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);

@@ -1,29 +1,17 @@
-package systems.conduit.main.mixin;
+package systems.conduit.main.util;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.commands.CommandSource;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.world.entity.Entity;
 import org.fusesource.jansi.Ansi;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.fusesource.jansi.AnsiConsole;
 import systems.conduit.main.Conduit;
 
-import javax.annotation.Nullable;
+import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
-@Mixin(value = CommandSourceStack.class, remap = false)
-public abstract class ColorMessageMixin {
+public class ColorReplacer {
 
-    @Shadow @Nullable public abstract Entity getEntity();
-
-    @Shadow @Final private CommandSource source;
     private final static Map<ChatFormatting, String> colorReplacements = new HashMap<>();
 
     static {
@@ -51,31 +39,36 @@ public abstract class ColorMessageMixin {
         colorReplacements.put(ChatFormatting.RESET, Ansi.ansi().a(Ansi.Attribute.RESET).toString());
     }
 
-    @Redirect(method = "sendSuccess", at = @At(value = "INVOKE", target = "Lnet/minecraft/commands/CommandSource;sendMessage(Lnet/minecraft/network/chat/Component;)V"))
-    private void sendSuccess(CommandSource source, Component component) {
-        sendColoredString(component);
+    public static void init() {
+        // Logger color
+        AnsiConsole.systemInstall();
+        // Redirect print to logger
+        System.setOut(createLoggingProxy(System.out));
+        System.setErr(createLoggingProxy(System.err));
     }
 
-    @Redirect(method = "sendFailure", at = @At(value = "INVOKE", target = "Lnet/minecraft/commands/CommandSource;sendMessage(Lnet/minecraft/network/chat/Component;)V"))
-    private void sendFailure(CommandSource source, Component component) {
-        sendColoredString((new TextComponent("")).append(component).withStyle(ChatFormatting.RED));
-    }
-
-    private void sendColoredString(Component component) {
-        String coloredString = component.getColoredString();
-        if (this.getEntity() == null) {
-            for (ChatFormatting color : ChatFormatting.values()) {
-                if (coloredString.contains(color.toString())) {
-                    if (System.console() != null && System.getenv().get("TERM") != null) {
-                        coloredString = coloredString.replaceAll("(?i)" + color.toString(), colorReplacements.get(color));
-                    } else {
-                        coloredString = coloredString.replaceAll("(?i)" + color.toString(), "");
-                    }
+    static String getColoredMessage(String string) {
+        string = string + ChatFormatting.RESET;
+        for (ChatFormatting color : ChatFormatting.values()) {
+            if (string.contains(color.toString())) {
+                if (System.console() != null && System.getenv().get("TERM") != null) {
+                    string = string.replaceAll("(?i)" + color.toString(), colorReplacements.get(color));
+                } else {
+                    string = string.replaceAll("(?i)" + color.toString(), "");
                 }
             }
-            Conduit.getLogger().info(new TextComponent(coloredString).getText());
-            return;
         }
-        this.source.sendMessage(new TextComponent(coloredString));
+        return string;
+    }
+
+    private static PrintStream createLoggingProxy(final PrintStream realPrintStream) {
+        return new PrintStream(realPrintStream) {
+            public void print(final String string) {
+                Conduit.getLogger().info(new TextComponent(string).getText());
+            }
+            public void println(final String string) {
+                Conduit.getLogger().info(new TextComponent(string).getText());
+            }
+        };
     }
 }

@@ -5,10 +5,11 @@ import org.apache.logging.log4j.Logger;
 import systems.conduit.main.commands.CommandManager;
 import systems.conduit.main.events.EventManager;
 import systems.conduit.main.plugin.PluginManager;
+import systems.conduit.main.util.MessageFactory;
 
 public class Conduit {
 
-    private final static Logger LOGGER = LogManager.getLogger("Conduit");
+    private final static Logger LOGGER = LogManager.getLogger("Conduit", new MessageFactory());
     private static EventManager eventManager = new EventManager();
     private static PluginManager pluginManager = new PluginManager();
     private static CommandManager commandManager = new CommandManager();

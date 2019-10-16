@@ -27,4 +27,9 @@ public abstract class Plugin {
     protected final void registerListeners(Class<? extends EventListener>... clazz) {
         Arrays.stream(clazz).forEach(aClass -> Conduit.getEventManager().registerEventClass(this, aClass));
     }
+
+    @Override
+    public String toString() {
+        return meta.name();
+    }
 }

@@ -5,9 +5,9 @@ import net.minecraft.commands.CommandSourceStack;
 
 public class CommandManager {
 
-    private static PluginCommand pluginCommand = new PluginCommand();
+    private static PluginsCommand pluginsCommand = new PluginsCommand();
 
     public void loadDefaultCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
-        pluginCommand.registerCommand(dispatcher);
+        pluginsCommand.registerCommand(dispatcher);
     }
 }

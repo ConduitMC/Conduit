@@ -48,7 +48,7 @@ public class PluginManager {
             // The plugin is now loaded, now we can attempt to enable the plugin.
             if (plugin.isPresent()) {
                 plugins.add(plugin.get());
-                Conduit.getPluginManager().enable(plugin.get(), reload);
+                enable(plugin.get(), reload);
             }
         } catch (IOException e) {
             Conduit.getLogger().error("Error loading plugin.");
@@ -62,19 +62,17 @@ public class PluginManager {
         // Loop through all plugins and disable them
         Iterator<Plugin> iterator = plugins.iterator();
         while (iterator.hasNext()) {
+            Plugin plugin = iterator.next();
             // Disable the plugin
-            disable(iterator.next());
+            disable(plugin, false);
             // Remove plugin from list
             iterator.remove();
         }
     }
 
-    public void disable(Plugin plugin) {
-        disable(plugin, false);
-    }
-
-    private void disable(Plugin plugin, boolean reload) {
-        Conduit.getLogger().info((reload ? "Reloading ": "Disabling ") + "plugin: " + plugin.getMeta().name());
+    public void disable(Plugin plugin, boolean reload) {
+        if ((plugin.getPluginState() == PluginState.DISABLING || plugin.getPluginState() == PluginState.DISABLED)) return;
+        if (!reload) Conduit.getLogger().info("Disabling plugin: " + plugin.getMeta().name());
         plugin.setPluginState(PluginState.DISABLING);
         plugin.getEvents().clear();
         plugin.onDisable();
@@ -82,16 +80,13 @@ public class PluginManager {
         if (!reload) Conduit.getLogger().info("Disabled plugin: " + plugin.getMeta().name());
     }
 
-    public void enable(Plugin plugin) {
-        enable(plugin, false);
-    }
-
-    private void enable(Plugin plugin, boolean reload) {
+    public void enable(Plugin plugin, boolean reload) {
+        if (plugin.getPluginState() == PluginState.ENABLING || plugin.getPluginState() == PluginState.ENABLED) return;
         if (!reload) Conduit.getLogger().info("Enabling plugin: " + plugin.getMeta().name());
         plugin.setPluginState(PluginState.ENABLING);
         plugin.onEnable();
         plugin.setPluginState(PluginState.ENABLED);
-        Conduit.getLogger().info((reload ? "Reloaded ": "Enabled ") + "plugin: " + plugin.getMeta().name());
+        if (!reload) Conduit.getLogger().info("Enabled plugin: " + plugin.getMeta().name());
     }
 
     public void reloadPlugins(Callback callback) {
@@ -100,6 +95,7 @@ public class PluginManager {
     }
 
     public void reload(Plugin plugin) {
+        Conduit.getLogger().info("Reloading plugin: " + plugin.getMeta().name());
         // Unload the plugin
         disable(plugin, true);
         AtomicReference<Optional<File>> pluginFile = new AtomicReference<>(Optional.empty());
@@ -109,7 +105,8 @@ public class PluginManager {
             return entryPlugin.equals(plugin);
         });
         // Load plugin again
-        pluginFile.get().ifPresent(file -> Conduit.getPluginManager().loadPlugin(file, true));
+        pluginFile.get().ifPresent(file -> loadPlugin(file, true));
+        Conduit.getLogger().info("Reloaded plugin: " + plugin.getMeta().name());
     }
 
     public Optional<Plugin> getPlugin(String name) {

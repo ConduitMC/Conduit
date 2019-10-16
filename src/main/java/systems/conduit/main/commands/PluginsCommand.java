@@ -20,7 +20,6 @@ public class PluginsCommand extends BaseCommand {
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> baseCommand() {
-        // TODO replace colors if console
         return Commands.literal("plugins").executes(c -> {
             Conduit.getPluginManager().getPlugins().stream().map(Plugin::toStringColored).reduce((a, b) -> a.concat(",").concat(b)).ifPresent(s -> {
                 c.getSource().sendSuccess(new TextComponent("Plugins: " + s), false);

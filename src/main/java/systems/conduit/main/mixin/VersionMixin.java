@@ -1,7 +1,6 @@
 package systems.conduit.main.mixin;
 
 import net.minecraft.DetectedVersion;
-import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -13,7 +12,7 @@ public abstract class VersionMixin {
     @Shadow @Final private String name;
 
     /**
-     * @author Clutch
+     * @author ConduitMC
      */
     @Overwrite
     public String getName() {

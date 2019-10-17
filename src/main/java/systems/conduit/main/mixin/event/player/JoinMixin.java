@@ -20,7 +20,7 @@ public abstract class JoinMixin {
     @Redirect(method = "placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;)V"))
     private void playerJoinMessage(PlayerList playerList, Component message, Connection connection, ServerPlayer player) {
         EventType.PlayerJoinEvent event = new EventType.PlayerJoinEvent((Player) player, message);
-        Conduit.eventManager.dispatchEvent(event);
+        Conduit.getEventManager().dispatchEvent(event);
         Component eventMessage = event.getMessage();
         if (eventMessage != null) this.broadcastMessage(event.getMessage());
     }

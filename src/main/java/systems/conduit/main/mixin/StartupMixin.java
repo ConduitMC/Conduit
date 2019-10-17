@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import systems.conduit.main.util.ColorReplacer;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.ConduitServer;
 
@@ -30,17 +31,17 @@ public abstract class StartupMixin extends MinecraftServer {
     @Inject(method = "stopServer", at = @At("HEAD"))
     private void stopServer(CallbackInfo ci) {
         // Disable plugins on shutdown
-        Conduit.pluginLoader.disablePlugins();
+        Conduit.getPluginManager().disablePlugins();
     }
 
     @Inject(method = "initServer", at = @At("HEAD"))
     private void initServer(CallbackInfoReturnable<Boolean> callback) {
-        Conduit.LOGGER.info("Server starting initialization...");
         Conduit.server = Optional.of((ConduitServer) this);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> Conduit.pluginLoader.disablePlugins()));
-        Conduit.LOGGER.info("Registering events...");
-        Conduit.LOGGER.info("Loading plugins...");
-        Conduit.pluginLoader.loadPlugins();
+        ColorReplacer.init();
+        Conduit.getLogger().info("Server starting initialization...");
+        Runtime.getRuntime().addShutdownHook(new Thread(Conduit.getPluginManager()::disablePlugins));
+        Conduit.getCommandManager().loadDefaultCommands(((DedicatedServer) (Object) this).getCommands().getDispatcher());
+        Conduit.getPluginManager().loadPlugins();
     }
 }

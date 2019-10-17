@@ -1,5 +1,6 @@
 package systems.conduit.main.plugin;
 
+import lombok.Getter;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import systems.conduit.main.Conduit;
@@ -15,10 +16,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-class PluginClassLoader extends URLClassLoader {
+public class PluginClassLoader extends URLClassLoader {
+
+    @Getter private final File pluginFile;
 
     PluginClassLoader(File pluginFile, ClassLoader parent) throws MalformedURLException {
         super(new URL[] {pluginFile.toURI().toURL()}, parent);
+        this.pluginFile = pluginFile;
     }
 
     Optional<Plugin> load() {
@@ -30,7 +34,7 @@ class PluginClassLoader extends URLClassLoader {
             // Get the plugin meta
             PluginMeta meta = pluginClass.getAnnotation(PluginMeta.class);
             if (meta == null) {
-                Conduit.LOGGER.error("INTERNAL ERROR: failed to load plugin class: " + pluginClass.getName() + ": cannot find annotation that previously existed.");
+                Conduit.getLogger().error("INTERNAL ERROR: failed to load plugin class: " + pluginClass.getName() + ": cannot find annotation that previously existed.");
                 return Optional.empty();
             }
             // Now that we have our meta information, we can attempt to create an instance of this plugin.
@@ -39,19 +43,16 @@ class PluginClassLoader extends URLClassLoader {
                 Constructor<? extends Plugin> constructor = pluginClass.getConstructor();
                 plugin = Optional.of(constructor.newInstance());
             } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
-                Conduit.LOGGER.error("INTERNAL ERROR: failed to create instance of plugin: " + meta.name());
+                Conduit.getLogger().error("INTERNAL ERROR: failed to create instance of plugin: " + meta.name());
                 e.printStackTrace();
             }
             // Double check that we have an instance of the plugin
             if (!plugin.isPresent()) {
-                Conduit.LOGGER.error("INTERNAL ERROR: empty plugin instance leaked past try for " + meta.name());
+                Conduit.getLogger().error("INTERNAL ERROR: empty plugin instance leaked past try for " + meta.name());
                 return Optional.empty();
             }
+            plugin.get().setClassLoader(this);
             plugin.get().setMeta(meta);
-            // We definitely have an instance of the plugin created. Now we can attempt to enable the plugin.
-            plugin.get().setPluginState(PluginState.LOADING);
-            plugin.get().onEnable();
-            plugin.get().setPluginState(PluginState.LOADED);
             return plugin;
         }
         return Optional.empty();

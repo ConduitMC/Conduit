@@ -5,6 +5,7 @@
   "target": "@env(DEFAULT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "CommandSourceMixin",
     "GamemodeCommandMixin",
     "ServerGamePacketListenerMixin",
     "VersionMixin",

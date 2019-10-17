@@ -15,7 +15,7 @@ public abstract class GamemodeCommandMixin {
 
     /**
      * Fixes gamemode command output using the wrong gamemode after changed by the event.
-     * @author Clutch
+     * @author ConduitMC
      */
     @Overwrite
     private static void logGamemodeChange(CommandSourceStack source, ServerPlayer player, GameType gameType) {

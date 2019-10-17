@@ -20,6 +20,6 @@ public class ItemStackMixin {
                 context.getLevel().getBlockState(context.getClickedPos()), context.getHand(), context.getItemInHand(),
                 context.getClickedFace(), context.isSneaking(), context.isInside());
 
-        Conduit.eventManager.dispatchEvent(event);
+        Conduit.getEventManager().dispatchEvent(event);
     }
 }

@@ -10,10 +10,6 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.UUID;
 
-/**
- * @author Innectic
- * @since 10/12/2019
- */
 @Mixin(value = Entity.class, remap = false)
 public abstract class EntityMixin implements systems.conduit.main.api.Entity {
 

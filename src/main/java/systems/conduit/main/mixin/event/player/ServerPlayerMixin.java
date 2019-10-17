@@ -16,7 +16,7 @@ public abstract class ServerPlayerMixin {
     private GameType updateGameMode(GameType gameType) {
         // TODO: Event cancellations
         EventType.PlayerGameModeChangeEvent event = new EventType.PlayerGameModeChangeEvent((Player) this, gameType);
-        Conduit.eventManager.dispatchEvent(event);
+        Conduit.getEventManager().dispatchEvent(event);
         return event.getGamemode();
     }
 }

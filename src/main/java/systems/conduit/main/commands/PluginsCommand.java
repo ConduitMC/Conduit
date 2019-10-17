@@ -1,0 +1,76 @@
+package systems.conduit.main.commands;
+
+import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import javassist.tools.Callback;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TextComponent;
+import systems.conduit.main.Conduit;
+import systems.conduit.main.plugin.Plugin;
+
+import java.util.Optional;
+
+public class PluginsCommand extends BaseCommand {
+
+    @Override
+    public void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(baseCommand().then(reloadSubcommand()).then(changeStateSubcommand(true)).then(changeStateSubcommand(false)));
+    }
+
+    private LiteralArgumentBuilder<CommandSourceStack> baseCommand() {
+        return Commands.literal("plugins").executes(c -> {
+            Conduit.getPluginManager().getPlugins().stream().map(Plugin::toStringColored).reduce((a, b) -> a.concat(",").concat(b)).ifPresent(s -> {
+                c.getSource().sendSuccess(new TextComponent("Plugins: " + s), false);
+            });
+            return 1;
+        });
+    }
+
+    private LiteralArgumentBuilder<CommandSourceStack> reloadSubcommand() {
+        return Commands.literal("reload").then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
+            String pluginName = StringArgumentType.getString(c, "pluginName");
+            Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
+            if (plugin.isPresent()) {
+                Conduit.getPluginManager().reload(plugin.get());
+                c.getSource().sendSuccess(new TextComponent("Reloaded plugin: " + pluginName), false);
+            } else {
+                c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin. Unable to reload!"));
+            }
+            return 1;
+        })).executes(c -> {
+            c.getSource().sendSuccess(new TextComponent("Reloading all plugins..."), false);
+            Conduit.getPluginManager().reloadPlugins(new Callback("Reload callback") {
+                @Override
+                public void result(Object[] objects) {
+                    c.getSource().sendSuccess(new TextComponent("Reloaded all plugins"), false);
+                }
+            });
+            return 1;
+        });
+    }
+
+    private LiteralArgumentBuilder<CommandSourceStack> changeStateSubcommand(boolean enable) {
+        String state = (enable ? "enable" : "disable");
+        String stateText = (enable ? "Enabled" : "Disabled");
+        return Commands.literal(state).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
+            String pluginName = StringArgumentType.getString(c, "pluginName");
+            Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
+            if (plugin.isPresent()) {
+                if (enable) {
+                    Conduit.getPluginManager().enable(plugin.get(), true);
+                } else {
+                    Conduit.getPluginManager().disable(plugin.get(), true);
+                }
+                c.getSource().sendSuccess(new TextComponent(stateText + " plugin: " + pluginName), false);
+            } else {
+                c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin. Unable to " + state + "!"));
+            }
+            return 1;
+        })).executes(c -> {
+            c.getSource().sendFailure(new TextComponent("Please specify a plugin to " + state + "!"));
+            return 1;
+        });
+    }
+}

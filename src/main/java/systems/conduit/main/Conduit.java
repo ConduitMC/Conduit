@@ -1,8 +1,8 @@
 package systems.conduit.main;
 
-import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import systems.conduit.main.api.ConduitServer;
 import systems.conduit.main.events.EventManager;
 import systems.conduit.main.plugin.PluginLoader;
 import systems.conduit.main.plugin.PluginRegistry;
@@ -16,5 +16,5 @@ public class Conduit {
     public static PluginLoader pluginLoader = new PluginLoader();
     public static PluginRegistry pluginRegistry = new PluginRegistry();
 
-    public static Optional<MinecraftServer> server = Optional.empty();
+    public static Optional<ConduitServer> server = Optional.empty();
 }

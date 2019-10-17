@@ -10,6 +10,7 @@
     "ServerGamePacketListenerMixin",
     "VersionMixin",
     "StartupMixin",
+    "MinecraftServerMixin",
 
     "api.EntityMixin",
     "api.LivingEntityMixin",

@@ -2,10 +2,13 @@ package systems.conduit.main;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import systems.conduit.main.api.ConduitServer;
 import systems.conduit.main.commands.CommandManager;
 import systems.conduit.main.events.EventManager;
 import systems.conduit.main.plugin.PluginManager;
 import systems.conduit.main.util.MessageFactory;
+
+import java.util.Optional;
 
 public class Conduit {
 
@@ -13,7 +16,8 @@ public class Conduit {
     private static EventManager eventManager = new EventManager();
     private static PluginManager pluginManager = new PluginManager();
     private static CommandManager commandManager = new CommandManager();
-
+    public static Optional<ConduitServer> server = Optional.empty();
+  
     public static Logger getLogger() {
         return LOGGER;
     }

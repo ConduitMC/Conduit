@@ -7,36 +7,38 @@ import org.fusesource.jansi.AnsiConsole;
 import systems.conduit.main.Conduit;
 
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ColorReplacer {
 
-    private final static Map<ChatFormatting, String> colorReplacements = new HashMap<>();
+    private final static List<String> colors = new ArrayList<>();
 
     static {
-        colorReplacements.put(ChatFormatting.BLACK, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.BLACK).boldOff().toString());
-        colorReplacements.put(ChatFormatting.DARK_BLUE, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.BLUE).boldOff().toString());
-        colorReplacements.put(ChatFormatting.DARK_GREEN, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.GREEN).boldOff().toString());
-        colorReplacements.put(ChatFormatting.DARK_AQUA, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.CYAN).boldOff().toString());
-        colorReplacements.put(ChatFormatting.DARK_RED, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.RED).boldOff().toString());
-        colorReplacements.put(ChatFormatting.DARK_PURPLE, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.MAGENTA).boldOff().toString());
-        colorReplacements.put(ChatFormatting.GOLD, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.YELLOW).boldOff().toString());
-        colorReplacements.put(ChatFormatting.GRAY, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.WHITE).boldOff().toString());
-        colorReplacements.put(ChatFormatting.DARK_GRAY, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.BLACK).bold().toString());
-        colorReplacements.put(ChatFormatting.BLUE, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.BLUE).bold().toString());
-        colorReplacements.put(ChatFormatting.GREEN, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.GREEN).bold().toString());
-        colorReplacements.put(ChatFormatting.AQUA, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.CYAN).bold().toString());
-        colorReplacements.put(ChatFormatting.RED, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.RED).bold().toString());
-        colorReplacements.put(ChatFormatting.LIGHT_PURPLE, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.MAGENTA).bold().toString());
-        colorReplacements.put(ChatFormatting.YELLOW, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.YELLOW).bold().toString());
-        colorReplacements.put(ChatFormatting.WHITE, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.WHITE).bold().toString());
-        colorReplacements.put(ChatFormatting.OBFUSCATED, Ansi.ansi().a(Ansi.Attribute.BLINK_SLOW).toString());
-        colorReplacements.put(ChatFormatting.BOLD, Ansi.ansi().a(Ansi.Attribute.UNDERLINE_DOUBLE).toString());
-        colorReplacements.put(ChatFormatting.STRIKETHROUGH, Ansi.ansi().a(Ansi.Attribute.STRIKETHROUGH_ON).toString());
-        colorReplacements.put(ChatFormatting.UNDERLINE,Ansi.ansi().a(Ansi.Attribute.UNDERLINE).toString());
-        colorReplacements.put(ChatFormatting.ITALIC, Ansi.ansi().a(Ansi.Attribute.ITALIC).toString());
-        colorReplacements.put(ChatFormatting.RESET, Ansi.ansi().a(Ansi.Attribute.RESET).toString());
+        colors.add(getColor(true, null, Ansi.Color.BLACK, Ansi.Attribute.INTENSITY_BOLD_OFF));
+        colors.add(getColor(true, null, Ansi.Color.BLUE, Ansi.Attribute.INTENSITY_BOLD_OFF));
+        colors.add(getColor(true, null, Ansi.Color.GREEN, Ansi.Attribute.INTENSITY_BOLD_OFF));
+        colors.add(getColor(true, null, Ansi.Color.CYAN, Ansi.Attribute.INTENSITY_BOLD_OFF));
+        colors.add(getColor(true, null, Ansi.Color.RED, Ansi.Attribute.INTENSITY_BOLD_OFF));
+        colors.add(getColor(true, null, Ansi.Color.MAGENTA, Ansi.Attribute.INTENSITY_BOLD_OFF));
+        colors.add(getColor(true, null, Ansi.Color.YELLOW, Ansi.Attribute.INTENSITY_BOLD_OFF));
+        colors.add(getColor(true, null, Ansi.Color.WHITE, Ansi.Attribute.INTENSITY_BOLD_OFF));
+
+        colors.add(getColor(true, null, Ansi.Color.BLACK, Ansi.Attribute.INTENSITY_BOLD));
+        colors.add(getColor(true, null, Ansi.Color.BLUE, Ansi.Attribute.INTENSITY_BOLD));
+        colors.add(getColor(true, null, Ansi.Color.GREEN, Ansi.Attribute.INTENSITY_BOLD));
+        colors.add(getColor(true, null, Ansi.Color.CYAN, Ansi.Attribute.INTENSITY_BOLD));
+        colors.add(getColor(true, null, Ansi.Color.RED, Ansi.Attribute.INTENSITY_BOLD));
+        colors.add(getColor(true, null, Ansi.Color.MAGENTA, Ansi.Attribute.INTENSITY_BOLD));
+        colors.add(getColor(true, null, Ansi.Color.YELLOW, Ansi.Attribute.INTENSITY_BOLD));
+        colors.add(getColor(true, null, Ansi.Color.WHITE, Ansi.Attribute.INTENSITY_BOLD));
+
+        colors.add(getColor(false, Ansi.Attribute.BLINK_SLOW, null, null));
+        colors.add(getColor(false, Ansi.Attribute.UNDERLINE_DOUBLE, null, null));
+        colors.add(getColor(false, Ansi.Attribute.STRIKETHROUGH_ON, null, null));
+        colors.add(getColor(false, Ansi.Attribute.UNDERLINE, null, null));
+        colors.add(getColor(false, Ansi.Attribute.ITALIC, null, null));
+        colors.add(getColor(false, Ansi.Attribute.RESET, null, null));
     }
 
     public static void init() {
@@ -49,16 +51,20 @@ public class ColorReplacer {
 
     static String getColoredMessage(String string) {
         string = string + ChatFormatting.RESET;
-        for (ChatFormatting color : ChatFormatting.values()) {
-            if (string.contains(color.toString())) {
-                if (System.console() != null && System.getenv().get("TERM") != null) {
-                    string = string.replaceAll("(?i)" + color.toString(), colorReplacements.get(color));
-                } else {
-                    string = string.replaceAll("(?i)" + color.toString(), "");
-                }
-            }
+        for (int i = 0; i < ChatFormatting.values().length; i++) {
+            String color = ChatFormatting.values()[i].toString();
+            if (string.contains(color)) string = string.replaceAll("(?i)" + color,(System.console() != null && System.getenv().get("TERM") != null) ? colors.get(i) : "");
         }
         return string;
+    }
+
+    private static String getColor(boolean reset, Ansi.Attribute attribute, Ansi.Color fg, Ansi.Attribute bold) {
+        Ansi ansi = Ansi.ansi();
+        if (reset) ansi = ansi.a(Ansi.Attribute.RESET);
+        if (attribute != null) ansi = ansi.a(attribute);
+        if (fg != null) ansi = ansi.fg(fg);
+        if (bold != null) ansi = ansi.a(bold);
+        return ansi.toString();
     }
 
     private static PrintStream createLoggingProxy(final PrintStream realPrintStream) {

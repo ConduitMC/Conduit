@@ -1,5 +1,6 @@
 package systems.conduit.main;
 
+import com.google.gson.Gson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import systems.conduit.main.api.ConduitServer;
@@ -17,6 +18,8 @@ public class Conduit {
     private static PluginManager pluginManager = new PluginManager();
     private static CommandManager commandManager = new CommandManager();
     public static Optional<ConduitServer> server = Optional.empty();
+
+    private static final Gson gson = new Gson();
   
     public static Logger getLogger() {
         return LOGGER;
@@ -32,5 +35,9 @@ public class Conduit {
 
     public static CommandManager getCommandManager() {
         return commandManager;
+    }
+
+    public static Gson getGson() {
+        return gson;
     }
 }

@@ -11,7 +11,6 @@ import systems.conduit.main.plugin.config.annotation.Field;
 @ConfigFile(name = "test", type = ConfigurationType.JSON)
 public class Test {
 
-    @Field("testing")
     public class Testing {
         @Field("name")
         public String name;
@@ -19,4 +18,7 @@ public class Test {
 
     @Field("thing")
     public String thing;
+
+    @Field("tester")
+    public Testing testing;
 }

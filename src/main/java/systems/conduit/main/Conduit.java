@@ -19,8 +19,6 @@ public class Conduit {
     private static CommandManager commandManager = new CommandManager();
     public static Optional<ConduitServer> server = Optional.empty();
 
-    private static final Gson gson = new Gson();
-  
     public static Logger getLogger() {
         return LOGGER;
     }
@@ -35,9 +33,5 @@ public class Conduit {
 
     public static CommandManager getCommandManager() {
         return commandManager;
-    }
-
-    public static Gson getGson() {
-        return gson;
     }
 }

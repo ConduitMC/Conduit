@@ -11,6 +11,7 @@ import systems.conduit.main.plugin.config.ConfigurationLoader;
 import systems.conduit.main.plugin.config.ConfigurationTypes;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -80,6 +81,14 @@ public class PluginClassLoader extends URLClassLoader {
             return Optional.empty();
         }
         File file = path.resolve(annotation.name() + "." + annotation.type()).toFile();
+        if (!file.exists()) {
+            try {
+                // TODO: Implement configuration defaults
+                if (!file.createNewFile()) Conduit.getLogger().error("Failed to create configuration file");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         Optional<ConfigurationLoader> loader = ConfigurationTypes.getLoaderForExtension(annotation.type());
         if (!loader.isPresent()) return Optional.empty();

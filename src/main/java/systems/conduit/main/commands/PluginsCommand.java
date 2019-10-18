@@ -54,20 +54,20 @@ public class PluginsCommand extends BaseCommand {
 
     private LiteralArgumentBuilder<CommandSourceStack> changeStateSubcommand(boolean enable) {
         String state = (enable ? "enable" : "disable");
+        String preStateText = (enable ? "Enabling" : "Disabling") + " plugin: ";
+        String postStateText = (enable ? "Enabled" : "Disabled") + " plugin: ";
         return Commands.literal(state).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {
                 pluginName = plugin.get().getMeta().name();
+                c.getSource().sendSuccess(new TextComponent(preStateText + pluginName), false);
                 if (enable) {
-                    c.getSource().sendSuccess(new TextComponent("Enabling plugin: " + pluginName), false);
                     Conduit.getPluginManager().enable(plugin.get(), c.getSource().getEntity() == null);
-                    c.getSource().sendSuccess(new TextComponent("Enabled plugin: " + pluginName), false);
                 } else {
-                    c.getSource().sendSuccess(new TextComponent("Disabling plugin: " + pluginName), false);
                     Conduit.getPluginManager().disable(plugin.get(), c.getSource().getEntity() == null);
-                    c.getSource().sendSuccess(new TextComponent("Disabled plugin: " + pluginName), false);
                 }
+                c.getSource().sendSuccess(new TextComponent(postStateText + pluginName), false);
             } else {
                 c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin. Unable to " + state + "!"));
             }

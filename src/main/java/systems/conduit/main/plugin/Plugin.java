@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.commands.BaseCommand;
 import systems.conduit.main.events.EventListener;
 import systems.conduit.main.plugin.annotation.PluginMeta;
 import systems.conduit.main.plugin.config.Configuration;
@@ -48,6 +49,10 @@ public abstract class Plugin {
         } catch (ClassCastException ignored) {
             return Optional.empty();
         }
+    }
+
+    protected void registerCommands(BaseCommand... commands) {
+        Conduit.getCommandManager().registerCommand(commands);
     }
 
     public String toStringColored() {

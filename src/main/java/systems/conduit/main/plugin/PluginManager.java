@@ -67,32 +67,34 @@ public class PluginManager {
         }
     }
 
-    public void disable(Plugin plugin, boolean reload) {
+    public void disable(Plugin plugin, boolean server) {
         if ((plugin.getPluginState() == PluginState.DISABLING || plugin.getPluginState() == PluginState.DISABLED)) return;
-        if (!reload) Conduit.getLogger().info("Disabling plugin: " + plugin.getMeta().name());
+        if (!server) Conduit.getLogger().info("Disabling plugin: " + plugin.getMeta().name());
         plugin.setPluginState(PluginState.DISABLING);
         plugin.getEvents().clear();
         plugin.onDisable();
         plugin.setPluginState(PluginState.DISABLED);
-        if (!reload) Conduit.getLogger().info("Disabled plugin: " + plugin.getMeta().name());
+        if (!server) Conduit.getLogger().info("Disabled plugin: " + plugin.getMeta().name());
     }
 
-    public void enable(Plugin plugin, boolean reload) {
+    public void enable(Plugin plugin, boolean server) {
         if (plugin.getPluginState() == PluginState.ENABLING || plugin.getPluginState() == PluginState.ENABLED) return;
-        if (!reload) Conduit.getLogger().info("Enabling plugin: " + plugin.getMeta().name());
+        if (!server) Conduit.getLogger().info("Enabling plugin: " + plugin.getMeta().name());
         plugin.setPluginState(PluginState.ENABLING);
         plugin.onEnable();
         plugin.setPluginState(PluginState.ENABLED);
-        if (!reload) Conduit.getLogger().info("Enabled plugin: " + plugin.getMeta().name());
+        if (!server) Conduit.getLogger().info("Enabled plugin: " + plugin.getMeta().name());
     }
 
-    public void reloadPlugins(Callback callback) {
-        getPlugins().forEach(this::reload);
+    public void reloadPlugins(boolean server, Callback callback) {
+        if(!server) Conduit.getLogger().info("Reloading all plugins...");
+        getPlugins().forEach(plugin -> reload(plugin, false));
         callback.result(new Object[]{});
+        if(!server) Conduit.getLogger().info("Reloaded all plugins");
     }
 
-    public void reload(Plugin plugin) {
-        Conduit.getLogger().info("Reloading plugin: " + plugin.getMeta().name());
+    public void reload(Plugin plugin, boolean server) {
+        if(!server) Conduit.getLogger().info("Reloading plugin: " + plugin.getMeta().name());
         // Unload the plugin
         disable(plugin, true);
         AtomicReference<Optional<File>> pluginFile = new AtomicReference<>(Optional.empty());
@@ -103,7 +105,7 @@ public class PluginManager {
         });
         // Load plugin again
         pluginFile.get().ifPresent(file -> loadPlugin(file, true));
-        Conduit.getLogger().info("Reloaded plugin: " + plugin.getMeta().name());
+        if(!server) Conduit.getLogger().info("Reloaded plugin: " + plugin.getMeta().name());
     }
 
     public Optional<Plugin> getPlugin(String name) {

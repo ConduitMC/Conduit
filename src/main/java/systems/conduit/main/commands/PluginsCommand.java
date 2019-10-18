@@ -1,6 +1,5 @@
 package systems.conduit.main.commands;
 
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import javassist.tools.Callback;
@@ -15,8 +14,8 @@ import java.util.Optional;
 public class PluginsCommand extends BaseCommand {
 
     @Override
-    public void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(baseCommand().then(reloadSubcommand()).then(changeStateSubcommand(true)).then(changeStateSubcommand(false)));
+    public LiteralArgumentBuilder<CommandSourceStack> getCommand() {
+        return baseCommand().then(reloadSubcommand()).then(changeStateSubcommand(true)).then(changeStateSubcommand(false));
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> baseCommand() {
@@ -33,7 +32,9 @@ public class PluginsCommand extends BaseCommand {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {
-                Conduit.getPluginManager().reload(plugin.get());
+                pluginName = plugin.get().getMeta().name();
+                c.getSource().sendSuccess(new TextComponent("Reloading plugin: " + pluginName), false);
+                Conduit.getPluginManager().reload(plugin.get(), c.getSource().getEntity() == null);
                 c.getSource().sendSuccess(new TextComponent("Reloaded plugin: " + pluginName), false);
             } else {
                 c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin. Unable to reload!"));
@@ -41,7 +42,7 @@ public class PluginsCommand extends BaseCommand {
             return 1;
         })).executes(c -> {
             c.getSource().sendSuccess(new TextComponent("Reloading all plugins..."), false);
-            Conduit.getPluginManager().reloadPlugins(new Callback("Reload callback") {
+            Conduit.getPluginManager().reloadPlugins(c.getSource().getEntity() == null, new Callback("Reload callback") {
                 @Override
                 public void result(Object[] objects) {
                     c.getSource().sendSuccess(new TextComponent("Reloaded all plugins"), false);
@@ -53,17 +54,20 @@ public class PluginsCommand extends BaseCommand {
 
     private LiteralArgumentBuilder<CommandSourceStack> changeStateSubcommand(boolean enable) {
         String state = (enable ? "enable" : "disable");
-        String stateText = (enable ? "Enabled" : "Disabled");
         return Commands.literal(state).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {
+                pluginName = plugin.get().getMeta().name();
                 if (enable) {
-                    Conduit.getPluginManager().enable(plugin.get(), true);
+                    c.getSource().sendSuccess(new TextComponent("Enabling plugin: " + pluginName), false);
+                    Conduit.getPluginManager().enable(plugin.get(), c.getSource().getEntity() == null);
+                    c.getSource().sendSuccess(new TextComponent("Enabled plugin: " + pluginName), false);
                 } else {
-                    Conduit.getPluginManager().disable(plugin.get(), true);
+                    c.getSource().sendSuccess(new TextComponent("Disabling plugin: " + pluginName), false);
+                    Conduit.getPluginManager().disable(plugin.get(), c.getSource().getEntity() == null);
+                    c.getSource().sendSuccess(new TextComponent("Disabled plugin: " + pluginName), false);
                 }
-                c.getSource().sendSuccess(new TextComponent(stateText + " plugin: " + pluginName), false);
             } else {
                 c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin. Unable to " + state + "!"));
             }

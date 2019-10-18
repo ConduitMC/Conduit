@@ -9,11 +9,13 @@ import systems.conduit.main.Conduit;
 import systems.conduit.main.commands.BaseCommand;
 import systems.conduit.main.events.EventListener;
 import systems.conduit.main.plugin.annotation.PluginMeta;
+import systems.conduit.main.plugin.config.Configuration;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class Plugin {
@@ -22,6 +24,7 @@ public abstract class Plugin {
     @Getter @Setter(AccessLevel.MODULE) private PluginMeta meta;
     @Getter @Setter(AccessLevel.MODULE) private PluginState pluginState = PluginState.UNLOADED;
     @Getter(AccessLevel.PUBLIC) private Map<Integer, Map<EventListener, List<Method>>> events = new ConcurrentHashMap<>();
+    @Setter(AccessLevel.MODULE) private Configuration config = null;
 
     protected abstract void onEnable();
     protected abstract void onDisable();
@@ -29,6 +32,23 @@ public abstract class Plugin {
     @SafeVarargs
     protected final void registerListeners(Class<? extends EventListener>... clazz) {
         Arrays.stream(clazz).forEach(aClass -> Conduit.getEventManager().registerEventClass(this, aClass));
+    }
+
+    /**
+     * Get the plugin's configuration in the type provided.
+     *
+     * @param <T> the configuration type
+     * @return the plugin's configuration
+     */
+    public <T extends Configuration> Optional<T> getConfig() {
+        // TODO: Can this be improved?
+
+        if (this.config == null) return Optional.empty();
+        try {
+            return Optional.of((T) this.config);
+        } catch (ClassCastException ignored) {
+            return Optional.empty();
+        }
     }
 
     protected void registerCommands(BaseCommand... commands) {

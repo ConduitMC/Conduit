@@ -5,13 +5,20 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.plugin.annotation.PluginMeta;
+import systems.conduit.main.plugin.config.ConfigFile;
+import systems.conduit.main.plugin.config.Configuration;
+import systems.conduit.main.plugin.config.ConfigurationLoader;
+import systems.conduit.main.plugin.config.ConfigurationTypes;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,8 +60,39 @@ public class PluginClassLoader extends URLClassLoader {
             }
             plugin.get().setClassLoader(this);
             plugin.get().setMeta(meta);
+
+            // Now, we can try to get the config for this plugin.
+            Class<? extends Configuration> clazz = meta.config();
+            loadConfiguration(meta.name(), clazz).ifPresent(plugin.get()::setConfig);
             return plugin;
         }
         return Optional.empty();
+    }
+
+    private Optional<Configuration> loadConfiguration(String plugin, Class<? extends Configuration> clazz) {
+        if (!clazz.isAnnotationPresent(ConfigFile.class)) return Optional.empty();
+        ConfigFile annotation = clazz.getAnnotation(ConfigFile.class);
+
+        Path path = Paths.get("plugins", plugin).toAbsolutePath();
+        // Ensure that the path exists. If it doesn't, then we don't need to process this.
+        File pluginFolder = path.toFile();
+        if (!pluginFolder.exists()) {
+            if (!pluginFolder.mkdirs()) Conduit.getLogger().error("Failed to make plugin directory");
+            return Optional.empty();
+        }
+        File file = path.resolve(annotation.name() + "." + annotation.type()).toFile();
+        if (!file.exists()) {
+            try {
+                // TODO: Implement configuration defaults
+                if (!file.createNewFile()) Conduit.getLogger().error("Failed to create configuration file");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Optional<ConfigurationLoader> loader = ConfigurationTypes.getLoaderForExtension(annotation.type());
+        if (!loader.isPresent()) return Optional.empty();
+
+        return loader.get().load(file, clazz);
     }
 }

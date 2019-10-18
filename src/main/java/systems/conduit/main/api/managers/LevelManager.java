@@ -15,18 +15,14 @@ import systems.conduit.main.Conduit;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-/**
- * @author Innectic
- * @since 10/14/2019
- */
 public class LevelManager {
 
     public Optional<ServerLevel> getLevel(String name) {
-        return Conduit.server.map(server -> server.getLevel(DimensionType.getByName(ResourceLocation.of(name, '/'))));
+        return Conduit.getServer().map(server -> server.getLevel(DimensionType.getByName(ResourceLocation.of(name, '/'))));
     }
 
     public Optional<ServerLevel> createLevel(String name, DimensionType dimension) {
-        return Conduit.server.map(server -> {
+        return Conduit.getServer().map(server -> {
             LevelStorage storage = server.getStorageSource().selectLevel(name, (MinecraftServer) server);
             LevelData data = storage.prepareLevel();
             if (data == null) return null;

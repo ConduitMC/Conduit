@@ -7,10 +7,10 @@
   "mixins": [
     "CommandSourceMixin",
     "GamemodeCommandMixin",
-    "ServerGamePacketListenerMixin",
-    "VersionMixin",
-    "StartupMixin",
     "MinecraftServerMixin",
+    "ServerGamePacketListenerMixin",
+    "StartupMixin",
+    "VersionMixin",
 
     "api.EntityMixin",
     "api.LivingEntityMixin",

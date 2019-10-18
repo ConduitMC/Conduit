@@ -33,7 +33,9 @@ public class PluginsCommand extends BaseCommand {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {
-                Conduit.getPluginManager().reload(plugin.get());
+                pluginName = plugin.get().getMeta().name();
+                c.getSource().sendSuccess(new TextComponent("Reloading plugin: " + pluginName), false);
+                Conduit.getPluginManager().reload(plugin.get(), c.getSource().getEntity() == null);
                 c.getSource().sendSuccess(new TextComponent("Reloaded plugin: " + pluginName), false);
             } else {
                 c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin. Unable to reload!"));
@@ -41,7 +43,7 @@ public class PluginsCommand extends BaseCommand {
             return 1;
         })).executes(c -> {
             c.getSource().sendSuccess(new TextComponent("Reloading all plugins..."), false);
-            Conduit.getPluginManager().reloadPlugins(new Callback("Reload callback") {
+            Conduit.getPluginManager().reloadPlugins(c.getSource().getEntity() == null, new Callback("Reload callback") {
                 @Override
                 public void result(Object[] objects) {
                     c.getSource().sendSuccess(new TextComponent("Reloaded all plugins"), false);
@@ -57,13 +59,14 @@ public class PluginsCommand extends BaseCommand {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {
+                pluginName = plugin.get().getMeta().name();
                 if (enable) {
                     c.getSource().sendSuccess(new TextComponent("Enabling plugin: " + pluginName), false);
-                    Conduit.getPluginManager().enable(plugin.get(), true);
+                    Conduit.getPluginManager().enable(plugin.get(), c.getSource().getEntity() == null);
                     c.getSource().sendSuccess(new TextComponent("Enabled plugin: " + pluginName), false);
                 } else {
                     c.getSource().sendSuccess(new TextComponent("Disabling plugin: " + pluginName), false);
-                    Conduit.getPluginManager().disable(plugin.get(), true);
+                    Conduit.getPluginManager().disable(plugin.get(), c.getSource().getEntity() == null);
                     c.getSource().sendSuccess(new TextComponent("Disabled plugin: " + pluginName), false);
                 }
             } else {

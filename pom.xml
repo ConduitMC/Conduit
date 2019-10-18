@@ -35,11 +35,6 @@
             <version>1.14.4</version>
         </dependency>
         <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>datafixerupper</artifactId>
-            <version>1.0.20</version>
-        </dependency>
-        <dependency>
             <groupId>org.spongepowered</groupId>
             <artifactId>mixin</artifactId>
             <version>0.7.8-SNAPSHOT</version>
@@ -48,11 +43,6 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>0.9.11</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fusesource.jansi</groupId>
-            <artifactId>jansi</artifactId>
-            <version>1.18</version>
         </dependency>
     </dependencies>
 

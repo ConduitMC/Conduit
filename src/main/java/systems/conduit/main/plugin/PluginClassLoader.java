@@ -16,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Set;
@@ -71,10 +72,18 @@ public class PluginClassLoader extends URLClassLoader {
         if (!clazz.isAnnotationPresent(ConfigFile.class)) return Optional.empty();
         ConfigFile annotation = clazz.getAnnotation(ConfigFile.class);
 
+        Path path = Paths.get("plugins", plugin).toAbsolutePath();
+        // Ensure that the path exists. If it doesn't, then we don't need to process this.
+        File pluginFolder = path.toFile();
+        if (!pluginFolder.exists()) {
+            if (!pluginFolder.mkdirs()) Conduit.getLogger().error("Failed to make plugin directory");
+            return Optional.empty();
+        }
+        File file = path.resolve(annotation.name() + "." + annotation.type()).toFile();
+
         Optional<ConfigurationLoader> loader = ConfigurationTypes.getLoaderForExtension(annotation.type());
         if (!loader.isPresent()) return Optional.empty();
 
-        File file = Paths.get("plugins", plugin, annotation.name() + "." + annotation.type()).toAbsolutePath().toFile();
         return loader.get().load(file, clazz);
     }
 }

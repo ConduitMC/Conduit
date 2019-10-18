@@ -18,9 +18,9 @@ public class JSONLoader implements ConfigurationLoader {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public <T extends Configuration> Optional<T> load(String file, Class<T> configurationType) {
+    public Optional<Configuration> load(File file, Class<? extends Configuration> configurationType) {
         try {
-            T value = mapper.readValue(new File(file), configurationType);
+            Configuration value = mapper.readValue(file, configurationType);
             return Optional.of(value);
         } catch (IOException e) {
             Conduit.getLogger().error("Failed to load configuration file: " + file);

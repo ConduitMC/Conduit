@@ -5,6 +5,10 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.plugin.annotation.PluginMeta;
+import systems.conduit.main.plugin.config.ConfigFile;
+import systems.conduit.main.plugin.config.Configuration;
+import systems.conduit.main.plugin.config.ConfigurationLoader;
+import systems.conduit.main.plugin.config.ConfigurationTypes;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -12,6 +16,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,8 +58,23 @@ public class PluginClassLoader extends URLClassLoader {
             }
             plugin.get().setClassLoader(this);
             plugin.get().setMeta(meta);
+
+            // Now, we can try to get the config for this plugin.
+            Class<? extends Configuration> clazz = meta.config();
+            loadConfiguration(meta.name(), clazz).ifPresent(plugin.get()::setConfig);
             return plugin;
         }
         return Optional.empty();
+    }
+
+    private Optional<Configuration> loadConfiguration(String plugin, Class<? extends Configuration> clazz) {
+        if (!clazz.isAnnotationPresent(ConfigFile.class)) return Optional.empty();
+        ConfigFile annotation = clazz.getAnnotation(ConfigFile.class);
+
+        Optional<ConfigurationLoader> loader = ConfigurationTypes.getLoaderForExtension(annotation.type());
+        if (!loader.isPresent()) return Optional.empty();
+
+        File file = Paths.get("plugins", plugin, annotation.name() + "." + annotation.type()).toAbsolutePath().toFile();
+        return loader.get().load(file, clazz);
     }
 }

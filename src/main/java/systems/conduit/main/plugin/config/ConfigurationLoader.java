@@ -1,5 +1,6 @@
 package systems.conduit.main.plugin.config;
 
+import java.io.File;
 import java.util.Optional;
 
 /**
@@ -8,5 +9,5 @@ import java.util.Optional;
  */
 public interface ConfigurationLoader {
 
-    <T extends Configuration> Optional<T> load(String file, Class<T> configurationType);
+    Optional<Configuration> load(File file, Class<? extends Configuration> configurationType);
 }

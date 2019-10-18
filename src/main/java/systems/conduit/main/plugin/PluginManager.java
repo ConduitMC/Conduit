@@ -33,10 +33,8 @@ public class PluginManager {
         File[] pluginFiles = pluginsFolder.listFiles();
         if (pluginFiles == null) return;
         for (File file : pluginFiles) {
-            // Skip folders
-            if (!file.isFile()) continue;
-            // Make sure that it ends with .jar
-            if (!file.getName().endsWith(".jar")) continue;
+            // Skip folders, and non-jars
+            if (!file.isFile() || !file.getName().endsWith(".jar")) continue;
             // Since it is a file, and it ends with .jar, we can proceed with attempting to load it.
             loadPlugin(file, false);
         }
@@ -45,11 +43,10 @@ public class PluginManager {
     public void loadPlugin(File file, boolean reload) {
         try (PluginClassLoader classLoader = new PluginClassLoader(file, this.getClass().getClassLoader())) {
             Optional<Plugin> plugin = classLoader.load();
+            if (!plugin.isPresent()) return;
             // The plugin is now loaded, now we can attempt to enable the plugin.
-            if (plugin.isPresent()) {
-                plugins.add(plugin.get());
-                enable(plugin.get(), reload);
-            }
+            plugins.add(plugin.get());
+            enable(plugin.get(), reload);
         } catch (IOException e) {
             Conduit.getLogger().error("Error loading plugin.");
             e.printStackTrace();

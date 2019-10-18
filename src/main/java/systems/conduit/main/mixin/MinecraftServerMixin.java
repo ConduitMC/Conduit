@@ -1,5 +1,6 @@
 package systems.conduit.main.mixin;
 
+import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.GameProfiler;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -23,6 +24,7 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Shadow public abstract GameProfiler getProfiler();
 
     @Shadow @Final private Map<DimensionType, ServerLevel> levels;
+    @Shadow public abstract Commands getCommands();
 
     public Executor getExecutor() {
         return executor;

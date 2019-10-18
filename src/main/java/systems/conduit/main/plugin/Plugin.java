@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.commands.BaseCommand;
 import systems.conduit.main.events.EventListener;
 import systems.conduit.main.plugin.annotation.PluginMeta;
 
@@ -28,6 +29,10 @@ public abstract class Plugin {
     @SafeVarargs
     protected final void registerListeners(Class<? extends EventListener>... clazz) {
         Arrays.stream(clazz).forEach(aClass -> Conduit.getEventManager().registerEventClass(this, aClass));
+    }
+
+    protected void registerCommands(BaseCommand... commands) {
+        Conduit.getCommandManager().registerCommand(commands);
     }
 
     public String toStringColored() {

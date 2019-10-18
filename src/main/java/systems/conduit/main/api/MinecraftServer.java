@@ -1,5 +1,6 @@
 package systems.conduit.main.api;
 
+import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.GameProfiler;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -15,5 +16,6 @@ public interface MinecraftServer {
     LevelStorageSource getStorageSource();
     GameProfiler getProfiler();
     Map<DimensionType, ServerLevel> getLevels();
+    Commands getCommands();
 
 }

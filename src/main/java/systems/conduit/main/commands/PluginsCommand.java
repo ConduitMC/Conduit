@@ -1,6 +1,5 @@
 package systems.conduit.main.commands;
 
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import javassist.tools.Callback;
@@ -15,8 +14,8 @@ import java.util.Optional;
 public class PluginsCommand extends BaseCommand {
 
     @Override
-    public void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(baseCommand().then(reloadSubcommand()).then(changeStateSubcommand(true)).then(changeStateSubcommand(false)));
+    public LiteralArgumentBuilder<CommandSourceStack> getCommand() {
+        return baseCommand().then(reloadSubcommand()).then(changeStateSubcommand(true)).then(changeStateSubcommand(false));
     }
 
     private LiteralArgumentBuilder<CommandSourceStack> baseCommand() {

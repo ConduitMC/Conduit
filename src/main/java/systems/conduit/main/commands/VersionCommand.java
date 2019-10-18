@@ -1,7 +1,7 @@
 package systems.conduit.main.commands;
 
-import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import net.minecraft.SharedConstants;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -14,8 +14,8 @@ import java.util.Optional;
 public class VersionCommand extends BaseCommand {
 
     @Override
-    public void registerCommand(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("version").then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
+    public LiteralArgumentBuilder<CommandSourceStack> getCommand() {
+        return Commands.literal("version").then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {
@@ -30,6 +30,6 @@ public class VersionCommand extends BaseCommand {
             c.getSource().sendSuccess(new TextComponent(Conduit.getMeta().name()).append(" v").append(Conduit.getMeta().version()), false);
             c.getSource().sendSuccess(new TextComponent("Minecraft Server v" + SharedConstants.getCurrentVersion().getName().split("/")[0]), false);
             return 1;
-        }));
+        });
     }
 }

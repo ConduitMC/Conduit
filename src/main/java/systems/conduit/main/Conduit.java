@@ -45,8 +45,8 @@ public class Conduit {
         return server;
     }
 
-    public static void setServer(Optional<MinecraftServer> newServer) {
-        server = newServer;
+    public static void setServer(MinecraftServer newServer) {
+        server = Optional.ofNullable(newServer);
     }
 
     public static PluginMeta getMeta() {

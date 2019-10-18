@@ -17,7 +17,6 @@ import systems.conduit.main.Conduit;
 
 import java.io.File;
 import java.net.Proxy;
-import java.util.Optional;
 
 @Mixin(value = DedicatedServer.class, remap = false)
 public abstract class StartupMixin extends MinecraftServer {
@@ -35,10 +34,10 @@ public abstract class StartupMixin extends MinecraftServer {
     @Inject(method = "initServer", at = @At("HEAD"))
     private void initServer(CallbackInfoReturnable<Boolean> callback) {
         Conduit.setupLogger();
-        Conduit.setServer(Optional.of((systems.conduit.main.api.MinecraftServer) this));
+        Conduit.setServer((systems.conduit.main.api.MinecraftServer) this);
         Conduit.getLogger().info("Server starting initialization...");
         Runtime.getRuntime().addShutdownHook(new Thread(Conduit.getPluginManager()::disablePlugins));
-        Conduit.getCommandManager().loadDefaultCommands(((DedicatedServer) (Object) this).getCommands().getDispatcher());
+        Conduit.getCommandManager().loadDefaultCommands();
         Conduit.getPluginManager().loadPlugins();
     }
 }

@@ -1,4 +1,4 @@
-package systems.conduit.main.plugin.config.annotation;
+package systems.conduit.main.plugin.config;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -10,7 +10,8 @@ import java.lang.annotation.Target;
  * @since 10/17/2019
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.TYPE})
-public @interface Field {
-    String value();
+@Target(ElementType.TYPE)
+public @interface ConfigFile {
+    String name();
+    ConfigurationType type();
 }

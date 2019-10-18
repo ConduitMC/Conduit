@@ -21,6 +21,7 @@ public class Conduit {
     private static PluginManager pluginManager = new PluginManager();
     private static CommandManager commandManager = new CommandManager();
     private static Optional<MinecraftServer> server = Optional.empty();
+
     // TODO: Replace with build number in future
     private static PluginMeta meta = Conduit.class.getAnnotation(PluginMeta.class);
 

@@ -21,6 +21,7 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:1.18.10"
     compile "net.minecraft:server:1.14.4"
     compile "org.spongepowered:mixin:0.7.8-SNAPSHOT"
+
     compile "org.reflections:reflections:0.9.11"
     compile "com.fasterxml.jackson.core:jackson-databind:2.10.0"
     compile "org.jline:jline:3.13.0"

@@ -40,6 +40,7 @@ public abstract class Plugin {
      * @param <T> the configuration type
      * @return the plugin's configuration
      */
+    @SuppressWarnings("unchecked")
     public <T extends Configuration> Optional<T> getConfig() {
         // TODO: Can this be improved?
 

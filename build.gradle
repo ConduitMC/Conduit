@@ -1,0 +1,45 @@
+plugins {
+    id "java"
+    id "maven"
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = "http://repo.maven.apache.org/maven2"
+    }
+    maven {
+        url = "https://libraries.minecraft.net/"
+    }
+    maven {
+        url = "https://repo.spongepowered.org/maven"
+    }
+}
+
+dependencies {
+    compile "org.projectlombok:lombok:1.18.10"
+    annotationProcessor "org.projectlombok:lombok:1.18.10"
+    compile "net.minecraft:server:1.14.4"
+    compile "org.spongepowered:mixin:0.7.8-SNAPSHOT"
+    compile "org.reflections:reflections:0.9.11"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.10.0"
+    compile "org.jline:jline:3.13.0"
+}
+
+group = theGroup
+version = theVersion
+sourceCompatibility = "1.8"
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+jar {
+    manifest {
+        attributes(
+                "TweakClass" : "org.spongepowered.asm.launch.MixinTweaker",
+                "TweakOrder" : "0",
+                "MixinConfigs" : "mixins.conduit.json"
+        )
+    }
+}

@@ -1,5 +1,8 @@
 package systems.conduit.main;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.network.chat.TextComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,14 +19,15 @@ import java.util.Optional;
 @PluginMeta(name = "Conduit", description = "", version = "0.0.1", author = "ConduitMC")
 public class Conduit {
 
-    private final static Logger LOGGER = LogManager.getLogger("Conduit", new MessageFactory());
-    private static EventManager eventManager = new EventManager();
-    private static PluginManager pluginManager = new PluginManager();
-    private static CommandManager commandManager = new CommandManager();
-    private static Optional<MinecraftServer> server = Optional.empty();
+    @Getter(AccessLevel.PUBLIC) private final static Logger logger = LogManager.getLogger("Conduit", new MessageFactory());
+    @Getter(AccessLevel.PUBLIC) private static EventManager eventManager = new EventManager();
+    @Getter(AccessLevel.PUBLIC) private static PluginManager pluginManager = new PluginManager();
+    @Getter(AccessLevel.PUBLIC) private static CommandManager commandManager = new CommandManager();
+
+    @Setter(AccessLevel.PUBLIC) private static MinecraftServer server = null;
 
     // TODO: Replace with build number in future
-    private static PluginMeta meta = Conduit.class.getAnnotation(PluginMeta.class);
+    @Getter(AccessLevel.PUBLIC) private static PluginMeta meta = Conduit.class.getAnnotation(PluginMeta.class);
 
     public static void setupLogger() {
         // Redirect print to logger
@@ -43,30 +47,6 @@ public class Conduit {
     }
 
     public static Optional<MinecraftServer> getServer() {
-        return server;
-    }
-
-    public static void setServer(MinecraftServer newServer) {
-        server = Optional.ofNullable(newServer);
-    }
-
-    public static PluginMeta getMeta() {
-        return meta;
-    }
-  
-    public static Logger getLogger() {
-        return LOGGER;
-    }
-
-    public static EventManager getEventManager() {
-        return eventManager;
-    }
-
-    public static PluginManager getPluginManager() {
-        return pluginManager;
-    }
-
-    public static CommandManager getCommandManager() {
-        return commandManager;
+        return Optional.of(server);
     }
 }

@@ -11,4 +11,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface EventHandler {
     Class<? extends EventType> value();
+    int priority();
 }

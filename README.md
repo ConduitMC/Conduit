@@ -17,7 +17,6 @@ If you would like to contribute to Conduit, please first visit our [issues page]
 Requirements:
 
  - Java 8+
- - Maven
  - Git
 
 To get started with developing, you can setup your environment with the following commands:
@@ -25,15 +24,14 @@ To get started with developing, you can setup your environment with the followin
 ```
 git clone https://github.com/ConduitMC/LegacyLauncher
 cd LegacyLauncher
-./gradlew build
-mvn install:install-file "-Dpackaging=jar" "-DgeneratePom=true" "-Dfile=./build/libs/launchwrapper-1.0.jar" "-DgroupId=io.github.lightwayup" "-DartifactId=launchwrapper" "-Dversion=1.13"
+./gradlew build install
 cd ..
 
 git clone https://github.com/ConduitMC/ConduitLauncher
 cd ConduitLauncher
-mvn clean package
-
+./gradlew build install
 cd ..
+
 mkdir Server
 cd Server
 cp ../ConduitLauncher/target/ConduitLauncher-*.jar ConduitLauncher.jar
@@ -44,7 +42,7 @@ java -jar ConduitLauncher.jar dev
 cd ..
 git clone https://github.com/ConduitMC/Conduit
 cd Conduit
-mvn clean package
+./gradlew build install
 
 # Then copy this build to the .mixins folder in the server.
 cp target/Conduit.jar ../Server/.mixins/Conduit.jar

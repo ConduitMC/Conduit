@@ -17,7 +17,7 @@ public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
-    public static class BlockPlaceEvent extends EventType {
+    public static class BlockPlaceEvent extends Cancellable {
         private Player player;
         private BlockState blockState;
         private InteractionHand hand;
@@ -26,7 +26,7 @@ public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
-    public static class BlockInteractEvent extends EventType {
+    public static class BlockInteractEvent extends Cancellable {
         private Player player;
         private BlockState blockState;
         private InteractionHand hand;
@@ -38,7 +38,7 @@ public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
-    public static class BlockBreakEvent extends EventType {
+    public static class BlockBreakEvent extends Cancellable {
         private Player player;
         private BlockState blockState;
     }
@@ -72,7 +72,7 @@ public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
-    public static class PlayerDamageByEntityEvent extends EventType {
+    public static class PlayerDamageByEntityEvent extends Cancellable {
         private Player damaged;
         private Entity damager;
         private float damage;
@@ -81,7 +81,7 @@ public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
-    public static class PlayerDamageByPlayerEvent extends EventType {
+    public static class PlayerDamageByPlayerEvent extends Cancellable {
         private Player damaged;
         private Player damager;
         private float damage;
@@ -90,7 +90,7 @@ public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
-    public static class PlayerDamageByArrowEvent extends EventType {
+    public static class PlayerDamageByArrowEvent extends Cancellable {
         private Player damaged;
         private Entity shooter;
         private AbstractArrow arrow;
@@ -100,21 +100,21 @@ public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
-    public static class PlayerGameModeChangeEvent extends EventType {
+    public static class PlayerGameModeChangeEvent extends Cancellable {
         private Player player;
         @Setter private GameType gamemode;
     }
 
     @AllArgsConstructor
     @Getter
-    public static class PlayerChatEvent extends EventType {
+    public static class PlayerChatEvent extends Cancellable {
         private Player player;
         @Setter private Component message;
     }
 
     @AllArgsConstructor
     @Getter
-    public static class PlayerCommandEvent extends EventType {
+    public static class PlayerCommandEvent extends Cancellable {
         private Player player;
         @Setter private String message;
     }

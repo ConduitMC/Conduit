@@ -6,10 +6,7 @@ import systems.conduit.main.plugin.Plugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EventManager {
 
@@ -69,9 +66,16 @@ public class EventManager {
             Conduit.getLogger().error("Invalid event type dispatch: " + eventType.getClass());
             return;
         }
-        Conduit.getPluginManager().getPlugins().forEach(plugin -> plugin.getEvents().getOrDefault(eventId, new HashMap<>()).forEach((instance, methods) -> methods.forEach(method -> {
+        // TODO: Maybe we should pre-process this garbage?
+        Conduit.getPluginManager().getPlugins().forEach(plugin -> plugin.getEvents().getOrDefault(eventId, new HashMap<>()).entrySet().stream().sorted((o1, o2) -> {
+            EventHandler firstAnnotation = o1.getKey().getClass().getAnnotation(EventHandler.class);
+            EventHandler secondAnnotation = o2.getKey().getClass().getAnnotation(EventHandler.class);
+            if (firstAnnotation == null || secondAnnotation == null) return 0;
+
+            return Integer.compare(firstAnnotation.priority(), secondAnnotation.priority());
+        }).forEach((entry) -> entry.getValue().forEach(method -> {
             try {
-                method.invoke(instance, eventType);
+                method.invoke(entry.getKey(), eventType);
             } catch (IllegalAccessException | InvocationTargetException e) {
                 Conduit.getLogger().error("Failed to execute event handler method");
                 e.printStackTrace();

@@ -14,7 +14,10 @@ public abstract class ServerPlayerMixin {
 
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))
     private GameType updateGameMode(GameType gameType) {
-        // TODO: Event cancellations
+        // TODO: Allow this event to be cancelled
+        //
+        // We'll need to find a different way to hook into gamemode changes.
+
         EventType.PlayerGameModeChangeEvent event = new EventType.PlayerGameModeChangeEvent((Player) this, gameType);
         Conduit.getEventManager().dispatchEvent(event);
         return event.getGamemode();

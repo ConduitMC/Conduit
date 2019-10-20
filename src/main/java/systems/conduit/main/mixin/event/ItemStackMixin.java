@@ -1,6 +1,7 @@
 package systems.conduit.main.mixin.event;
 
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseOnContext;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,10 +17,10 @@ public class ItemStackMixin {
 
     @Inject(method = "useOn", at = @At("HEAD"))
     private void useOn(UseOnContext context, CallbackInfoReturnable<InteractionResult> cir) {
+        boolean isCrouching = (context.getPlayer() != null && context.getPlayer().getPose() != null && context.getPlayer().getPose() == Pose.values()[5]);
         EventType.BlockInteractEvent event = new EventType.BlockInteractEvent((Player) context.getPlayer(),
                 context.getLevel().getBlockState(context.getClickedPos()), context.getHand(), context.getItemInHand(),
-                context.getClickedFace(), context.isSneaking(), context.isInside());
-
+                context.getClickedFace(), isCrouching, context.isInside());
         Conduit.getEventManager().dispatchEvent(event);
     }
 }

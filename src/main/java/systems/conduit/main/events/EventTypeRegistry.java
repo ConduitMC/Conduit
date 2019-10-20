@@ -8,6 +8,7 @@ public class EventTypeRegistry {
     private static List<Class<? extends EventType>> eventMappings = new ArrayList<>();
 
     static {
+        // Player events
         eventMappings.add(EventType.BlockInteractEvent.class);
         eventMappings.add(EventType.BlockBreakEvent.class);
         eventMappings.add(EventType.BlockPlaceEvent.class);
@@ -19,6 +20,12 @@ public class EventTypeRegistry {
         eventMappings.add(EventType.PlayerGameModeChangeEvent.class);
         eventMappings.add(EventType.PlayerChatEvent.class);
         eventMappings.add(EventType.PlayerCommandEvent.class);
+
+        // Server events
+        eventMappings.add(ServerEvents.ServerInitializedEvent.class);
+        eventMappings.add(ServerEvents.ServerStartingEvent.class);
+        eventMappings.add(ServerEvents.ServerShuttingDownEvent.class);
+        eventMappings.add(ServerEvents.PluginReloadEvent.class);
     }
 
     public static List<Class<? extends EventType>> getEventMappings() {

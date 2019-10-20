@@ -22,5 +22,4 @@ public interface MinecraftServer {
     boolean isRunning();
     CommandSourceStack createCommandSourceStack();
     void close();
-
 }

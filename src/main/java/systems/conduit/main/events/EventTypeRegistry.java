@@ -25,6 +25,7 @@ public class EventTypeRegistry {
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);
         eventMappings.add(ServerEvents.ServerStartingEvent.class);
         eventMappings.add(ServerEvents.ServerShuttingDownEvent.class);
+        eventMappings.add(ServerEvents.PluginReloadEvent.class);
     }
 
     public static List<Class<? extends EventType>> getEventMappings() {

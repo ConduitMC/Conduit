@@ -4,6 +4,7 @@ import javassist.tools.Callback;
 import lombok.AccessLevel;
 import lombok.Getter;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.events.ServerEvents;
 
 import java.io.File;
 import java.io.IOException;
@@ -106,6 +107,9 @@ public class PluginManager {
         // Load plugin again
         pluginFile.get().ifPresent(file -> loadPlugin(file, true));
         if(!server) Conduit.getLogger().info("Reloaded plugin: " + plugin.getMeta().name());
+
+        ServerEvents.PluginReloadEvent event = new ServerEvents.PluginReloadEvent(plugin);
+        Conduit.getEventManager().dispatchEvent(event);
     }
 
     public Optional<Plugin> getPlugin(String name) {

@@ -7,6 +7,7 @@ import net.minecraft.core.Location;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
@@ -85,5 +86,30 @@ public class WorldEvents {
     @Getter
     public static class ThunderStatusChangeEvent extends Cancellable {
         private boolean isThundering;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class GrowEvent extends Cancellable {
+        private Block block;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class BlockBurnEvent extends Cancellable {
+        private Block burned;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class LeafDecayEvent extends Cancellable {
+        private Block block;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class BlockIgniteEvent extends Cancellable {
+        private Block block;
+        // TODO: Ignite source
     }
 }

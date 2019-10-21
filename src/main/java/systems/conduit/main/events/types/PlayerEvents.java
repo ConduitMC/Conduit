@@ -195,4 +195,11 @@ public class PlayerEvents {
         private Player player;
         private BlockPos bed;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SpectateEvent extends Cancellable {
+        private Player player;
+        private Entity spectating;
+    }
 }

@@ -12,28 +12,39 @@ import systems.conduit.main.plugin.config.ConfigurationTypes;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.CodeSigner;
+import java.security.CodeSource;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 public class PluginClassLoader extends URLClassLoader {
 
+    private final Map<String, Class<?>> classesCache = new ConcurrentHashMap<>();
     @Getter private final File pluginFile;
+    private final JarFile jar;
+    private final URL url;
 
-    PluginClassLoader(File pluginFile, ClassLoader parent) throws MalformedURLException {
-        super(new URL[] {pluginFile.toURI().toURL()}, parent);
+    PluginClassLoader(File pluginFile, ClassLoader parent) throws IOException {
+        super(new URL[]{pluginFile.toURI().toURL()}, parent);
         this.pluginFile = pluginFile;
+        this.jar = new JarFile(pluginFile);
+        this.url = pluginFile.toURI().toURL();
     }
 
-    Optional<Plugin> load() {
-        Reflections reflections = new Reflections(new ConfigurationBuilder().setUrls(getURLs()).addClassLoader(this));
+    Optional<PluginMeta> loadMeta() {
+        Reflections reflections = new Reflections(new ConfigurationBuilder().setUrls(url).addClassLoader(this));
         Set<Class<? extends Plugin>> annotated = reflections.getSubTypesOf(Plugin.class).stream().filter(c -> c.isAnnotationPresent(PluginMeta.class)).collect(Collectors.toSet());
         // TODO: Load plugins in order, based on the dependencies listed in the annotation.
         // Since we have the plugin class, we'll first grab the annotation and make sure that all the values are present.
@@ -44,6 +55,17 @@ public class PluginClassLoader extends URLClassLoader {
                 Conduit.getLogger().error("INTERNAL ERROR: failed to load plugin class: " + pluginClass.getName() + ": cannot find annotation that previously existed.");
                 return Optional.empty();
             }
+            return Optional.of(meta);
+        }
+        return Optional.empty();
+    }
+
+    Optional<Plugin> load(PluginMeta meta) {
+        Reflections reflections = new Reflections(new ConfigurationBuilder().setUrls(url).addClassLoader(this));
+        Set<Class<? extends Plugin>> annotated = reflections.getSubTypesOf(Plugin.class).stream().filter(c -> c.isAnnotationPresent(PluginMeta.class)).collect(Collectors.toSet());
+        // TODO: Load plugins in order, based on the dependencies listed in the annotation.
+        // Since we have the plugin class, we'll first grab the annotation and make sure that all the values are present.
+        for (Class<? extends Plugin> pluginClass : annotated) {
             // Now that we have our meta information, we can attempt to create an instance of this plugin.
             Optional<Plugin> plugin = Optional.empty();
             try {
@@ -60,7 +82,6 @@ public class PluginClassLoader extends URLClassLoader {
             }
             plugin.get().setClassLoader(this);
             plugin.get().setMeta(meta);
-
             // Now, we can try to get the config for this plugin.
             Class<? extends Configuration> clazz = meta.config();
             loadConfiguration(meta.name(), clazz).ifPresent(plugin.get()::setConfig);
@@ -72,7 +93,6 @@ public class PluginClassLoader extends URLClassLoader {
     private Optional<Configuration> loadConfiguration(String plugin, Class<? extends Configuration> clazz) {
         if (!clazz.isAnnotationPresent(ConfigFile.class)) return Optional.empty();
         ConfigFile annotation = clazz.getAnnotation(ConfigFile.class);
-
         Path path = Paths.get("plugins", plugin).toAbsolutePath();
         // Ensure that the path exists. If it doesn't, then we don't need to process this.
         File pluginFolder = path.toFile();
@@ -89,10 +109,32 @@ public class PluginClassLoader extends URLClassLoader {
                 e.printStackTrace();
             }
         }
-
         Optional<ConfigurationLoader> loader = ConfigurationTypes.getLoaderForExtension(annotation.type());
         if (!loader.isPresent()) return Optional.empty();
-
         return loader.get().load(file, clazz);
+    }
+
+    @Override
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+        Class<?> result = classesCache.get(name);
+        if (result == null) {
+            String path = name.replace('.', '/').concat(".class");
+            JarEntry entry = jar.getJarEntry(path);
+            if (entry != null) {
+                byte[] classBytes;
+                try (InputStream is = jar.getInputStream(entry)) {
+                    byte[] targetArray = new byte[is.available()];
+                    is.read(targetArray);
+                    classBytes = targetArray;
+                } catch (IOException ex) {
+                    throw new ClassNotFoundException(name, ex);
+                }
+                CodeSigner[] signers = entry.getCodeSigners();
+                CodeSource source = new CodeSource(url, signers);
+                result = defineClass(name, classBytes, 0, classBytes.length, source);
+            }
+            classesCache.put(name, result);
+        }
+        return result;
     }
 }

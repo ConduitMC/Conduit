@@ -17,6 +17,11 @@ import systems.conduit.main.events.EventType;
  */
 public class PlayerEvents {
 
+    /**
+     * Player join server event.
+     *
+     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.JoinMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class PlayerJoinEvent extends EventType {
@@ -24,12 +29,20 @@ public class PlayerEvents {
         @Setter private Component message;
     }
 
+    /**
+     * Player leave server event.
+     *
+     * This is not currently implemented.
+     */
     @AllArgsConstructor
     @Getter
     public static class PlayerLeaveEvent extends EventType {
         private Player player;
     }
 
+    /**
+     * Meta information provided by Minecraft.
+     */
     @AllArgsConstructor
     @Getter
     public static class DamageMeta {
@@ -44,6 +57,11 @@ public class PlayerEvents {
         private boolean isProjectile;
     }
 
+    /**
+     * Player damage by entity event.
+     *
+     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.DamageMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class PlayerDamageByEntityEvent extends Cancellable {
@@ -53,6 +71,11 @@ public class PlayerEvents {
         private DamageMeta meta;
     }
 
+    /**
+     * Player damage by another player event.
+     *
+     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.DamageMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class PlayerDamageByPlayerEvent extends Cancellable {
@@ -62,6 +85,11 @@ public class PlayerEvents {
         private DamageMeta meta;
     }
 
+    /**
+     * Player damage by arrow event. This can be either another player, skeleton, etc.
+     *
+     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.DamageMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class PlayerDamageByArrowEvent extends Cancellable {
@@ -72,6 +100,11 @@ public class PlayerEvents {
         private DamageMeta meta;
     }
 
+    /**
+     * Player game mode change event
+     *
+     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.ServerPlayerMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class PlayerGameModeChangeEvent extends Cancellable {
@@ -79,6 +112,11 @@ public class PlayerEvents {
         @Setter private GameType gamemode;
     }
 
+    /**
+     * Player chat event. No commands included.
+     *
+     * Mixin implementation: {@link systems.conduit.main.mixin.ServerGamePacketListenerMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class PlayerChatEvent extends Cancellable {
@@ -86,6 +124,11 @@ public class PlayerEvents {
         @Setter private Component message;
     }
 
+    /**
+     * Player send command event.
+     *
+     * Mixin implementation: {@link systems.conduit.main.mixin.ServerGamePacketListenerMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class PlayerCommandEvent extends Cancellable {

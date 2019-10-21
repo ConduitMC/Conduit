@@ -16,7 +16,7 @@ import systems.conduit.main.plugin.annotation.PluginMeta;
 import java.io.PrintStream;
 import java.util.Optional;
 
-@PluginMeta(name = "Conduit", description = "", version = "0.0.1", author = "ConduitMC")
+@PluginMeta(name = "Conduit", description = "", version = "0.0.2", author = "ConduitMC")
 public class Conduit {
 
     @Getter(AccessLevel.PUBLIC) private final static Logger logger = LogManager.getLogger("Conduit", new MessageFactory());

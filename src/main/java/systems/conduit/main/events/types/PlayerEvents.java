@@ -3,10 +3,14 @@ package systems.conduit.main.events.types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Location;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Material;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
 import systems.conduit.main.events.EventType;
@@ -134,5 +138,61 @@ public class PlayerEvents {
     public static class PlayerCommandEvent extends Cancellable {
         private Player player;
         @Setter private String message;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class RespawnEvent extends EventType {
+        private Player player;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MoveEvent extends Cancellable {
+        private Player player;
+        private Location to;
+        private Location from;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class LevelSwitchEvent extends Cancellable {
+        private Player player;
+        private Level to;
+        private Level from;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class KickEvent extends EventType {
+        private Player player;
+        private String reason;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ConsumeEvent extends EventType {
+        private Player player;
+        private Material consumed;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class FishEvent extends Cancellable {
+        private Player player;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class EnterBedEvent extends Cancellable {
+        private Player player;
+        private BlockPos bed;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class LeaveBedEvent extends Cancellable {
+        private Player player;
+        private BlockPos bed;
     }
 }

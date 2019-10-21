@@ -1,7 +1,8 @@
-package systems.conduit.main.events;
+package systems.conduit.main.events.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import systems.conduit.main.events.EventType;
 import systems.conduit.main.plugin.Plugin;
 
 /**

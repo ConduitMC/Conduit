@@ -4,7 +4,7 @@ import javassist.tools.Callback;
 import lombok.AccessLevel;
 import lombok.Getter;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.events.ServerEvents;
+import systems.conduit.main.events.types.ServerEvents;
 
 import java.io.File;
 import java.io.IOException;

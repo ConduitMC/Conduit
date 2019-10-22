@@ -13,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Material;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
-import systems.conduit.main.events.EventType;
 
 /**
  * @author Innectic

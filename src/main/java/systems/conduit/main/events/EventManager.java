@@ -2,6 +2,7 @@ package systems.conduit.main.events;
 
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.annotations.EventHandler;
+import systems.conduit.main.events.types.EventType;
 import systems.conduit.main.plugin.Plugin;
 
 import java.lang.reflect.InvocationTargetException;

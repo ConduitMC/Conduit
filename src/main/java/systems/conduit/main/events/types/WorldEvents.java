@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
-import systems.conduit.main.events.EventType;
 
 /**
  * @author Innectic

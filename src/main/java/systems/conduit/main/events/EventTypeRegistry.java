@@ -1,5 +1,6 @@
 package systems.conduit.main.events;
 
+import systems.conduit.main.events.types.EventType;
 import systems.conduit.main.events.types.PlayerEvents;
 import systems.conduit.main.events.types.ServerEvents;
 import systems.conduit.main.events.types.WorldEvents;

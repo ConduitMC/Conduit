@@ -8,6 +8,7 @@ import systems.conduit.main.Conduit;
 import systems.conduit.main.plugin.annotation.Dependency;
 import systems.conduit.main.plugin.annotation.DependencyType;
 import systems.conduit.main.plugin.annotation.PluginMeta;
+import systems.conduit.main.events.ServerEvents;
 
 import java.io.File;
 import java.io.IOException;
@@ -173,6 +174,9 @@ public class PluginManager {
         // Load plugin again
         pluginFile.get().ifPresent(file -> loadPlugins(Collections.singletonList(file), true));
         if(!server) Conduit.getLogger().info("Reloaded plugin: " + plugin.getMeta().name());
+
+        ServerEvents.PluginReloadEvent event = new ServerEvents.PluginReloadEvent(plugin);
+        Conduit.getEventManager().dispatchEvent(event);
     }
 
     public Optional<Plugin> getPlugin(String name) {

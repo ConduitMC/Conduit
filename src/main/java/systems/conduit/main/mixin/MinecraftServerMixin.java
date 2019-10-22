@@ -12,8 +12,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import systems.conduit.main.Conduit;
 import systems.conduit.main.api.MinecraftServer;
 import systems.conduit.main.console.Console;
+import systems.conduit.main.events.ServerEvents;
 
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -47,4 +50,19 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
    public Map<DimensionType, ServerLevel> getLevels() {
         return levels;
    }
+
+    @Inject(method = "stopServer", at = @At("HEAD"))
+    public void stopServer(CallbackInfo ci) {
+        Conduit.getEventManager().dispatchEvent(new ServerEvents.ServerShuttingDownEvent());
+    }
+
+    @Inject(method = "initServer", at = @At("RETURN"))
+    public void initServer(CallbackInfoReturnable<Boolean> cir) {
+        Conduit.getEventManager().dispatchEvent(new ServerEvents.ServerInitializedEvent());
+    }
+
+    @Inject(method = "run", at = @At("HEAD"))
+    public void run(CallbackInfo ci) {
+        Conduit.getEventManager().dispatchEvent(new ServerEvents.ServerStartingEvent());
+    }
 }

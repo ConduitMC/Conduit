@@ -133,6 +133,9 @@ public class PluginClassLoader extends URLClassLoader {
                 CodeSource source = new CodeSource(url, signers);
                 result = defineClass(name, classBytes, 0, classBytes.length, source);
             }
+            if (result == null) {
+                result = super.findClass(name);
+            }
             classesCache.put(name, result);
         }
         return result;

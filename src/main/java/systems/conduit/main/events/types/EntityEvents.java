@@ -2,6 +2,7 @@ package systems.conduit.main.events.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.Slime;
@@ -16,10 +17,23 @@ import java.util.List;
  */
 public class EntityEvents {
 
+    /**
+     * This event is fired when an adult sheep consumes grass.
+     *
+     * Implementation: {@link }
+     */
     @AllArgsConstructor
     @Getter
     public static class SheepGrowWoolEvent extends Cancellable {
         private Sheep sheep;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    public static class BabySheepEatEvent extends Cancellable {
+        private Sheep sheep;
+        private int ageUpAmount;
     }
 
     @AllArgsConstructor

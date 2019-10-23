@@ -1,9 +1,9 @@
 package systems.conduit.main.api;
 
-import net.minecraft.world.SimpleContainer;
+import systems.conduit.main.inventory.ChestContainer;
 
 public interface ServerPlayer extends Player {
 
-    void openContainer(SimpleContainer container, String title);
+    void openContainer(ChestContainer container);
 
 }

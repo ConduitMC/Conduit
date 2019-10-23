@@ -23,6 +23,7 @@
     "event.player.JoinMixin",
     "event.player.ServerPlayerMixin",
 
-    "event.entity.SheepMixin"
+    "event.entity.SheepMixin",
+    "event.entity.SlimeMixin"
   ]
 }

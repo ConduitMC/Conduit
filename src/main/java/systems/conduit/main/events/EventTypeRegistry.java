@@ -1,9 +1,6 @@
 package systems.conduit.main.events;
 
-import systems.conduit.main.events.types.EventType;
-import systems.conduit.main.events.types.PlayerEvents;
-import systems.conduit.main.events.types.ServerEvents;
-import systems.conduit.main.events.types.WorldEvents;
+import systems.conduit.main.events.types.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +24,11 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.PlayerGameModeChangeEvent.class);
         eventMappings.add(PlayerEvents.PlayerChatEvent.class);
         eventMappings.add(PlayerEvents.PlayerCommandEvent.class);
+
+        // Entity events
+        eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);
+        eventMappings.add(EntityEvents.BabySheepEatEvent.class);
+        eventMappings.add(EntityEvents.SlimeSplitEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);

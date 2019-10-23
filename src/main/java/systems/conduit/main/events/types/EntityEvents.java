@@ -20,7 +20,7 @@ public class EntityEvents {
     /**
      * This event is fired when an adult sheep consumes grass.
      *
-     * Implementation: {@link }
+     * Implementation: {@link systems.conduit.main.mixin.event.entity.SheepMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -28,6 +28,11 @@ public class EntityEvents {
         private Sheep sheep;
     }
 
+    /**
+     * This event is fired when a baby sheep eats something and progresses growth.
+     *
+     * Implementation: {@link systems.conduit.main.mixin.event.entity.SheepMixin}
+     */
     @AllArgsConstructor
     @Getter
     @Setter
@@ -36,9 +41,14 @@ public class EntityEvents {
         private int ageUpAmount;
     }
 
+    /**
+     * This event is fired when a slime takes enough damage to split into more, smaller slimes.
+     *
+     * Implementation: {@link systems.conduit.main.mixin.event.entity.SlimeMixin}
+     */
     @AllArgsConstructor
     @Getter
-    public static class SlimeSplitEvent extends Cancellable {
+    public static class SlimeSplitEvent extends EventType {
         private Slime parent;
         private List<Slime> children;
     }

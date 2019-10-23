@@ -46,7 +46,6 @@ public class PluginClassLoader extends URLClassLoader {
     Optional<PluginMeta> loadMeta() {
         Reflections reflections = new Reflections(new ConfigurationBuilder().setUrls(url).addClassLoader(this));
         Set<Class<? extends Plugin>> annotated = reflections.getSubTypesOf(Plugin.class).stream().filter(c -> c.isAnnotationPresent(PluginMeta.class)).collect(Collectors.toSet());
-        // TODO: Load plugins in order, based on the dependencies listed in the annotation.
         // Since we have the plugin class, we'll first grab the annotation and make sure that all the values are present.
         for (Class<? extends Plugin> pluginClass : annotated) {
             // Get the plugin meta

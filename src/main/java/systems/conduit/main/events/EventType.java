@@ -12,13 +12,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.state.BlockState;
 import systems.conduit.main.api.Player;
+import systems.conduit.main.api.ServerPlayer;
 
 public abstract class EventType {
 
     @AllArgsConstructor
     @Getter
     public static class BlockPlaceEvent extends Cancellable {
-        private Player player;
+        private ServerPlayer player;
         private BlockState blockState;
         private InteractionHand hand;
         private Direction clickedFace;
@@ -27,7 +28,7 @@ public abstract class EventType {
     @AllArgsConstructor
     @Getter
     public static class BlockInteractEvent extends Cancellable {
-        private Player player;
+        private ServerPlayer player;
         private BlockState blockState;
         private InteractionHand hand;
         private ItemStack itemInHand;
@@ -39,21 +40,21 @@ public abstract class EventType {
     @AllArgsConstructor
     @Getter
     public static class BlockBreakEvent extends Cancellable {
-        private Player player;
+        private ServerPlayer player;
         private BlockState blockState;
     }
 
     @AllArgsConstructor
     @Getter
     public static class PlayerJoinEvent extends EventType {
-        private Player player;
+        private ServerPlayer player;
         @Setter private Component message;
     }
 
     @AllArgsConstructor
     @Getter
     public static class PlayerLeaveEvent extends EventType {
-        private Player player;
+        private ServerPlayer player;
     }
 
     @AllArgsConstructor
@@ -73,7 +74,7 @@ public abstract class EventType {
     @AllArgsConstructor
     @Getter
     public static class PlayerDamageByEntityEvent extends Cancellable {
-        private Player damaged;
+        private ServerPlayer damaged;
         private Entity damager;
         private float damage;
         private DamageMeta meta;
@@ -82,8 +83,8 @@ public abstract class EventType {
     @AllArgsConstructor
     @Getter
     public static class PlayerDamageByPlayerEvent extends Cancellable {
-        private Player damaged;
-        private Player damager;
+        private ServerPlayer damaged;
+        private ServerPlayer damager;
         private float damage;
         private DamageMeta meta;
     }
@@ -91,7 +92,7 @@ public abstract class EventType {
     @AllArgsConstructor
     @Getter
     public static class PlayerDamageByArrowEvent extends Cancellable {
-        private Player damaged;
+        private ServerPlayer damaged;
         private Entity shooter;
         private AbstractArrow arrow;
         private float damage;
@@ -101,21 +102,21 @@ public abstract class EventType {
     @AllArgsConstructor
     @Getter
     public static class PlayerGameModeChangeEvent extends Cancellable {
-        private Player player;
+        private ServerPlayer player;
         @Setter private GameType gamemode;
     }
 
     @AllArgsConstructor
     @Getter
     public static class PlayerChatEvent extends Cancellable {
-        private Player player;
+        private ServerPlayer player;
         @Setter private Component message;
     }
 
     @AllArgsConstructor
     @Getter
     public static class PlayerCommandEvent extends Cancellable {
-        private Player player;
+        private ServerPlayer player;
         @Setter private String message;
     }
 }

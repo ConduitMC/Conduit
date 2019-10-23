@@ -16,11 +16,11 @@
     "api.EntityMixin",
     "api.LivingEntityMixin",
     "api.PlayerMixin",
+    "api.ServerPlayerMixin",
 
     "event.ItemStackMixin",
     "event.player.DamageMixin",
     "event.player.ServerPlayerGameModeMixin",
-    "event.player.JoinMixin",
-    "event.player.ServerPlayerMixin"
+    "event.player.JoinMixin"
   ]
 }

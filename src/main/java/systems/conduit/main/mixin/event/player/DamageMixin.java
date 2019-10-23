@@ -45,20 +45,20 @@ public abstract class DamageMixin extends Player {
                 AbstractArrow arrow = (AbstractArrow) entitySource.getEntity();
                 if (arrow == null) return;
 
-                EventType.PlayerDamageByArrowEvent event = new EventType.PlayerDamageByArrowEvent((systems.conduit.main.api.Player) damaged, arrow.getOwner(), arrow, damage, meta);
+                EventType.PlayerDamageByArrowEvent event = new EventType.PlayerDamageByArrowEvent((systems.conduit.main.api.ServerPlayer) damaged, arrow.getOwner(), arrow, damage, meta);
                 Conduit.getEventManager().dispatchEvent(event);
                 if (event.isCanceled()) cir.cancel();
                 return;
             } else if (entity instanceof ServerPlayer) {
                 // Player was attached by another player
                 ServerPlayer damager = (ServerPlayer) entitySource.getEntity();
-                EventType.PlayerDamageByPlayerEvent event = new EventType.PlayerDamageByPlayerEvent((systems.conduit.main.api.Player) damaged, (systems.conduit.main.api.Player) damager, damage, meta);
+                EventType.PlayerDamageByPlayerEvent event = new EventType.PlayerDamageByPlayerEvent((systems.conduit.main.api.ServerPlayer) damaged, (systems.conduit.main.api.ServerPlayer) damager, damage, meta);
                 Conduit.getEventManager().dispatchEvent(event);
                 if (event.isCanceled()) cir.cancel();
                 return;
             }
 
-            EventType.PlayerDamageByEntityEvent event = new EventType.PlayerDamageByEntityEvent((systems.conduit.main.api.Player) damaged, entitySource.getEntity(), damage, meta);
+            EventType.PlayerDamageByEntityEvent event = new EventType.PlayerDamageByEntityEvent((systems.conduit.main.api.ServerPlayer) damaged, entitySource.getEntity(), damage, meta);
             Conduit.getEventManager().dispatchEvent(event);
             if (event.isCanceled()) cir.cancel();
         }

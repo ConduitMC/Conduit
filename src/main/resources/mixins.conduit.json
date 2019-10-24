@@ -24,6 +24,8 @@
     "event.player.ServerPlayerMixin",
 
     "event.entity.SheepMixin",
-    "event.entity.SlimeMixin"
+    "event.entity.SlimeMixin",
+
+    "event.goal.BreedGoalMixin"
   ]
 }

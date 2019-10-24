@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.types.EntityEvents;
 
@@ -30,7 +29,7 @@ public abstract class SlimeMixin extends Mob {
 
     @Inject(
             method = "remove",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/LevelWriter;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"),
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/LevelWriter;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z")
     )
     public void remove(CallbackInfo ci, Slime slime) {
         slimes.add(slime);

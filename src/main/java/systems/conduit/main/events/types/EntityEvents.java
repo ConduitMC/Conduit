@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.level.block.SpawnerBlock;
@@ -56,9 +57,9 @@ public class EntityEvents {
     @AllArgsConstructor
     @Getter
     public static class EntityBreedEvent extends Cancellable {
-        private Entity bred;
-        private Entity with;
-        private Entity child;
+        private Animal bred;
+        private Animal with;
+        private Animal child;
     }
 
     @AllArgsConstructor

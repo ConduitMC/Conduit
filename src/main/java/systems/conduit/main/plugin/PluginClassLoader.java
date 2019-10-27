@@ -5,10 +5,11 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.plugin.annotation.PluginMeta;
-import systems.conduit.main.plugin.config.annotation.ConfigFile;
 import systems.conduit.main.plugin.config.Configuration;
 import systems.conduit.main.plugin.config.ConfigurationLoader;
 import systems.conduit.main.plugin.config.ConfigurationTypes;
+import systems.conduit.main.plugin.config.annotation.ConfigFile;
+import systems.conduit.main.plugin.config.defaults.DefaultConfigurationHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,16 +85,16 @@ public class PluginClassLoader extends URLClassLoader {
             plugin.get().setMeta(meta);
             // Now, we can try to get the config for this plugin.
             Class<? extends Configuration> clazz = meta.config();
-            loadConfiguration(meta.name(), clazz).ifPresent(plugin.get()::setConfig);
+            loadConfiguration(plugin.get(), clazz).ifPresent(plugin.get()::setConfig);
             return plugin;
         }
         return Optional.empty();
     }
 
-    private Optional<Configuration> loadConfiguration(String plugin, Class<? extends Configuration> clazz) {
+    private Optional<Configuration> loadConfiguration(Plugin plugin, Class<? extends Configuration> clazz) {
         if (!clazz.isAnnotationPresent(ConfigFile.class)) return Optional.empty();
         ConfigFile annotation = clazz.getAnnotation(ConfigFile.class);
-        Path path = Paths.get("plugins", plugin).toAbsolutePath();
+        Path path = Paths.get("plugins", plugin.getMeta().name()).toAbsolutePath();
         // Ensure that the path exists. If it doesn't, then we don't need to process this.
         File pluginFolder = path.toFile();
         if (!pluginFolder.exists()) {
@@ -102,6 +103,8 @@ public class PluginClassLoader extends URLClassLoader {
         }
         File file = path.resolve(annotation.name() + "." + annotation.type()).toFile();
         if (!file.exists()) {
+            // If the file does not exist, then lets attempt to generate a default.
+            DefaultConfigurationHandler.handleDefaultForPlugin(file.getAbsolutePath(), plugin);
             try {
                 // TODO: Implement configuration defaults
                 if (!file.createNewFile()) Conduit.getLogger().error("Failed to create configuration file");

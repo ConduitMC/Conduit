@@ -1,5 +1,6 @@
 package systems.conduit.main;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Conduit {
     @Getter(AccessLevel.PUBLIC) private static CommandManager commandManager = new CommandManager();
     @Getter(AccessLevel.PUBLIC) private static PlayerManager playerManager = new PlayerManager();
     @Getter(AccessLevel.PUBLIC) private static LevelManager levelManager = new LevelManager();
+    @Getter(AccessLevel.PUBLIC) private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Setter(AccessLevel.PUBLIC) private static MinecraftServer server = null;
 

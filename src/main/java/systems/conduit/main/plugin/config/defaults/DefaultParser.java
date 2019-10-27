@@ -20,7 +20,7 @@ public class DefaultParser {
      * @param configuration the configuration file to create defaults for.
      * @return a default set of configuration options.
      */
-    private Map<String, Object> generateDefaults(Configuration configuration) {
+    static Map<String, Object> generateDefaults(Configuration configuration) {
         Map<String, Object> defaults = new HashMap<>();
 
         Field[] fields = configuration.getClass().getDeclaredFields();

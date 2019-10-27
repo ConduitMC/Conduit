@@ -14,4 +14,6 @@ import java.lang.annotation.Target;
 public @interface ConfigFile {
     String name();
     String type();
+
+    String defaultFile() default "";
 }

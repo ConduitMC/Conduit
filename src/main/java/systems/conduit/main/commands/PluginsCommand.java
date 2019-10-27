@@ -32,6 +32,11 @@ public class PluginsCommand extends BaseCommand {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {
+                if (!plugin.get().getMeta().reloadable()) {
+                    // This plugin is not reloadable. Let the user know.
+                    c.getSource().sendFailure(new TextComponent(pluginName + " is not reloadable."));
+                    return 0;
+                }
                 pluginName = plugin.get().getMeta().name();
                 c.getSource().sendSuccess(new TextComponent("Reloading plugin: " + pluginName), false);
                 Conduit.getPluginManager().reload(plugin.get(), c.getSource().getEntity() == null);

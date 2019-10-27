@@ -162,6 +162,11 @@ public class PluginManager {
     }
 
     public void reload(Plugin plugin, boolean server) {
+        // Before we attempt to reload the plugin, make sure that it can safely be done.
+        if (!plugin.getMeta().reloadable()) {
+            // This plugin is not reloadable.
+            return;
+        }
         if(!server) Conduit.getLogger().info("Reloading plugin: " + plugin.getMeta().name());
         // Unload the plugin
         disable(plugin, true);

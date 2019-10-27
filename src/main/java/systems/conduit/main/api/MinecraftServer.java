@@ -10,6 +10,13 @@ import net.minecraft.world.level.storage.LevelStorageSource;
 import java.util.Map;
 import java.util.concurrent.Executor;
 
+/**
+ * Base Conduit interface for use with mixins.
+ *
+ * @since API 0.1
+ *
+ * Implementation: {@link systems.conduit.main.mixin.MinecraftServerMixin}
+ */
 public interface MinecraftServer {
 
     Executor getExecutor();

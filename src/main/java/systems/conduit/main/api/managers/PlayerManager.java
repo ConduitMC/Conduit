@@ -21,6 +21,7 @@ public class PlayerManager {
     /***
      * Find a player by name.
      *
+     * @since API 0.1
      * @deprecated Use {@link #getPlayer(UUID)} instead.
      *
      * @param name The name of the player
@@ -46,7 +47,8 @@ public class PlayerManager {
     /**
      * Find a player by name in a given world.
      *
-     * @deprecated Use {@link #getPlayer(UUID, ServerLevel)} instead.
+     * @since API 0.1
+     * @deprecated Use {@link #getPlayer(UUID, DimensionType)} instead.
      *
      * @param name the name of the player to find.
      * @param level the level the player should be in.
@@ -67,6 +69,8 @@ public class PlayerManager {
 
     /**
      * Find a player by UUID.
+     *
+     * @since API 0.1
      *
      * @param uuid the uuid of the player to find.
      * @return the player, if they're online. Empty otherwise.
@@ -89,6 +93,8 @@ public class PlayerManager {
 
     /**
      * Find a player by UUID, in a specified world.
+     *
+     * @since API 0.1
      *
      * @param uuid the uuid of the player to find.
      * @param level the level that they should be in.

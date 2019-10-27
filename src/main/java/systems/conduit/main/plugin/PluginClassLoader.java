@@ -5,7 +5,7 @@ import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.plugin.annotation.PluginMeta;
-import systems.conduit.main.plugin.config.ConfigFile;
+import systems.conduit.main.plugin.config.annotation.ConfigFile;
 import systems.conduit.main.plugin.config.Configuration;
 import systems.conduit.main.plugin.config.ConfigurationLoader;
 import systems.conduit.main.plugin.config.ConfigurationTypes;

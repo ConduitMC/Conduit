@@ -1,4 +1,4 @@
-package systems.conduit.main.plugin.config;
+package systems.conduit.main.plugin.config.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

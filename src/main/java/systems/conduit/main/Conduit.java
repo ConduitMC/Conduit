@@ -7,6 +7,7 @@ import net.minecraft.network.chat.TextComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import systems.conduit.main.api.MinecraftServer;
+import systems.conduit.main.api.managers.LevelManager;
 import systems.conduit.main.api.managers.PlayerManager;
 import systems.conduit.main.commands.CommandManager;
 import systems.conduit.main.console.MessageFactory;
@@ -25,6 +26,7 @@ public class Conduit {
     @Getter(AccessLevel.PUBLIC) private static PluginManager pluginManager = new PluginManager();
     @Getter(AccessLevel.PUBLIC) private static CommandManager commandManager = new CommandManager();
     @Getter(AccessLevel.PUBLIC) private static PlayerManager playerManager = new PlayerManager();
+    @Getter(AccessLevel.PUBLIC) private static LevelManager levelManager = new LevelManager();
 
     @Setter(AccessLevel.PUBLIC) private static MinecraftServer server = null;
 

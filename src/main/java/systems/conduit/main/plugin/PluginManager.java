@@ -6,7 +6,6 @@ import javassist.tools.Callback;
 import lombok.Getter;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.types.ServerEvents;
-
 import systems.conduit.main.plugin.annotation.Dependency;
 import systems.conduit.main.plugin.annotation.DependencyType;
 import systems.conduit.main.plugin.annotation.PluginMeta;

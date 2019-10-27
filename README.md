@@ -27,6 +27,11 @@ cd LegacyLauncher
 ./gradlew build install
 cd ..
 
+git clone https://github.com/ConduitMC/Mojang2Tsrg
+cd Mojang2Tsrg
+./gradlew build install
+cd ..
+
 git clone https://github.com/ConduitMC/ConduitLauncher
 cd ConduitLauncher
 ./gradlew build install

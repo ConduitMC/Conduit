@@ -2,6 +2,7 @@ package systems.conduit.main.events;
 
 import lombok.Getter;
 import lombok.Setter;
+import systems.conduit.main.events.types.EventType;
 
 /**
  * @author Innectic

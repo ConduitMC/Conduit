@@ -21,6 +21,11 @@
     "event.player.DamageMixin",
     "event.player.ServerPlayerGameModeMixin",
     "event.player.JoinMixin",
-    "event.player.ServerPlayerMixin"
+    "event.player.ServerPlayerMixin",
+
+    "event.entity.SheepMixin",
+    "event.entity.SlimeMixin",
+
+    "event.goal.BreedGoalMixin"
   ]
 }

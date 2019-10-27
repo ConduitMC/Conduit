@@ -1,6 +1,6 @@
 package systems.conduit.main.events.annotations;
 
-import systems.conduit.main.events.EventType;
+import systems.conduit.main.events.types.EventType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

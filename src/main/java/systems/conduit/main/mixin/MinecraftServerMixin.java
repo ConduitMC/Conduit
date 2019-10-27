@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.MinecraftServer;
 import systems.conduit.main.console.Console;
-import systems.conduit.main.events.ServerEvents;
+import systems.conduit.main.events.types.ServerEvents;
 
 import java.util.Map;
 import java.util.concurrent.Executor;

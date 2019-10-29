@@ -1,6 +1,7 @@
 package systems.conduit.main.inventory;
 
 import lombok.Getter;
+import net.minecraft.world.ContainerListener;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -19,6 +20,12 @@ public class ChestContainer extends SimpleContainer {
         chestContainer.type = size;
         chestContainer.title = title;
         return chestContainer;
+    }
+
+    // TODO: Use?
+    @Override
+    public void addListener(ContainerListener var1) {
+        throw new UnsupportedOperationException("Container listener not implemented!");
     }
 
     private static int getSizeFromEnum(MenuType<ChestMenu> size) {

@@ -5,6 +5,7 @@ import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,12 +27,13 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Override
     public void openContainer(ChestContainer container) {
+        this.closeOpenedContainer();
         this.nextContainerCounter();
-        ChestMenu menu = new ChestMenu(container.getType(), this.containerCounter, ((Player) (Object) this).inventory, container, container.getContainerSize() / 9);
+        AbstractContainerMenu menu = new ChestMenu(container.getType(), this.containerCounter, ((Player) (Object) this).inventory, container, container.getContainerSize() / 9);
+        menu.addSlotListener((net.minecraft.server.level.ServerPlayer) (Object) this);
         this.connection.send(new ClientboundOpenScreenPacket(menu.containerId, menu.getType(), new TextComponent(container.getTitle())));
         ((Player) (Object) this).containerMenu = menu;
         this.connection.send(new ClientboundContainerSetContentPacket(menu.containerId, ((Player) (Object) this).containerMenu.getItems()));
-        //((Player) (Object) this).containerMenu.addSlotListener();
     }
 
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))

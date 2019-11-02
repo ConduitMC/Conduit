@@ -13,6 +13,7 @@ public abstract class VersionMixin {
 
     /**
      * @author ConduitMC
+     * @return Minecraft version and Conduit name
      */
     @Overwrite
     public String getName() {

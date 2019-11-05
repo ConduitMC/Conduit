@@ -35,6 +35,10 @@ tasks.withType(JavaCompile) {
 
 task install(dependsOn: [publishToMavenLocal])
 
+java {
+    withSourcesJar()
+}
+
 jar {
     manifest {
         attributes(

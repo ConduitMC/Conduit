@@ -1,13 +1,11 @@
 plugins {
     id "java"
-    id "maven"
+    id "maven-publish"
 }
 
 repositories {
     mavenLocal()
-    maven {
-        url = "http://repo.maven.apache.org/maven2"
-    }
+    mavenCentral()
     maven {
         url = "https://libraries.minecraft.net/"
     }
@@ -17,14 +15,14 @@ repositories {
 }
 
 dependencies {
-    compile "org.projectlombok:lombok:1.18.10"
+    implementation "org.projectlombok:lombok:1.18.10"
     annotationProcessor "org.projectlombok:lombok:1.18.10"
-    compile "net.minecraft:server:1.14.4"
-    compile "org.spongepowered:mixin:0.7.8-SNAPSHOT"
+    implementation "net.minecraft:server:1.14.4"
+    implementation "org.spongepowered:mixin:0.7.8-SNAPSHOT"
 
-    compile "org.reflections:reflections:0.9.11"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.10.0"
-    compile "org.jline:jline:3.13.0"
+    implementation "org.reflections:reflections:0.9.11"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.10.0"
+    implementation "org.jline:jline:3.13.0"
 }
 
 group = theGroup
@@ -35,9 +33,7 @@ tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
 }
 
-java {
-    withSourcesJar()
-}
+task install(dependsOn: [publishToMavenLocal])
 
 jar {
     manifest {

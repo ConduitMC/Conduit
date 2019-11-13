@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin.api;
+package systems.conduit.main.mixins.api;
 
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;

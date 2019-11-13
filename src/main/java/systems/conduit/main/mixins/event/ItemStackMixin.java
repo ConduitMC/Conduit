@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin.event;
+package systems.conduit.main.mixins.event;
 
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Pose;

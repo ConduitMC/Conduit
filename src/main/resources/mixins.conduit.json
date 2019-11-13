@@ -1,8 +1,8 @@
 {
   "required": true,
   "minVersion": "0.6.15",
-  "package": "systems.conduit.main.mixin",
-  "target": "@env(DEFAULT)",
+  "package": "systems.conduit.main.mixins",
+  "target": "@env(PREINIT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "CommandSourceMixin",

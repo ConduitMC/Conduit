@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin.event.player;
+package systems.conduit.main.mixins.event.player;
 
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;

@@ -37,7 +37,7 @@ cd Server
 cp ../ConduitLauncher/target/ConduitLauncher-*.jar ConduitLauncher.jar
 java -jar ConduitLauncher.jar dev
 
-# Once that finsihes, you have a fully ready to go server for development, and all other libraries installed.
+# Once that finishes, you have a fully ready to go server for development, and all other libraries installed.
 # Now, you can clone Conduit and start hacking!
 cd ..
 git clone https://github.com/ConduitMC/Conduit

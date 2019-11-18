@@ -22,8 +22,8 @@ Requirements:
 To get started with developing, you can setup your environment with the following commands:
 
 ```
-git clone https://github.com/ConduitMC/LegacyLauncher
-cd LegacyLauncher
+git clone https://github.com/ConduitMC/Mojang2Tsrg
+cd Mojang2Tsrg
 ./gradlew build install
 cd ..
 

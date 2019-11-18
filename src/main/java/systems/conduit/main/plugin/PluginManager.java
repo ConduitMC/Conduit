@@ -5,10 +5,10 @@ import com.google.common.collect.Multimap;
 import javassist.tools.Callback;
 import lombok.Getter;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.events.types.ServerEvents;
 import systems.conduit.main.plugin.annotation.Dependency;
 import systems.conduit.main.plugin.annotation.DependencyType;
 import systems.conduit.main.plugin.annotation.PluginMeta;
-import systems.conduit.main.events.ServerEvents;
 
 import java.io.File;
 import java.io.IOException;
@@ -161,6 +161,11 @@ public class PluginManager {
     }
 
     public void reload(Plugin plugin, boolean server) {
+        // Before we attempt to reload the plugin, make sure that it can safely be done.
+        if (!plugin.getMeta().reloadable()) {
+            // This plugin is not reloadable.
+            return;
+        }
         if(!server) Conduit.getLogger().info("Reloading plugin: " + plugin.getMeta().name());
         // Unload the plugin
         disable(plugin, true);

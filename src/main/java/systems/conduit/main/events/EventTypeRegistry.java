@@ -1,5 +1,7 @@
 package systems.conduit.main.events;
 
+import systems.conduit.main.events.types.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,18 +10,25 @@ public class EventTypeRegistry {
     private static List<Class<? extends EventType>> eventMappings = new ArrayList<>();
 
     static {
+        // World events
+        eventMappings.add(WorldEvents.BlockInteractEvent.class);
+        eventMappings.add(WorldEvents.BlockBreakEvent.class);
+        eventMappings.add(WorldEvents.BlockPlaceEvent.class);
+
         // Player events
-        eventMappings.add(EventType.BlockInteractEvent.class);
-        eventMappings.add(EventType.BlockBreakEvent.class);
-        eventMappings.add(EventType.BlockPlaceEvent.class);
-        eventMappings.add(EventType.PlayerJoinEvent.class);
-        eventMappings.add(EventType.PlayerLeaveEvent.class);
-        eventMappings.add(EventType.PlayerDamageByEntityEvent.class);
-        eventMappings.add(EventType.PlayerDamageByPlayerEvent.class);
-        eventMappings.add(EventType.PlayerDamageByArrowEvent.class);
-        eventMappings.add(EventType.PlayerGameModeChangeEvent.class);
-        eventMappings.add(EventType.PlayerChatEvent.class);
-        eventMappings.add(EventType.PlayerCommandEvent.class);
+        eventMappings.add(PlayerEvents.PlayerJoinEvent.class);
+        eventMappings.add(PlayerEvents.PlayerLeaveEvent.class);
+        eventMappings.add(PlayerEvents.PlayerDamageByEntityEvent.class);
+        eventMappings.add(PlayerEvents.PlayerDamageByPlayerEvent.class);
+        eventMappings.add(PlayerEvents.PlayerDamageByArrowEvent.class);
+        eventMappings.add(PlayerEvents.PlayerGameModeChangeEvent.class);
+        eventMappings.add(PlayerEvents.PlayerChatEvent.class);
+        eventMappings.add(PlayerEvents.PlayerCommandEvent.class);
+
+        // Entity events
+        eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);
+        eventMappings.add(EntityEvents.BabySheepEatEvent.class);
+        eventMappings.add(EntityEvents.SlimeSplitEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);

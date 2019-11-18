@@ -1,4 +1,4 @@
-package systems.conduit.main.events;
+package systems.conduit.main.events.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

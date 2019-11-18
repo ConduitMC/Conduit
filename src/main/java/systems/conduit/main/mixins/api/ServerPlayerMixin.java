@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.ServerPlayer;
-import systems.conduit.main.events.EventType;
+import systems.conduit.main.events.types.PlayerEvents;
 import systems.conduit.main.inventory.ChestContainer;
 
 @Mixin(value = net.minecraft.server.level.ServerPlayer.class, remap = false)
@@ -42,7 +42,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         //
         // We'll need to find a different way to hook into gamemode changes.
 
-        EventType.PlayerGameModeChangeEvent event = new EventType.PlayerGameModeChangeEvent(this, gameType);
+        PlayerEvents.PlayerGameModeChangeEvent event = new PlayerEvents.PlayerGameModeChangeEvent(this, gameType);
         Conduit.getEventManager().dispatchEvent(event);
         return event.getGamemode();
     }

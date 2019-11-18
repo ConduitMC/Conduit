@@ -1,10 +1,6 @@
 package systems.conduit.main.mixins.event.player;
 
 import com.mojang.authlib.GameProfile;
-
-import systems.conduit.main.Conduit;
-import systems.conduit.main.events.EventType;
-
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
@@ -12,12 +8,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.level.Level;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import systems.conduit.main.Conduit;
+import systems.conduit.main.events.types.PlayerEvents;
 
 @Mixin(value = ServerPlayer.class, remap = false)
 public abstract class DamageMixin extends Player {
@@ -36,7 +33,7 @@ public abstract class DamageMixin extends Player {
             // Player was damaged by another entity. Lets see if we can narrow it down before calling it a generic damage event.
             EntityDamageSource entitySource = (EntityDamageSource) source;
             Entity entity = entitySource.getEntity();
-            EventType.DamageMeta meta = new EventType.DamageMeta(entitySource.isThorns(), entitySource.isBypassArmor(),
+            PlayerEvents.DamageMeta meta = new PlayerEvents.DamageMeta(entitySource.isThorns(), entitySource.isBypassArmor(),
                     entitySource.isBypassMagic(), entitySource.isBypassInvul(), entitySource.isCreativePlayer(), entitySource.isExplosion(),
                     entitySource.isFire(), entitySource.isMagic(), entitySource.isProjectile());
 
@@ -45,20 +42,20 @@ public abstract class DamageMixin extends Player {
                 AbstractArrow arrow = (AbstractArrow) entitySource.getEntity();
                 if (arrow == null) return;
 
-                EventType.PlayerDamageByArrowEvent event = new EventType.PlayerDamageByArrowEvent((systems.conduit.main.api.ServerPlayer) damaged, arrow.getOwner(), arrow, damage, meta);
+                PlayerEvents.PlayerDamageByArrowEvent event = new PlayerEvents.PlayerDamageByArrowEvent((systems.conduit.main.api.ServerPlayer) damaged, arrow.getOwner(), arrow, damage, meta);
                 Conduit.getEventManager().dispatchEvent(event);
                 if (event.isCanceled()) cir.cancel();
                 return;
             } else if (entity instanceof ServerPlayer) {
                 // Player was attached by another player
                 ServerPlayer damager = (ServerPlayer) entitySource.getEntity();
-                EventType.PlayerDamageByPlayerEvent event = new EventType.PlayerDamageByPlayerEvent((systems.conduit.main.api.ServerPlayer) damaged, (systems.conduit.main.api.ServerPlayer) damager, damage, meta);
+                PlayerEvents.PlayerDamageByPlayerEvent event = new PlayerEvents.PlayerDamageByPlayerEvent((systems.conduit.main.api.ServerPlayer) damaged, (systems.conduit.main.api.ServerPlayer) damager, damage, meta);
                 Conduit.getEventManager().dispatchEvent(event);
                 if (event.isCanceled()) cir.cancel();
                 return;
             }
 
-            EventType.PlayerDamageByEntityEvent event = new EventType.PlayerDamageByEntityEvent((systems.conduit.main.api.ServerPlayer) damaged, entitySource.getEntity(), damage, meta);
+            PlayerEvents.PlayerDamageByEntityEvent event = new PlayerEvents.PlayerDamageByEntityEvent((systems.conduit.main.api.ServerPlayer) damaged, entitySource.getEntity(), damage, meta);
             Conduit.getEventManager().dispatchEvent(event);
             if (event.isCanceled()) cir.cancel();
         }

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.events.EventType;
+import systems.conduit.main.events.types.PlayerEvents;
 
 @Mixin(value = ServerGamePacketListenerImpl.class, remap = false)
 public class ServerGamePacketListenerMixin {
@@ -22,7 +22,7 @@ public class ServerGamePacketListenerMixin {
 
     @Redirect(method = "handleChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;Z)V"))
     private void handleChat(PlayerList playerList, Component component, boolean b) {
-        EventType.PlayerChatEvent event = new EventType.PlayerChatEvent((systems.conduit.main.api.ServerPlayer) this.player, component);
+        PlayerEvents.PlayerChatEvent event = new PlayerEvents.PlayerChatEvent((systems.conduit.main.api.Player) this.player, component);
         Conduit.getEventManager().dispatchEvent(event);
         Component eventMessage = event.getMessage();
         if (eventMessage != null) this.server.getPlayerList().broadcastMessage(eventMessage, b);
@@ -30,7 +30,7 @@ public class ServerGamePacketListenerMixin {
 
     @ModifyArg(method = "handleChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;handleCommand(Ljava/lang/String;)V"))
     private String handleCommand(String message) {
-        EventType.PlayerCommandEvent event = new EventType.PlayerCommandEvent((systems.conduit.main.api.ServerPlayer) this.player, message);
+        PlayerEvents.PlayerCommandEvent event = new PlayerEvents.PlayerCommandEvent((systems.conduit.main.api.Player) this.player, message);
         Conduit.getEventManager().dispatchEvent(event);
         return event.getMessage();
     }

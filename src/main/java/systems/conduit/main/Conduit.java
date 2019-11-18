@@ -1,5 +1,6 @@
 package systems.conduit.main;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,6 +8,8 @@ import net.minecraft.network.chat.TextComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import systems.conduit.main.api.MinecraftServer;
+import systems.conduit.main.api.managers.LevelManager;
+import systems.conduit.main.api.managers.PlayerManager;
 import systems.conduit.main.commands.CommandManager;
 import systems.conduit.main.console.MessageFactory;
 import systems.conduit.main.events.EventManager;
@@ -23,6 +26,9 @@ public class Conduit {
     @Getter(AccessLevel.PUBLIC) private static EventManager eventManager = new EventManager();
     @Getter(AccessLevel.PUBLIC) private static PluginManager pluginManager = new PluginManager();
     @Getter(AccessLevel.PUBLIC) private static CommandManager commandManager = new CommandManager();
+    @Getter(AccessLevel.PUBLIC) private static PlayerManager playerManager = new PlayerManager();
+    @Getter(AccessLevel.PUBLIC) private static LevelManager levelManager = new LevelManager();
+    @Getter(AccessLevel.PUBLIC) private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Setter(AccessLevel.PUBLIC) private static MinecraftServer server = null;
 

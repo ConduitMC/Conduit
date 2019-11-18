@@ -30,7 +30,7 @@ jobs:
         java-version: 1.8
 
     - name: Set up Conduit dev
-      run: mkdir Conduit && wget https://repo.conduit.systems/repository/releases/systems/conduit/ConduitLauncher/1.0.0/ConduitLauncher-1.0.0.jar -P ./Conduit 
+      run: mkdir Conduit && wget http://repo.conduit.systems/repository/releases/systems/conduit/ConduitLauncher/1.0.0/ConduitLauncher-1.0.0.jar -P ./Conduit 
 
     - name: Run Conduit dev
       run: cd Conduit && java -jar ConduitLauncher-1.0.0.jar dev && cd ..

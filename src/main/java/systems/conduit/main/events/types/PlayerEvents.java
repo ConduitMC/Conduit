@@ -106,7 +106,7 @@ public class PlayerEvents {
     /**
      * Player game mode change event
      *
-     * Mixin implementation: {@link systems.conduit.main.mixins.event.player.ServerPlayerMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin}
      */
     @AllArgsConstructor
     @Getter

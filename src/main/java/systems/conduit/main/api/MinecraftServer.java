@@ -15,7 +15,7 @@ import java.util.concurrent.Executor;
  *
  * @since API 0.1
  *
- * Implementation: {@link systems.conduit.main.mixin.MinecraftServerMixin}
+ * Implementation: {@link systems.conduit.main.mixins.MinecraftServerMixin}
  */
 public interface MinecraftServer {
 

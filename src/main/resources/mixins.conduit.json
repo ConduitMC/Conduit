@@ -1,8 +1,8 @@
 {
   "required": true,
   "minVersion": "0.6.15",
-  "package": "systems.conduit.main.mixin",
-  "target": "@env(DEFAULT)",
+  "package": "systems.conduit.main.mixins",
+  "target": "@env(PREINIT)",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "CommandSourceMixin",
@@ -16,12 +16,12 @@
     "api.EntityMixin",
     "api.LivingEntityMixin",
     "api.PlayerMixin",
+    "api.ServerPlayerMixin",
 
     "event.ItemStackMixin",
     "event.player.DamageMixin",
     "event.player.ServerPlayerGameModeMixin",
     "event.player.JoinMixin",
-    "event.player.ServerPlayerMixin",
 
     "event.entity.SheepMixin",
     "event.entity.SlimeMixin",

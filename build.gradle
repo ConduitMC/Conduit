@@ -18,7 +18,7 @@ dependencies {
     implementation "org.projectlombok:lombok:1.18.10"
     annotationProcessor "org.projectlombok:lombok:1.18.10"
     implementation "net.minecraft:server:1.14.4"
-    implementation "org.spongepowered:mixin:0.7.8-SNAPSHOT"
+    implementation "org.spongepowered:mixin:0.8-SNAPSHOT"
 
     implementation "org.reflections:reflections:0.9.11"
     implementation "com.fasterxml.jackson.core:jackson-databind:2.10.0"
@@ -28,6 +28,7 @@ dependencies {
 group = theGroup
 version = theVersion
 sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
@@ -42,9 +43,7 @@ java {
 jar {
     manifest {
         attributes(
-                "TweakClass" : "org.spongepowered.asm.launch.MixinTweaker",
-                "TweakOrder" : "0",
-                "MixinConfigs" : "mixins.conduit.json"
+                "MixinConnector" : "systems.conduit.main.mixin.MixinConnector"
         )
     }
 }

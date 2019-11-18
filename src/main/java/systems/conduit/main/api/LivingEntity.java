@@ -5,7 +5,7 @@ package systems.conduit.main.api;
  *
  * @since API 0.1
  *
- * Implementation: {@link systems.conduit.main.mixin.api.LivingEntityMixin}
+ * Implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin}
  */
 public interface LivingEntity extends Entity {
 

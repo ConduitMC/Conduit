@@ -11,7 +11,7 @@ import java.util.UUID;
  *
  * @since API 0.1
  *
- * Implementation: {@link systems.conduit.main.mixin.api.EntityMixin}
+ * Implementation: {@link systems.conduit.main.mixins.api.EntityMixin}
  */
 public interface Entity {
 

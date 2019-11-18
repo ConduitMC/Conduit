@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin.event.player;
+package systems.conduit.main.mixins.event.player;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.server.level.ServerPlayer;
@@ -42,20 +42,20 @@ public abstract class DamageMixin extends Player {
                 AbstractArrow arrow = (AbstractArrow) entitySource.getEntity();
                 if (arrow == null) return;
 
-                PlayerEvents.PlayerDamageByArrowEvent event = new PlayerEvents.PlayerDamageByArrowEvent((systems.conduit.main.api.Player) damaged, arrow.getOwner(), arrow, damage, meta);
+                PlayerEvents.PlayerDamageByArrowEvent event = new PlayerEvents.PlayerDamageByArrowEvent((systems.conduit.main.api.ServerPlayer) damaged, arrow.getOwner(), arrow, damage, meta);
                 Conduit.getEventManager().dispatchEvent(event);
                 if (event.isCanceled()) cir.cancel();
                 return;
             } else if (entity instanceof ServerPlayer) {
                 // Player was attached by another player
                 ServerPlayer damager = (ServerPlayer) entitySource.getEntity();
-                PlayerEvents.PlayerDamageByPlayerEvent event = new PlayerEvents.PlayerDamageByPlayerEvent((systems.conduit.main.api.Player) damaged, (systems.conduit.main.api.Player) damager, damage, meta);
+                PlayerEvents.PlayerDamageByPlayerEvent event = new PlayerEvents.PlayerDamageByPlayerEvent((systems.conduit.main.api.ServerPlayer) damaged, (systems.conduit.main.api.ServerPlayer) damager, damage, meta);
                 Conduit.getEventManager().dispatchEvent(event);
                 if (event.isCanceled()) cir.cancel();
                 return;
             }
 
-            PlayerEvents.PlayerDamageByEntityEvent event = new PlayerEvents.PlayerDamageByEntityEvent((systems.conduit.main.api.Player) damaged, entitySource.getEntity(), damage, meta);
+            PlayerEvents.PlayerDamageByEntityEvent event = new PlayerEvents.PlayerDamageByEntityEvent((systems.conduit.main.api.ServerPlayer) damaged, entitySource.getEntity(), damage, meta);
             Conduit.getEventManager().dispatchEvent(event);
             if (event.isCanceled()) cir.cancel();
         }

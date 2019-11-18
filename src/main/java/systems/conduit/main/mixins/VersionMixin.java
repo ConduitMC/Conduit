@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin;
+package systems.conduit.main.mixins;
 
 import net.minecraft.DetectedVersion;
 import org.spongepowered.asm.mixin.Final;

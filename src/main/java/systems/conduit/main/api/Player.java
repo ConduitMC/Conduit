@@ -5,9 +5,11 @@ package systems.conduit.main.api;
  *
  * @since API 0.1
  *
- * Implementation: {@link systems.conduit.main.mixin.api.PlayerMixin}
+ * Implementation: {@link systems.conduit.main.mixins.api.PlayerMixin}
  */
 public interface Player extends LivingEntity {
 
     String getName();
+    void closeOpenedContainer();
+
 }

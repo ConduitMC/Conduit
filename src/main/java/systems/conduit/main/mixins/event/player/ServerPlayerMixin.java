@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin.event.player;
+package systems.conduit.main.mixins.event.player;
 
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.GameType;

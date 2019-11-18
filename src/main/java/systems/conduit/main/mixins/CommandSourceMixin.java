@@ -1,4 +1,4 @@
-package systems.conduit.main.mixin;
+package systems.conduit.main.mixins;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSource;

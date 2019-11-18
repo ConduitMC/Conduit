@@ -46,7 +46,6 @@ public class PluginManager {
         loadPlugins(plugins, false);
     }
 
-    // TODO: Store counter for plugins?
     private void loadPlugins(List<File> pluginFiles, boolean reload) {
         try {
             // List that should never be changed unless plugin is unable to ever be loaded.

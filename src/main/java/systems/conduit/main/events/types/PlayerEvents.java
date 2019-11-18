@@ -23,7 +23,7 @@ public class PlayerEvents {
     /**
      * Player join server event.
      *
-     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.JoinMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.player.JoinMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -63,7 +63,7 @@ public class PlayerEvents {
     /**
      * Player damage by entity event.
      *
-     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.DamageMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.player.DamageMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -77,7 +77,7 @@ public class PlayerEvents {
     /**
      * Player damage by another player event.
      *
-     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.DamageMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.player.DamageMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -91,7 +91,7 @@ public class PlayerEvents {
     /**
      * Player damage by arrow event. This can be either another player, skeleton, etc.
      *
-     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.DamageMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.player.DamageMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -106,7 +106,7 @@ public class PlayerEvents {
     /**
      * Player game mode change event
      *
-     * Mixin implementation: {@link systems.conduit.main.mixin.event.player.ServerPlayerMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.player.ServerPlayerMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -118,7 +118,7 @@ public class PlayerEvents {
     /**
      * Player chat event. No commands included.
      *
-     * Mixin implementation: {@link systems.conduit.main.mixin.ServerGamePacketListenerMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.ServerGamePacketListenerMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -130,7 +130,7 @@ public class PlayerEvents {
     /**
      * Player send command event.
      *
-     * Mixin implementation: {@link systems.conduit.main.mixin.ServerGamePacketListenerMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.ServerGamePacketListenerMixin}
      */
     @AllArgsConstructor
     @Getter

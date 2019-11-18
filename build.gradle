@@ -1,5 +1,6 @@
 plugins {
     id "java"
+    id "java-library"
     id "maven-publish"
 }
 
@@ -15,14 +16,14 @@ repositories {
 }
 
 dependencies {
-    compile "org.projectlombok:lombok:1.18.10"
+    api "org.projectlombok:lombok:1.18.10"
     annotationProcessor "org.projectlombok:lombok:1.18.10"
-    compile "net.minecraft:server:1.14.4"
-    compile "org.spongepowered:mixin:0.8-SNAPSHOT"
+    api "net.minecraft:server:1.14.4"
+    api "org.spongepowered:mixin:0.8-SNAPSHOT"
 
-    compile "org.reflections:reflections:0.9.11"
-    compile "com.fasterxml.jackson.core:jackson-databind:2.10.0"
-    compile "org.jline:jline:3.13.0"
+    api "org.reflections:reflections:0.9.11"
+    api "com.fasterxml.jackson.core:jackson-databind:2.10.0"
+    api "org.jline:jline:3.13.0"
 }
 
 group = theGroup

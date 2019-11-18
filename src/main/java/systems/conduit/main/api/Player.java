@@ -1,5 +1,7 @@
 package systems.conduit.main.api;
 
+import systems.conduit.main.inventory.ChestContainer;
+
 /**
  * Base Conduit interface for use with mixins.
  *
@@ -11,5 +13,6 @@ public interface Player extends LivingEntity {
 
     String getName();
     void closeOpenedContainer();
+    void openContainer(ChestContainer container);
 
 }

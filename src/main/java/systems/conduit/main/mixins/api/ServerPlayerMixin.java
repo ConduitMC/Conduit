@@ -24,7 +24,6 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow protected abstract void nextContainerCounter();
     @Shadow public ServerGamePacketListenerImpl connection;
 
-
     @Override
     public void openContainer(ChestContainer container) {
         this.closeOpenedContainer();

@@ -15,14 +15,14 @@ repositories {
 }
 
 dependencies {
-    implementation "org.projectlombok:lombok:1.18.10"
+    compile "org.projectlombok:lombok:1.18.10"
     annotationProcessor "org.projectlombok:lombok:1.18.10"
-    implementation "net.minecraft:server:1.14.4"
-    implementation "org.spongepowered:mixin:0.8-SNAPSHOT"
+    compile "net.minecraft:server:1.14.4"
+    compile "org.spongepowered:mixin:0.8-SNAPSHOT"
 
-    implementation "org.reflections:reflections:0.9.11"
-    implementation "com.fasterxml.jackson.core:jackson-databind:2.10.0"
-    implementation "org.jline:jline:3.13.0"
+    compile "org.reflections:reflections:0.9.11"
+    compile "com.fasterxml.jackson.core:jackson-databind:2.10.0"
+    compile "org.jline:jline:3.13.0"
 }
 
 group = theGroup

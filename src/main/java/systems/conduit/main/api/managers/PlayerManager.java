@@ -1,5 +1,6 @@
 package systems.conduit.main.api.managers;
 
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -7,10 +8,7 @@ import systems.conduit.main.Conduit;
 import systems.conduit.main.api.MinecraftServer;
 import systems.conduit.main.api.Player;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author Innectic
@@ -110,5 +108,27 @@ public class PlayerManager {
 
         // We have a player that is most likely the one we want, so cast it to our and return it.
         return Optional.of((Player) players.get(0));
+    }
+
+    /**
+     * Broadcast a message to all online players.
+     *
+     * @since API 0.1
+     *
+     * @param message the message to broadcast
+     */
+    public void broadcastMessage(String message) {
+        this.broadcastMessage(new TextComponent(message));
+    }
+
+    /**
+     * Broadcast a message to all online players.
+     *
+     * @since API 0.1
+     *
+     * @param component the message to broadcast
+     */
+    public void broadcastMessage(TextComponent component) {
+        Conduit.getServer().ifPresent(s -> s.getLevels().values().forEach(l -> l.getPlayers(Objects::nonNull).forEach(p -> p.sendMessage(component))));
     }
 }

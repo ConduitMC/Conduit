@@ -7,6 +7,8 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.scores.Scoreboard;
 
+import systems.conduit.main.inventory.ChestContainer;
+
 /**
  * Base Conduit interface for use with mixins.
  *

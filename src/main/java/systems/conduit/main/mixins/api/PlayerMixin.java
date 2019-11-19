@@ -18,10 +18,10 @@ import systems.conduit.main.api.Player;
 @Mixin(value = net.minecraft.world.entity.player.Player.class, remap = false)
 public abstract class PlayerMixin implements Player {
 
-    @Shadow public abstract GameProfile getGameProfile();
-
     @Shadow public AbstractContainerMenu containerMenu;
     @Shadow @Final public InventoryMenu inventoryMenu;
+
+    @Shadow public abstract GameProfile getGameProfile();
     @Shadow protected abstract void closeContainer();
     @Shadow public abstract Scoreboard getScoreboard();
 

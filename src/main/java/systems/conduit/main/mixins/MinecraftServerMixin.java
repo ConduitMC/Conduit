@@ -25,13 +25,13 @@ import java.util.concurrent.Executor;
 public abstract class MinecraftServerMixin implements MinecraftServer {
 
     @Shadow @Final private Executor executor;
+    @Shadow @Final private Map<DimensionType, ServerLevel> levels;
 
     @Shadow public abstract ServerLevel getLevel(DimensionType dimensionType);
     @Shadow public abstract LevelStorageSource getStorageSource();
 
     @Shadow public abstract GameProfiler getProfiler();
 
-    @Shadow @Final private Map<DimensionType, ServerLevel> levels;
     @Shadow public abstract Commands getCommands();
     @Shadow public abstract boolean isStopped();
     @Shadow public abstract boolean isRunning();

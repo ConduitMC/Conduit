@@ -3,6 +3,7 @@ package systems.conduit.main.mixins.api;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.scores.Scoreboard;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,6 +17,7 @@ public abstract class PlayerMixin implements Player {
     @Shadow public AbstractContainerMenu containerMenu;
     @Shadow @Final public InventoryMenu inventoryMenu;
     @Shadow protected abstract void closeContainer();
+    @Shadow public abstract Scoreboard getScoreboard();
 
     public void closeOpenedContainer() {
         if (this.containerMenu != this.inventoryMenu) {

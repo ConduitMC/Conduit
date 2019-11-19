@@ -15,4 +15,6 @@ public interface Player extends LivingEntity {
     void closeOpenedContainer();
     void openContainer(ChestContainer container);
 
+
+
 }

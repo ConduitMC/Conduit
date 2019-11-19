@@ -2,26 +2,26 @@
 
 Conduit is a next-generation Minecraft server built for stability, ease of use, and speed - without breaking Vanilla Minecraft mechanics.
 
-# Contributing
+## Contributing
 
 If you would like to contribute to Conduit, please first visit our [issues page](https://github.com/ConduitMC/Conduit/issues) and find one you would like to tackle.
 
 ### Guidelines
- - Descriptive commits (don't make them like "did something")
- - Keep commit messages appropriate.
- - Keep pull request descriptions short, and descriptive.
- - Be ready for feedback
+-  Descriptive commits (don't make them like "did something")
+-  Keep commit messages appropriate.
+-  Keep pull request descriptions short, and descriptive.
+-  Be ready for feedback
 
 ### Setting up a development environment
 
 Requirements:
 
- - Java 8+
- - Git
+-  Java 8+
+-  Git
 
 To get started with developing, you can setup your environment with the following commands:
 
-```
+``` text
 git clone https://github.com/ConduitMC/ConduitLauncher
 cd ConduitLauncher
 ./gradlew build install

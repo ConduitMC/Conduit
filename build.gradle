@@ -2,6 +2,7 @@ plugins {
     id "java"
     id "java-library"
     id "maven-publish"
+    id "checkstyle"
 }
 
 repositories {
@@ -36,6 +37,10 @@ targetCompatibility = "1.8"
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
+}
+
+checkstyleMain {
+    configFile = file("${rootDir}/checkstyle.xml")
 }
 
 task install(dependsOn: [publishToMavenLocal])

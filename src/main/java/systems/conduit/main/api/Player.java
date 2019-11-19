@@ -7,17 +7,19 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.scores.Scoreboard;
 
+import systems.conduit.main.inventory.ChestContainer;
+
 /**
  * Base Conduit interface for use with mixins.
+ * Implementation: {@link systems.conduit.main.mixins.api.PlayerMixin}
  *
  * @since API 0.1
- *
- * Implementation: {@link systems.conduit.main.mixins.api.PlayerMixin}
  */
 public interface Player extends LivingEntity {
 
     String getName();
     void closeOpenedContainer();
+    void openContainer(ChestContainer container);
 
     Scoreboard getScoreboard();
     boolean isCreative();

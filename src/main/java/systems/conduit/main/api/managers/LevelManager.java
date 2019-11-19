@@ -21,7 +21,6 @@ public class LevelManager {
      * Attempt to find a level by a given name.
      *
      * @since API 0.1
-     *
      * @param name the name of the level
      * @return a level with the name, if found.
      */

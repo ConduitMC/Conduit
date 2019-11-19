@@ -10,13 +10,13 @@ import systems.conduit.main.api.Player;
 
 import java.util.*;
 
-/**
+/*
  * @author Innectic
  * @since 10/26/2019
  */
 public class PlayerManager {
 
-    /***
+    /**
      * Find a player by name.
      *
      * @since API 0.1
@@ -40,29 +40,6 @@ public class PlayerManager {
             return Optional.of((Player) players.get(0));
         }
         return Optional.empty();
-    }
-
-    /**
-     * Find a player by name in a given world.
-     *
-     * @since API 0.1
-     * @deprecated Use {@link #getPlayer(UUID, DimensionType)} instead.
-     *
-     * @param name the name of the player to find.
-     * @param level the level the player should be in.
-     * @return the player, if they're online and in the specified world. Empty otherwise.
-     */
-    @Deprecated
-    public Optional<Player> getPlayerInWorld(String name, DimensionType level) {
-        if (!Conduit.getServer().isPresent()) return Optional.empty();
-        MinecraftServer server = Conduit.getServer().get();
-
-        // Find all players who have the given name.
-        List<ServerPlayer> players = server.getLevel(level).getPlayers(p -> p.getName().getString().equals(name));
-        if (players.size() == 0) return Optional.empty();
-
-        // We have a player that is most likely the one we want, so cast it to our and return it.
-        return Optional.of((Player) players.get(0));
     }
 
     /**
@@ -104,6 +81,29 @@ public class PlayerManager {
 
         // Find all players who have the given name.
         List<ServerPlayer> players = server.getLevel(level).getPlayers(p -> p.getUUID().equals(uuid));
+        if (players.size() == 0) return Optional.empty();
+
+        // We have a player that is most likely the one we want, so cast it to our and return it.
+        return Optional.of((Player) players.get(0));
+    }
+
+    /**
+     * Find a player by name in a given world.
+     *
+     * @since API 0.1
+     * @deprecated Use {@link #getPlayer(UUID, DimensionType)} instead.
+     *
+     * @param name the name of the player to find.
+     * @param level the level the player should be in.
+     * @return the player, if they're online and in the specified world. Empty otherwise.
+     */
+    @Deprecated
+    public Optional<Player> getPlayerInWorld(String name, DimensionType level) {
+        if (!Conduit.getServer().isPresent()) return Optional.empty();
+        MinecraftServer server = Conduit.getServer().get();
+
+        // Find all players who have the given name.
+        List<ServerPlayer> players = server.getLevel(level).getPlayers(p -> p.getName().getString().equals(name));
         if (players.size() == 0) return Optional.empty();
 
         // We have a player that is most likely the one we want, so cast it to our and return it.

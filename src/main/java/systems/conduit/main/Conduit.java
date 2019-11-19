@@ -22,7 +22,7 @@ import java.util.Optional;
 @PluginMeta(name = "Conduit", description = "", version = "0.0.2", author = "ConduitMC")
 public class Conduit {
 
-    @Getter(AccessLevel.PUBLIC) private final static Logger logger = LogManager.getLogger("Conduit", new MessageFactory());
+    @Getter(AccessLevel.PUBLIC) private static final Logger logger = LogManager.getLogger("Conduit", new MessageFactory());
     @Getter(AccessLevel.PUBLIC) private static EventManager eventManager = new EventManager();
     @Getter(AccessLevel.PUBLIC) private static PluginManager pluginManager = new PluginManager();
     @Getter(AccessLevel.PUBLIC) private static CommandManager commandManager = new CommandManager();
@@ -46,6 +46,7 @@ public class Conduit {
             public void print(final String string) {
                 Conduit.getLogger().info(new TextComponent(string).getText());
             }
+
             public void println(final String string) {
                 Conduit.getLogger().info(new TextComponent(string).getText());
             }

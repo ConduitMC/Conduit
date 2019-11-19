@@ -154,10 +154,10 @@ public class PluginManager {
     }
 
     public void reloadPlugins(boolean server, Callback callback) {
-        if(!server) Conduit.getLogger().info("Reloading all plugins...");
+        if (!server) Conduit.getLogger().info("Reloading all plugins...");
         plugins.forEach(plugin -> reload(plugin, false));
         callback.result(new Object[]{});
-        if(!server) Conduit.getLogger().info("Reloaded all plugins");
+        if (!server) Conduit.getLogger().info("Reloaded all plugins");
     }
 
     public void reload(Plugin plugin, boolean server) {
@@ -166,7 +166,7 @@ public class PluginManager {
             // This plugin is not reloadable.
             return;
         }
-        if(!server) Conduit.getLogger().info("Reloading plugin: " + plugin.getMeta().name());
+        if (!server) Conduit.getLogger().info("Reloading plugin: " + plugin.getMeta().name());
         // Unload the plugin
         disable(plugin, true);
         AtomicReference<Optional<File>> pluginFile = new AtomicReference<>(Optional.empty());
@@ -177,7 +177,7 @@ public class PluginManager {
         });
         // Load plugin again
         pluginFile.get().ifPresent(file -> loadPlugins(Collections.singletonList(file), true));
-        if(!server) Conduit.getLogger().info("Reloaded plugin: " + plugin.getMeta().name());
+        if (!server) Conduit.getLogger().info("Reloaded plugin: " + plugin.getMeta().name());
 
         ServerEvents.PluginReloadEvent event = new ServerEvents.PluginReloadEvent(plugin);
         Conduit.getEventManager().dispatchEvent(event);

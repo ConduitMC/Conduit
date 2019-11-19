@@ -3,7 +3,7 @@ name: Gradle CI
 on: [push]
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,10 +30,10 @@ jobs:
         java-version: 1.8
 
     - name: Set up Conduit dev
-      run: mkdir ConduitLauncher && wget http://repo.conduit.systems/repository/releases/systems/conduit/ConduitLauncher/1.0.0/ConduitLauncher-1.0.0.jar -P ./ConduitLauncher
+      run: mkdir -p ConduitLauncher && wget http://repo.conduit.systems/repository/releases/systems/conduit/ConduitLauncher/1.0.0/ConduitLauncher-1.0.0.jar -O ./ConduitLauncher/ConduitLauncher.jar
 
     - name: Run Conduit dev
-      run: cd ConduitLauncher && java -jar ConduitLauncher-1.0.0.jar dev && cd ..
+      run: cd ConduitLauncher && java -jar ConduitLauncher.jar dev && cd ..
 
     - name: Build with gradle
       run: ./gradlew build

@@ -18,8 +18,9 @@ import javax.annotation.Nullable;
 @Mixin(value = CommandSourceStack.class, remap = false)
 public abstract class CommandSourceMixin {
 
-    @Shadow @Nullable public abstract Entity getEntity();
     @Shadow @Final private CommandSource source;
+
+    @Shadow @Nullable public abstract Entity getEntity();
 
     @Redirect(method = "sendSuccess", at = @At(value = "INVOKE", target = "Lnet/minecraft/commands/CommandSource;sendMessage(Lnet/minecraft/network/chat/Component;)V"))
     private void sendSuccess(CommandSource source, Component component) {

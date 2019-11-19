@@ -14,7 +14,7 @@ import net.minecraft.world.level.material.Material;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
 
-/**
+/*
  * @author Innectic
  * @since 10/21/2019
  */
@@ -22,7 +22,6 @@ public class PlayerEvents {
 
     /**
      * Player join server event.
-     *
      * Mixin implementation: {@link systems.conduit.main.mixins.event.player.JoinMixin}
      */
     @AllArgsConstructor
@@ -34,7 +33,6 @@ public class PlayerEvents {
 
     /**
      * Player leave server event.
-     *
      * This is not currently implemented.
      */
     @AllArgsConstructor
@@ -62,7 +60,6 @@ public class PlayerEvents {
 
     /**
      * Player damage by entity event.
-     *
      * Mixin implementation: {@link systems.conduit.main.mixins.event.player.DamageMixin}
      */
     @AllArgsConstructor
@@ -76,7 +73,6 @@ public class PlayerEvents {
 
     /**
      * Player damage by another player event.
-     *
      * Mixin implementation: {@link systems.conduit.main.mixins.event.player.DamageMixin}
      */
     @AllArgsConstructor
@@ -90,7 +86,6 @@ public class PlayerEvents {
 
     /**
      * Player damage by arrow event. This can be either another player, skeleton, etc.
-     *
      * Mixin implementation: {@link systems.conduit.main.mixins.event.player.DamageMixin}
      */
     @AllArgsConstructor
@@ -104,8 +99,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Player game mode change event
-     *
+     * Player game mode change event.
      * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin}
      */
     @AllArgsConstructor
@@ -117,7 +111,6 @@ public class PlayerEvents {
 
     /**
      * Player chat event. No commands included.
-     *
      * Mixin implementation: {@link systems.conduit.main.mixins.ServerGamePacketListenerMixin}
      */
     @AllArgsConstructor
@@ -129,7 +122,6 @@ public class PlayerEvents {
 
     /**
      * Player send command event.
-     *
      * Mixin implementation: {@link systems.conduit.main.mixins.ServerGamePacketListenerMixin}
      */
     @AllArgsConstructor

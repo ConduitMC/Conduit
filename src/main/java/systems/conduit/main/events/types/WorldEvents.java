@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
 
-/**
+/*
  * @author Innectic
  * @since 10/21/2019
  */

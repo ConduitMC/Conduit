@@ -27,11 +27,12 @@ public abstract class Plugin {
     @Setter(AccessLevel.MODULE) private Configuration config = null;
 
     protected abstract void onEnable();
+
     protected abstract void onDisable();
 
     @SafeVarargs
     protected final void registerListeners(Class<? extends EventListener>... clazz) {
-        Arrays.stream(clazz).forEach(aClass -> Conduit.getEventManager().registerEventClass(this, aClass));
+        Arrays.stream(clazz).forEach(eventClass -> Conduit.getEventManager().registerEventClass(this, eventClass));
     }
 
     /**

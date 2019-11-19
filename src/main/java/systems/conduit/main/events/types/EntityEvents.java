@@ -12,7 +12,7 @@ import systems.conduit.main.events.Cancellable;
 
 import java.util.List;
 
-/**
+/*
  * @author Innectic
  * @since 10/21/2019
  */
@@ -20,7 +20,6 @@ public class EntityEvents {
 
     /**
      * This event is fired when an adult sheep consumes grass.
-     *
      * Implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin}
      */
     @AllArgsConstructor
@@ -31,7 +30,6 @@ public class EntityEvents {
 
     /**
      * This event is fired when a baby sheep eats something and progresses growth.
-     *
      * Implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin}
      */
     @AllArgsConstructor
@@ -44,7 +42,6 @@ public class EntityEvents {
 
     /**
      * This event is fired when a slime takes enough damage to split into more, smaller slimes.
-     *
      * Implementation: {@link systems.conduit.main.mixins.event.entity.SlimeMixin}
      */
     @AllArgsConstructor

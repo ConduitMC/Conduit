@@ -14,7 +14,7 @@ import systems.conduit.main.events.types.EntityEvents;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*
  * @author Innectic
  * @since 10/21/2019
  */

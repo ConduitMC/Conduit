@@ -21,8 +21,9 @@ import systems.conduit.main.inventory.ChestContainer;
 public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Shadow private int containerCounter;
-    @Shadow protected abstract void nextContainerCounter();
     @Shadow public ServerGamePacketListenerImpl connection;
+
+    @Shadow protected abstract void nextContainerCounter();
 
     @Override
     public void openContainer(ChestContainer container) {

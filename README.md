@@ -1,4 +1,4 @@
-# Conduit
+# Conduit [![Status](https://github.com/ConduitMC/Conduit/workflows/Gradle%20CI/badge.svg)](https://github.com/ConduitMC/Conduit/actions) [![Nexus](https://img.shields.io/static/v1?label=Nexus&message=Repository&color=bright-green?style=flat)](https://repo.conduit.systems/)
 
 Conduit is a next-generation Minecraft server built for stability, ease of use, and speed - without breaking Vanilla Minecraft mechanics.
 
@@ -22,11 +22,6 @@ Requirements:
 To get started with developing, you can setup your environment with the following commands:
 
 ```
-git clone https://github.com/ConduitMC/Mojang2Tsrg
-cd Mojang2Tsrg
-./gradlew build install
-cd ..
-
 git clone https://github.com/ConduitMC/ConduitLauncher
 cd ConduitLauncher
 ./gradlew build install

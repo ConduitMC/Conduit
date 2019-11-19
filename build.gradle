@@ -11,7 +11,10 @@ repositories {
         url = "https://libraries.minecraft.net/"
     }
     maven {
-        url = "https://repo.spongepowered.org/maven"
+        url = "https://repo.spongepowered.org/maven/"
+    }
+    maven {
+        url = "https://repo.conduit.systems/repository/releases/"
     }
 }
 
@@ -53,6 +56,15 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username System.getProperty("MAVEN_USER")?:'ci'
+                password System.getProperty("MAVEN_PASSWORD")?:'password'
+            }
+            url "https://repo.conduit.systems/repository/releases/"
         }
     }
 }

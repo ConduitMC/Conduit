@@ -17,6 +17,7 @@ public abstract class LivingEntityMixin implements LivingEntity {
     @Shadow @Final public abstract float getMaxHealth();
 
     @Shadow public abstract AttributeInstance getAttribute(Attribute attribute);
+    @Shadow public abstract boolean isSleeping();
 
     public void setMaxHealth(float health) {
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(health);

@@ -19,4 +19,5 @@ public @interface PluginMeta {
     Dependency[] dependencies() default {};
     Class<? extends Configuration> config() default NoConfig.class;
     boolean reloadable() default false;
+
 }

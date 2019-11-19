@@ -9,11 +9,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
-/**
+/*
  * @author Innectic
  * @since 10/16/2019
  */
-public class JSONLoader implements ConfigurationLoader {
+public class JsonLoader implements ConfigurationLoader {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 

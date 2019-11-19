@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.types.EntityEvents;
 
-/**
+/*
  * @author Innectic
  * @since 10/21/2019
  */
@@ -21,6 +21,8 @@ public abstract class SheepMixin extends Animal {
     }
 
     /**
+     * Sheep eat and sheared event registering.
+     *
      * @author ConduitMC
      */
     @Overwrite

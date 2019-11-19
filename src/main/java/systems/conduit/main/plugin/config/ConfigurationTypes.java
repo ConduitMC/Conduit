@@ -1,14 +1,14 @@
 package systems.conduit.main.plugin.config;
 
 import systems.conduit.main.Conduit;
-import systems.conduit.main.plugin.config.loader.JSONLoader;
+import systems.conduit.main.plugin.config.loader.JsonLoader;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
+/*
  * @author Innectic
  * @since 10/17/2019
  */
@@ -17,7 +17,7 @@ public class ConfigurationTypes {
     private static final Map<String, Class<? extends ConfigurationLoader>> loaderTypes = new HashMap<>();
 
     static {
-        loaderTypes.put("json", JSONLoader.class);
+        loaderTypes.put("json", JsonLoader.class);
     }
 
     public static Optional<ConfigurationLoader> getLoaderForExtension(String extension) {

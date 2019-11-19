@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class ColorReplacer implements Function<String, String> {
 
-    private final static List<String> colors = new ArrayList<>();
+    private static final List<String> colors = new ArrayList<>();
 
     static {
         colors.add("\u001B[0;30;22m");

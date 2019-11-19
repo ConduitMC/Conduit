@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.events.types.EntityEvents;
 
-/**
+/*
  * @author Innectic
  * @since 10/23/2019
  */

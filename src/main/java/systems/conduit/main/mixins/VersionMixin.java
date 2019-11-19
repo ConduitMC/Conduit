@@ -12,6 +12,8 @@ public abstract class VersionMixin {
     @Shadow @Final private String name;
 
     /**
+     * Adds Conduit to the Minecraft version name.
+     *
      * @author ConduitMC
      * @return Minecraft version and Conduit name
      */

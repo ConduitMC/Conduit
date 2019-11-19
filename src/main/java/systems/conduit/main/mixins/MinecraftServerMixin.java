@@ -45,11 +45,11 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
 
     public Executor getExecutor() {
         return executor;
-   }
+    }
 
-   public Map<DimensionType, ServerLevel> getLevels() {
+    public Map<DimensionType, ServerLevel> getLevels() {
         return levels;
-   }
+    }
 
     @Inject(method = "stopServer", at = @At("HEAD"))
     public void stopServer(CallbackInfo ci) {

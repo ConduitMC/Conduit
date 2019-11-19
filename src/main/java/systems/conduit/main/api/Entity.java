@@ -8,10 +8,9 @@ import java.util.UUID;
 
 /**
  * Base Conduit interface for use with mixins.
+ * Implementation: {@link systems.conduit.main.mixins.api.EntityMixin}
  *
  * @since API 0.1
- *
- * Implementation: {@link systems.conduit.main.mixins.api.EntityMixin}
  */
 public interface Entity {
 

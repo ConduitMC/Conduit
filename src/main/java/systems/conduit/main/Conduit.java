@@ -19,7 +19,7 @@ import systems.conduit.main.plugin.annotation.PluginMeta;
 import java.io.PrintStream;
 import java.util.Optional;
 
-@PluginMeta(name = "Conduit", description = "", version = "0.0.2", author = "ConduitMC")
+@PluginMeta(name = "Conduit", description = "", version = "@VERSION@", author = "ConduitMC")
 public class Conduit {
 
     @Getter(AccessLevel.PUBLIC) private static final Logger logger = LogManager.getLogger("Conduit", new MessageFactory());

@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
     id "java"
     id "java-library"
@@ -49,10 +51,20 @@ java {
     withSourcesJar()
 }
 
+task processSource(type: Sync) {
+    from sourceSets.main.java
+    filter(ReplaceTokens, tokens: [VERSION: version])
+    into "$buildDir/src"
+}
+
+compileJava {
+    source = processSource.outputs
+}
+
 jar {
     manifest {
         attributes(
-                "MixinConnector" : "systems.conduit.main.mixin.MixinConnector"
+            "MixinConnector" : "systems.conduit.main.mixin.MixinConnector"
         )
     }
 }
@@ -66,8 +78,8 @@ publishing {
     repositories {
         maven {
             credentials {
-                username System.getProperty("MAVEN_USER")?:'ci'
-                password System.getProperty("MAVEN_PASSWORD")?:'password'
+                username System.getProperty("MAVEN_USER") ?: "ci"
+                password System.getProperty("MAVEN_PASSWORD") ?: "password"
             }
             url "https://repo.conduit.systems/repository/releases/"
         }

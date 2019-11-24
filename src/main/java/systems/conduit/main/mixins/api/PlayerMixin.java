@@ -55,10 +55,10 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract int getScore();
     @Shadow public abstract void setScore(int score);
     @Shadow public abstract void increaseScore(int score);
-    @Shadow protected abstract int getFireImmuneTicks();
+    @Shadow protected abstract int shadow$getFireImmuneTicks();
 
-    public int getImmuneFireTicks() {
-        return this.getFireImmuneTicks();
+    public int getFireImmuneTicks() {
+        return this.shadow$getFireImmuneTicks();
     }
 
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);

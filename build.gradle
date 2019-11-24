@@ -1,4 +1,11 @@
-import org.apache.tools.ant.filters.ReplaceTokens
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'systems.conduit:ConduitGradle:1.0.0'
+    }
+}
 
 plugins {
     id "java"
@@ -34,39 +41,20 @@ dependencies {
 
 group = theGroup
 version = theVersion
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
 
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
-checkstyleMain {
-    configFile = file("${rootDir}/checkstyle.xml")
+checkstyle {
+    configFile = file("$rootDir/checkstyle.xml")
 }
 
 task install(dependsOn: [publishToMavenLocal])
 
 java {
     withSourcesJar()
-}
-
-task processSource(type: Sync) {
-    from sourceSets.main.java
-    filter(ReplaceTokens, tokens: [VERSION: version])
-    into "$buildDir/src"
-}
-
-compileJava {
-    source = processSource.outputs
-}
-
-jar {
-    manifest {
-        attributes(
-            "MixinConnector" : "systems.conduit.main.mixin.MixinConnector"
-        )
-    }
 }
 
 publishing {

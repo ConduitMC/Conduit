@@ -1,12 +1,3 @@
-buildscript {
-    repositories {
-        mavenLocal()
-    }
-    dependencies {
-        classpath 'systems.conduit:ConduitGradle:1.0.0'
-    }
-}
-
 plugins {
     id "java"
     id "java-library"

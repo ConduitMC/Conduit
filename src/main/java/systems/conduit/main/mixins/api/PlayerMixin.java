@@ -57,7 +57,7 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract void increaseScore(int score);
     @Shadow protected abstract int shadow$getFireImmuneTicks();
 
-    public int getFireImmuneTicks() {
+    public int conduit_getFireImmuneTicks() {
         return this.shadow$getFireImmuneTicks();
     }
 

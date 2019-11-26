@@ -32,10 +32,10 @@ public interface LivingEntity extends Entity {
     boolean isBaby();
     float getScale();
     boolean rideableUnderWater();
-    Optional<LivingEntity> getLastHurtByMob();
+    Optional<LivingEntity> conduit_getLastHurtByMob();
     int getLastHurtByMobTimestamp();
-    void setLastHurtByMob(LivingEntity entity);
-    void removeEffectParticles();
+    void conduit_setLastHurtByMob(LivingEntity entity);
+    void conduit_removeEffectParticles();
     boolean removeAllEffects();
     Collection<MobEffectInstance> getActiveEffects();
     Map<MobEffect, MobEffectInstance> getActiveEffectsMap();
@@ -44,7 +44,7 @@ public interface LivingEntity extends Entity {
     boolean removeEffect(MobEffect effect);
     boolean isInvertedHealAndHarm();
     void heal(float amount);
-    Optional<LivingEntity> getKillCredit();
+    Optional<LivingEntity> conduit_getKillCredit();
     int getArrowCount();
     void setArrowCount(int count);
     MobType getMobType();

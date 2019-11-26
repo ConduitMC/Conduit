@@ -1,48 +1,38 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            url "https://repo.conduit.systems/repository/releases/"
+        }
+    }
+    dependencies {
+        classpath "systems.conduit:Stream:1.0.0"
+    }
+}
 plugins {
-    id "java"
-    id "java-library"
-    id "maven-publish"
     id "checkstyle"
 }
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-    maven {
-        url = "https://libraries.minecraft.net/"
-    }
-    maven {
-        url = "https://repo.spongepowered.org/maven/"
-    }
-    maven {
-        url = "https://repo.conduit.systems/repository/releases/"
-    }
-}
+apply plugin: "Stream"
 
 dependencies {
-    api "org.projectlombok:lombok:1.18.10"
-    annotationProcessor "org.projectlombok:lombok:1.18.10"
-    api "net.minecraft:server:1.14.4"
-    api "org.spongepowered:mixin:0.8-SNAPSHOT"
-
     api "org.reflections:reflections:0.9.11"
     api "com.fasterxml.jackson.core:jackson-databind:2.10.0"
     api "org.jline:jline:3.13.0"
 }
 
+conduit {
+    version = null
+    minecraft = "1.14.4"
+    java = "1.8"
+}
+
 group = theGroup
 version = theVersion
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
 
 checkstyle {
     configFile = file("$rootDir/checkstyle.xml")
 }
-
-task install(dependsOn: [publishToMavenLocal])
 
 java {
     withSourcesJar()

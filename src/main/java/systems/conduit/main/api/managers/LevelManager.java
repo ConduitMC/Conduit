@@ -12,7 +12,6 @@ import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.level.storage.LevelStorage;
 import systems.conduit.main.Conduit;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 public class LevelManager {
@@ -51,7 +50,7 @@ public class LevelManager {
                 }
 
                 @Override
-                public void onStatusChange(ChunkPos chunkPos, @Nullable ChunkStatus chunkStatus) {
+                public void onStatusChange(ChunkPos chunkPos, ChunkStatus chunkStatus) {
                 }
 
                 @Override

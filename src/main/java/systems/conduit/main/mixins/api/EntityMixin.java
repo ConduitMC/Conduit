@@ -13,8 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -139,27 +138,27 @@ public abstract class EntityMixin implements systems.conduit.main.api.Entity {
     @Shadow protected abstract SoundEvent shadow$getSwimSplashSound();
     @Shadow protected abstract SoundEvent shadow$getSwimHighSpeedSplashSound();
 
-    public Optional<Team> getTeam() {
+    public Optional<Team> conduit_getTeam() {
         return Optional.of(this.shadow$getTeam());
     }
 
-    public SoundEvent getSwimSound() {
+    public SoundEvent conduit_getSwimSound() {
         return shadow$getSwimSound();
     }
 
-    public SoundEvent getSwimSplashSound() {
+    public SoundEvent conduit_getSwimSplashSound() {
         return shadow$getSwimSplashSound();
     }
 
-    public SoundEvent getSwimHighSpeedSplashSound() {
+    public SoundEvent conduit_getSwimHighSpeedSplashSound() {
         return shadow$getSwimHighSpeedSplashSound();
     }
 
-    public List<systems.conduit.main.api.Entity> getPassengers() {
+    public List<systems.conduit.main.api.Entity> conduit_getPassengers() {
         return this.shadow$getPassengers().stream().map(systems.conduit.main.api.Entity.class::cast).collect(Collectors.toList());
     }
 
-    public Optional<systems.conduit.main.api.Entity> getControllingPassenger() {
+    public Optional<systems.conduit.main.api.Entity> conduit_getControllingPassenger() {
         Entity entity = this.shadow$getControllingPassenger();
         if (entity == null) return Optional.empty();
         return Optional.of((systems.conduit.main.api.Entity) entity);

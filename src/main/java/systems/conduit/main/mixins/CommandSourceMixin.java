@@ -13,14 +13,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import systems.conduit.main.Conduit;
 
-import javax.annotation.Nullable;
-
 @Mixin(value = CommandSourceStack.class, remap = false)
 public abstract class CommandSourceMixin {
 
     @Shadow @Final private CommandSource source;
 
-    @Shadow @Nullable public abstract Entity getEntity();
+    @Shadow public abstract Entity getEntity();
 
     @Redirect(method = "sendSuccess", at = @At(value = "INVOKE", target = "Lnet/minecraft/commands/CommandSource;sendMessage(Lnet/minecraft/network/chat/Component;)V"))
     private void sendSuccess(CommandSource source, Component component) {

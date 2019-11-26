@@ -9,9 +9,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.monster.SharedMonsterAttributes;
 import net.minecraft.world.item.ItemStack;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import systems.conduit.main.api.LivingEntity;
 
 import java.util.Collection;
@@ -60,17 +58,17 @@ public abstract class LivingEntityMixin implements LivingEntity {
     @Shadow public abstract void setSpeed(float speed);
     @Shadow public abstract boolean isInWall();
 
-    public Optional<LivingEntity> getKillCredit() {
+    public Optional<LivingEntity> conduit_getKillCredit() {
         net.minecraft.world.entity.LivingEntity entity = shadow$getKillCredit();
         if (entity == null) return Optional.empty();
         return Optional.of((LivingEntity) entity);
     }
 
-    public void removeEffectParticles() {
+    public void conduit_removeEffectParticles() {
         this.shadow$removeEffectParticles();
     }
 
-    public Optional<LivingEntity> getLastHurtByMob() {
+    public Optional<LivingEntity> conduit_getLastHurtByMob() {
         net.minecraft.world.entity.LivingEntity entity = this.shadow$getLastHurtByMob();
         if (entity == null) return Optional.empty();
 
@@ -81,7 +79,7 @@ public abstract class LivingEntityMixin implements LivingEntity {
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(health);
     }
 
-    public void setLastHurtByMob(LivingEntity entity) {
+    public void conduit_setLastHurtByMob(LivingEntity entity) {
         if (entity == null) return;
         this.shadow$setLastHurtByMob((net.minecraft.world.entity.LivingEntity) entity);
     }

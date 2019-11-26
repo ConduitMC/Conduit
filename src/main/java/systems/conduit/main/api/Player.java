@@ -52,7 +52,7 @@ public interface Player extends LivingEntity {
     int getScore();
     void setScore(int score);
     void increaseScore(int score);
-    int getFireImmuneTicks();
+    int conduit_getFireImmuneTicks();
 
     void playSound(SoundEvent sound, float volume, float pitch);
     int getPortalWaitTime();

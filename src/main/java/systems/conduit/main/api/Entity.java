@@ -83,15 +83,15 @@ public interface Entity {
     boolean isGlowing();
     void setGlowing(boolean state);
     boolean isInvisible();
-    Optional<Team> getTeam();
+    Optional<Team> conduit_getTeam();
     boolean isAlliedTo(Team team);
     boolean isAlliedTo(Entity entity);
     void setInvisible(boolean state);
     int getMaxAirSupply();
     void setAirSupply(int supply);
     Direction getDirection();
-    Optional<Entity> getControllingPassenger();
-    List<Entity> getPassengers();
+    Optional<Entity> conduit_getControllingPassenger();
+    List<Entity> conduit_getPassengers();
     boolean hasPassenger(Entity entity);
     boolean hasPassenger(Class<? extends net.minecraft.world.entity.Entity> entity);  // TODO: Convert to Conduit entity
     Collection<net.minecraft.world.entity.Entity> getIndirectPassengers();  // TODO: Convert to Conduit entity
@@ -100,7 +100,7 @@ public interface Entity {
     boolean hasIndirectPassenger(Entity entity);
     Vec3 position();
 
-    SoundEvent getSwimSound();
-    SoundEvent getSwimSplashSound();
-    SoundEvent getSwimHighSpeedSplashSound();
+    SoundEvent conduit_getSwimSound();
+    SoundEvent conduit_getSwimSplashSound();
+    SoundEvent conduit_getSwimHighSpeedSplashSound();
 }

@@ -2,6 +2,7 @@ package systems.conduit.main.mixins.api;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,6 +21,8 @@ public abstract class PlayerMixin implements Player {
 
     @Shadow public AbstractContainerMenu containerMenu;
     @Shadow @Final public InventoryMenu inventoryMenu;
+    @Shadow private BlockPos respawnPosition;
+    @Shadow private boolean respawnForced;
 
     @Shadow public abstract GameProfile getGameProfile();
     @Shadow protected abstract void closeContainer();
@@ -46,7 +49,6 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract void giveExperiencePoints(int points);
 
     @Shadow public abstract void killed(LivingEntity entity);
-    @Shadow public abstract void setRespawnPosition(BlockPos pos, boolean forced);
     @Shadow public abstract boolean isRespawnForced();
     @Shadow public abstract BlockPos getRespawnPosition();
     @Shadow public abstract boolean isSleepingLongEnough();
@@ -63,6 +65,20 @@ public abstract class PlayerMixin implements Player {
 
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
     @Shadow public abstract int getPortalWaitTime();
+
+    @Override
+    public void setRespawnPosition(BlockPos pos, boolean forced) {
+        if (pos != null) {
+            if (!pos.equals(this.respawnPosition)) {
+                this.sendMessage(new TranslatableComponent("block.minecraft.bed.set_spawn"));
+            }
+            this.respawnPosition = pos;
+            this.respawnForced = forced;
+        } else {
+            this.respawnPosition = null;
+            this.respawnForced = false;
+        }
+    }
 
     public void closeOpenedContainer() {
         if (this.containerMenu != this.inventoryMenu) {

@@ -19,6 +19,7 @@ public interface Biome {
     boolean isHumid();
     float getCreatureProbability();
     float getTemperature(BlockPos pos, boolean bypassCache);
+    float getTemperature();
     boolean shouldFreeze(LevelReader reader, BlockPos pos);
     boolean shouldSnow(LevelReader reader, BlockPos pos);
     float getDepth();

@@ -9,8 +9,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.level.Level;
-import systems.conduit.main.Conduit;
-import systems.conduit.main.api.MinecraftServer;
 
 import java.util.Optional;
 
@@ -32,8 +30,7 @@ public class EntityFactory {
     private Component component;
 
     public Optional<Entity> spawn() {
-        Optional<MinecraftServer> server = Conduit.getServer();
-        if (!server.isPresent()) return Optional.empty();
+        if (level == null || position == null || type == null || spawnType == null) return Optional.empty();
 
         Entity entity = type.spawn(level, tag, component, null, position, spawnType, center, negativeOffset);
         if (entity == null) return Optional.empty();

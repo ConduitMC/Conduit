@@ -17,6 +17,7 @@
     "api.LivingEntityMixin",
     "api.PlayerMixin",
     "api.ServerPlayerMixin",
+    "api.BiomeMixin",
 
     "event.ItemStackMixin",
     "event.player.DamageMixin",

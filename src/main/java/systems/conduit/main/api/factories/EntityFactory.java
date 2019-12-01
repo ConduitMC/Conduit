@@ -16,7 +16,7 @@ import java.util.Optional;
  * @author Innectic
  * @since 11/27/2019
  */
-@Builder()
+@Builder
 public class EntityFactory {
 
     private TextComponent name;

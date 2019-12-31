@@ -109,4 +109,9 @@ public class MemoryBackend extends DatastoreHandler {
             return null;
         }
     }
+
+    @Override
+    public void delete(String key) {
+        this.storage.remove(key);
+    }
 }

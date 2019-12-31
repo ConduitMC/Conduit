@@ -100,4 +100,11 @@ public abstract class DatastoreHandler {
      * @return    the value, if any
      */
     public abstract <T> Optional<Storable<T>> getCustom(String key);
+
+    /**
+     * Delete a key from the datastore
+     *
+     * @param key the key to delete
+     */
+    public abstract void delete(String key);
 }

@@ -150,4 +150,20 @@ public class MySQLBackend extends DatastoreHandler {
     public <T> Optional<Storable<T>> getCustom(String key) {
         return Optional.empty();
     }
+
+    @Override
+    public void delete(String key) {
+        getSource().ifPresent(s -> {
+            try {
+                Connection conn = s.getConnection();
+
+                PreparedStatement statement = conn.prepareStatement("DELETE FROM " + table + " WHERE key=?");
+                statement.setString(1, key);
+                statement.execute();
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        });
+    }
 }

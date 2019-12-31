@@ -58,7 +58,8 @@ public class DatastoreController {
     public void registerDatastore(Plugin plugin, String name, Map<String, Object> meta, DatastoreBackend backend) {
         // Make sure the name is valid
         if (!isValidName(name)) return;
-        meta.put("table", plugin.getMeta().name() + "-" + name);
+        name = plugin.getMeta().name() + "-" + name;
+        meta.put("table", name);
 
         // Once we have converted that, we need to make a new instance of the selected handler that we will be using for this store.
         Optional<DatastoreHandler> handler = createNewHandlerInstance(backend.getHandler());
@@ -85,5 +86,10 @@ public class DatastoreController {
 
         handler.detach();
         this.handlers.remove(name);
+    }
+
+    public Optional<DatastoreHandler> getDatastore(Plugin plugin, String name) {
+        if (!isValidName(name)) return Optional.empty();
+        return Optional.ofNullable(handlers.getOrDefault(plugin.getMeta().name() + "-" + name, null));
     }
 }

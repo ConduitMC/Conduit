@@ -1,6 +1,7 @@
 package systems.conduit.main;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import systems.conduit.main.plugin.config.Configuration;
 import systems.conduit.main.plugin.config.annotation.ConfigFile;
 
@@ -9,9 +10,11 @@ import systems.conduit.main.plugin.config.annotation.ConfigFile;
  * @since 12/30/2019
  */
 @ConfigFile(name = "conduit", type = "json", defaultFile = "conduit.json")
+@NoArgsConstructor
 public class ConduitConfiguration extends Configuration {
 
     @Getter
+    @NoArgsConstructor
     private class DatastoreConfiguration {
         private String type;
         private String host;
@@ -21,5 +24,5 @@ public class ConduitConfiguration extends Configuration {
         private String database;
     }
 
-    @Getter private DatastoreConfiguration datastoreConfiguration;
+    @Getter private DatastoreConfiguration datastore;
 }

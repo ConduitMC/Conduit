@@ -19,6 +19,7 @@ dependencies {
     api "org.reflections:reflections:0.9.11"
     api "com.fasterxml.jackson.core:jackson-databind:2.10.0"
     api "org.jline:jline:3.13.0"
+    implementation "com.zaxxer:HikariCP:3.4.1"
 }
 
 conduit {

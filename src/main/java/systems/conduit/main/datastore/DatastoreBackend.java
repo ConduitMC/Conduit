@@ -1,6 +1,8 @@
 package systems.conduit.main.datastore;
 
 import lombok.AllArgsConstructor;
+import systems.conduit.main.datastore.backend.MemoryBackend;
+import systems.conduit.main.datastore.backend.MySQLBackend;
 
 /**
  * @author Innectic
@@ -8,7 +10,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public enum DatastoreBackend {
-    MySQL(null), Memory(null);
+    MySQL(MySQLBackend.class), Memory(MemoryBackend.class);
 
-    private Class<?> handler;
+    private Class<? extends DatastoreHandler> handler;
 }

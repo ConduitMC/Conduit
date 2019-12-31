@@ -3,6 +3,8 @@ package systems.conduit.main.api.factories;
 import lombok.Builder;
 
 /**
+ * Handles the creation of new levels.
+ *
  * @author Innectic
  * @since 12/1/2019
  */

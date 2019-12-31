@@ -11,6 +11,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * Manages a plugin's datastores.
+ *
  * @author Innectic
  * @since 12/31/2019
  */
@@ -73,7 +75,7 @@ public class DatastoreController {
     }
 
     /**
-     * Delete a datastore and it's information
+     * Delete a datastore and it's information.
      *
      * @param plugin the plugin that registered it
      * @param name the name of the datastore to delete

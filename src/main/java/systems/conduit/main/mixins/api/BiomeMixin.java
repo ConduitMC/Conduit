@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * The exposed Biome API.
+ *
  * @author Innectic
  * @since 11/28/2019
  */
@@ -23,22 +25,24 @@ public abstract class BiomeMixin implements systems.conduit.main.api.Biome {
     @Shadow public abstract boolean isHumid();
     @Shadow public abstract float getCreatureProbability();
     @Shadow protected abstract float getTemperatureNoCache(BlockPos pos);
-    @Shadow public abstract float shadow$getTemperature(BlockPos pos);
     @Shadow public abstract boolean shouldFreeze(LevelReader reader, BlockPos pos);
     @Shadow public abstract boolean shouldSnow(LevelReader reader, BlockPos pos);
     @Shadow public abstract float getDepth();
     @Shadow public abstract float getDownfall();
     @Shadow public abstract float getScale();
-    @Shadow public abstract float getTemperature();
     @Shadow public abstract int getWaterColor();
     @Shadow public abstract int getWaterFogColor();
     @Shadow public abstract Biome.BiomeCategory getBiomeCategory();
-    @Shadow public abstract String shadow$getParent();
+
+    @Shadow public abstract float shadow$getTemperature(BlockPos pos);
+    @Shadow public abstract float getTemperature();
 
     public float getTemperature(BlockPos pos, boolean bypassCache) {
         if (bypassCache) return getTemperatureNoCache(pos);
         return shadow$getTemperature(pos);
     }
+
+    @Shadow public abstract String shadow$getParent();
 
     public Optional<String> getParent() {
         return Optional.ofNullable(shadow$getParent());

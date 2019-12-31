@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * Datastore backend that stores its information in MySQL / SQLite.
+ *
  * @author Innectic
  * @since 12/31/2019
  */
@@ -106,7 +108,7 @@ public class MySQLBackend extends DatastoreHandler {
                 e.printStackTrace();
             }
             return null;
-        }) ;
+        });
     }
 
     @Override

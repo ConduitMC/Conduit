@@ -36,12 +36,12 @@ public class ColorReplacer implements Function<String, String> {
     }
 
     @Override
-    public String apply(String string) {
-        string = string + ChatFormatting.RESET;
+    public String apply(String s) {
+        s = s + ChatFormatting.RESET;
         for (int i = 0; i < ChatFormatting.values().length; i++) {
             String color = ChatFormatting.values()[i].toString();
-            if (string.contains(color)) string = string.replaceAll("(?i)" + color,(System.console() != null && System.getenv().get("TERM") != null) ? colors.get(i) : "");
+            if (s.contains(color)) s = s.replaceAll("(?i)" + color,(System.console() != null && System.getenv().get("TERM") != null) ? colors.get(i) : "");
         }
-        return string;
+        return s;
     }
 }

@@ -6,6 +6,8 @@ import systems.conduit.main.plugin.config.Configuration;
 import systems.conduit.main.plugin.config.annotation.ConfigFile;
 
 /**
+ * Main configuration file for Conduit.
+ *
  * @author Innectic
  * @since 12/30/2019
  */

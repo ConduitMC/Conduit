@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * Exposed Biome API.
+ *
  * @author Innectic
  * @since 11/28/2019
  */

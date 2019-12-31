@@ -13,6 +13,8 @@ import net.minecraft.world.level.Level;
 import java.util.Optional;
 
 /**
+ * Build new entities to add into the world.
+ *
  * @author Innectic
  * @since 11/27/2019
  */

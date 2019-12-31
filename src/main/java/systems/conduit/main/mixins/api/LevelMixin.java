@@ -25,6 +25,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import java.util.Optional;
 
 /**
+ * The exposed level API.
+ *
  * @author Innectic
  * @since 11/28/2019
  */

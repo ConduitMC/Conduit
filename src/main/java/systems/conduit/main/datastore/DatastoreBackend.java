@@ -6,6 +6,8 @@ import systems.conduit.main.datastore.backend.MemoryBackend;
 import systems.conduit.main.datastore.backend.MySQLBackend;
 
 /**
+ * The type of backend the datastore uses.
+ *
  * @author Innectic
  * @since 12/30/2019
  */

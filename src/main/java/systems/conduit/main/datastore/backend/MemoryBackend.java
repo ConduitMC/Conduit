@@ -8,6 +8,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * Datastore backend that puts everything in memory.
+ *
  * @author Innectic
  * @since 12/30/2019
  */

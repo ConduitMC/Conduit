@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Handles the creation of new itemstacks.
+ *
  * @author Innectic
  * @since 11/28/2019
  */
@@ -33,7 +35,7 @@ public class ItemFactory {
         if (enchantments != null && !enchantments.isEmpty()) enchantments.forEach(stack::enchant);
         if (tag != null) stack.setTag(tag);
         if (count > 0) stack.setCount(count);
-        if (repairCost> 0) stack.setRepairCost(repairCost);
+        if (repairCost > 0) stack.setRepairCost(repairCost);
         if (damageValue > 0) stack.setDamageValue(damageValue);
 
         return stack;

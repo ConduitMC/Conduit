@@ -21,6 +21,8 @@ import net.minecraft.world.level.storage.LevelData;
 import java.util.Optional;
 
 /**
+ * Exposed Level API.
+ *
  * @author Innectic
  * @since 11/28/2019
  */

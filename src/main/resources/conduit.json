@@ -1,0 +1,10 @@
+{
+  "datastore": {
+    "type": "mysql",
+    "host": "",
+    "port": "",
+    "username": "",
+    "password": "",
+    "database": ""
+  }
+}

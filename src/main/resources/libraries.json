@@ -35,6 +35,18 @@
       "groupId": "com.fasterxml.jackson.core",
       "artifactId": "jackson-databind",
       "version": "2.9.8"
+    },
+    {
+      "type": "maven",
+      "groupId": "org.slf4j",
+      "artifactId": "slf4j-api",
+      "version": "1.7.25"
+    },
+    {
+      "type": "maven",
+      "groupId": "com.zaxxer",
+      "artifactId": "HikariCP",
+      "version": "3.4.1"
     }
   ]
 }

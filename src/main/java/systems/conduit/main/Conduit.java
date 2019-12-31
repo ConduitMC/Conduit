@@ -15,8 +15,16 @@ import systems.conduit.main.console.MessageFactory;
 import systems.conduit.main.events.EventManager;
 import systems.conduit.main.plugin.PluginManager;
 import systems.conduit.main.plugin.annotation.PluginMeta;
+import systems.conduit.main.plugin.config.ConfigurationLoader;
+import systems.conduit.main.plugin.config.ConfigurationTypes;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
 @PluginMeta(name = "Conduit", description = "", version = "@VERSION@", author = "ConduitMC")
@@ -35,6 +43,8 @@ public class Conduit {
     // TODO: Replace with build number in future
     @Getter(AccessLevel.PUBLIC) private static PluginMeta meta = Conduit.class.getAnnotation(PluginMeta.class);
 
+    @Getter(AccessLevel.PUBLIC) private static ConduitConfiguration configuration = null;
+
     public static void setupLogger() {
         // Redirect print to logger
         System.setOut(createLoggingProxy(System.out));
@@ -51,6 +61,26 @@ public class Conduit {
                 Conduit.getLogger().info(new TextComponent(string).getText());
             }
         };
+    }
+
+    public static void loadConfiguration() {
+        // Ensure that the path exists. If it doesn't, then we don't need to process this.
+        File file = Paths.get("conduit.json").toFile();
+        if (!file.exists()) {
+            // If the file does not exist, then lets attempt to generate a default.
+            try (InputStream stream = Conduit.class.getResourceAsStream("/conduit.json")) {  // TODO: Fix that separator some day
+                Files.copy(stream, Paths.get("conduit.json"), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+        }
+        Optional<ConfigurationLoader> loader = ConfigurationTypes.getLoaderForExtension("json");
+        if (!loader.isPresent()) {
+            Conduit.getLogger().error("Failed to find loader for JSON extension");
+            return;
+        }
+        Conduit.configuration = (ConduitConfiguration) loader.get().load(file, ConduitConfiguration.class).orElse(null);
     }
 
     public static Optional<MinecraftServer> getServer() {

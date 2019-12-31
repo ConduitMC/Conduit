@@ -1,5 +1,6 @@
 package systems.conduit.main.datastore;
 
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -13,7 +14,7 @@ public abstract class DatastoreHandler {
      *
      * This can be a file, memory, databases, or anything the heart desires!
      */
-    public abstract void attach();
+    public abstract void attach(Map<String, Object> meta);
 
     /**
      * Detach from the storage location.

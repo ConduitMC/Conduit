@@ -16,7 +16,7 @@ public class MemoryBackend extends DatastoreHandler {
     private Map<String, Object> storage = new HashMap<>();
 
     @Override
-    public void attach() {
+    public void attach(Map<String, Object> meta) {
         this.storage = new HashMap<>();
     }
 

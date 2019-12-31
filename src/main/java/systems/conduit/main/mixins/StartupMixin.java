@@ -34,6 +34,7 @@ public abstract class StartupMixin extends MinecraftServer {
     @Inject(method = "initServer", at = @At("HEAD"))
     private void initServer(CallbackInfoReturnable<Boolean> callback) {
         Conduit.setupLogger();
+        Conduit.loadConfiguration();
         Conduit.setServer((systems.conduit.main.api.MinecraftServer) this);
         Conduit.getLogger().info("Server starting initialization...");
         Runtime.getRuntime().addShutdownHook(new Thread(Conduit.getPluginManager()::disablePlugins));

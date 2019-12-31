@@ -50,6 +50,7 @@ public class DatastoreController {
     /**
      * Register a new datastore.
      *
+     * @param plugin  the plugin that is registering this datastore
      * @param name    the identifier for this datastore.
      * @param meta    information to be provided when attaching to the datastore.
      * @param backend the location that this datastore will be storing information
@@ -73,12 +74,13 @@ public class DatastoreController {
     /**
      * Delete a datastore and it's information
      *
+     * @param plugin the plugin that registered it
      * @param name the name of the datastore to delete
      */
-    public void closeDatastore(String name) {
-        name = convertName(name);
+    public void closeDatastore(Plugin plugin, String name) {
+        if (!isValidName(name)) return;
 
-        DatastoreHandler handler = handlers.getOrDefault(name, null);
+        DatastoreHandler handler = handlers.getOrDefault(plugin.getMeta().name() + "-" + name, null);
         if (handler == null) return;
 
         handler.detach();

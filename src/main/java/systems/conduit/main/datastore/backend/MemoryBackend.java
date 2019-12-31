@@ -99,12 +99,12 @@ public class MemoryBackend extends DatastoreHandler {
     }
 
     @Override
-    public <T> Storable<T> getCustom(String key) {
+    public <T> Optional<Storable<T>> getCustom(String key) {
         Object object = this.storage.get(key);
         if (!(object instanceof Storable)) return null;
 
         try {
-            return (Storable<T>) object;
+            return Optional.ofNullable((Storable<T>) object);
         } catch (ClassCastException e) {
             return null;
         }

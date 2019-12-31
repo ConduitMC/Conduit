@@ -98,5 +98,5 @@ public abstract class DatastoreHandler {
      * @param key the name of the entry
      * @return    the value, if any
      */
-    public abstract <T> Storable<T> getCustom(String key);
+    public abstract <T> Optional<Storable<T>> getCustom(String key);
 }

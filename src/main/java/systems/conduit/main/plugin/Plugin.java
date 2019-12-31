@@ -7,6 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.commands.BaseCommand;
+import systems.conduit.main.datastore.DatastoreController;
 import systems.conduit.main.events.EventListener;
 import systems.conduit.main.plugin.annotation.PluginMeta;
 import systems.conduit.main.plugin.config.Configuration;
@@ -18,7 +19,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-public abstract class Plugin {
+public abstract class Plugin extends DatastoreController {
 
     @Getter(AccessLevel.MODULE) @Setter(AccessLevel.MODULE) PluginClassLoader classLoader;
     @Getter @Setter(AccessLevel.MODULE) private PluginMeta meta;

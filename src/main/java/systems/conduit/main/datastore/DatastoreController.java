@@ -88,6 +88,13 @@ public class DatastoreController {
         this.handlers.remove(name);
     }
 
+    /**
+     * Get a plugin's datastore by name.
+     *
+     * @param plugin the plugin that registered it
+     * @param name   the name of the datastore
+     * @return       the datastore, if present. Empty otherwise.
+     */
     public Optional<DatastoreHandler> getDatastore(Plugin plugin, String name) {
         if (!isValidName(name)) return Optional.empty();
         return Optional.ofNullable(handlers.getOrDefault(plugin.getMeta().name() + "-" + name, null));

@@ -19,10 +19,22 @@ public class DatastoreController {
 
     private Map<String, DatastoreHandler> handlers = new HashMap<>();
 
-    private String convertName(String name) {
-        return name.replace("\\", "").replace("\"", "").replace("'", "").replace(" ", "_").replace(";", "").replace(":", "");
+    /**
+     * Make sure that the name does not contain any invalid characters.
+     *
+     * @param name the name to check
+     * @return if the name is valid or not.
+     */
+    private boolean isValidName(String name) {
+        return name.chars().allMatch(v -> Character.isLetterOrDigit(v) || v == '_');
     }
 
+    /**
+     * Create a new instance of a datastore.
+     *
+     * @param clazz the datastore class to create
+     * @return an instance of the datastore ready to be attached, empty if it failed.
+     */
     private Optional<DatastoreHandler> createNewHandlerInstance(Class<? extends DatastoreHandler> clazz) {
         try {
             Constructor<? extends DatastoreHandler> constructor = clazz.getConstructor();
@@ -43,9 +55,9 @@ public class DatastoreController {
      * @param backend the location that this datastore will be storing information
      */
     public void registerDatastore(Plugin plugin, String name, Map<String, Object> meta, DatastoreBackend backend) {
-        // Start by converting the name into something database friendly.
-        name = convertName(name);
-        meta.put("table", convertName(plugin.getMeta().name() + "-" + name));
+        // Make sure the name is valid
+        if (!isValidName(name)) return;
+        meta.put("table", plugin.getMeta().name() + "-" + name);
 
         // Once we have converted that, we need to make a new instance of the selected handler that we will be using for this store.
         Optional<DatastoreHandler> handler = createNewHandlerInstance(backend.getHandler());
@@ -58,6 +70,11 @@ public class DatastoreController {
         this.handlers.put(name, handler.get());
     }
 
+    /**
+     * Delete a datastore and it's information
+     *
+     * @param name the name of the datastore to delete
+     */
     public void closeDatastore(String name) {
         name = convertName(name);
 

@@ -1,6 +1,7 @@
 package systems.conduit.main.plugin.config.defaults;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.plugin.Plugin;
 import systems.conduit.main.plugin.config.annotation.ConfigFile;
@@ -64,9 +65,9 @@ public class DefaultConfigurationHandler {
         Map<String, Object> defaultConfigOptions = DefaultParser.generateDefaults(plugin.getConfig().get());
         try {
             Path destinationFile = Files.createFile(Paths.get(destination));
-            String defaultString = Conduit.getObjectMapper().writeValueAsString(defaultConfigOptions);
+            String defaultString = new Gson().toJson(defaultConfigOptions);
             Files.write(destinationFile, defaultString.getBytes());
-        } catch (JsonProcessingException e) {
+        } catch (JsonIOException e) {
             Conduit.getLogger().error("Failed to generate new default config");
             e.printStackTrace();
         } catch (IOException e) {

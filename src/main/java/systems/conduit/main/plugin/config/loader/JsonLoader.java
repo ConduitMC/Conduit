@@ -1,11 +1,12 @@
 package systems.conduit.main.plugin.config.loader;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.plugin.config.Configuration;
 import systems.conduit.main.plugin.config.ConfigurationLoader;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -15,12 +16,12 @@ import java.util.Optional;
  */
 public class JsonLoader implements ConfigurationLoader {
 
-    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final Gson gson = new Gson();
 
     @Override
     public Optional<Configuration> load(File file, Class<? extends Configuration> configurationType) {
         try {
-            Configuration value = mapper.readValue(file, configurationType);
+            Configuration value = gson.fromJson(new FileReader(file), configurationType);
             return Optional.of(value);
         } catch (IOException e) {
             Conduit.getLogger().error("Failed to load configuration file: " + file);

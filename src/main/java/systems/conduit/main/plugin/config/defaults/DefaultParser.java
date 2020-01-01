@@ -1,6 +1,6 @@
 package systems.conduit.main.plugin.config.defaults;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.plugin.config.Configuration;
 
@@ -26,7 +26,7 @@ public class DefaultParser {
         Field[] fields = configuration.getClass().getDeclaredFields();
         for (Field field : fields) {
             // Check if this field should have a different name
-            String name = field.isAnnotationPresent(JsonProperty.class) ? field.getAnnotation(JsonProperty.class).value() : field.getName();
+            String name = field.isAnnotationPresent(SerializedName.class) ? field.getAnnotation(SerializedName.class).value() : field.getName();
             Object value = null;
 
             try {

@@ -2,7 +2,6 @@ package systems.conduit.main.datastore;
 
 import lombok.RequiredArgsConstructor;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.plugin.Plugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -20,6 +19,7 @@ import java.util.Optional;
 public class DatastoreController {
 
     private Map<String, DatastoreHandler> handlers = new HashMap<>();
+    private final String pluginName;
 
     /**
      * Make sure that the name does not contain any invalid characters.
@@ -27,8 +27,8 @@ public class DatastoreController {
      * @param name the name to check
      * @return if the name is valid or not.
      */
-    private boolean isValidName(String name) {
-        return name.chars().allMatch(v -> Character.isLetterOrDigit(v) || v == '_');
+    private boolean isInvalidName(String name) {
+        return !name.chars().allMatch(v -> Character.isLetterOrDigit(v) || v == '_');
     }
 
     /**
@@ -52,15 +52,14 @@ public class DatastoreController {
     /**
      * Register a new datastore.
      *
-     * @param plugin  the plugin that is registering this datastore
      * @param name    the identifier for this datastore.
      * @param meta    information to be provided when attaching to the datastore.
      * @param backend the location that this datastore will be storing information
      */
-    public void registerDatastore(Plugin plugin, String name, Map<String, Object> meta, DatastoreBackend backend) {
+    public void register(String name, Map<String, Object> meta, DatastoreBackend backend) {
         // Make sure the name is valid
-        if (!isValidName(name)) return;
-        name = plugin.getMeta().name() + "-" + name;
+        if (isInvalidName(name)) return;
+        name = pluginName + "-" + name;
         meta.put("table", name);
 
         // Once we have converted that, we need to make a new instance of the selected handler that we will be using for this store.
@@ -77,13 +76,12 @@ public class DatastoreController {
     /**
      * Delete a datastore and it's information.
      *
-     * @param plugin the plugin that registered it
      * @param name the name of the datastore to delete
      */
-    public void closeDatastore(Plugin plugin, String name) {
-        if (!isValidName(name)) return;
+    public void close(String name) {
+        if (isInvalidName(name)) return;
 
-        DatastoreHandler handler = handlers.getOrDefault(plugin.getMeta().name() + "-" + name, null);
+        DatastoreHandler handler = handlers.getOrDefault(pluginName + "-" + name, null);
         if (handler == null) return;
 
         handler.detach();
@@ -93,12 +91,11 @@ public class DatastoreController {
     /**
      * Get a plugin's datastore by name.
      *
-     * @param plugin the plugin that registered it
      * @param name   the name of the datastore
      * @return       the datastore, if present. Empty otherwise.
      */
-    public Optional<DatastoreHandler> getDatastore(Plugin plugin, String name) {
-        if (!isValidName(name)) return Optional.empty();
-        return Optional.ofNullable(handlers.getOrDefault(plugin.getMeta().name() + "-" + name, null));
+    public Optional<DatastoreHandler> get(String name) {
+        if (isInvalidName(name)) return Optional.empty();
+        return Optional.ofNullable(handlers.getOrDefault(pluginName + "-" + name, null));
     }
 }

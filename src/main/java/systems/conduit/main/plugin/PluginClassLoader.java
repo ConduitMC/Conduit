@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.datastore.DatastoreController;
 import systems.conduit.main.plugin.annotation.PluginMeta;
 import systems.conduit.main.plugin.config.Configuration;
 import systems.conduit.main.plugin.config.ConfigurationLoader;
@@ -80,6 +81,7 @@ public class PluginClassLoader extends URLClassLoader {
                 return Optional.empty();
             }
             plugin.get().setClassLoader(this);
+            plugin.get().setDatastore(new DatastoreController(meta.name()));
             plugin.get().setMeta(meta);
             // Now, we can try to get the config for this plugin.
             Class<? extends Configuration> clazz = meta.config();

@@ -2,7 +2,7 @@
   "datastore": {
     "type": "mysql",
     "host": "",
-    "port": "",
+    "port": 0,
     "username": "",
     "password": "",
     "database": ""

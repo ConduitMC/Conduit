@@ -18,7 +18,8 @@ apply plugin: "Stream"
 dependencies {
     api "org.reflections:reflections:0.9.11"
     api "org.jline:jline:3.13.0"
-    implementation "com.zaxxer:HikariCP:3.4.1"
+    compile "com.zaxxer:HikariCP:3.4.1"
+    compile 'redis.clients:jedis:2.8.1'
 }
 
 conduit {

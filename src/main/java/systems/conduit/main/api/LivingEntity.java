@@ -6,6 +6,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Material;
 
 import java.util.Collection;
 import java.util.Map;
@@ -57,4 +58,5 @@ public interface LivingEntity extends Entity {
     float getSpeed();
     void setSpeed(float speed);
     boolean isInWall();
+    void eat(Level level, Material consumed);
 }

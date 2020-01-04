@@ -9,8 +9,17 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.monster.SharedMonsterAttributes;
 import net.minecraft.world.item.ItemStack;
-import org.spongepowered.asm.mixin.*;
+import net.minecraft.world.level.Level;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import systems.conduit.main.Conduit;
 import systems.conduit.main.api.LivingEntity;
+import systems.conduit.main.api.Player;
+import systems.conduit.main.events.types.PlayerEvents;
 
 import java.util.Collection;
 import java.util.Map;
@@ -82,5 +91,13 @@ public abstract class LivingEntityMixin implements LivingEntity {
     public void conduit_setLastHurtByMob(LivingEntity entity) {
         if (entity == null) return;
         this.shadow$setLastHurtByMob((net.minecraft.world.entity.LivingEntity) entity);
+    }
+
+    @Inject(method = "eat", at = @At("HEAD"))
+    public void eat(Level level, ItemStack itemStack, CallbackInfoReturnable<ItemStack> cir) {
+        if (this instanceof Player) {
+            PlayerEvents.ConsumeEvent event = new PlayerEvents.ConsumeEvent((Player) this, itemStack);
+            Conduit.getEventManager().dispatchEvent(event);
+        }
     }
 }

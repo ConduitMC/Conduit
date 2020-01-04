@@ -8,9 +8,9 @@ import net.minecraft.core.Location;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Material;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
 
@@ -164,7 +164,7 @@ public class PlayerEvents {
     @Getter
     public static class ConsumeEvent extends EventType {
         private Player player;
-        private Material consumed;
+        private ItemStack consumed;
     }
 
     @AllArgsConstructor

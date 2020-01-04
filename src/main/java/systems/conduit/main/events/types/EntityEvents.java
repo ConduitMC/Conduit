@@ -3,11 +3,13 @@ package systems.conduit.main.events.types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.level.block.SpawnerBlock;
+import systems.conduit.main.api.LivingEntity;
 import systems.conduit.main.events.Cancellable;
 
 import java.util.List;
@@ -64,5 +66,19 @@ public class EntityEvents {
     public static class SpawnerSpawnEvent extends Cancellable {
         private SpawnerBlock spawner;
         private List<Entity> spawned;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class EffectAddedToEntityEvent extends Cancellable {
+        private LivingEntity entity;
+        private MobEffectInstance effect;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class EffectRemovedFromEntityEvent extends Cancellable {
+        private LivingEntity entity;
+        private MobEffectInstance effect;
     }
 }

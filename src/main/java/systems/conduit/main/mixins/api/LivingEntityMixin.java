@@ -15,10 +15,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.LivingEntity;
 import systems.conduit.main.api.Player;
+import systems.conduit.main.events.types.EntityEvents;
 import systems.conduit.main.events.types.PlayerEvents;
 
 import java.util.Collection;
@@ -99,5 +101,17 @@ public abstract class LivingEntityMixin implements LivingEntity {
             PlayerEvents.ConsumeEvent event = new PlayerEvents.ConsumeEvent((Player) this, itemStack);
             Conduit.getEventManager().dispatchEvent(event);
         }
+    }
+
+    @Inject(method = "onEffectAdded", at = @At("HEAD"))
+    public void onEffectAdded(MobEffectInstance effect, CallbackInfo ci) {
+        EntityEvents.EffectAddedToEntityEvent event = new EntityEvents.EffectAddedToEntityEvent(this, effect);
+        Conduit.getEventManager().dispatchEvent(event);
+    }
+
+    @Inject(method = "onEffectRemoved", at = @At("HEAD"))
+    public void onEffectRemoved(MobEffectInstance effect, CallbackInfo ci) {
+        EntityEvents.EffectRemovedFromEntityEvent event = new EntityEvents.EffectRemovedFromEntityEvent(this, effect);
+        Conduit.getEventManager().dispatchEvent(event);
     }
 }

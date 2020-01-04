@@ -24,11 +24,14 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.PlayerGameModeChangeEvent.class);
         eventMappings.add(PlayerEvents.PlayerChatEvent.class);
         eventMappings.add(PlayerEvents.PlayerCommandEvent.class);
+        eventMappings.add(PlayerEvents.ConsumeEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);
         eventMappings.add(EntityEvents.BabySheepEatEvent.class);
         eventMappings.add(EntityEvents.SlimeSplitEvent.class);
+        eventMappings.add(EntityEvents.EffectAddedToEntityEvent.class);
+        eventMappings.add(EntityEvents.EffectRemovedFromEntityEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);

@@ -59,4 +59,6 @@ public interface LivingEntity extends Entity {
     void setSpeed(float speed);
     boolean isInWall();
     void eat(Level level, Material consumed);
+    void onEffectAdded(MobEffectInstance effect);
+    void onEffectRemoved(MobEffectInstance effect);
 }

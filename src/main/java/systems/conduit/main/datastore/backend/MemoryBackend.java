@@ -13,7 +13,7 @@ import java.util.Optional;
  * @author Innectic
  * @since 12/30/2019
  */
-public class MemoryBackend extends DatastoreHandler {
+public class MemoryBackend implements DatastoreHandler {
 
     private Map<String, Object> storage = new HashMap<>();
 

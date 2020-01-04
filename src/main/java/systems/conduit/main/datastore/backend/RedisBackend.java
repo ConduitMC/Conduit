@@ -1,6 +1,7 @@
 package systems.conduit.main.datastore.backend;
 
 import redis.clients.jedis.Jedis;
+import systems.conduit.main.datastore.DatastoreHandler;
 import systems.conduit.main.datastore.ExpirableBackend;
 import systems.conduit.main.datastore.Storable;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
  * @author Innectic
  * @since 1/3/2020
  */
-public class RedisBackend extends ExpirableBackend {
+public class RedisBackend implements DatastoreHandler, ExpirableBackend {
 
     private Jedis client = null;
 

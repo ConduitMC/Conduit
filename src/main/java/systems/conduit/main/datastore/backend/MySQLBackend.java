@@ -18,7 +18,7 @@ import java.util.Optional;
  * @author Innectic
  * @since 12/31/2019
  */
-public class MySQLBackend extends DatastoreHandler {
+public class MySQLBackend implements DatastoreHandler {
 
     private HikariConfig config = new HikariConfig();
     private HikariDataSource source;

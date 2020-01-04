@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
+ * An expirable datastore that holds information in a Redis database.
+ *
  * @author Innectic
  * @since 1/3/2020
  */
@@ -58,6 +60,31 @@ public class RedisBackend implements DatastoreHandler, ExpirableBackend {
     }
 
     @Override
+    public void set(String key, String value, int duration) {
+        getClient().ifPresent(j -> j.setex(key, duration, value));
+    }
+
+    @Override
+    public void set(String key, int value, int duration) {
+        getClient().ifPresent(j -> j.setex(key, duration, String.valueOf(value)));
+    }
+
+    @Override
+    public void set(String key, float value, int duration) {
+        getClient().ifPresent(j -> j.setex(key, duration, String.valueOf(value)));
+    }
+
+    @Override
+    public void set(String key, double value, int duration) {
+        getClient().ifPresent(j -> j.setex(key, duration, String.valueOf(value)));
+    }
+
+    @Override
+    public void set(String key, Storable<?> value, int duration) {
+        getClient().ifPresent(j -> j.setex(key, duration, value.serialize()));
+    }
+
+    @Override
     public Optional<Integer> getInt(String key) {
         return getClient().map(j -> {
             try {
@@ -102,31 +129,6 @@ public class RedisBackend implements DatastoreHandler, ExpirableBackend {
 
     @Override
     public void delete(String key) {
-
-    }
-
-    @Override
-    public void set(String key, String value, int duration) {
-        getClient().ifPresent(j -> j.setex(key, duration, value));
-    }
-
-    @Override
-    public void set(String key, int value, int duration) {
-        getClient().ifPresent(j -> j.setex(key, duration, String.valueOf(value)));
-    }
-
-    @Override
-    public void set(String key, float value, int duration) {
-        getClient().ifPresent(j -> j.setex(key, duration, String.valueOf(value)));
-    }
-
-    @Override
-    public void set(String key, double value, int duration) {
-        getClient().ifPresent(j -> j.setex(key, duration, String.valueOf(value)));
-    }
-
-    @Override
-    public void set(String key, Storable<?> value, int duration) {
-        getClient().ifPresent(j -> j.setex(key, duration, value.serialize()));
+        getClient().ifPresent(j -> j.del(key));
     }
 }

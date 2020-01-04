@@ -103,12 +103,13 @@ public class MemoryBackend implements DatastoreHandler {
     @Override
     public <T> Optional<Storable<T>> getCustom(String key) {
         Object object = this.storage.get(key);
-        if (!(object instanceof Storable)) return null;
+        if (object == null) return Optional.empty();
+        if (!(object instanceof Storable)) return Optional.empty();
 
         try {
-            return Optional.ofNullable((Storable<T>) object);
+            return Optional.of((Storable<T>) object);
         } catch (ClassCastException e) {
-            return null;
+            return Optional.empty();
         }
     }
 

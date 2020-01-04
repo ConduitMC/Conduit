@@ -39,6 +39,7 @@ public class PlayerEvents {
     @Getter
     public static class PlayerLeaveEvent extends EventType {
         private Player player;
+        @Setter private Component message;
     }
 
     /**

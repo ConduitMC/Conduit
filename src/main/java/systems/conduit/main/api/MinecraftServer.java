@@ -2,6 +2,7 @@ package systems.conduit.main.api;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.server.bossevents.CustomBossEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.profiling.GameProfiler;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -28,4 +29,6 @@ public interface MinecraftServer {
     boolean isRunning();
     CommandSourceStack createCommandSourceStack();
     void close();
+    CustomBossEvents getCustomBossEvents();
+
 }

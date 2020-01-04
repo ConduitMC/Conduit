@@ -17,8 +17,7 @@ public class ConduitConfiguration extends Configuration {
 
     @Getter
     @NoArgsConstructor
-    private class DatastoreConfiguration {
-        private String type;
+    private class MySQLConfiguration {
         private String host;
         private int port;
         private String username;
@@ -26,5 +25,21 @@ public class ConduitConfiguration extends Configuration {
         private String database;
     }
 
-    @Getter private DatastoreConfiguration datastore;
+    @Getter
+    @NoArgsConstructor
+    private class RedisConfiguration {
+        private String host;
+        private int port;
+        private String password;
+        private int db;
+    }
+
+    @Getter
+    @NoArgsConstructor
+    private class DatastoreConfiguration {
+        private MySQLConfiguration mysql;
+        private RedisConfiguration redis;
+    }
+
+    @Getter private DatastoreConfiguration datastores;
 }

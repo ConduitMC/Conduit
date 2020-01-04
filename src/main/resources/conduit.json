@@ -1,10 +1,17 @@
 {
-  "datastore": {
-    "type": "mysql",
-    "host": "",
-    "port": 0,
-    "username": "",
-    "password": "",
-    "database": ""
+  "datastores": {
+    "mysql": {
+      "host": "",
+      "port": 0,
+      "username": "",
+      "password": "",
+      "database": ""
+    },
+    "redis": {
+      "host": "",
+      "port": 0,
+      "password": "",
+      "db": 1
+    }
   }
 }

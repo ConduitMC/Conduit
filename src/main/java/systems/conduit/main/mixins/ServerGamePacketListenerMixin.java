@@ -1,5 +1,6 @@
 package systems.conduit.main.mixins;
 
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,5 +34,13 @@ public class ServerGamePacketListenerMixin {
         PlayerEvents.PlayerCommandEvent event = new PlayerEvents.PlayerCommandEvent((systems.conduit.main.api.Player) this.player, message);
         Conduit.getEventManager().dispatchEvent(event);
         return event.getMessage();
+    }
+
+    @Redirect(method = "onDisconnect", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;)V"))
+    private void playerLeaveMessage(PlayerList playerList, Component message, Connection connection, ServerPlayer player) {
+        PlayerEvents.PlayerLeaveEvent event = new PlayerEvents.PlayerLeaveEvent((systems.conduit.main.api.ServerPlayer) player, message);
+        Conduit.getEventManager().dispatchEvent(event);
+        Component eventMessage = event.getMessage();
+        if (eventMessage != null) this.server.getPlayerList().broadcastMessage(event.getMessage());
     }
 }

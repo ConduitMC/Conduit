@@ -1,12 +1,12 @@
 package systems.conduit.main;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.network.chat.TextComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import systems.conduit.main.api.MinecraftServer;
+import systems.conduit.main.api.managers.BossBarManager;
 import systems.conduit.main.api.managers.LevelManager;
 import systems.conduit.main.api.managers.PlayerManager;
 import systems.conduit.main.commands.CommandManager;
@@ -29,19 +29,20 @@ import java.util.Optional;
 @PluginMeta(name = "Conduit", description = "", version = "@VERSION@", author = "ConduitMC")
 public class Conduit {
 
-    @Getter(AccessLevel.PUBLIC) private static final Logger logger = LogManager.getLogger("Conduit", new MessageFactory());
-    @Getter(AccessLevel.PUBLIC) private static EventManager eventManager = new EventManager();
-    @Getter(AccessLevel.PUBLIC) private static PluginManager pluginManager = new PluginManager();
-    @Getter(AccessLevel.PUBLIC) private static CommandManager commandManager = new CommandManager();
-    @Getter(AccessLevel.PUBLIC) private static PlayerManager playerManager = new PlayerManager();
-    @Getter(AccessLevel.PUBLIC) private static LevelManager levelManager = new LevelManager();
+    @Getter private static final Logger logger = LogManager.getLogger("Conduit", new MessageFactory());
+    @Getter private static EventManager eventManager = new EventManager();
+    @Getter private static PluginManager pluginManager = new PluginManager();
+    @Getter private static CommandManager commandManager = new CommandManager();
+    @Getter private static PlayerManager playerManager = new PlayerManager();
+    @Getter private static LevelManager levelManager = new LevelManager();
+    @Getter private static BossBarManager bossBarManager = new BossBarManager();
 
-    @Setter(AccessLevel.PUBLIC) private static MinecraftServer server = null;
+    @Setter private static MinecraftServer server = null;
 
     // TODO: Replace with build number in future
-    @Getter(AccessLevel.PUBLIC) private static PluginMeta meta = Conduit.class.getAnnotation(PluginMeta.class);
+    @Getter private static PluginMeta meta = Conduit.class.getAnnotation(PluginMeta.class);
 
-    @Getter(AccessLevel.PUBLIC) private static ConduitConfiguration configuration = null;
+    @Getter private static ConduitConfiguration configuration;
 
     public static void setupLogger() {
         // Redirect print to logger

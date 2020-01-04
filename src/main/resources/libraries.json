@@ -26,6 +26,12 @@
     },
     {
       "type": "maven",
+      "groupId": "org.apache.logging.log4j",
+      "artifactId": "log4j-slf4j-impl",
+      "version": "2.8.1"
+    },
+    {
+      "type": "maven",
       "groupId": "com.zaxxer",
       "artifactId": "HikariCP",
       "version": "3.4.1"

@@ -9,6 +9,7 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.level.block.SpawnerBlock;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.api.LivingEntity;
 import systems.conduit.main.events.Cancellable;
 
@@ -32,7 +33,7 @@ public class EntityEvents {
 
     /**
      * This event is fired when a baby sheep eats something and progresses growth.
-     * Implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin}
+     * Implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin#ate()}
      */
     @AllArgsConstructor
     @Getter
@@ -68,6 +69,10 @@ public class EntityEvents {
         private List<Entity> spawned;
     }
 
+    /**
+     * This event is fired when any entity in the server has an effect added to it. 
+     * Implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin#onEffectAdded(MobEffectInstance, CallbackInfo)}
+     */
     @AllArgsConstructor
     @Getter
     public static class EffectAddedToEntityEvent extends Cancellable {
@@ -75,6 +80,10 @@ public class EntityEvents {
         private MobEffectInstance effect;
     }
 
+    /**
+     * This event is fired when any entity in the server has an effect removed from it.
+     * Implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin#onEffectRemoved(MobEffectInstance, CallbackInfo)}
+     */
     @AllArgsConstructor
     @Getter
     public static class EffectRemovedFromEntityEvent extends Cancellable {

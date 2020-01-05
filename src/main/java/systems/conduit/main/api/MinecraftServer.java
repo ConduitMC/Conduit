@@ -30,5 +30,5 @@ public interface MinecraftServer {
     CommandSourceStack createCommandSourceStack();
     void close();
     CustomBossEvents getCustomBossEvents();
-
+    String getServerModName();
 }

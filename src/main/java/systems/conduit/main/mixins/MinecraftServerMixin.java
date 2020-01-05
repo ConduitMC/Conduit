@@ -8,6 +8,7 @@ import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -64,5 +65,13 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Inject(method = "run", at = @At("HEAD"))
     public void run(CallbackInfo ci) {
         Conduit.getEventManager().dispatchEvent(new ServerEvents.ServerStartingEvent());
+    }
+
+    /**
+     * @author ConduitMC
+     */
+    @Overwrite
+    public String getServerModName() {
+        return "conduit";
     }
 }

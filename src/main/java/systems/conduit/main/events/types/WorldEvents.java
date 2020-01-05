@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import systems.conduit.main.api.Level;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
 
@@ -49,17 +50,20 @@ public class WorldEvents {
     @AllArgsConstructor
     @Getter
     public static class WorldSaveEvent extends EventType {
+        private Level level;
     }
 
     @AllArgsConstructor
     @Getter
     public static class ChunkLoadEvent extends Cancellable {
+        private Level level;
         private ChunkPos chunk;
     }
 
     @AllArgsConstructor
     @Getter
     public static class ChunkUnloadEvent extends Cancellable {
+        private Level level;
         private ChunkPos chunk;
     }
 

@@ -40,6 +40,18 @@ public class PlayerEvents {
     public static class PlayerLeaveEvent extends EventType {
         private Player player;
         @Setter private Component message;
+        private LeaveType type;
+    }
+
+    /**
+     * Meta information provided by Minecraft.
+     */
+    @AllArgsConstructor
+    @Getter
+    public enum LeaveType {
+        LEFT, // Manually left the game
+        KICKED, // Got kicked by operator or plugin
+        UNKNOWN // Unknown. Possibly should have a type for it if its common.
     }
 
     /**

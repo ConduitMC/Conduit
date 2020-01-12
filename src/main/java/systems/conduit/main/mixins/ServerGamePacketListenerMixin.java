@@ -1,6 +1,7 @@
 package systems.conduit.main.mixins;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.server.players.PlayerList;
@@ -33,8 +34,17 @@ public class ServerGamePacketListenerMixin {
     }
 
     @Redirect(method = "onDisconnect", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;)V"))
-    private void playerLeaveMessage(PlayerList playerList, Component message) {
-        PlayerEvents.PlayerLeaveEvent event = new PlayerEvents.PlayerLeaveEvent((systems.conduit.main.api.ServerPlayer) player, message);
+    private void playerLeaveMessage(PlayerList playerList, Component message, Component arg) {
+        PlayerEvents.LeaveType leaveType = PlayerEvents.LeaveType.UNKNOWN;
+        if (arg instanceof TranslatableComponent) {
+            TranslatableComponent type = ((TranslatableComponent) arg);
+            if (type.getKey().equalsIgnoreCase("multiplayer.disconnect.kicked")) {
+                leaveType = PlayerEvents.LeaveType.KICKED;
+            } else if (type.getKey().equalsIgnoreCase("multiplayer.disconnect.generic")) {
+                leaveType = PlayerEvents.LeaveType.LEFT;
+            }
+        }
+        PlayerEvents.PlayerLeaveEvent event = new PlayerEvents.PlayerLeaveEvent((systems.conduit.main.api.ServerPlayer) player, message, leaveType);
         Conduit.getEventManager().dispatchEvent(event);
         Component eventMessage = event.getMessage();
         if (eventMessage != null) playerList.broadcastMessage(event.getMessage());

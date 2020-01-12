@@ -14,6 +14,7 @@ public class EventTypeRegistry {
         eventMappings.add(WorldEvents.BlockInteractEvent.class);
         eventMappings.add(WorldEvents.BlockBreakEvent.class);
         eventMappings.add(WorldEvents.BlockPlaceEvent.class);
+        eventMappings.add(WorldEvents.WorldSaveEvent.class);
 
         // Player events
         eventMappings.add(PlayerEvents.PlayerJoinEvent.class);

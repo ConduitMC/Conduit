@@ -27,6 +27,9 @@
     "event.entity.SheepMixin",
     "event.entity.SlimeMixin",
 
-    "event.goal.BreedGoalMixin"
+    "event.goal.BreedGoalMixin",
+
+    "event.level.LevelStorageMixin",
+    "event.BaseSpawnerMixin"
   ]
 }

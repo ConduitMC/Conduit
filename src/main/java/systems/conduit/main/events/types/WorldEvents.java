@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Location;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
@@ -12,6 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import systems.conduit.main.api.Level;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
+
+import java.util.Optional;
 
 /*
  * @author Innectic
@@ -50,7 +53,7 @@ public class WorldEvents {
     @AllArgsConstructor
     @Getter
     public static class WorldSaveEvent extends EventType {
-        private Level level;
+        private Optional<ServerLevel> level;
     }
 
     @AllArgsConstructor

@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 
 /**
- * Base Conduit interface for use with systems.conduit.core.mixins.
+ * Base Conduit interface for use with mixins.
  * Implementation: {@link systems.conduit.core.mixins.MinecraftServerMixin}
  *
  * @since API 0.1

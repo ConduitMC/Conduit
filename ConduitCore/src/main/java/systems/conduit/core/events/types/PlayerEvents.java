@@ -50,7 +50,7 @@ public class PlayerEvents {
     @Getter
     public enum LeaveType {
         LEFT, // Manually left the game
-        KICKED, // Got kicked by operator or systems.conduit.core.plugin
+        KICKED, // Got kicked by operator or plugin
         UNKNOWN // Unknown. Possibly should have a type for it if its common.
     }
 
@@ -123,7 +123,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Player chat event. No systems.conduit.core.commands included.
+     * Player chat event. No commands included.
      * Mixin implementation: {@link systems.conduit.core.mixins.ServerGamePacketListenerMixin}
      */
     @AllArgsConstructor

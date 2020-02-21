@@ -15,7 +15,7 @@ import net.minecraft.world.scores.Team;
 import java.util.*;
 
 /**
- * Base Conduit interface for use with systems.conduit.core.mixins.
+ * Base Conduit interface for use with mixins.
  * Implementation: {@link systems.conduit.core.mixins.api.EntityMixin}
  *
  * @since API 0.1

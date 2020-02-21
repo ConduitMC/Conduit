@@ -48,12 +48,12 @@ public class PluginClassLoader extends URLClassLoader {
     Optional<PluginMeta> loadMeta() {
         Reflections reflections = new Reflections(new ConfigurationBuilder().setUrls(url).addClassLoader(this));
         Set<Class<? extends Plugin>> annotated = reflections.getSubTypesOf(Plugin.class).stream().filter(c -> c.isAnnotationPresent(PluginMeta.class)).collect(Collectors.toSet());
-        // Since we have the systems.conduit.core.plugin class, we'll first grab the annotation and make sure that all the values are present.
+        // Since we have the plugin class, we'll first grab the annotation and make sure that all the values are present.
         for (Class<? extends Plugin> pluginClass : annotated) {
-            // Get the systems.conduit.core.plugin meta
+            // Get the plugin meta
             PluginMeta meta = pluginClass.getAnnotation(PluginMeta.class);
             if (meta == null) {
-                Conduit.getLogger().error("INTERNAL ERROR: failed to load systems.conduit.core.plugin class: " + pluginClass.getName() + ": cannot find annotation that previously existed.");
+                Conduit.getLogger().error("INTERNAL ERROR: failed to load plugin class: " + pluginClass.getName() + ": cannot find annotation that previously existed.");
                 return Optional.empty();
             }
             return Optional.of(meta);
@@ -64,26 +64,26 @@ public class PluginClassLoader extends URLClassLoader {
     Optional<Plugin> load(PluginMeta meta) {
         Reflections reflections = new Reflections(new ConfigurationBuilder().setUrls(url).addClassLoader(this));
         Set<Class<? extends Plugin>> annotated = reflections.getSubTypesOf(Plugin.class).stream().filter(c -> c.isAnnotationPresent(PluginMeta.class)).collect(Collectors.toSet());
-        // Since we have the systems.conduit.core.plugin class, we'll first grab the annotation and make sure that all the values are present.
+        // Since we have the plugin class, we'll first grab the annotation and make sure that all the values are present.
         for (Class<? extends Plugin> pluginClass : annotated) {
-            // Now that we have our meta information, we can attempt to create an instance of this systems.conduit.core.plugin.
+            // Now that we have our meta information, we can attempt to create an instance of this plugin.
             Optional<Plugin> plugin = Optional.empty();
             try {
                 Constructor<? extends Plugin> constructor = pluginClass.getConstructor();
                 plugin = Optional.of(constructor.newInstance());
             } catch (NoSuchMethodException | InstantiationException | InvocationTargetException | IllegalAccessException e) {
-                Conduit.getLogger().error("INTERNAL ERROR: failed to create instance of systems.conduit.core.plugin: " + meta.name());
+                Conduit.getLogger().error("INTERNAL ERROR: failed to create instance of plugin: " + meta.name());
                 e.printStackTrace();
             }
-            // Double check that we have an instance of the systems.conduit.core.plugin
+            // Double check that we have an instance of the plugin
             if (!plugin.isPresent()) {
-                Conduit.getLogger().error("INTERNAL ERROR: empty systems.conduit.core.plugin instance leaked past try for " + meta.name());
+                Conduit.getLogger().error("INTERNAL ERROR: empty plugin instance leaked past try for " + meta.name());
                 return Optional.empty();
             }
             plugin.get().setClassLoader(this);
             plugin.get().setDatastore(new DatastoreController(meta.name()));
             plugin.get().setMeta(meta);
-            // Now, we can try to get the config for this systems.conduit.core.plugin.
+            // Now, we can try to get the config for this plugin.
             Class<? extends Configuration> clazz = meta.config();
             loadConfiguration(plugin.get(), clazz).ifPresent(plugin.get()::setConfig);
             return plugin;
@@ -98,7 +98,7 @@ public class PluginClassLoader extends URLClassLoader {
         // Ensure that the path exists. If it doesn't, then we don't need to process this.
         File pluginFolder = path.toFile();
         if (!pluginFolder.exists()) {
-            if (!pluginFolder.mkdirs()) Conduit.getLogger().error("Failed to make systems.conduit.core.plugin directory");
+            if (!pluginFolder.mkdirs()) Conduit.getLogger().error("Failed to make plugin directory");
             return Optional.empty();
         }
         File file = path.resolve(annotation.name() + "." + annotation.type()).toFile();

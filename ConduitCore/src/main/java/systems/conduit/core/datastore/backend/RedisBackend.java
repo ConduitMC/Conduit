@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * An expirable systems.conduit.core.datastore that holds information in a Redis database.
+ * An expirable datastore that holds information in a Redis database.
  *
  * @author Innectic
  * @since 1/3/2020

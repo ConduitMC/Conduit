@@ -24,7 +24,7 @@ public class PluginManager {
 
     /**
      * Finds all classes in runtime that extend {@link Plugin} and are annotated with {@link systems.conduit.core.plugin.annotation.PluginMeta}
-     * and attempts to load it as a systems.conduit.core.plugin.
+     * and attempts to load it as a plugin.
      */
     public void loadPlugins() {
         Conduit.getLogger().info("Loading plugins...");
@@ -48,11 +48,11 @@ public class PluginManager {
 
     private void loadPlugins(List<File> pluginFiles, boolean reload) {
         try {
-            // List that should never be changed unless systems.conduit.core.plugin is unable to ever be loaded.
+            // List that should never be changed unless plugin is unable to ever be loaded.
             List<PluginMeta> metas = new ArrayList<>();
-            // Loaders - Should be able to be removed from here if we loaded the systems.conduit.core.plugin as systems.conduit.core.plugin now has classloader on it.
+            // Loaders - Should be able to be removed from here if we loaded the plugin as plugin now has classloader on it.
             Map<PluginMeta, PluginClassLoader> loaders = new HashMap<>();
-            // Needed to be loaded first soft dependencies - Remove systems.conduit.core.plugin from map and any lists
+            // Needed to be loaded first soft dependencies - Remove plugin from map and any lists
             Multimap<PluginMeta, String> softDependencies = ArrayListMultimap.create();
 
             for (File pluginFile : pluginFiles) {
@@ -61,7 +61,7 @@ public class PluginManager {
                     pluginMeta.ifPresent(meta -> loaders.put(meta, classLoader));
                     pluginMeta.ifPresent(metas::add);
                 } catch (IOException e) {
-                    Conduit.getLogger().error("Error loading systems.conduit.core.plugin: " + pluginFile.getName());
+                    Conduit.getLogger().error("Error loading plugin: " + pluginFile.getName());
                     e.printStackTrace();
                 }
             }
@@ -76,10 +76,10 @@ public class PluginManager {
                     List<String> hard = getHardDependencies(pl.getKey());
                     // Check to make sure all hard dependencies are able to be loaded
                     if (!getNames(metas).containsAll(getHardDependencies(pl.getKey()))) {
-                        Conduit.getLogger().error("Unable to load systems.conduit.core.plugin: " + pl.getKey().name());
+                        Conduit.getLogger().error("Unable to load plugin: " + pl.getKey().name());
                         hard.removeAll(getNames(metas));
                         Conduit.getLogger().error("Missing needed dependencies: " + hard);
-                        // Can't load ever so remove all reference to systems.conduit.core.plugin
+                        // Can't load ever so remove all reference to plugin
                         softDependencies.asMap().remove(pl.getKey());
                         metas.remove(pl.getKey());
                         it.remove();
@@ -88,7 +88,7 @@ public class PluginManager {
                     // Load soft soft dependencies first
                     if (softDependencies.get(pl.getKey()).isEmpty()) {
                         Optional<Plugin> optionalPlugin = loaders.get(pl.getKey()).load(pl.getKey());
-                        // The systems.conduit.core.plugin should now be loaded, now we can attempt to enable the systems.conduit.core.plugin.
+                        // The plugin should now be loaded, now we can attempt to enable the plugin.
                         if (!optionalPlugin.isPresent()) return;
                         Plugin plugin = optionalPlugin.get();
                         enable(plugin, reload);
@@ -100,7 +100,7 @@ public class PluginManager {
                 }
             }
         } catch (Exception e) {
-            Conduit.getLogger().error("Error loading systems.conduit.core.plugin.");
+            Conduit.getLogger().error("Error loading plugin.");
             e.printStackTrace();
         }
     }
@@ -127,30 +127,30 @@ public class PluginManager {
         Iterator<Plugin> iterator = plugins.iterator();
         while (iterator.hasNext()) {
             Plugin plugin = iterator.next();
-            // Disable the systems.conduit.core.plugin
+            // Disable the plugin
             disable(plugin, false);
-            // Remove systems.conduit.core.plugin from list
+            // Remove plugin from list
             iterator.remove();
         }
     }
 
     public void enable(Plugin plugin, boolean reload) {
         // Enable now
-        if (!reload) Conduit.getLogger().info("Enabling systems.conduit.core.plugin: " + plugin.getMeta().name());
+        if (!reload) Conduit.getLogger().info("Enabling plugin: " + plugin.getMeta().name());
         plugin.setPluginState(PluginState.ENABLING);
         plugin.onEnable();
         plugin.setPluginState(PluginState.ENABLED);
-        if (!reload) Conduit.getLogger().info("Enabled systems.conduit.core.plugin: " + plugin.getMeta().name());
+        if (!reload) Conduit.getLogger().info("Enabled plugin: " + plugin.getMeta().name());
     }
 
     public void disable(Plugin plugin, boolean server) {
         if ((plugin.getPluginState() == PluginState.DISABLING || plugin.getPluginState() == PluginState.DISABLED)) return;
-        if (!server) Conduit.getLogger().info("Disabling systems.conduit.core.plugin: " + plugin.getMeta().name());
+        if (!server) Conduit.getLogger().info("Disabling plugin: " + plugin.getMeta().name());
         plugin.setPluginState(PluginState.DISABLING);
         plugin.getEvents().clear();
         plugin.onDisable();
         plugin.setPluginState(PluginState.DISABLED);
-        if (!server) Conduit.getLogger().info("Disabled systems.conduit.core.plugin: " + plugin.getMeta().name());
+        if (!server) Conduit.getLogger().info("Disabled plugin: " + plugin.getMeta().name());
     }
 
     public void reloadPlugins(boolean server, Callback callback) {
@@ -161,23 +161,23 @@ public class PluginManager {
     }
 
     public void reload(Plugin plugin, boolean server) {
-        // Before we attempt to reload the systems.conduit.core.plugin, make sure that it can safely be done.
+        // Before we attempt to reload the plugin, make sure that it can safely be done.
         if (!plugin.getMeta().reloadable()) {
-            // This systems.conduit.core.plugin is not reloadable.
+            // This plugin is not reloadable.
             return;
         }
-        if (!server) Conduit.getLogger().info("Reloading systems.conduit.core.plugin: " + plugin.getMeta().name());
-        // Unload the systems.conduit.core.plugin
+        if (!server) Conduit.getLogger().info("Reloading plugin: " + plugin.getMeta().name());
+        // Unload the plugin
         disable(plugin, true);
         AtomicReference<Optional<File>> pluginFile = new AtomicReference<>(Optional.empty());
-        // Remove the systems.conduit.core.plugin if found and store the file for later
+        // Remove the plugin if found and store the file for later
         plugins.removeIf(entryPlugin -> {
             pluginFile.set(Optional.ofNullable(entryPlugin.getClassLoader().getPluginFile()));
             return entryPlugin.equals(plugin);
         });
-        // Load systems.conduit.core.plugin again
+        // Load plugin again
         pluginFile.get().ifPresent(file -> loadPlugins(Collections.singletonList(file), true));
-        if (!server) Conduit.getLogger().info("Reloaded systems.conduit.core.plugin: " + plugin.getMeta().name());
+        if (!server) Conduit.getLogger().info("Reloaded plugin: " + plugin.getMeta().name());
 
         ServerEvents.PluginReloadEvent event = new ServerEvents.PluginReloadEvent(plugin);
         Conduit.getEventManager().dispatchEvent(event);

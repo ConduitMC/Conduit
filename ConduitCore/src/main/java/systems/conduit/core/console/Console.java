@@ -23,7 +23,7 @@ public class Console {
         try {
             Terminal terminal = TerminalBuilder.builder().dumb(true).build();
             LineReader reader = LineReaderBuilder.builder().terminal(terminal).parser(new DefaultParser()).appName(Conduit.getMeta().name()).build();
-            Thread consoleThread = new Thread("Server systems.conduit.core.console handler") {
+            Thread consoleThread = new Thread("Server console handler") {
                 public void run() {
                     try {
                         String line;

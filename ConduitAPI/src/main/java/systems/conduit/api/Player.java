@@ -10,7 +10,7 @@ import net.minecraft.world.scores.Scoreboard;
 import systems.conduit.api.inventory.ChestContainer;
 
 /**
- * Base Conduit interface for use with systems.conduit.core.mixins.
+ * Base Conduit interface for use with mixins.
  * Implementation: {@link systems.conduit.core.mixins.api.PlayerMixin}
  *
  * @since API 0.1

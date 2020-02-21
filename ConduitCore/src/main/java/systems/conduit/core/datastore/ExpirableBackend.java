@@ -9,7 +9,7 @@ package systems.conduit.core.datastore;
 public interface ExpirableBackend {
 
     /**
-     * Set a string value in the systems.conduit.core.datastore that will expire.
+     * Set a string value in the datastore that will expire.
      *
      * @param key      the name of the entry to set
      * @param value    the value of the entry
@@ -19,7 +19,7 @@ public interface ExpirableBackend {
 
 
     /**
-     * Set an int value in the systems.conduit.core.datastore that will expire.
+     * Set an int value in the datastore that will expire.
      *
      * @param key      the name of the entry to set
      * @param value    the value of the entry
@@ -29,7 +29,7 @@ public interface ExpirableBackend {
 
 
     /**
-     * Set a float value in the systems.conduit.core.datastore that will expire.
+     * Set a float value in the datastore that will expire.
      *
      * @param key      the name of the entry to set
      * @param value    the value of the entry
@@ -39,7 +39,7 @@ public interface ExpirableBackend {
 
 
     /**
-     * Set a double value in the systems.conduit.core.datastore that will expire.
+     * Set a double value in the datastore that will expire.
      *
      * @param key      the name of the entry to set
      * @param value    the value of the entry
@@ -49,7 +49,7 @@ public interface ExpirableBackend {
 
 
     /**
-     * Set a custom storable value in the systems.conduit.core.datastore that will expire.
+     * Set a custom storable value in the datastore that will expire.
      *
      * @param key      the name of the entry to set
      * @param value    the value of the entry

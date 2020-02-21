@@ -72,6 +72,6 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
      */
     @Overwrite
     public String getServerModName() {
-        return "systems.conduit.core.Conduit";
+        return "Conduit";
     }
 }

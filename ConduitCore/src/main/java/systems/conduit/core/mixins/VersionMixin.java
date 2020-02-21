@@ -12,13 +12,13 @@ public abstract class VersionMixin {
     @Shadow @Final private String name;
 
     /**
-     * Adds systems.conduit.core.Conduit to the Minecraft version name.
+     * Adds Conduit to the Minecraft version name.
      *
      * @author ConduitMC
-     * @return Minecraft version and systems.conduit.core.Conduit name
+     * @return Minecraft version and Conduit name
      */
     @Overwrite
     public String getName() {
-        return name + "/systems.conduit.core.Conduit";
+        return name + "/Conduit";
     }
 }

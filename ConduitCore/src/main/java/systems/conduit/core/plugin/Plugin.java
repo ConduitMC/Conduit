@@ -39,10 +39,10 @@ public abstract class Plugin {
     }
 
     /**
-     * Get the systems.conduit.core.plugin's configuration in the type provided.
+     * Get the plugin's configuration in the type provided.
      *
      * @param <T> the configuration type
-     * @return the systems.conduit.core.plugin's configuration
+     * @return the plugin's configuration
      */
     @SuppressWarnings("unchecked")
     public <T extends Configuration> Optional<T> getConfig() {

@@ -26,10 +26,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Optional;
 
-@PluginMeta(name = "systems.conduit.core.Conduit", description = "", version = "@VERSION@", author = "ConduitMC")
+@PluginMeta(name = "Conduit", description = "", version = "@VERSION@", author = "ConduitMC")
 public class Conduit {
 
-    @Getter private static final Logger logger = LogManager.getLogger("systems.conduit.core.Conduit", new MessageFactory());
+    @Getter private static final Logger logger = LogManager.getLogger("Conduit", new MessageFactory());
     @Getter private static EventManager eventManager = new EventManager();
     @Getter private static PluginManager pluginManager = new PluginManager();
     @Getter private static CommandManager commandManager = new CommandManager();

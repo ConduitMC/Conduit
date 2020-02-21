@@ -20,12 +20,12 @@ public abstract class CommandSourceMixin {
 
     @Shadow public abstract Entity getEntity();
 
-    @Redirect(method = "sendSuccess", at = @At(value = "INVOKE", target = "Lnet/minecraft/systems.conduit.core.commands/CommandSource;sendMessage(Lnet/minecraft/network/chat/Component;)V"))
+    @Redirect(method = "sendSuccess", at = @At(value = "INVOKE", target = "Lnet/minecraft/commands/CommandSource;sendMessage(Lnet/minecraft/network/chat/Component;)V"))
     private void sendSuccess(CommandSource source, Component component) {
         sendColoredString(component);
     }
 
-    @Redirect(method = "sendFailure", at = @At(value = "INVOKE", target = "Lnet/minecraft/systems.conduit.core.commands/CommandSource;sendMessage(Lnet/minecraft/network/chat/Component;)V"))
+    @Redirect(method = "sendFailure", at = @At(value = "INVOKE", target = "Lnet/minecraft/commands/CommandSource;sendMessage(Lnet/minecraft/network/chat/Component;)V"))
     private void sendFailure(CommandSource source, Component component) {
         sendColoredString((new TextComponent("")).append(component).withStyle(ChatFormatting.RED));
     }

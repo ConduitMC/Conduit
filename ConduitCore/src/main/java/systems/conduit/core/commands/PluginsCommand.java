@@ -33,16 +33,16 @@ public class PluginsCommand extends BaseCommand {
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {
                 if (!plugin.get().getMeta().reloadable()) {
-                    // This systems.conduit.core.plugin is not reloadable. Let the user know.
+                    // This plugin is not reloadable. Let the user know.
                     c.getSource().sendFailure(new TextComponent(pluginName + " is not reloadable."));
                     return 0;
                 }
                 pluginName = plugin.get().getMeta().name();
-                c.getSource().sendSuccess(new TextComponent("Reloading systems.conduit.core.plugin: " + pluginName), false);
+                c.getSource().sendSuccess(new TextComponent("Reloading plugin: " + pluginName), false);
                 Conduit.getPluginManager().reload(plugin.get(), c.getSource().getEntity() == null);
-                c.getSource().sendSuccess(new TextComponent("Reloaded systems.conduit.core.plugin: " + pluginName), false);
+                c.getSource().sendSuccess(new TextComponent("Reloaded plugin: " + pluginName), false);
             } else {
-                c.getSource().sendFailure(new TextComponent(pluginName + " is not a systems.conduit.core.plugin. Unable to reload!"));
+                c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin. Unable to reload!"));
             }
             return 1;
         })).executes(c -> {
@@ -59,8 +59,8 @@ public class PluginsCommand extends BaseCommand {
 
     private LiteralArgumentBuilder<CommandSourceStack> changeStateSubcommand(boolean enable) {
         String state = (enable ? "enable" : "disable");
-        String preStateText = (enable ? "Enabling" : "Disabling") + " systems.conduit.core.plugin: ";
-        String postStateText = (enable ? "Enabled" : "Disabled") + " systems.conduit.core.plugin: ";
+        String preStateText = (enable ? "Enabling" : "Disabling") + " plugin: ";
+        String postStateText = (enable ? "Enabled" : "Disabled") + " plugin: ";
         return Commands.literal(state).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
@@ -74,11 +74,11 @@ public class PluginsCommand extends BaseCommand {
                 }
                 c.getSource().sendSuccess(new TextComponent(postStateText + pluginName), false);
             } else {
-                c.getSource().sendFailure(new TextComponent(pluginName + " is not a systems.conduit.core.plugin. Unable to " + state + "!"));
+                c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin. Unable to " + state + "!"));
             }
             return 1;
         })).executes(c -> {
-            c.getSource().sendFailure(new TextComponent("Please specify a systems.conduit.core.plugin to " + state + "!"));
+            c.getSource().sendFailure(new TextComponent("Please specify a plugin to " + state + "!"));
             return 1;
         });
     }

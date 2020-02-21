@@ -1,7 +1,7 @@
 package systems.conduit.core.datastore;
 
 /**
- * A custom object that can be stored within a systems.conduit.core.datastore.
+ * A custom object that can be stored within a datastore.
  *
  * @author Innectic
  * @since 12/30/2019

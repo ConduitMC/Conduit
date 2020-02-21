@@ -23,7 +23,7 @@ public class VersionCommand extends BaseCommand {
                 String version = plugin.get().getMeta().version();
                 c.getSource().sendSuccess(new TextComponent(pluginName + " v" + version), false);
             } else {
-                c.getSource().sendFailure(new TextComponent(pluginName + " is not a systems.conduit.core.plugin!"));
+                c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin!"));
             }
             return 1;
         })).executes(c -> {

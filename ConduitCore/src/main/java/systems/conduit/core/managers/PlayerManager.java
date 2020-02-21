@@ -14,6 +14,7 @@ import java.util.*;
  * @author Innectic
  * @since 10/26/2019
  */
+// TODO: This needs to be moved to the API
 public class PlayerManager {
 
     /**

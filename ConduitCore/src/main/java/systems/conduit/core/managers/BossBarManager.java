@@ -7,6 +7,7 @@ import systems.conduit.core.Conduit;
 
 import java.util.Optional;
 
+// TODO: This needs to be moved to the API
 public class BossBarManager {
 
     public Optional<CustomBossEvent> createBossBar(String id) {

@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            url "https://repo.conduit.systems/repository/releases/"
+        }
+    }
+    dependencies {
+        classpath "systems.conduit:Stream:1.0.0"
+    }
+}
+
+apply plugin: "Stream"
+
+conduit {
+    version = null
+    minecraft = "1.14.4"
+    java = "1.8"
+}
+
+group = "systems.conduit"
+version = "0.0.4"
+
+java {
+//    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            credentials {
+                username System.getProperty("MAVEN_USER") ?: "ci"
+                password System.getProperty("MAVEN_PASSWORD") ?: "password"
+            }
+            url "https://repo.conduit.systems/repository/releases/"
+        }
+    }
+}

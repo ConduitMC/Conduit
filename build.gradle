@@ -9,11 +9,8 @@ buildscript {
     dependencies {
         classpath "systems.conduit:Stream:1.0.0"
     }
-}
-plugins {
-    id "checkstyle"
-}
-apply plugin: "Stream"
+
+    apply plugin: "Stream"
 
 dependencies {
     api "org.reflections:reflections:0.9.11"
@@ -30,10 +27,6 @@ conduit {
 
 group = theGroup
 version = theVersion
-
-checkstyle {
-    configFile = file("$rootDir/checkstyle.xml")
-}
 
 java {
     withSourcesJar()

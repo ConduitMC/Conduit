@@ -7,12 +7,22 @@ import systems.conduit.core.plugin.Plugin;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.Parameter;
+import java.util.*;
 
 public class EventManager {
+
+    @SuppressWarnings("unchecked")
+    private static Optional<Class<? extends EventType>> findEventTypeFromListenerMethod(Method method) {
+        Parameter[] params = method.getParameters();
+        if (params.length < 1) return Optional.empty();  // We have to have at least one parameter to check.
+
+        // Check to make sure that this parameter is of the EventType type.
+        Parameter param = params[0];
+        if (!EventType.class.isAssignableFrom(param.getType())) return Optional.empty();
+
+        return Optional.of((Class<? extends EventType>) param.getType());
+    }
 
     public void registerEventClass(Plugin plugin, Class<? extends EventListener> clazz) {
         // Attempt to create an instance of the listener.
@@ -30,13 +40,17 @@ public class EventManager {
             // If this method is not annotated, then we don't care about it.
             if (!method.isAnnotationPresent(Listener.class)) continue;
             Listener annotation = method.getAnnotation(Listener.class);
-            registerHandler(plugin, method, listener, annotation);
+
+            registerHandler(plugin, method, listener);
         }
     }
 
-    private void registerHandler(Plugin plugin, Method method, EventListener listener, Listener annotation) {
-        Class<? extends EventType> eventType = annotation.value();
-        int eventId = EventTypeRegistry.getEventMappings().indexOf(eventType);
+    private void registerHandler(Plugin plugin, Method method, EventListener listener) {
+        // Attempt to get the type of event that this method is handling.
+        Optional<Class<? extends EventType>> eventType = findEventTypeFromListenerMethod(method);
+        if (!eventType.isPresent()) return;  // Skip this method as it doesn't look like it actually handles anything.
+
+        int eventId = EventTypeRegistry.getEventMappings().indexOf(eventType.get());
         if (eventId == -1) {
             Conduit.getLogger().error("Invalid event type register: " + eventType);
             return;

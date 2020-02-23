@@ -9,8 +9,8 @@ buildscript {
     dependencies {
         classpath "systems.conduit:Stream:1.0.0"
     }
-
-    apply plugin: "Stream"
+}
+apply plugin: "Stream"
 
 dependencies {
     api "org.reflections:reflections:0.9.11"
@@ -47,4 +47,4 @@ publishing {
             url "https://repo.conduit.systems/repository/releases/"
         }
     }
-}}
+}

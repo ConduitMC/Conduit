@@ -1,7 +1,7 @@
 package systems.conduit.core.events;
 
 import systems.conduit.core.Conduit;
-import systems.conduit.core.events.annotations.EventHandler;
+import systems.conduit.core.events.annotations.Listener;
 import systems.conduit.core.events.types.EventType;
 import systems.conduit.core.plugin.Plugin;
 
@@ -28,13 +28,13 @@ public class EventManager {
         Method[] methods = clazz.getMethods();
         for (Method method : methods) {
             // If this method is not annotated, then we don't care about it.
-            if (!method.isAnnotationPresent(EventHandler.class)) continue;
-            EventHandler annotation = method.getAnnotation(EventHandler.class);
+            if (!method.isAnnotationPresent(Listener.class)) continue;
+            Listener annotation = method.getAnnotation(Listener.class);
             registerHandler(plugin, method, listener, annotation);
         }
     }
 
-    private void registerHandler(Plugin plugin, Method method, EventListener listener, EventHandler annotation) {
+    private void registerHandler(Plugin plugin, Method method, EventListener listener, Listener annotation) {
         Class<? extends EventType> eventType = annotation.value();
         int eventId = EventTypeRegistry.getEventMappings().indexOf(eventType);
         if (eventId == -1) {
@@ -72,8 +72,8 @@ public class EventManager {
         }
         // TODO: Maybe we should pre-process this garbage?
         Conduit.getPluginManager().getPlugins().forEach(plugin -> plugin.getEvents().getOrDefault(eventId, new HashMap<>()).entrySet().stream().sorted((o1, o2) -> {
-            EventHandler firstAnnotation = o1.getKey().getClass().getAnnotation(EventHandler.class);
-            EventHandler secondAnnotation = o2.getKey().getClass().getAnnotation(EventHandler.class);
+            Listener firstAnnotation = o1.getKey().getClass().getAnnotation(Listener.class);
+            Listener secondAnnotation = o2.getKey().getClass().getAnnotation(Listener.class);
             if (firstAnnotation == null || secondAnnotation == null) return 0;
 
             return Integer.compare(firstAnnotation.priority(), secondAnnotation.priority());

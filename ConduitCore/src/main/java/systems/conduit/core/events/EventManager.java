@@ -57,7 +57,7 @@ public class EventManager {
         }
 
         if (!plugin.getEvents().containsKey(eventId)) {
-            // No currently registered systems.conduit.core.events on this.
+            // No currently registered events on this.
             Map<EventListener, List<Method>> handlers = new HashMap<>();
             List<Method> methods = new ArrayList<>();
             methods.add(method);
@@ -72,7 +72,6 @@ public class EventManager {
                 // If we found another handler that matches this one, then add to it.
                 value.add(method);
                 current.put(key, value);
-                Conduit.getLogger().info("Registered handler: " + method.getName() + " " + listener.getClass());
             }
         });
         plugin.getEvents().put(eventId, current);
@@ -81,9 +80,10 @@ public class EventManager {
     public void dispatchEvent(EventType eventType) {
         int eventId = EventTypeRegistry.getEventMappings().indexOf(eventType.getClass());
         if (eventId == -1) {
-            Conduit.getLogger().error("Invalid event type dispatch: " + eventType.getClass());
+            Conduit.getLogger().error("Cannot dispatch invalid event type: " + eventType.getClass());
             return;
         }
+
         // TODO: Maybe we should pre-process this garbage?
         Conduit.getPluginManager().getPlugins().forEach(plugin -> plugin.getEvents().getOrDefault(eventId, new HashMap<>()).entrySet().stream().sorted((o1, o2) -> {
             Listener firstAnnotation = o1.getKey().getClass().getAnnotation(Listener.class);
@@ -95,7 +95,7 @@ public class EventManager {
             try {
                 method.invoke(entry.getKey(), eventType);
             } catch (IllegalAccessException | InvocationTargetException e) {
-                Conduit.getLogger().error("Failed to execute event handler method");
+                Conduit.getLogger().error("Failed to execute plugin event handler method");
                 e.printStackTrace();
             }
         })));

@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface EventHandler {
-    Class<? extends EventType> value();
+public @interface Listener {
     int priority() default 1;
 }

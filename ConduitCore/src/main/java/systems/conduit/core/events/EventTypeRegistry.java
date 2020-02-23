@@ -10,13 +10,13 @@ public class EventTypeRegistry {
     private static List<Class<? extends EventType>> eventMappings = new ArrayList<>();
 
     static {
-        // World systems.conduit.core.events
+        // World events
         eventMappings.add(WorldEvents.BlockInteractEvent.class);
         eventMappings.add(WorldEvents.BlockBreakEvent.class);
         eventMappings.add(WorldEvents.BlockPlaceEvent.class);
         eventMappings.add(WorldEvents.WorldSaveEvent.class);
 
-        // Player systems.conduit.core.events
+        // Player events
         eventMappings.add(PlayerEvents.PlayerJoinEvent.class);
         eventMappings.add(PlayerEvents.PlayerLeaveEvent.class);
         eventMappings.add(PlayerEvents.PlayerDamageByEntityEvent.class);
@@ -27,14 +27,14 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.PlayerCommandEvent.class);
         eventMappings.add(PlayerEvents.ConsumeEvent.class);
 
-        // Entity systems.conduit.core.events
+        // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);
         eventMappings.add(EntityEvents.BabySheepEatEvent.class);
         eventMappings.add(EntityEvents.SlimeSplitEvent.class);
         eventMappings.add(EntityEvents.EffectAddedToEntityEvent.class);
         eventMappings.add(EntityEvents.EffectRemovedFromEntityEvent.class);
 
-        // Server systems.conduit.core.events
+        // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);
         eventMappings.add(ServerEvents.ServerStartingEvent.class);
         eventMappings.add(ServerEvents.ServerShuttingDownEvent.class);

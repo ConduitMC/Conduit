@@ -67,18 +67,18 @@ public class PluginManager {
             }
             for (PluginMeta meta : loaders.keySet()) {
                 // All soft dependencies
-                List<PluginMeta> otherDependencies = metas.stream().filter(meta1 -> !meta1.equals(meta)).collect(Collectors.toList());
+                List<PluginMeta> otherDependencies = metas.stream().filter(m -> !m.equals(meta)).collect(Collectors.toList());
                 softDependencies.putAll(meta, getSoftDependencies(otherDependencies, meta));
             }
             while (!loaders.isEmpty()) {
                 for (Iterator<Map.Entry<PluginMeta, PluginClassLoader>> it = loaders.entrySet().iterator(); it.hasNext();) {
                     Map.Entry<PluginMeta, PluginClassLoader> pl = it.next();
-                    List<String> hard = getHardDependencies(pl.getKey());
+                    List<String> hardDependencies = getHardDependencies(pl.getKey());
                     // Check to make sure all hard dependencies are able to be loaded
                     if (!getNames(metas).containsAll(getHardDependencies(pl.getKey()))) {
-                        Conduit.getLogger().error("Unable to load plugin: " + pl.getKey().name());
-                        hard.removeAll(getNames(metas));
-                        Conduit.getLogger().error("Missing needed dependencies: " + hard);
+                        Conduit.getLogger().error("Failed to load " + pl.getKey().name() + " due to missing dependencies.");
+                        hardDependencies.removeAll(getNames(metas));
+                        Conduit.getLogger().error("Required dependencies: " + hardDependencies);
                         // Can't load ever so remove all reference to plugin
                         softDependencies.asMap().remove(pl.getKey());
                         metas.remove(pl.getKey());
@@ -100,7 +100,7 @@ public class PluginManager {
                 }
             }
         } catch (Exception e) {
-            Conduit.getLogger().error("Error loading plugin.");
+            Conduit.getLogger().error("Failed to load plugin.");
             e.printStackTrace();
         }
     }
@@ -171,9 +171,9 @@ public class PluginManager {
         disable(plugin, true);
         AtomicReference<Optional<File>> pluginFile = new AtomicReference<>(Optional.empty());
         // Remove the plugin if found and store the file for later
-        plugins.removeIf(entryPlugin -> {
-            pluginFile.set(Optional.ofNullable(entryPlugin.getClassLoader().getPluginFile()));
-            return entryPlugin.equals(plugin);
+        plugins.removeIf(pl -> {
+            pluginFile.set(Optional.ofNullable(pl.getClassLoader().getPluginFile()));
+            return pl.equals(plugin);
         });
         // Load plugin again
         pluginFile.get().ifPresent(file -> loadPlugins(Collections.singletonList(file), true));

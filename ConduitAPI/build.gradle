@@ -15,7 +15,7 @@ apply plugin: "Stream"
 
 conduit {
     version = null
-    minecraft = "1.14.4"
+    minecraft = "1.15.2"
     java = "1.8"
 }
 

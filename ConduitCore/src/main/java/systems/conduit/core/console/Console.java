@@ -8,6 +8,7 @@ import org.jline.reader.UserInterruptException;
 import org.jline.reader.impl.DefaultParser;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
+import systems.conduit.api.MinecraftServer;
 import systems.conduit.core.Conduit;
 
 import java.io.IOException;
@@ -20,26 +21,28 @@ public class Console {
     public static void createConsole() {
         if (consoleStarted) return;
         consoleStarted = true;
+
         try {
             Terminal terminal = TerminalBuilder.builder().dumb(true).build();
             LineReader reader = LineReaderBuilder.builder().terminal(terminal).parser(new DefaultParser()).appName(Conduit.getMeta().name()).build();
+
             Thread consoleThread = new Thread("Server console handler") {
                 public void run() {
                     try {
                         String line;
-                        while (Conduit.getServer().isPresent() && Conduit.getServer().get().isRunning() && !Conduit.getServer().get().isStopped()) {
+                        while (Conduit.getServer().map(s -> s.isRunning() && !s.isStopped()).orElse(false)) {
                             try {
                                 line = reader.readLine("> ", null);
                             } catch (EndOfFileException e) {
                                 e.printStackTrace();
                                 continue;
                             }
-                            if (line == null) continue;
-                            if (line.trim().length() <= 0) continue;
+                            if (line == null || line.trim().length() <= 0) continue;
                             Conduit.getServer().get().getCommands().performCommand(Conduit.getServer().get().createCommandSourceStack(), line);
                         }
                     } catch (UserInterruptException e) {
-                        Conduit.getServer().get().close();
+                        // If the user sent a kill code to the process, stop the server.
+                        Conduit.getServer().ifPresent(MinecraftServer::close);
                     }
                 }
             };
@@ -47,7 +50,7 @@ public class Console {
             consoleThread.setUncaughtExceptionHandler(new DefaultUncaughtExceptionHandler(Conduit.getLogger()));
             consoleThread.start();
         } catch (IOException e) {
-            Conduit.getLogger().error("Error building terminal");
+            Conduit.getLogger().error("Failed to initialize terminal.");
             e.printStackTrace();
         }
     }

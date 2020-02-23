@@ -5,7 +5,7 @@ import org.apache.logging.log4j.message.StringFormattedMessage;
 
 public class MessageFactory implements org.apache.logging.log4j.message.MessageFactory {
 
-    private static ColorReplacer colorReplacer = new ColorReplacer();
+    private static ConsoleColorUtil colorReplacer = new ConsoleColorUtil();
 
     @Override
     public Message newMessage(Object message) {

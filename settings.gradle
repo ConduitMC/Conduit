@@ -1,4 +1,0 @@
-rootProject.name = theName
-include 'ConduitCore'
-include 'ConduitAPI'
-

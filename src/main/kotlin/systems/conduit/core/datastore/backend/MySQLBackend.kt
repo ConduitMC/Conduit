@@ -20,7 +20,7 @@ class MySQLBackend: DatastoreHandler {
         private set
     private var table: String? = null
 
-    override fun attach(meta: Map<String?, Any>) {
+    override fun attach(meta: Map<String, Any>) {
         // TODO: Implement SQLite
         if (!meta.containsKey("host") || !meta.containsKey("port") || !meta.containsKey("database") || !meta.containsKey("username") || !meta.containsKey("password") || !meta.containsKey("table")) return
         table = meta["table"] as String? // TODO: Make sure there's nothing scary in there
@@ -36,7 +36,7 @@ class MySQLBackend: DatastoreHandler {
         source = null
     }
 
-    override fun set(key: String?, value: String?) {
+    override fun set(key: String, value: String) {
         if (source == null) return
         val conn = source!!.connection ?: return
         val statement = conn.prepareStatement("INSERT INTO $table (key,value) VALUES (?,?) ON DUPLICATE KEY UPDATE value=?") ?: return
@@ -47,23 +47,23 @@ class MySQLBackend: DatastoreHandler {
         statement.close()
     }
 
-    override fun set(key: String?, value: Int) {
+    override fun set(key: String, value: Int) {
         set(key, value.toString())
     }
 
-    override fun set(key: String?, value: Float) {
+    override fun set(key: String, value: Float) {
         set(key, value.toString())
     }
 
-    override fun set(key: String?, value: Double) {
+    override fun set(key: String, value: Double) {
         set(key, value.toString())
     }
 
-    override fun set(key: String?, value: Storable<*>?) {
+    override fun set(key: String, value: Storable<*>) {
         set(key, value.toString())
     }
 
-    override fun getInt(key: String?): Int? {
+    override fun getInt(key: String): Int? {
         return try {
             return Integer.valueOf(getString(key))
         } catch (e: NumberFormatException) {
@@ -72,7 +72,7 @@ class MySQLBackend: DatastoreHandler {
         }
     }
 
-    override fun getFloat(key: String?): Float? {
+    override fun getFloat(key: String): Float? {
         return try {
             return java.lang.Float.valueOf(getString(key))
         } catch (e: NumberFormatException) {
@@ -81,7 +81,7 @@ class MySQLBackend: DatastoreHandler {
         }
     }
 
-    override fun getDouble(key: String?): Double? {
+    override fun getDouble(key: String): Double? {
         return try {
             return java.lang.Double.valueOf(getString(key))
         } catch (e: NumberFormatException) {
@@ -90,7 +90,7 @@ class MySQLBackend: DatastoreHandler {
         }
     }
 
-    override fun getString(key: String?): String? {
+    override fun getString(key: String): String? {
         try {
             if (source == null) return null
             val conn = source!!.connection ?: return null
@@ -116,11 +116,11 @@ class MySQLBackend: DatastoreHandler {
         }
     }
 
-    override fun <T> getCustom(key: String?): Storable<T>? {
+    override fun <T> getCustom(key: String): Storable<T>? {
         return null // TODO: Figure out how this is all going to work because it's confusing
     }
 
-    override fun delete(key: String?) {
+    override fun delete(key: String) {
         try {
             if (source == null) return
             val conn = source!!.connection ?: return

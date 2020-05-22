@@ -14,7 +14,7 @@ interface ExpirableBackend {
      * @param value    the value of the entry
      * @param duration TTL of the new entry
      */
-    operator fun set(key: String?, value: String?, duration: Int)
+    operator fun set(key: String, value: String, duration: Int)
 
     /**
      * Set an int value in the datastore that will expire.
@@ -23,7 +23,7 @@ interface ExpirableBackend {
      * @param value    the value of the entry
      * @param duration TTL of the new entry
      */
-    operator fun set(key: String?, value: Int, duration: Int)
+    operator fun set(key: String, value: Int, duration: Int)
 
     /**
      * Set a float value in the datastore that will expire.
@@ -32,7 +32,7 @@ interface ExpirableBackend {
      * @param value    the value of the entry
      * @param duration TTL of the new entry
      */
-    operator fun set(key: String?, value: Float, duration: Int)
+    operator fun set(key: String, value: Float, duration: Int)
 
     /**
      * Set a double value in the datastore that will expire.
@@ -41,7 +41,7 @@ interface ExpirableBackend {
      * @param value    the value of the entry
      * @param duration TTL of the new entry
      */
-    operator fun set(key: String?, value: Double, duration: Int)
+    operator fun set(key: String, value: Double, duration: Int)
 
     /**
      * Set a custom storable value in the datastore that will expire.
@@ -50,5 +50,5 @@ interface ExpirableBackend {
      * @param value    the value of the entry
      * @param duration TTL of the new entry
      */
-    operator fun set(key: String?, value: Storable<*>?, duration: Int)
+    operator fun set(key: String, value: Storable<*>, duration: Int)
 }

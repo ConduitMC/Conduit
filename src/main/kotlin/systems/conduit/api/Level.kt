@@ -40,7 +40,7 @@ interface Level {
     fun getFluidState(pos: BlockPos?): FluidState?
     fun isDay(): Boolean
     fun playSound(player: Player?, pos: BlockPos?, event: SoundEvent?, source: SoundSource?, pitch: Float, volume: Float)
-    fun getBlockEntity(pos: BlockPos?): Optional<BlockEntity?>?
+    fun getBlockEntity(pos: BlockPos?): BlockEntity?
     fun setBlockEntity(pos: BlockPos?, entity: BlockEntity?)
     fun removeBlockEntity(pos: BlockPos?)
     fun isLoaded(pos: BlockPos?): Boolean

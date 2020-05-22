@@ -49,7 +49,7 @@ interface LivingEntity: Entity {
     fun getItemInHand(hand: InteractionHand?): ItemStack?
     fun setItemInHand(hand: InteractionHand?, item: ItemStack?)
     fun hasItemInSlot(slot: EquipmentSlot?): Boolean
-    override fun setSprinting(isSprinting: Boolean)
+    override fun setSprinting(state: Boolean)
     fun getSpeed(): Float
     fun setSpeed(speed: Float)
     override fun isInWall(): Boolean

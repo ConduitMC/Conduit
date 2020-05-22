@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Pose
 import net.minecraft.world.level.material.Fluid
 import net.minecraft.world.phys.Vec3
 import net.minecraft.world.scores.Team
+import net.minecraft.world.level.Level
 import java.util.*
 
 
@@ -20,16 +21,15 @@ import java.util.*
  * @since API 0.1
  */
 interface Entity {
+
+    val level: Level?
+    val x: Double
+    val y: Double
+    val z: Double
+
     fun getUUID(): UUID?
-
-    fun getX(): Double
-    fun getY(): Double
-    fun getZ(): Double
-
     fun sendMessage(message: String?)
     fun sendMessage(message: Component?)
-
-    fun getLevel(): Level?
 
     fun teleport(x: Double, y: Double, z: Double)
     fun teleport(position: Position?)
@@ -63,7 +63,6 @@ interface Entity {
     fun setInLava()
     fun isInLava(): Boolean
     fun moveRelative(scale: Float, vector: Vec3?)
-    fun setLevel(level: Level?)
     fun moveTo(x: Double, y: Double, z: Double, xRot: Float, yRot: Float)
     fun distanceTo(entity: Entity?): Float
     fun distanceToSqr(x: Double, y: Double, z: Double): Double
@@ -81,14 +80,14 @@ interface Entity {
     fun isGlowing(): Boolean
     fun setGlowing(state: Boolean)
     fun isInvisible(): Boolean
-    fun conduit_getTeam(): Optional<Team?>?
+    fun conduit_getTeam(): Team?
     fun isAlliedTo(team: Team?): Boolean
     fun isAlliedTo(entity: Entity?): Boolean
     fun setInvisible(state: Boolean)
     fun getMaxAirSupply(): Int
     fun setAirSupply(supply: Int)
     fun getDirection(): Direction?
-    fun conduit_getControllingPassenger(): Optional<Entity?>?
+    fun conduit_getControllingPassenger(): Entity?
     fun conduit_getPassengers(): List<Entity?>?
     fun hasPassenger(entity: Entity?): Boolean
     fun hasPassenger(entity: Class<out net.minecraft.world.entity.Entity?>?): Boolean // TODO: Convert to Conduit entity

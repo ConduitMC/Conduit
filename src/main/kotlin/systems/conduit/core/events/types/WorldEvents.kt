@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.ChunkPos
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.state.BlockState
-import org.graalvm.compiler.loop.InductionVariable
 import systems.conduit.api.Level
 import systems.conduit.api.Player
 import systems.conduit.core.events.Cancellable
@@ -19,14 +18,14 @@ import systems.conduit.core.events.Cancellable
  */
 class WorldEvents {
 
-    class BlockPlaceEvent(val player: Player, val blockState: BlockState, val hand: InteractionHand, val clickedFace: InductionVariable.Direction): Cancellable()
+    class BlockPlaceEvent(val player: Player, val blockState: BlockState, val hand: InteractionHand, val clickedFace: Direction): Cancellable()
 
     class BlockInteractEvent(val player: Player, val blockState: BlockState, val hand: InteractionHand, val itemInHand: ItemStack, val clickedFace: Direction,
                              val sneaking: Boolean, val inside: Boolean): Cancellable()
 
     class BlockBreakEvent(val player: Player, val blockState: BlockState): Cancellable()
 
-    class WorldSaveEvent(level: ServerLevel): EventType()
+    class WorldSaveEvent(val level: ServerLevel): EventType()
 
     class ChunkLoadEvent(val level: Level, val chunk: ChunkPos): Cancellable()
 

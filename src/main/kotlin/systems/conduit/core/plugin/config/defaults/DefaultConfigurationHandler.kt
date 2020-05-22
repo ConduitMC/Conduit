@@ -17,13 +17,12 @@ import java.nio.file.Paths
 object DefaultConfigurationHandler {
 
     fun handleDefaultForPlugin(destination: String, plugin: Plugin) {
-        if (!plugin.getConfig<Configuration>().isPresent) {
+        if (plugin.config == null) {
             // The systems.conduit.core.plugin does not have a configuration, so we don't care.
             return
         }
-
         // Make sure this looks like a real config.
-        if (!plugin.getConfig<Configuration>().get().javaClass.isAnnotationPresent(ConfigFile::class.java)) {
+        if (!plugin.config!!.javaClass.isAnnotationPresent(ConfigFile::class.java)) {
             // The systems.conduit.core.plugin class does not have the ConfigFile annotation, so this is not a real config.
             return
         }
@@ -31,10 +30,10 @@ object DefaultConfigurationHandler {
         // Since this systems.conduit.core.plugin has a configuration present, next we need to get the config annotation. Then, we need to check if it has a default
         // file listed on it. If it does, then we want to copy the file. If it does not have a default file given, then we want to create
         // our own default entries.
-        val configFileAnnotation = plugin.getConfig<Configuration>().get().javaClass.getAnnotation(ConfigFile::class.java)
-        if (!configFileAnnotation.defaultFile().equals("", ignoreCase = true)) {
+        val configFileAnnotation = plugin.config!!.javaClass.getAnnotation(ConfigFile::class.java)
+        if (!configFileAnnotation.defaultFile.equals("", ignoreCase = true)) {
             // A default configuration file was given, so lets copy that.
-            copyDefaultConfiguration(configFileAnnotation.defaultFile(), destination, plugin)
+            copyDefaultConfiguration(configFileAnnotation.defaultFile, destination, plugin)
             return
         }
         // Looks like a default file was not given, so we're going to attempt to generate our own defaults.
@@ -46,7 +45,7 @@ object DefaultConfigurationHandler {
         val dest = Paths.get(destination)
         if (!source.toFile().exists()) {
             // The source file does not exist, so we can't copy it.
-            Conduit.logger.error(plugin.meta.name() + " does not have a default configuration file provided.")
+            Conduit.logger.error(plugin.meta.name + " does not have a default configuration file provided.")
             return
         }
         try {
@@ -57,8 +56,8 @@ object DefaultConfigurationHandler {
     }
 
     private fun generateDefault(destination: String, plugin: Plugin) {
-        if (!plugin.getConfig<Configuration>().isPresent) return
-        val defaultConfigOptions = DefaultParser.generateDefaults(plugin.getConfig<Configuration>().get())
+        if (plugin.config == null) return
+        val defaultConfigOptions = DefaultParser.generateDefaults(plugin.config!!)
         try {
             val destinationFile = Files.createFile(Paths.get(destination))
             val defaultString = Gson().toJson(defaultConfigOptions)

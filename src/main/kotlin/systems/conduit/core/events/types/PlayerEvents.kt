@@ -3,12 +3,13 @@ package systems.conduit.core.events.types
 import net.minecraft.core.BlockPos
 import net.minecraft.core.Location
 import net.minecraft.network.chat.Component
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.projectile.AbstractArrow
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.level.GameType
-import systems.conduit.api.Entity
 import systems.conduit.api.Level
 import systems.conduit.api.Player
+import systems.conduit.api.ServerPlayer
 import systems.conduit.core.events.Cancellable
 
 /*
@@ -21,13 +22,13 @@ class PlayerEvents {
      * Player join server event.
      * Mixin implementation: [systems.conduit.core.mixins.event.player.JoinMixin]
      */
-    class PlayerJoinEvent(val player: Player, val message: Component): EventType()
+    class PlayerJoinEvent(val player: Player, var message: Component?): EventType()
 
     /**
      * Player leave server event.
      * This is not currently implemented.
      */
-    class PlayerLeaveEvent(val player: Player, val message: Component, val type: LeaveType): EventType()
+    class PlayerLeaveEvent(val player: Player, val message: Component?, val type: LeaveType): EventType()
 
     /**
      * Meta information provided by Minecraft.
@@ -50,37 +51,37 @@ class PlayerEvents {
      * Player damage by entity event.
      * Mixin implementation: [systems.conduit.core.mixins.event.player.DamageMixin]
      */
-    class PlayerDamageByEntityEvent(val damaged: Player, val damager: Entity, val damage: Float = 0F, val meta: DamageMeta): Cancellable()
+    class PlayerDamageByEntityEvent(val damaged: Player, val damager: Entity?, val damage: Float = 0F, val meta: DamageMeta): Cancellable()
 
     /**
      * Player damage by another player event.
      * Mixin implementation: [systems.conduit.core.mixins.event.player.DamageMixin]
      */
-    class PlayerDamageByPlayerEvent(val damaged: Player, val damager: Entity, val damage: Float = 0F, val meta: DamageMeta): Cancellable()
+    class PlayerDamageByPlayerEvent(val damaged: Player, val damager: ServerPlayer?, val damage: Float = 0F, val meta: DamageMeta): Cancellable()
 
     /**
      * Player damage by arrow event. This can be either another player, skeleton, etc.
      * Mixin implementation: [systems.conduit.core.mixins.event.player.DamageMixin]
      */
-    class PlayerDamageByArrowEvent(val damaged: Player, val shooter: Entity, val arrow: AbstractArrow, val damage: Float = 0F, val meta: DamageMeta): Cancellable()
+    class PlayerDamageByArrowEvent(val damaged: Player, val shooter: Entity?, val arrow: AbstractArrow, val damage: Float = 0F, val meta: DamageMeta): Cancellable()
 
     /**
      * Player game mode change event.
      * Mixin implementation: [systems.conduit.core.mixins.api.ServerPlayerMixin]
      */
-    class PlayerGameModeChangeEvent(val player: Player, gamemode: GameType): Cancellable()
+    class PlayerGameModeChangeEvent(val player: Player, val gamemode: GameType): Cancellable()
 
     /**
      * Player chat event. No commands included.
      * Mixin implementation: [systems.conduit.core.mixins.ServerGamePacketListenerMixin]
      */
-    class PlayerChatEvent(val player: Player, message: Component): Cancellable()
+    class PlayerChatEvent(val player: Player, var message: Component?): Cancellable()
 
     /**
      * Player send command event.
      * Mixin implementation: [systems.conduit.core.mixins.ServerGamePacketListenerMixin]
      */
-    class PlayerCommandEvent(val player: Player, message: String): Cancellable()
+    class PlayerCommandEvent(val player: Player, var message: String): Cancellable()
 
 
     class RespawnEvent(val player: Player): EventType()

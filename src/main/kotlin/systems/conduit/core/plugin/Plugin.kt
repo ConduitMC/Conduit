@@ -1,63 +1,51 @@
 package systems.conduit.core.plugin
 
+import net.minecraft.ChatFormatting
+import net.minecraft.network.chat.TextComponent
+import systems.conduit.core.Conduit
+import systems.conduit.core.commands.BaseCommand
+import systems.conduit.core.datastore.DatastoreController
+import systems.conduit.core.events.EventListener
+import systems.conduit.core.plugin.annotation.PluginMeta
+import systems.conduit.core.plugin.config.Configuration
+import java.lang.reflect.Method
+import java.util.concurrent.ConcurrentHashMap
+
 // TODO: This needs to be moved to the API
 abstract class Plugin {
-    @Getter(AccessLevel.MODULE)
-    @Setter(AccessLevel.MODULE)
-    var classLoader: PluginClassLoader? = null
 
-    @Getter
-    @Setter(AccessLevel.MODULE)
-    val meta: PluginMeta? = null
+    internal lateinit var classLoader: PluginClassLoader
 
-    @Getter
-    @Setter(AccessLevel.MODULE)
-    private val pluginState: PluginState = PluginState.UNLOADED
+    lateinit var meta: PluginMeta
 
-    @Getter(AccessLevel.PUBLIC)
-    val events: Map<Int, Map<EventListener, List<Method>>> = ConcurrentHashMap<Int, Map<EventListener, List<Method>>>()
+    var pluginState: PluginState = PluginState.UNLOADED
+        internal set
 
-    @Setter(AccessLevel.MODULE)
-    private val config: Configuration? = null
+    var events: MutableMap<Int, MutableMap<EventListener, MutableList<Method>>> = ConcurrentHashMap<Int, MutableMap<EventListener, MutableList<Method>>>()
+        private set
 
-    @Getter
-    @Setter(AccessLevel.MODULE)
-    private val datastore: DatastoreController? = null
+    var config: Configuration? = null
+
+    var datastore: DatastoreController? = null
+
     abstract fun onEnable()
     abstract fun onDisable()
 
     @SafeVarargs
-    protected fun registerListeners(vararg clazz: Class<out EventListener?>?) {
-        Arrays.stream(clazz).forEach(Consumer { eventClass: Class<out EventListener?>? -> Conduit.getEventManager().registerEventClass(this, eventClass) })
-    }
-
-    /**
-     * Get the plugin's configuration in the type provided.
-     *
-     * @param <T> the configuration type
-     * @return the plugin's configuration
-    </T> */
-    fun <T: Configuration?> getConfig(): Optional<T> {
-        // TODO: Can this be improved?
-        return if (config == null) Optional.empty() else try {
-            Optional.of(config as T?)
-        } catch (ignored: ClassCastException) {
-            Optional.empty()
-        }
-    }
+    protected fun registerListeners(vararg clazz: Class<out EventListener>) = clazz.forEach { Conduit.eventManager.registerEventClass(this, it) }
 
     protected fun registerCommands(vararg commands: BaseCommand?) {
-        Conduit.getCommandManager().registerCommand(*commands)
+        Conduit.commandManager.registerCommand(*commands)
     }
 
     fun toStringColored(): String {
         var color: ChatFormatting = ChatFormatting.RED
         if (pluginState == PluginState.ENABLING || pluginState == PluginState.DISABLING) color = ChatFormatting.YELLOW
         if (pluginState == PluginState.ENABLED) color = ChatFormatting.GREEN
-        return TextComponent(meta.name()).withStyle(color).getColoredString()
+        return TextComponent(meta.name).withStyle(color).coloredString
     }
 
     override fun toString(): String {
-        return meta.name()
+        return meta.name
     }
 }

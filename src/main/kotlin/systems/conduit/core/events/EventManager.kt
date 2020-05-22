@@ -3,14 +3,14 @@ package systems.conduit.core.events
 import systems.conduit.core.Conduit
 import systems.conduit.core.events.annotations.Listener
 import systems.conduit.core.events.types.EventType
-import systems.conduit.core.eventsimport.EventTypeRegistry
+import systems.conduit.core.events.EventTypeRegistry
 import systems.conduit.core.plugin.Plugin
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Method
 
 class EventManager {
 
-    fun registerEventClass(plugin: Plugin, clazz: Class<out EventListener?>) {
+    fun registerEventClass(plugin: Plugin, clazz: Class<out EventListener>) {
         // Attempt to create an instance of the listener.
         var listener: EventListener? = null
         try {
@@ -33,23 +33,24 @@ class EventManager {
         for (method in methods) {
             // If this method is not annotated, then we don't care about it.
             if (!method.isAnnotationPresent(Listener::class.java)) continue
+            // TODO do we need this?
             val annotation = method.getAnnotation(Listener::class.java)
             registerHandler(plugin, method, listener)
         }
     }
 
     private fun registerHandler(plugin: Plugin, method: Method, listener: EventListener) {
-        // Attempt to get the type of event that this method is handling.
-        val eventType = findEventTypeFromListenerMethod(method)
-        if (!eventType.isPresent) return  // Skip this method as it doesn't look like it actually handles anything.
-        val eventId: Int = EventTypeRegistry.getEventMappings().indexOf(eventType.get())
+        // Attempt to get the type of event that this method is handling
+        // Skip this method if it doesn't look like it actually handles anythin.
+        val eventType = findEventTypeFromListenerMethod(method) ?: return
+        val eventId: Int = EventTypeRegistry.getEventMappings().indexOf(eventType)
         if (eventId == -1) {
             Conduit.logger.error("Invalid event type register: $eventType")
             return
         }
         if (!plugin.events.containsKey(eventId)) {
             // No currently registered events on this.
-            val handlers: MutableMap<EventListener, List<Method>> = HashMap()
+            val handlers: MutableMap<EventListener, MutableList<Method>> = HashMap()
             val methods: MutableList<Method> = ArrayList()
             methods.add(method)
             handlers[listener] = methods
@@ -75,36 +76,36 @@ class EventManager {
         }
 
         // TODO: Maybe we should pre-process this garbage?
-        Conduit.getPluginManager().getPlugins().forEach(Consumer { plugin: Plugin ->
+        Conduit.pluginManager.plugins.forEach { plugin ->
             plugin.events.getOrDefault(eventId, HashMap()).entries.stream().sorted { o1: Map.Entry<EventListener, List<Method?>?>, o2: Map.Entry<EventListener, List<Method?>?> ->
                 val firstAnnotation = o1.key.javaClass.getAnnotation(Listener::class.java)
                 val secondAnnotation = o2.key.javaClass.getAnnotation(Listener::class.java)
                 if (firstAnnotation == null || secondAnnotation == null) return@sorted 0
-                Integer.compare(firstAnnotation.priority(), secondAnnotation.priority())
+                firstAnnotation.priority.compareTo(secondAnnotation.priority)
             }.forEach { entry: Map.Entry<EventListener?, List<Method>> ->
-                entry.value.forEach(Consumer { method: Method ->
+                entry.value.forEach { method ->
                     try {
                         method.invoke(entry.key, eventType)
                     } catch (e: IllegalAccessException) {
-                        Conduit.getLogger().error("Failed to execute plugin event handler method")
+                        Conduit.logger.error("Failed to execute plugin event handler method")
                         e.printStackTrace()
                     } catch (e: InvocationTargetException) {
-                        Conduit.getLogger().error("Failed to execute plugin event handler method")
+                        Conduit.logger.error("Failed to execute plugin event handler method")
                         e.printStackTrace()
                     }
-                })
+                }
             }
-        })
+        }
     }
 
     companion object {
+        @Suppress("UNCHECKED_CAST")
         private fun findEventTypeFromListenerMethod(method: Method): Class<out EventType>? {
             val params = method.parameters
             if (params.isEmpty()) return null // We have to have at least one parameter to check.
-
             // Check to make sure that this parameter is of the EventType type.
             val param = params[0]
-            return if (!EventType::class.java.isAssignableFrom(param.type)) null else param.type as Class<out EventType?>
+            return if (!EventType::class.java.isAssignableFrom(param.type)) null else param.type as Class<out EventType>?
         }
     }
 }

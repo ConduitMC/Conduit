@@ -27,12 +27,12 @@ class PluginsCommand: BaseCommand() {
             var pluginName = StringArgumentType.getString(c, "pluginName")
             val plugin = Conduit.pluginManager.getPlugin(pluginName)
             if (plugin != null) {
-                if (!plugin.meta.reloadable()) {
+                if (!plugin.meta.reloadable) {
                     // This plugin is not reloadable. Let the user know.
                     c.source.sendFailure(TextComponent("$pluginName is not reloadable."))
                     return@executes 0
                 }
-                pluginName = plugin.meta.name()
+                pluginName = plugin.meta.name
                 c.source.sendSuccess(TextComponent("Reloading plugin: $pluginName"), false)
                 Conduit.pluginManager.reload(plugin, c.source.entity == null)
                 c.source.sendSuccess(TextComponent("Reloaded plugin: $pluginName"), false)
@@ -59,7 +59,7 @@ class PluginsCommand: BaseCommand() {
             var pluginName = StringArgumentType.getString(c, "pluginName")
             val plugin = Conduit.pluginManager.getPlugin(pluginName)
             if (plugin != null) {
-                pluginName = plugin.meta.name()
+                pluginName = plugin.meta.name
                 c.source.sendSuccess(TextComponent(preStateText + pluginName), false)
                 if (enable) {
                     Conduit.pluginManager.enable(plugin, c.source.entity == null)

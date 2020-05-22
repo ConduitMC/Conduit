@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.Multimap
 import javassist.tools.Callback
 import systems.conduit.core.Conduit
+import systems.conduit.core.events.types.ServerEvents
 import systems.conduit.core.plugin.annotation.Dependency
 import systems.conduit.core.plugin.annotation.DependencyType
 import systems.conduit.core.plugin.annotation.PluginMeta
@@ -17,6 +18,7 @@ import java.util.function.Consumer
 import java.util.function.Function
 import java.util.function.Predicate
 import java.util.stream.Collectors
+import kotlin.collections.ArrayList
 
 class PluginManager {
 
@@ -51,9 +53,9 @@ class PluginManager {
             // List that should never be changed unless plugin is unable to ever be loaded.
             val metas: MutableList<PluginMeta> = ArrayList()
             // Loaders - Should be able to be removed from here if we loaded the plugin as plugin now has classloader on it.
-            val loaders: MutableMap<PluginMeta?, PluginClassLoader> = HashMap()
+            val loaders: MutableMap<PluginMeta, PluginClassLoader> = HashMap()
             // Needed to be loaded first soft dependencies - Remove plugin from map and any lists
-            val softDependencies: Multimap<PluginMeta?, String> = ArrayListMultimap.create()
+            val softDependencies: Multimap<PluginMeta, String> = ArrayListMultimap.create()
             for (pluginFile in pluginFiles) {
                 try {
                     PluginClassLoader(pluginFile, this.javaClass.classLoader).use { classLoader ->
@@ -74,13 +76,13 @@ class PluginManager {
                 softDependencies.putAll(meta, getSoftDependencies(otherDependencies, meta))
             }
             while (loaders.isNotEmpty()) {
-                val it: MutableIterator<Map.Entry<PluginMeta?, PluginClassLoader>> = loaders.entries.iterator()
+                val it: MutableIterator<Map.Entry<PluginMeta, PluginClassLoader>> = loaders.entries.iterator()
                 while (it.hasNext()) {
                     val pl = it.next()
                     val hardDependencies = getHardDependencies(pl.key)
                     // Check to make sure all hard dependencies are able to be loaded
                     if (!getNames(metas).containsAll(getHardDependencies(pl.key))) {
-                        Conduit.logger.error("Failed to load " + pl.key!!.name + " due to missing dependencies.")
+                        Conduit.logger.error("Failed to load " + pl.key.name + " due to missing dependencies.")
                         hardDependencies.removeAll(getNames(metas))
                         Conduit.logger.error("Required dependencies: $hardDependencies")
                         // Can't load ever so remove all reference to plugin
@@ -95,7 +97,7 @@ class PluginManager {
                         // The plugin should now be loaded, now we can attempt to enable the plugin.
                         enable(optionalPlugin, reload)
                         plugins.add(optionalPlugin)
-                        softDependencies.values().remove(optionalPlugin.meta.name())
+                        softDependencies.values().remove(optionalPlugin.meta.name)
                         softDependencies.asMap().remove(optionalPlugin.meta)
                         it.remove()
                     }
@@ -111,7 +113,7 @@ class PluginManager {
         return metas.map { it.name }.toList()
     }
 
-    private fun getHardDependencies(meta: PluginMeta) = meta.dependencies.filter { it.type == DependencyType.HARD }.map { it.name }
+    private fun getHardDependencies(meta: PluginMeta): MutableList<String> = meta.dependencies.filter { it.type == DependencyType.HARD }.map { it.name }.toMutableList()
     private fun getSoftDependencies(metas: List<PluginMeta>, meta: PluginMeta) = meta.dependencies.filter { it.type == DependencyType.SOFT }.filter { getNames(metas).contains(it.name) }.map { it.name }
 
     fun disablePlugins() {
@@ -130,21 +132,21 @@ class PluginManager {
 
     fun enable(plugin: Plugin, reload: Boolean) {
         // Enable now
-        if (!reload) Conduit.logger.info("Enabling plugin: " + plugin.meta.name())
+        if (!reload) Conduit.logger.info("Enabling plugin: " + plugin.meta.name)
         plugin.pluginState = PluginState.ENABLING
         plugin.onEnable()
         plugin.pluginState = PluginState.ENABLED
-        if (!reload) Conduit.logger.info("Enabled plugin: " + plugin.meta.name())
+        if (!reload) Conduit.logger.info("Enabled plugin: " + plugin.meta.name)
     }
 
     fun disable(plugin: Plugin, server: Boolean) {
         if (plugin.pluginState == PluginState.DISABLING || plugin.pluginState == PluginState.DISABLED) return
-        if (!server) Conduit.logger.info("Disabling plugin: " + plugin.meta.name())
+        if (!server) Conduit.logger.info("Disabling plugin: " + plugin.meta.name)
         plugin.pluginState = PluginState.DISABLING
         plugin.events.clear()
         plugin.onDisable()
         plugin.pluginState = PluginState.DISABLED
-        if (!server) Conduit.logger.info("Disabled plugin: " + plugin.meta.name())
+        if (!server) Conduit.logger.info("Disabled plugin: " + plugin.meta.name)
     }
 
     fun reloadPlugins(server: Boolean, callback: Callback) {
@@ -156,26 +158,26 @@ class PluginManager {
 
     fun reload(plugin: Plugin, server: Boolean) {
         // Before we attempt to reload the plugin, make sure that it can safely be done.
-        if (!plugin.meta.reloadable()) {
+        if (!plugin.meta.reloadable) {
             // This plugin is not reloadable.
             return
         }
-        if (!server) Conduit.logger.info("Reloading plugin: " + plugin.meta.name())
+        if (!server) Conduit.logger.info("Reloading plugin: " + plugin.meta.name)
         // Unload the plugin
         disable(plugin, true)
         val pluginFile = AtomicReference(Optional.empty<File>())
         // Remove the plugin if found and store the file for later
         plugins.removeIf { pl: Plugin ->
-            pluginFile.set(Optional.ofNullable(pl.getClassLoader().pluginFile))
+            pluginFile.set(Optional.ofNullable(pl.classLoader.pluginFile))
             pl == plugin
         }
         // Load plugin again
         pluginFile.get().ifPresent { file: File -> loadPlugins(listOf(file), true) }
-        if (!server) Conduit.logger.info("Reloaded plugin: " + plugin.meta.name())
-        val event = PluginReloadEvent(plugin)
+        if (!server) Conduit.logger.info("Reloaded plugin: " + plugin.meta.name)
+        val event = ServerEvents.PluginReloadEvent(plugin)
         Conduit.eventManager.dispatchEvent(event)
     }
 
-    fun getPlugin(name: String): Plugin? = plugins.first { it.meta.name().equals(name, ignoreCase = true) }
+    fun getPlugin(name: String): Plugin? = plugins.first { it.meta.name.equals(name, ignoreCase = true) }
 
 }

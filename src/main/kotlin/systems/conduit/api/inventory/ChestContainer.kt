@@ -7,7 +7,9 @@ import net.minecraft.world.inventory.MenuType
 
 class ChestContainer private constructor(size: Int): SimpleContainer(size) {
 
-    private var type: MenuType<ChestMenu>? = null
+    var type: MenuType<ChestMenu>? = null
+
+
     var title = ""
         private set
 

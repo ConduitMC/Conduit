@@ -20,8 +20,10 @@ import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.jar.JarFile
 import java.util.stream.Collectors
+import kotlin.reflect.KClass
+import kotlin.reflect.full.hasAnnotation
 
-class PluginClassLoader internal constructor(pluginFile: File, parent: ClassLoader?): URLClassLoader(arrayOf(pluginFile.toURI().toURL()), parent) {
+class PluginClassLoader internal constructor(var pluginFile: File, parent: ClassLoader?): URLClassLoader(arrayOf(pluginFile.toURI().toURL()), parent) {
 
     private val classesCache: MutableMap<String, Class<*>?> = ConcurrentHashMap()
 
@@ -44,7 +46,7 @@ class PluginClassLoader internal constructor(pluginFile: File, parent: ClassLoad
         return null
     }
 
-    fun load(meta: PluginMeta?): Plugin? {
+    fun load(meta: PluginMeta): Plugin? {
         val reflections = Reflections(ConfigurationBuilder().setUrls(url).addClassLoader(this))
         val annotated = reflections.getSubTypesOf(Plugin::class.java).stream().filter { c: Class<out Plugin> -> c.isAnnotationPresent(PluginMeta::class.java) }.collect(Collectors.toSet())
         // Since we have the plugin class, we'll first grab the annotation and make sure that all the values are present.
@@ -55,45 +57,46 @@ class PluginClassLoader internal constructor(pluginFile: File, parent: ClassLoad
                 val constructor = pluginClass.getConstructor()
                 plugin = constructor.newInstance()
             } catch (e: NoSuchMethodException) {
-                Conduit.logger.error("INTERNAL ERROR: failed to create instance of plugin: " + meta!!.name())
+                Conduit.logger.error("INTERNAL ERROR: failed to create instance of plugin: " + meta.name)
                 e.printStackTrace()
             } catch (e: InstantiationException) {
-                Conduit.logger.error("INTERNAL ERROR: failed to create instance of plugin: " + meta!!.name())
+                Conduit.logger.error("INTERNAL ERROR: failed to create instance of plugin: " + meta.name)
                 e.printStackTrace()
             } catch (e: InvocationTargetException) {
-                Conduit.logger.error("INTERNAL ERROR: failed to create instance of plugin: " + meta!!.name())
+                Conduit.logger.error("INTERNAL ERROR: failed to create instance of plugin: " + meta.name)
                 e.printStackTrace()
             } catch (e: IllegalAccessException) {
-                Conduit.logger.error("INTERNAL ERROR: failed to create instance of plugin: " + meta!!.name())
+                Conduit.logger.error("INTERNAL ERROR: failed to create instance of plugin: " + meta.name)
                 e.printStackTrace()
             }
             // Double check that we have an instance of the plugin
             if (plugin == null) {
-                Conduit.logger.error("INTERNAL ERROR: empty plugin instance leaked past try for " + meta!!.name())
+                Conduit.logger.error("INTERNAL ERROR: empty plugin instance leaked past try for " + meta.name)
                 return null
             }
-            plugin.setClassLoader(this)
-            plugin.datastore = DatastoreController(meta!!.name())
+            plugin.classLoader = this
+            plugin.datastore = DatastoreController(meta.name)
             plugin.meta = meta
             // Now, we can try to get the config for this plugin.
-            val clazz: Class<out Configuration> = meta!!.config()
-            loadConfiguration(plugin, clazz).ifPresent { config: Configuration? -> plugin.setConfig(config) }
+            val clazz: KClass<out Configuration> = meta.config
+            val config = loadConfiguration(plugin, clazz.java)
+            if (config != null) plugin.config = config
             return plugin
         }
         return null
     }
 
     private fun loadConfiguration(plugin: Plugin, clazz: Class<out Configuration>): Configuration? {
-        if (!clazz.isAnnotationPresent(ConfigFile::class.java)) return null
+        if (!clazz.javaClass.isAnnotationPresent(ConfigFile::class.java)) return null
         val annotation = clazz.getAnnotation(ConfigFile::class.java)
-        val path = Paths.get("plugins", plugin.meta.name()).toAbsolutePath()
+        val path = Paths.get("plugins", plugin.meta.name).toAbsolutePath()
         // Ensure that the path exists. If it doesn't, then we don't need to process this.
         val pluginFolder = path.toFile()
         if (!pluginFolder.exists()) {
             if (!pluginFolder.mkdirs()) Conduit.logger.error("Failed to make plugin directory")
             return null
         }
-        val file: File = path.resolve(annotation.name() + "." + annotation.type()).toFile()
+        val file: File = path.resolve(annotation.name + "." + annotation.type).toFile()
         if (!file.exists()) {
             // If the file does not exist, then lets attempt to generate a default.
             DefaultConfigurationHandler.handleDefaultForPlugin(file.absolutePath, plugin)
@@ -104,7 +107,7 @@ class PluginClassLoader internal constructor(pluginFile: File, parent: ClassLoad
                 e.printStackTrace()
             }
         }
-        return ConfigurationTypes.getLoaderForExtension(annotation.type())?.load(file, clazz)
+        return ConfigurationTypes.getLoaderForExtension(annotation.type)?.load(file, clazz)
     }
 
     @Throws(ClassNotFoundException::class)

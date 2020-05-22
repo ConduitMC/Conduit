@@ -1,6 +1,7 @@
 package systems.conduit.core.events.types
 
 import net.minecraft.world.effect.MobEffectInstance
+import net.minecraft.world.entity.AgableMob
 import net.minecraft.world.entity.animal.Animal
 import net.minecraft.world.entity.animal.Sheep
 import net.minecraft.world.entity.monster.Slime
@@ -24,7 +25,7 @@ class EntityEvents {
      * This event is fired when a baby sheep eats something and progresses growth.
      * Implementation: [systems.conduit.core.mixins.event.entity.SheepMixin.ate]
      */
-    class BabySheepEatEvent(val sheep: Sheep, ageUpAmount: Int = 0): Cancellable()
+    class BabySheepEatEvent(val sheep: Sheep, val ageUpAmount: Int = 0): Cancellable()
 
     /**
      * This event is fired when a slime takes enough damage to split into more, smaller slimes.
@@ -32,7 +33,7 @@ class EntityEvents {
      */
     class SlimeSplitEvent(val parent: Slime, val children: List<Slime>): EventType()
 
-    class EntityBreedEvent(val bred: Animal, val with: Animal, val child: Animal): Cancellable()
+    class EntityBreedEvent(val bred: Animal, val with: Animal, val child: AgableMob): Cancellable()
 
     class SpawnerSpawnEvent(val spawner: SpawnerBlock, val spawned: List<Entity>): Cancellable()
 

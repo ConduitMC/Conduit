@@ -13,7 +13,7 @@ interface DatastoreHandler {
      * Attach to the datastore's storage location.
      * This can be a file, memory, databases, or anything the heart desires!
      */
-    fun attach(meta: Map<String?, Any>)
+    fun attach(meta: Map<String, Any>)
 
     /**
      * Detach from the storage location.
@@ -26,7 +26,7 @@ interface DatastoreHandler {
      * @param key   the name of the entry to set
      * @param value the new value of the key
      */
-    operator fun set(key: String?, value: String?)
+    operator fun set(key: String, value: String)
 
     /**
      * Set an integer value in the datastore.
@@ -34,7 +34,7 @@ interface DatastoreHandler {
      * @param key   the name of the entry to set
      * @param value the new value of the key
      */
-    operator fun set(key: String?, value: Int)
+    operator fun set(key: String, value: Int)
 
     /**
      * Set a float value in the datastore.
@@ -42,7 +42,7 @@ interface DatastoreHandler {
      * @param key   the name of the entry to set
      * @param value the new value of the key
      */
-    operator fun set(key: String?, value: Float)
+    operator fun set(key: String, value: Float)
 
     /**
      * Set a double value in the datastore.
@@ -50,7 +50,7 @@ interface DatastoreHandler {
      * @param key   the name of the entry to set
      * @param value the new value of the key
      */
-    operator fun set(key: String?, value: Double)
+    operator fun set(key: String, value: Double)
 
     /**
      * Set a custom value in the datastore.
@@ -58,7 +58,7 @@ interface DatastoreHandler {
      * @param key   the name of the entry to set
      * @param value the new value of the key
      */
-    operator fun set(key: String?, value: Storable<*>?)
+    operator fun set(key: String, value: Storable<*>)
 
     /**
      * Get an integer from the datastore.
@@ -66,7 +66,7 @@ interface DatastoreHandler {
      * @param key the name of the entry
      * @return    the value, if any
      */
-    fun getInt(key: String?): Int?
+    fun getInt(key: String): Int?
 
     /**
      * Get a float from the datastore.
@@ -74,7 +74,7 @@ interface DatastoreHandler {
      * @param key the name of the entry
      * @return    the value, if any
      */
-    fun getFloat(key: String?): Float?
+    fun getFloat(key: String): Float?
 
     /**
      * Get a double from the datastore.
@@ -82,7 +82,7 @@ interface DatastoreHandler {
      * @param key the name of the entry
      * @return    the value, if any
      */
-    fun getDouble(key: String?): Double?
+    fun getDouble(key: String): Double?
 
     /**
      * Get a String from the datastore.
@@ -90,7 +90,7 @@ interface DatastoreHandler {
      * @param key the name of the entry
      * @return    the value, if any
      */
-    fun getString(key: String?): String?
+    fun getString(key: String): String?
 
     /**
      * Get a custom object from the datastore.
@@ -98,12 +98,12 @@ interface DatastoreHandler {
      * @param key the name of the entry
      * @return    the value, if any
      */
-    fun <T> getCustom(key: String?): Storable<T>?
+    fun <T> getCustom(key: String): Storable<T>?
 
     /**
      * Delete a key from the datastore.
      *
      * @param key the key to delete
      */
-    fun delete(key: String?)
+    fun delete(key: String)
 }

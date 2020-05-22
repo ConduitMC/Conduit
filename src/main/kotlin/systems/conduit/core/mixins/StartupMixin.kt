@@ -29,6 +29,7 @@ abstract class StartupMixin(file: File?, proxy: Proxy?, dataFixer: DataFixer?, c
 
     @Inject(method = ["initServer"], at = [At("HEAD")])
     private fun initServer(callback: CallbackInfoReturnable<Boolean>) {
+        println("Inject at init")
         Conduit.setupLogger()
         Conduit.loadConfiguration()
         Conduit.server = this as systems.conduit.api.MinecraftServer

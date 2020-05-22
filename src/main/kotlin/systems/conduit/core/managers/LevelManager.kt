@@ -33,7 +33,7 @@ class LevelManager {
      * @param dimension dimension metadata
      * @return the created level, if it could be created. Empty otherwise.
      */
-    fun createLevel(name: String?, dimension: DimensionType?): ServerLevel? {
+    fun createLevel(name: String, dimension: DimensionType): ServerLevel? {
         if (Conduit.server.getStorageSource() == null) return null
         val storage = Conduit.server.getStorageSource()!!.selectLevel(name, Conduit.server as net.minecraft.server.MinecraftServer?)
         val data = storage.prepareLevel() ?: return null
@@ -48,7 +48,7 @@ class LevelManager {
             level.setInitialSpawn(settings)
             data.isInitialized = true
         }
-        Conduit.server.levels[dimension] = level
+        Conduit.server.getLevels()[dimension] = level
         return level
     }
 }

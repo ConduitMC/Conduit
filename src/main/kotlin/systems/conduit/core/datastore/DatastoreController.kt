@@ -58,7 +58,7 @@ class DatastoreController(val pluginName: String) {
      * @param meta    information to be provided when attaching to the datastore.
      * @param backend the location that this datastore will be storing information
      */
-    fun register(name: String, meta: MutableMap<String?, Any>, backend: DatastoreBackend) {
+    fun register(name: String, meta: MutableMap<String, Any>, backend: DatastoreBackend) {
         // Make sure the name is valid
         var identifier = name
         if (isInvalidName(identifier)) return

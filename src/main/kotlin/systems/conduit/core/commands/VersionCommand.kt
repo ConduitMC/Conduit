@@ -16,8 +16,8 @@ class VersionCommand: BaseCommand() {
             var pluginName = StringArgumentType.getString(c, "pluginName")
             val plugin = Conduit.pluginManager.getPlugin(pluginName)
             if (plugin != null) {
-                pluginName = plugin.meta.name()
-                val version: String = plugin.meta.version()
+                pluginName = plugin.meta.name
+                val version: String = plugin.meta.version
                 c.source.sendSuccess(TextComponent("$pluginName v$version"), false)
             } else {
                 c.source.sendFailure(TextComponent("$pluginName is not a plugin!"))

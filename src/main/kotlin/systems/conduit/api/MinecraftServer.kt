@@ -21,12 +21,12 @@ interface MinecraftServer {
     fun getLevel(dimensionType: DimensionType?): ServerLevel?
     fun getStorageSource(): LevelStorageSource?
     fun getProfiler(): GameProfiler?
-    fun getLevels(): Map<DimensionType?, ServerLevel?>
+    fun getLevels(): MutableMap<DimensionType?, ServerLevel?>
     fun getCommands(): Commands
     fun isStopped(): Boolean
     fun isRunning(): Boolean
     fun createCommandSourceStack(): CommandSourceStack?
     fun close()
-    fun getCustomBossEvents(): CustomBossEvents?
+    fun getCustomBossEvents(): CustomBossEvents
     fun getServerModName(): String?
 }

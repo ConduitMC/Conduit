@@ -13,10 +13,13 @@ import java.util.*
  * @since 1/3/2020
  */
 class RedisBackend: DatastoreHandler, ExpirableBackend {
-    private var client: Jedis? = null
-    override fun attach(meta: Map<String?, Any>) {
-        client = Jedis(meta["host"] as String?, meta["port"] as Int)
-        client!!.auth(meta["password"] as String?)
+
+    var client: Jedis? = null
+        private set
+
+    override fun attach(meta: Map<String, Any>) {
+        client = Jedis(meta["host"] as String, meta["port"] as Int)
+        client!!.auth(meta["password"] as String)
     }
 
     override fun detach() {
@@ -24,89 +27,79 @@ class RedisBackend: DatastoreHandler, ExpirableBackend {
         client = null
     }
 
-    private fun getClient(): Optional<Jedis> {
-        return Optional.ofNullable(client)
+    override fun set(key: String, value: String) {
+        client?.set(key, value)
     }
 
-    override fun set(key: String?, value: String?) {
-        getClient().ifPresent { j: Jedis -> j[key] = value }
+    override fun set(key: String, value: Int) {
+        client?.set(key, value.toString())
     }
 
-    override fun set(key: String?, value: Int) {
-        getClient().ifPresent { j: Jedis -> j[key] = value.toString() }
+    override fun set(key: String, value: Float) {
+        client?.set(key, value.toString())
     }
 
-    override fun set(key: String?, value: Float) {
-        getClient().ifPresent { j: Jedis -> j[key] = value.toString() }
+    override fun set(key: String, value: Double) {
+        client?.set(key, value.toString())
     }
 
-    override fun set(key: String?, value: Double) {
-        getClient().ifPresent { j: Jedis -> j[key] = value.toString() }
+    override fun set(key: String, value: Storable<*>) {
+        client?.set(key, value.toString())
     }
 
-    override fun set(key: String?, value: Storable<*>) {
-        getClient().ifPresent { j: Jedis -> j[key] = value.serialize() }
+    override fun set(key: String, value: String, duration: Int) {
+        client?.setex(key, duration, value)
     }
 
-    override fun set(key: String?, value: String?, duration: Int) {
-        getClient().ifPresent { j: Jedis -> j.setex(key, duration, value) }
+    override fun set(key: String, value: Int, duration: Int) {
+        client?.setex(key, duration, value.toString())
     }
 
-    override fun set(key: String?, value: Int, duration: Int) {
-        getClient().ifPresent { j: Jedis -> j.setex(key, duration, value.toString()) }
+    override fun set(key: String, value: Float, duration: Int) {
+        client?.setex(key, duration, value.toString())
     }
 
-    override fun set(key: String?, value: Float, duration: Int) {
-        getClient().ifPresent { j: Jedis -> j.setex(key, duration, value.toString()) }
+    override fun set(key: String, value: Double, duration: Int) {
+        client?.setex(key, duration, value.toString())
     }
 
-    override fun set(key: String?, value: Double, duration: Int) {
-        getClient().ifPresent { j: Jedis -> j.setex(key, duration, value.toString()) }
+    override fun set(key: String, value: Storable<*>, duration: Int) {
+        client?.setex(key, duration, value.serialize())
     }
 
-    override fun set(key: String?, value: Storable<*>, duration: Int) {
-        getClient().ifPresent { j: Jedis -> j.setex(key, duration, value.serialize()) }
-    }
-
-    override fun getInt(key: String?): Optional<Int?>? {
-        return getClient().map { j: Jedis ->
-            try {
-                return@map Integer.valueOf(j[key])
-            } catch (ignored: NumberFormatException) {
-                return@map null
-            }
+    override fun getInt(key: String): Int? {
+        return try {
+            Integer.valueOf(client?.get(key))
+        } catch (ignored: NumberFormatException) {
+            null
         }
     }
 
-    override fun getFloat(key: String?): Optional<Float?>? {
-        return getClient().map { j: Jedis ->
-            try {
-                return@map java.lang.Float.valueOf(j[key])
-            } catch (ignored: NumberFormatException) {
-                return@map null
-            }
+    override fun getFloat(key: String): Float? {
+        return try {
+            java.lang.Float.valueOf(client?.get(key))
+        } catch (ignored: NumberFormatException) {
+            null
         }
     }
 
-    override fun getDouble(key: String?): Optional<Double?>? {
-        return getClient().map { j: Jedis ->
-            try {
-                return@map java.lang.Double.valueOf(j[key])
-            } catch (ignored: NumberFormatException) {
-                return@map null
-            }
+    override fun getDouble(key: String): Double? {
+        return try {
+            java.lang.Double.valueOf(client?.get(key))
+        } catch (ignored: NumberFormatException) {
+            null
         }
     }
 
-    override fun getString(key: String?): Optional<String?> {
-        return getClient().map { j: Jedis -> j[key] }
+    override fun getString(key: String): String? {
+        return client?.get(key)
     }
 
-    override fun <T> getCustom(key: String?): Optional<Storable<T>?> {
-        return Optional.empty() // TODO: Figure out how this is all going to work because it's confusing
+    override fun <T> getCustom(key: String): Storable<T>? {
+        return null // TODO: Figure out how this is all going to work because it's confusing
     }
 
-    override fun delete(key: String?) {
-        getClient().ifPresent { j: Jedis -> j.del(key) }
+    override fun delete(key: String) {
+        client?.del(key)
     }
 }

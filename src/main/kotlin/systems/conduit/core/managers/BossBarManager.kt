@@ -9,14 +9,14 @@ import java.util.*
 // TODO: This needs to be moved to the API
 class BossBarManager {
     fun createBossBar(id: String?): CustomBossEvent? {
-        return Conduit.server.customBossEvents.create(ResourceLocation(id), TextComponent(""))
+        return Conduit.server.getCustomBossEvents().create(ResourceLocation(id), TextComponent(""))
     }
 
     operator fun get(id: String?): CustomBossEvent? {
-        return Conduit.server.customBossEvents[ResourceLocation(id)]
+        return Conduit.server.getCustomBossEvents()[ResourceLocation(id)]
     }
 
     fun remove(bossBar: CustomBossEvent?) {
-        Conduit.server.customBossEvents.remove(bossBar)
+        Conduit.server.getCustomBossEvents().remove(bossBar)
     }
 }

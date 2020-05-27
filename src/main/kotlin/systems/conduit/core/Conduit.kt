@@ -2,6 +2,7 @@ package systems.conduit.core
 
 import net.minecraft.network.chat.TextComponent
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import systems.conduit.api.MinecraftServer
 import systems.conduit.core.commands.CommandManager
 import systems.conduit.core.console.MessageFactory
@@ -21,7 +22,7 @@ import java.nio.file.StandardCopyOption
 @PluginMeta(name = "Conduit", version = "0.0.5")
 object Conduit {
 
-    val logger = LogManager.getLogger("Conduit", MessageFactory())
+    val logger: Logger = LogManager.getLogger("Conduit", MessageFactory())
     val eventManager = EventManager()
     val pluginManager = PluginManager()
     val commandManager = CommandManager()
@@ -60,7 +61,7 @@ object Conduit {
             // If the file does not exist, then lets attempt to generate a default.
             try {
                 Conduit::class.java.getResourceAsStream("/conduit.json").use { stream ->   // TODO: Fix that separator some day
-                    Files.copy(stream, Paths.get("conduit.json"), StandardCopyOption.REPLACE_EXISTING)
+                    if (stream != null) Files.copy(stream, Paths.get("conduit.json"), StandardCopyOption.REPLACE_EXISTING)
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -72,6 +73,6 @@ object Conduit {
             logger.error("Failed to find loader for JSON extension")
             return
         }
-        configuration = loader.load(file, ConduitConfiguration::class.java) as ConduitConfiguration
+        if (file.exists()) configuration = loader.load(file, ConduitConfiguration::class.java) as ConduitConfiguration
     }
 }

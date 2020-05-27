@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable
 import systems.conduit.core.Conduit
+import systems.conduit.core.ShutdownRunnable
 import java.io.File
 import java.net.Proxy
 
@@ -29,12 +30,11 @@ abstract class StartupMixin(file: File?, proxy: Proxy?, dataFixer: DataFixer?, c
 
     @Inject(method = ["initServer"], at = [At("HEAD")])
     private fun initServer(callback: CallbackInfoReturnable<Boolean>) {
-        println("Inject at init")
         Conduit.setupLogger()
         Conduit.loadConfiguration()
         Conduit.server = this as systems.conduit.api.MinecraftServer
         Conduit.logger.info("Server starting initialization...")
-        Runtime.getRuntime().addShutdownHook(Thread(Runnable { Conduit.pluginManager.disablePlugins() }))
+        Runtime.getRuntime().addShutdownHook(Thread(ShutdownRunnable()))
         Conduit.commandManager.loadDefaultCommands()
         Conduit.pluginManager.loadPlugins()
     }

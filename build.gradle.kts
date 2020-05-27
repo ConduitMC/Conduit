@@ -14,7 +14,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath("systems.conduit:Stream:1.0.5")
+        classpath("systems.conduit:Stream:1.0.1")
     }
 }
 apply(plugin = "Stream")
@@ -22,6 +22,7 @@ apply(plugin = "Stream")
 dependencies {
     implementation("org.reflections:reflections:0.9.11")
     implementation("org.jline:jline:3.13.0")
+    implementation("org.apache.logging.log4j:log4j-slf4j-impl:2.11.2")
     implementation("com.zaxxer:HikariCP:3.4.1")
     implementation("redis.clients:jedis:2.8.1")
 }

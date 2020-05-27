@@ -17,11 +17,12 @@ class ConsoleColorUtil: Function<String, String> {
     }
 
     override fun apply(s: String): String {
+        val shouldUseColor = System.console() != null && System.getenv()["TERM"] != null
         var colorS = s
-        colorS += ChatFormatting.RESET
+        if (shouldUseColor) colorS += ChatFormatting.RESET
         for (i in ChatFormatting.values().indices) {
             val color = ChatFormatting.values()[i].toString()
-            if (colorS.contains(color)) colorS = colorS.replace("(?i)" + color.toRegex(), if (System.console() != null && System.getenv()["TERM"] != null) colors[i] else "")
+            if (colorS.contains(color)) colorS = colorS.replace(color, if (shouldUseColor) colors[i] else "")
         }
         return colorS
     }

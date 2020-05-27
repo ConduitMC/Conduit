@@ -5,7 +5,6 @@ import com.zaxxer.hikari.HikariDataSource
 import systems.conduit.core.datastore.DatastoreHandler
 import systems.conduit.core.datastore.Storable
 import java.sql.SQLException
-import java.util.*
 
 /**
  * Datastore backend that stores its information in MySQL / SQLite.

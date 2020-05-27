@@ -3,8 +3,10 @@ package systems.conduit.core.plugin
 import com.google.common.collect.ArrayListMultimap
 import com.google.common.collect.Multimap
 import javassist.tools.Callback
+import net.minecraft.ChatFormatting
 import systems.conduit.core.Conduit
 import systems.conduit.core.events.types.ServerEvents
+import systems.conduit.core.extensions.plus
 import systems.conduit.core.plugin.annotation.Dependency
 import systems.conduit.core.plugin.annotation.DependencyType
 import systems.conduit.core.plugin.annotation.PluginMeta
@@ -117,8 +119,8 @@ class PluginManager {
     private fun getSoftDependencies(metas: List<PluginMeta>, meta: PluginMeta) = meta.dependencies.filter { it.type == DependencyType.SOFT }.filter { getNames(metas).contains(it.name) }.map { it.name }
 
     fun disablePlugins() {
-        if (plugins.isEmpty()) return
         Conduit.logger.info("Disabling plugins...")
+        if (plugins.isEmpty()) return
         // Loop through all plugins and disable them
         val iterator = plugins.iterator()
         while (iterator.hasNext()) {

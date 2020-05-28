@@ -18,9 +18,12 @@ import systems.conduit.core.events.types.EntityEvents
 @Mixin(value = [BreedGoal::class], remap = false)
 open class BreedGoalMixin {
 
-    @Shadow @Final protected var animal: Animal? = null
+    @Shadow @Final
+    protected var animal: Animal? = null
+        private set
 
-    @Shadow protected var partner: Animal? = null
+    @Shadow
+    protected var partner: Animal? = null
 
     @Inject(method = ["breed"], at = [At(value = "INVOKE", target = "Lnet/minecraft/world/level/LevelWriter;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z")])
     fun breed(ci: CallbackInfo?) {

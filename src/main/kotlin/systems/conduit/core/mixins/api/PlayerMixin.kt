@@ -25,6 +25,7 @@ abstract class PlayerMixin: Player {
 
     @Shadow @Final
     var inventoryMenu: InventoryMenu? = null
+        private set
 
     @Shadow
     private var respawnPosition: BlockPos? = null

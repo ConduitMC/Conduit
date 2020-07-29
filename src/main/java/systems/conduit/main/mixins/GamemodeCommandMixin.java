@@ -10,6 +10,8 @@ import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
+import java.util.UUID;
+
 @Mixin(value = GameModeCommand.class, remap = false)
 public abstract class GamemodeCommandMixin {
 
@@ -24,7 +26,7 @@ public abstract class GamemodeCommandMixin {
             source.sendSuccess(new TranslatableComponent("commands.gamemode.success.self", var3), true);
         } else {
             if (source.getLevel().getGameRules().getBoolean(GameRules.RULE_SENDCOMMANDFEEDBACK)) {
-                player.sendMessage(new TranslatableComponent("gameMode.changed", var3));
+                player.sendMessage(new TranslatableComponent("gameMode.changed", var3), UUID.randomUUID());
             }
             source.sendSuccess(new TranslatableComponent("commands.gamemode.success.other", player.getDisplayName(), var3), true);
         }

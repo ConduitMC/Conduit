@@ -7,7 +7,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.monster.SharedMonsterAttributes;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Final;
@@ -87,7 +87,7 @@ public abstract class LivingEntityMixin implements LivingEntity {
     }
 
     public void setMaxHealth(float health) {
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(health);
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(health);
     }
 
     public void conduit_setLastHurtByMob(LivingEntity entity) {

@@ -2,12 +2,17 @@ package systems.conduit.main.mixins;
 
 import com.mojang.authlib.GameProfileRepository;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
-import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-import net.minecraft.commands.Commands;
+import com.mojang.datafixers.DataFixer;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.ServerResources;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.players.GameProfileCache;
+import net.minecraft.world.level.storage.LevelStorageSource;
+import net.minecraft.world.level.storage.WorldData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,14 +20,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
 
-import java.io.File;
 import java.net.Proxy;
 
 @Mixin(value = DedicatedServer.class, remap = false)
 public abstract class StartupMixin extends MinecraftServer {
 
-    public StartupMixin(File file, Proxy proxy, com.mojang.datafixers.DataFixer dataFixer, Commands commands, YggdrasilAuthenticationService yas, MinecraftSessionService mss, GameProfileRepository gpr, GameProfileCache gpc, ChunkProgressListenerFactory cplf, String s) {
-        super(file, proxy, dataFixer, commands, yas, mss, gpr, gpc, cplf, s);
+    public StartupMixin(Thread thread, RegistryAccess.RegistryHolder registryHolder, LevelStorageSource.LevelStorageAccess levelStorageAccess, WorldData worldData, PackRepository<Pack> packRepository, Proxy proxy, DataFixer dataFixer, ServerResources serverResources, MinecraftSessionService minecraftSessionService, GameProfileRepository gameProfileRepository, GameProfileCache gameProfileCache, ChunkProgressListenerFactory chunkProgressListenerFactory) {
+        super(thread, registryHolder, levelStorageAccess, worldData, packRepository, proxy, dataFixer, serverResources, minecraftSessionService, gameProfileRepository, gameProfileCache, chunkProgressListenerFactory);
     }
 
     @Inject(method = "stopServer", at = @At("HEAD"))

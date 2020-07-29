@@ -23,7 +23,8 @@ public class ServerGamePacketListenerMixin {
         PlayerEvents.PlayerChatEvent event = new PlayerEvents.PlayerChatEvent((systems.conduit.main.api.Player) this.player, component);
         Conduit.getEventManager().dispatchEvent(event);
         Component eventMessage = event.getMessage();
-        if (eventMessage != null) playerList.broadcastMessage(eventMessage, b);
+        // TODO(1.16)
+        //        if (eventMessage != null) playerList.broadcastMessage(eventMessage, b, UUID.randomUUID());
     }
 
     @ModifyArg(method = "handleChat", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;handleCommand(Ljava/lang/String;)V"))
@@ -47,6 +48,7 @@ public class ServerGamePacketListenerMixin {
         PlayerEvents.PlayerLeaveEvent event = new PlayerEvents.PlayerLeaveEvent((systems.conduit.main.api.ServerPlayer) player, message, leaveType);
         Conduit.getEventManager().dispatchEvent(event);
         Component eventMessage = event.getMessage();
-        if (eventMessage != null) playerList.broadcastMessage(event.getMessage());
+//        // TODO(1.16)
+//        if (eventMessage != null) playerList.broadcastMessage(event.getMessage());
     }
 }

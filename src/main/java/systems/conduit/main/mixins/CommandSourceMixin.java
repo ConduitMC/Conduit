@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import systems.conduit.main.Conduit;
 
+import java.util.UUID;
+
 @Mixin(value = CommandSourceStack.class, remap = false)
 public abstract class CommandSourceMixin {
 
@@ -32,9 +34,9 @@ public abstract class CommandSourceMixin {
 
     private void sendColoredString(Component component) {
         if (this.getEntity() == null) {
-            Conduit.getLogger().info(new TextComponent(component.getColoredString()).getText());
+            Conduit.getLogger().info(new TextComponent(component.getContents()).getText());
         } else {
-            this.source.sendMessage(component);
+            this.source.sendMessage(component, UUID.randomUUID());
         }
     }
 }

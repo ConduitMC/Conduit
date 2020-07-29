@@ -1,0 +1,35 @@
+{
+  "required": true,
+  "minVersion": "0.6.15",
+  "package": "systems.conduit.main.mixins",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "CommandSourceMixin",
+    "GamemodeCommandMixin",
+    "MinecraftServerMixin",
+    "MinecraftServerThreadMixin",
+    "ServerGamePacketListenerMixin",
+    "StartupMixin",
+    "VersionMixin",
+
+    "api.EntityMixin",
+    "api.LivingEntityMixin",
+    "api.PlayerMixin",
+    "api.ServerPlayerMixin",
+    "api.BiomeMixin",
+
+    "event.ItemStackMixin",
+    "event.player.DamageMixin",
+    "event.player.ServerPlayerGameModeMixin",
+    "event.player.JoinMixin",
+
+    "event.entity.SheepMixin",
+    "event.entity.SlimeMixin",
+
+    "event.goal.BreedGoalMixin",
+
+    "event.level.LevelStorageMixin",
+    "event.BaseSpawnerMixin"
+  ]
+}

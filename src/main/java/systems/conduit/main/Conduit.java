@@ -68,7 +68,7 @@ public class Conduit {
         if (!file.exists()) {
             // If the file does not exist, then lets attempt to generate a default.
             try (InputStream stream = Conduit.class.getResourceAsStream("/conduit.json")) {  // TODO: Fix that separator some day
-                Files.copy(stream, Paths.get("conduit.json"), StandardCopyOption.REPLACE_EXISTING);
+                if (stream != null) Files.copy(stream, Paths.get("conduit.json"), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
@@ -79,7 +79,7 @@ public class Conduit {
             Conduit.getLogger().error("Failed to find loader for JSON extension");
             return;
         }
-        Conduit.configuration = (ConduitConfiguration) loader.get().load(file, ConduitConfiguration.class).orElse(null);
+        if (file.exists()) Conduit.configuration = (ConduitConfiguration) loader.get().load(file, ConduitConfiguration.class).orElse(null);
     }
 
     public static Optional<MinecraftServer> getServer() {

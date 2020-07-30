@@ -30,8 +30,8 @@ public abstract class BiomeMixin implements systems.conduit.main.api.Biome {
     @Shadow public abstract float getDepth();
     @Shadow public abstract float getDownfall();
     @Shadow public abstract float getScale();
-    @Shadow public abstract int getWaterColor();
-    @Shadow public abstract int getWaterFogColor();
+    //@Shadow public abstract int getWaterColor();
+    //@Shadow public abstract int getWaterFogColor();
     @Shadow public abstract Biome.BiomeCategory getBiomeCategory();
 
     @Shadow public abstract float shadow$getTemperature(BlockPos pos);

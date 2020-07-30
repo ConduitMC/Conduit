@@ -2,18 +2,16 @@ package systems.conduit.main.mixins.api;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -22,12 +20,9 @@ import java.util.stream.Collectors;
 public abstract class EntityMixin implements systems.conduit.main.api.Entity {
 
     @Shadow public Level level;
-    @Shadow public double x;
-    @Shadow public double y;
-    @Shadow public double z;
 
     @Shadow public abstract UUID getUUID();
-    @Shadow public abstract void sendMessage(Component component);
+    //@Shadow public abstract void sendMessage(Component component);
 
     @Override
     public void sendMessage(String message) {
@@ -41,20 +36,9 @@ public abstract class EntityMixin implements systems.conduit.main.api.Entity {
         return level;
     }
 
-    @Override
-    public double getX() {
-        return this.x;
-    }
-
-    @Override
-    public double getY() {
-        return this.y;
-    }
-
-    @Override
-    public double getZ() {
-        return this.z;
-    }
+    @Shadow public abstract double getX();
+    @Shadow public abstract double getY();
+    @Shadow public abstract double getZ();
 
     @Override
     public void teleport(systems.conduit.main.api.Entity entity) {
@@ -95,7 +79,7 @@ public abstract class EntityMixin implements systems.conduit.main.api.Entity {
     @Shadow public abstract boolean isInWaterRainOrBubble();
     @Shadow public abstract boolean isInWaterOrBubble();
     @Shadow public abstract boolean isUnderWater();
-    @Shadow public abstract boolean isUnderLiquid(Tag<Fluid> fluid);
+    //@Shadow public abstract boolean isUnderLiquid(Tag<Fluid> fluid);
     @Shadow public abstract void setInLava();
     @Shadow public abstract boolean isInLava();
     @Shadow public abstract void moveRelative(float scale, Vec3 vector);
@@ -131,7 +115,7 @@ public abstract class EntityMixin implements systems.conduit.main.api.Entity {
     @Shadow public abstract Collection<Entity> getIndirectPassengers();
     @Shadow public abstract boolean hasOnePlayerPassenger();
     @Shadow public abstract boolean isPassengerOfSameVehicle(Entity entity);
-    @Shadow public abstract boolean hasIndirectPassenger(Entity entity);
+    //@Shadow public abstract boolean hasIndirectPassenger(Entity entity);
     @Shadow public abstract Vec3 position();
 
     @Shadow protected abstract SoundEvent shadow$getSwimSound();

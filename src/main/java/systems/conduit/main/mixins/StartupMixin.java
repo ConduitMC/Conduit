@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.ShutdownRunnable;
 
 import java.net.Proxy;
 
@@ -41,7 +42,7 @@ public abstract class StartupMixin extends MinecraftServer {
         Conduit.loadConfiguration();
         Conduit.setServer((systems.conduit.main.api.MinecraftServer) this);
         Conduit.getLogger().info("Server starting initialization...");
-        Runtime.getRuntime().addShutdownHook(new Thread(Conduit.getPluginManager()::disablePlugins));
+        Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownRunnable()));
         Conduit.getCommandManager().loadDefaultCommands();
         Conduit.getPluginManager().loadPlugins();
     }

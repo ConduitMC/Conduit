@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 # Conduit [![Status](https://github.com/ConduitMC/Conduit/workflows/Gradle%20CI/badge.svg)](https://github.com/ConduitMC/Conduit/actions) [![Codacy Badge](https://systems.conduit.api.codacy.com/project/badge/Grade/864ff27f13994fdda6334e439977ef7e)](https://www.codacy.com/gh/ConduitMC/Conduit?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ConduitMC/Conduit&amp;utm_campaign=Badge_Grade) [![Nexus](https://img.shields.io/static/v1?label=Nexus&message=Repository&color=bright-green?style=flat)](https://repo.conduit.systems/)
-=======
-# Conduit [![Status](https://github.com/ConduitMC/Conduit/workflows/Gradle%20CI/badge.svg)](https://github.com/ConduitMC/Conduit/actions) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/864ff27f13994fdda6334e439977ef7e)](https://www.codacy.com/gh/ConduitMC/Conduit?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ConduitMC/Conduit&amp;utm_campaign=Badge_Grade) [![Nexus](https://img.shields.io/static/v1?label=Nexus&message=Repository&color=bright-green?style=flat)](https://repo.conduit.systems/)
->>>>>>> parent of 5adfa34... refactor!: initial work on separating the API from Core
+
 
 Conduit is a next-generation Minecraft server built for stability, ease of use, and speed - without breaking Vanilla Minecraft mechanics.
 

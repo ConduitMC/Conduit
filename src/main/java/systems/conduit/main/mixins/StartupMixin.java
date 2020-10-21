@@ -8,7 +8,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerResources;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
-import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.players.GameProfileCache;
 import net.minecraft.world.level.storage.LevelStorageSource;
@@ -19,15 +18,19 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.ShutdownRunnable;
 
 import java.net.Proxy;
 
 @Mixin(value = DedicatedServer.class, remap = false)
 public abstract class StartupMixin extends MinecraftServer {
 
-    public StartupMixin(Thread thread, RegistryAccess.RegistryHolder registryHolder, LevelStorageSource.LevelStorageAccess levelStorageAccess, WorldData worldData, PackRepository<Pack> packRepository, Proxy proxy, DataFixer dataFixer, ServerResources serverResources, MinecraftSessionService minecraftSessionService, GameProfileRepository gameProfileRepository, GameProfileCache gameProfileCache, ChunkProgressListenerFactory chunkProgressListenerFactory) {
-        super(thread, registryHolder, levelStorageAccess, worldData, packRepository, proxy, dataFixer, serverResources, minecraftSessionService, gameProfileRepository, gameProfileCache, chunkProgressListenerFactory);
+    public StartupMixin(Thread thread, RegistryAccess.RegistryHolder registryHolder,
+                        LevelStorageSource.LevelStorageAccess levelStorageAccess, WorldData worldData, PackRepository packRepository,
+                        Proxy proxy, DataFixer dataFixer, ServerResources serverResources, MinecraftSessionService minecraftSessionService,
+                        GameProfileRepository gameProfileRepository, GameProfileCache gameProfileCache,
+                        ChunkProgressListenerFactory chunkProgressListenerFactory) {
+        super(thread, registryHolder, levelStorageAccess, worldData, packRepository, proxy, dataFixer, serverResources,
+                minecraftSessionService, gameProfileRepository, gameProfileCache, chunkProgressListenerFactory);
     }
 
     @Inject(method = "stopServer", at = @At("HEAD"))
@@ -42,7 +45,6 @@ public abstract class StartupMixin extends MinecraftServer {
         Conduit.loadConfiguration();
         Conduit.setServer((systems.conduit.main.api.MinecraftServer) this);
         Conduit.getLogger().info("Server starting initialization...");
-        Runtime.getRuntime().addShutdownHook(new Thread(new ShutdownRunnable()));
         Conduit.getCommandManager().loadDefaultCommands();
         Conduit.getPluginManager().loadPlugins();
     }

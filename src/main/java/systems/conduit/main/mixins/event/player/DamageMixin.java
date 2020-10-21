@@ -22,8 +22,8 @@ public abstract class DamageMixin extends Player {
 
     @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
 
-    public DamageMixin(Level level, BlockPos pos, GameProfile profile) {
-        super(level, pos, profile);
+    public DamageMixin(Level level, BlockPos pos, float yRot, GameProfile profile) {
+        super(level, pos, yRot, profile);
     }
 
     @Inject(at = @At("HEAD"), method = "hurt")

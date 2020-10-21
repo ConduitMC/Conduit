@@ -3,13 +3,13 @@ package systems.conduit.main.events.types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Location;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import systems.conduit.main.api.Level;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
@@ -85,7 +85,7 @@ public class WorldEvents {
     @AllArgsConstructor
     @Getter
     public static class LightningStrikeEvent extends Cancellable {
-        private Location location;
+        private Vec3 location;
     }
 
     @AllArgsConstructor

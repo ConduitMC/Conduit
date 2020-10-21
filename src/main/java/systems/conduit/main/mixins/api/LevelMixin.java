@@ -2,7 +2,6 @@ package systems.conduit.main.mixins.api;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
@@ -36,7 +35,7 @@ public abstract class LevelMixin implements systems.conduit.main.api.Level {
 
     @Override
     public Biome getBiome(BlockPos pos) {
-        return (Biome) this.shadow$getBiomeManager().getBiome(pos);
+        return (Biome) (Object) this.shadow$getBiomeManager().getBiome(pos);
     }
 
     @Shadow public abstract LevelChunk getChunkAt(BlockPos pos);
@@ -53,7 +52,6 @@ public abstract class LevelMixin implements systems.conduit.main.api.Level {
     @Shadow public abstract void removeBlockEntity(BlockPos pos);
     @Shadow public abstract boolean isLoaded(BlockPos pos);
     @Shadow public abstract int getSeaLevel();
-    @Shadow public abstract ResourceKey<DimensionType> dimensionTypeKey();
     @Shadow public abstract DimensionType dimensionType();
     @Shadow public abstract boolean hasSignal(BlockPos pos, Direction direction);
     @Shadow public abstract int getSignal(BlockPos pos, Direction direction);

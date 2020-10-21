@@ -5,10 +5,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.level.Level;
 
 import java.util.Optional;
 
@@ -24,7 +24,7 @@ public class EntityFactory {
     private TextComponent name;
     private EntityType type;
     private MobSpawnType spawnType;
-    private Level level;
+    private ServerLevel level;
     private CompoundTag tag;
     private BlockPos position;
     private boolean center;

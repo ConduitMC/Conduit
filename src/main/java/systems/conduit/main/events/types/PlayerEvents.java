@@ -4,13 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Location;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
 
@@ -154,8 +154,8 @@ public class PlayerEvents {
     @Getter
     public static class MoveEvent extends Cancellable {
         private Player player;
-        private Location to;
-        private Location from;
+        private Vec3 to;
+        private Vec3 from;
     }
 
     @AllArgsConstructor

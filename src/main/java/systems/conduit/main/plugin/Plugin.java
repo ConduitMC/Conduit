@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
 
 public abstract class Plugin {
 
@@ -64,7 +63,7 @@ public abstract class Plugin {
         ChatFormatting color = ChatFormatting.RED;
         if (pluginState == PluginState.ENABLING || pluginState == PluginState.DISABLING) color = ChatFormatting.YELLOW;
         if (pluginState == PluginState.ENABLED) color = ChatFormatting.GREEN;
-        return new TextComponent(meta.name()).withStyle(color).getColoredString();
+        return new TextComponent(meta.name()).withStyle(color).getContents();
     }
 
     @Override

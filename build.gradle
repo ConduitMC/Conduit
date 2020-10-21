@@ -7,7 +7,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "systems.conduit:Stream:1.0.0"
+        classpath "systems.conduit:Stream:1.0.1"
     }
 }
 plugins {
@@ -18,13 +18,14 @@ apply plugin: "Stream"
 dependencies {
     api "org.reflections:reflections:0.9.11"
     api "org.jline:jline:3.13.0"
+    api "org.apache.logging.log4j:log4j-slf4j-impl:2.11.2"
     compile "com.zaxxer:HikariCP:3.4.1"
     compile 'redis.clients:jedis:2.8.1'
 }
 
 conduit {
     version = null
-    minecraft = "1.14.4"
+    minecraft = "1.16.3"
     java = "1.8"
 }
 
@@ -39,12 +40,18 @@ java {
     withSourcesJar()
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
+task copyResources {
+    copy {
+        from "build/resources/main"
+        into "build/classes/java/main"
     }
+}
+
+compileJava.doLast {
+    tasks.copyResources
+}
+
+publishing {
     repositories {
         maven {
             credentials {

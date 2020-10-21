@@ -2,10 +2,10 @@ package systems.conduit.main.mixins;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.profiling.GameProfiler;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.storage.LevelStorageSource;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -28,10 +28,7 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Shadow @Final private Executor executor;
     @Shadow @Final private Map<DimensionType, ServerLevel> levels;
 
-    @Shadow public abstract ServerLevel getLevel(DimensionType dimensionType);
-    @Shadow public abstract LevelStorageSource getStorageSource();
-
-    @Shadow public abstract GameProfiler getProfiler();
+    @Shadow public abstract ServerLevel getLevel(ResourceKey<Level> dimensionType);
 
     @Shadow public abstract Commands getCommands();
     @Shadow public abstract boolean isStopped();
@@ -39,7 +36,7 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Shadow public abstract CommandSourceStack createCommandSourceStack();
     @Shadow public abstract void close();
 
-    @Inject(method = "run", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;updateStatusIcon(Lnet/minecraft/network/protocol/status/ServerStatus;)V"))
+    @Inject(method = "runServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;updateStatusIcon(Lnet/minecraft/network/protocol/status/ServerStatus;)V"))
     private void onRead(CallbackInfo ci) {
         Console.createConsole();
     }
@@ -62,8 +59,8 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
         Conduit.getEventManager().dispatchEvent(new ServerEvents.ServerInitializedEvent());
     }
 
-    @Inject(method = "run", at = @At("HEAD"))
-    public void run(CallbackInfo ci) {
+    @Inject(method = "runServer", at = @At("HEAD"))
+    public void runServer(CallbackInfo ci) {
         Conduit.getEventManager().dispatchEvent(new ServerEvents.ServerStartingEvent());
     }
 

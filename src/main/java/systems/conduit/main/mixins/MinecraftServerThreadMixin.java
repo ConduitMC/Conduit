@@ -2,7 +2,7 @@ package systems.conduit.main.mixins;
 
 import org.spongepowered.asm.mixin.Mixin;
 
-@Mixin(targets = "net/minecraft/server/dedicated/DedicatedServer$2")
+@Mixin(targets = "net/minecraft/server/dedicated/DedicatedServer$1")
 public class MinecraftServerThreadMixin implements Runnable {
 
     /**

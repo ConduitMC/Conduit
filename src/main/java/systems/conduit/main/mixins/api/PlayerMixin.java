@@ -1,11 +1,8 @@
 package systems.conduit.main.mixins.api;
 
 import com.mojang.authlib.GameProfile;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -21,8 +18,8 @@ public abstract class PlayerMixin implements Player {
 
     @Shadow public AbstractContainerMenu containerMenu;
     @Shadow @Final public InventoryMenu inventoryMenu;
-    @Shadow private BlockPos respawnPosition;
-    @Shadow private boolean respawnForced;
+    //@Shadow private BlockPos respawnPosition;
+    //@Shadow private boolean respawnForced;
 
     @Shadow public abstract GameProfile getGameProfile();
     @Shadow protected abstract void closeContainer();
@@ -48,9 +45,8 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract void giveExperienceLevels(int levels);
     @Shadow public abstract void giveExperiencePoints(int points);
 
-    @Shadow public abstract void killed(LivingEntity entity);
-    @Shadow public abstract boolean isRespawnForced();
-    @Shadow public abstract BlockPos getRespawnPosition();
+    //@Shadow public abstract boolean isRespawnForced();
+    //@Shadow public abstract BlockPos getRespawnPosition();
     @Shadow public abstract boolean isSleepingLongEnough();
     @Shadow public abstract void stopSleeping();
 
@@ -66,6 +62,7 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
     @Shadow public abstract int getPortalWaitTime();
 
+    /**
     @Override
     public void setRespawnPosition(BlockPos pos, boolean forced) {
         if (pos != null) {
@@ -79,6 +76,7 @@ public abstract class PlayerMixin implements Player {
             this.respawnForced = false;
         }
     }
+    */
 
     public void closeOpenedContainer() {
         if (this.containerMenu != this.inventoryMenu) {

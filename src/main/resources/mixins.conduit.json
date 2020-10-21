@@ -29,7 +29,6 @@
 
     "event.goal.BreedGoalMixin",
 
-    "event.level.LevelStorageMixin",
     "event.BaseSpawnerMixin"
   ]
 }

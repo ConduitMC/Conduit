@@ -1,6 +1,7 @@
 package systems.conduit.main.mixins.event.player;
 
 import com.mojang.authlib.GameProfile;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.EntityDamageSource;
@@ -21,8 +22,8 @@ public abstract class DamageMixin extends Player {
 
     @Shadow public abstract boolean isInvulnerableTo(DamageSource damageSource);
 
-    public DamageMixin(Level level, GameProfile gameProfile) {
-        super(level, gameProfile);
+    public DamageMixin(Level level, BlockPos pos, float yRot, GameProfile profile) {
+        super(level, pos, yRot, profile);
     }
 
     @Inject(at = @At("HEAD"), method = "hurt")

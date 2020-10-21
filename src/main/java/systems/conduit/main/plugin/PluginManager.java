@@ -121,8 +121,8 @@ public class PluginManager {
     }
 
     public void disablePlugins() {
-        if (plugins.isEmpty()) return;
         Conduit.getLogger().info("Disabling plugins...");
+        if (plugins.isEmpty()) return;
         // Loop through all plugins and disable them
         Iterator<Plugin> iterator = plugins.iterator();
         while (iterator.hasNext()) {

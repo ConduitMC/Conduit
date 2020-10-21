@@ -42,7 +42,6 @@ public interface Player extends LivingEntity {
     void giveExperienceLevels(int levels);
     void giveExperiencePoints(int points);
 
-    void killed(net.minecraft.world.entity.LivingEntity entity);
     void setRespawnPosition(BlockPos pos, boolean forced);
     boolean isRespawnForced();
     BlockPos getRespawnPosition();

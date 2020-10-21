@@ -25,7 +25,7 @@ dependencies {
 
 conduit {
     version = null
-    minecraft = "1.16.1"
+    minecraft = "1.16.3"
     java = "1.8"
 }
 

@@ -56,7 +56,7 @@ public interface Level {
     long getSeed();
     long getGameTime();
     long getDayTime();
-//    void setDayTime(long time);
+    //  void setDayTime(long time);
     BlockPos getSharedSpawnPos();
     LevelData getLevelData();
     ChunkSource conduit$getChunkSource();

@@ -26,8 +26,13 @@ import java.net.Proxy;
 @Mixin(value = DedicatedServer.class, remap = false)
 public abstract class StartupMixin extends MinecraftServer {
 
-    public StartupMixin(Thread thread, RegistryAccess.RegistryHolder registryHolder, LevelStorageSource.LevelStorageAccess levelStorageAccess, WorldData worldData, PackRepository<Pack> packRepository, Proxy proxy, DataFixer dataFixer, ServerResources serverResources, MinecraftSessionService minecraftSessionService, GameProfileRepository gameProfileRepository, GameProfileCache gameProfileCache, ChunkProgressListenerFactory chunkProgressListenerFactory) {
-        super(thread, registryHolder, levelStorageAccess, worldData, packRepository, proxy, dataFixer, serverResources, minecraftSessionService, gameProfileRepository, gameProfileCache, chunkProgressListenerFactory);
+    public StartupMixin(Thread thread, RegistryAccess.RegistryHolder registryHolder,
+                        LevelStorageSource.LevelStorageAccess levelStorageAccess, WorldData worldData, PackRepository<Pack> packRepository,
+                        Proxy proxy, DataFixer dataFixer, ServerResources serverResources, MinecraftSessionService minecraftSessionService,
+                        GameProfileRepository gameProfileRepository, GameProfileCache gameProfileCache,
+                        ChunkProgressListenerFactory chunkProgressListenerFactory) {
+        super(thread, registryHolder, levelStorageAccess, worldData, packRepository, proxy, dataFixer, serverResources,
+                minecraftSessionService, gameProfileRepository, gameProfileCache, chunkProgressListenerFactory);
     }
 
     @Inject(method = "stopServer", at = @At("HEAD"))

@@ -80,7 +80,6 @@ public abstract class EntityMixin implements systems.conduit.main.api.Entity {
     @Shadow public abstract boolean isInWaterOrBubble();
     @Shadow public abstract boolean isUnderWater();
     //@Shadow public abstract boolean isUnderLiquid(Tag<Fluid> fluid);
-    @Shadow public abstract void setInLava();
     @Shadow public abstract boolean isInLava();
     @Shadow public abstract void moveRelative(float scale, Vec3 vector);
     @Shadow public abstract void setLevel(Level level);

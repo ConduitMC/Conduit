@@ -8,7 +8,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.ServerResources;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
-import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackRepository;
 import net.minecraft.server.players.GameProfileCache;
 import net.minecraft.world.level.storage.LevelStorageSource;
@@ -27,7 +26,7 @@ import java.net.Proxy;
 public abstract class StartupMixin extends MinecraftServer {
 
     public StartupMixin(Thread thread, RegistryAccess.RegistryHolder registryHolder,
-                        LevelStorageSource.LevelStorageAccess levelStorageAccess, WorldData worldData, PackRepository<Pack> packRepository,
+                        LevelStorageSource.LevelStorageAccess levelStorageAccess, WorldData worldData, PackRepository packRepository,
                         Proxy proxy, DataFixer dataFixer, ServerResources serverResources, MinecraftSessionService minecraftSessionService,
                         GameProfileRepository gameProfileRepository, GameProfileCache gameProfileCache,
                         ChunkProgressListenerFactory chunkProgressListenerFactory) {

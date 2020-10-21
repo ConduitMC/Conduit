@@ -3,7 +3,6 @@ package systems.conduit.main.mixins.api;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -46,7 +45,6 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract void giveExperienceLevels(int levels);
     @Shadow public abstract void giveExperiencePoints(int points);
 
-    @Shadow public abstract void killed(LivingEntity entity);
     //@Shadow public abstract boolean isRespawnForced();
     //@Shadow public abstract BlockPos getRespawnPosition();
     @Shadow public abstract boolean isSleepingLongEnough();

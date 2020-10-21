@@ -29,7 +29,6 @@ import java.util.Optional;
 public interface Level {
 
     BiomeManager getBiomeManager();
-
     Biome getBiome(BlockPos pos);
 
     LevelChunk getChunkAt(BlockPos pos);
@@ -46,7 +45,6 @@ public interface Level {
     void removeBlockEntity(BlockPos pos);
     boolean isLoaded(BlockPos pos);
     int getSeaLevel();
-    ResourceKey<DimensionType> dimensionTypeKey();
     DimensionType dimensionType();
     boolean hasSignal(BlockPos pos, Direction direction);
     int getSignal(BlockPos pos, Direction direction);

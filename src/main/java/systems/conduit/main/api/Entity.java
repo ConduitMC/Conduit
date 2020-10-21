@@ -62,7 +62,6 @@ public interface Entity {
     boolean isInWaterOrBubble();
     boolean isUnderWater();
     boolean isUnderLiquid(Tag<Fluid> fluid);
-    void setInLava();
     boolean isInLava();
     void moveRelative(float scale, Vec3 vector);
     void setLevel(Level level);

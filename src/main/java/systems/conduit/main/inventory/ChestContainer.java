@@ -25,7 +25,7 @@ public class ChestContainer extends SimpleContainer {
     // TODO: Use?
     @Override
     public void addListener(ContainerListener var1) {
-        throw new UnsupportedOperationException("Container listener not implemented!");
+//        throw new UnsupportedOperationException("Container listener not implemented!");
     }
 
     private static int getSizeFromEnum(MenuType<ChestMenu> size) {

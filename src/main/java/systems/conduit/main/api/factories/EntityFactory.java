@@ -25,16 +25,16 @@ public class EntityFactory {
     private EntityType type;
     private MobSpawnType spawnType;
     private ServerLevel level;
-    private CompoundTag tag;
+    private CompoundTag entityTag;
     private BlockPos position;
     private boolean center;
     private boolean negativeOffset;
-    private Component component;
+    private Component customName;
 
     public Optional<Entity> spawn() {
         if (level == null || position == null || type == null || spawnType == null) return Optional.empty();
 
-        Entity entity = type.spawn(level, tag, component, null, position, spawnType, center, negativeOffset);
+        Entity entity = type.spawn(level, entityTag, customName, null, position, spawnType, center, negativeOffset);
         if (entity == null) return Optional.empty();
 
         if (name != null) entity.setCustomName(name);

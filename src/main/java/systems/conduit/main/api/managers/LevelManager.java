@@ -5,7 +5,6 @@ import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.progress.LoggerChunkProgressListener;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelSettings;
 import net.minecraft.world.level.biome.BiomeManager;
@@ -61,27 +60,14 @@ public class LevelManager {
         boolean isDebugMode = worldGenSettings.isDebug();
         long seed = BiomeManager.obfuscateSeed(worldGenSettings.seed());
 
-        if (levelData.getCustomSpawners() == null) levelData.setCustomSpawners(LevelDataFactory.DEFAULT_CUSTOM_SPAWNERS);
-        if (levelData.getDataPackConfig() == null) levelData.setDataPackConfig(server.get().getWorldData().getDataPackConfig());
-        if (levelData.getGameRules() == null) levelData.setGameRules(server.get().getWorldData().getGameRules());
-
         PrimaryLevelData newLevelData = generateNewLevelData(levelData, worldGenSettings.dimensions());
         ChunkGenerator chunkGenerator = generateChunkGenerator(levelData, seed, server.get());
         DimensionType dimensionType = server.get().getRegistryHolder().dimensionTypes().getOrThrow(levelData.getDimensionType());
 
         net.minecraft.server.level.ServerLevel newLevel = new net.minecraft.server.level.ServerLevel(
-                (net.minecraft.server.MinecraftServer) server.get(),
-                server.get().getExecutor(),
-                server.get().getStorageSource(),
-                newLevelData,
-                resourceKey,
-                dimensionType,
-                new LoggerChunkProgressListener(11),
-                chunkGenerator,
-                isDebugMode,
-                seed,
-                LevelDataFactory.DEFAULT_CUSTOM_SPAWNERS,
-                true);
+                (net.minecraft.server.MinecraftServer) server.get(), server.get().getExecutor(), server.get().getStorageSource(),
+                newLevelData, resourceKey, dimensionType, server.get().getProgressListenerFactory().create(11), chunkGenerator,
+                isDebugMode, seed, LevelDataFactory.DEFAULT_CUSTOM_SPAWNERS, true);
         server.get().getLevels().put(resourceKey, newLevel);
 
         // TODO: World border

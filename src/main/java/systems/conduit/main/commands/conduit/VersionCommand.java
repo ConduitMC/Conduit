@@ -1,4 +1,4 @@
-package systems.conduit.main.commands;
+package systems.conduit.main.commands.conduit;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -11,10 +11,9 @@ import systems.conduit.main.plugin.Plugin;
 
 import java.util.Optional;
 
-public class VersionCommand extends BaseCommand {
+public class VersionCommand {
 
-    @Override
-    public LiteralArgumentBuilder<CommandSourceStack> getCommand() {
+    public static LiteralArgumentBuilder<CommandSourceStack> getCommand() {
         return Commands.literal("version").then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
@@ -22,9 +21,7 @@ public class VersionCommand extends BaseCommand {
                 pluginName = plugin.get().getMeta().name();
                 String version = plugin.get().getMeta().version();
                 c.getSource().sendSuccess(new TextComponent(pluginName + " v" + version), false);
-            } else {
-                c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin!"));
-            }
+            } else c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin!"));
             return 1;
         })).executes(c -> {
             c.getSource().sendSuccess(new TextComponent(Conduit.getMeta().name()).append(" v").append(Conduit.getMeta().version()), false);

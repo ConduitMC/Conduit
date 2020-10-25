@@ -19,7 +19,6 @@ public interface Player extends LivingEntity {
 
     String getName();
     void closeOpenedContainer();
-    void openContainer(ChestContainer container);
     AbstractContainerMenu getContainerMenu();
 
     Scoreboard getScoreboard();

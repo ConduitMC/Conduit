@@ -19,6 +19,8 @@
     "api.ServerPlayerMixin",
     "api.BiomeMixin",
     "api.ServerLevelMixin",
+    "api.WorldGenSettingsMixin",
+    "api.LevelMixin",
 
     "event.ItemStackMixin",
     "event.player.DamageMixin",

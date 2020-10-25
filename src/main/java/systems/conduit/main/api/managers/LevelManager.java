@@ -61,10 +61,6 @@ public class LevelManager {
         boolean isDebugMode = worldGenSettings.isDebug();
         long seed = BiomeManager.obfuscateSeed(worldGenSettings.seed());
 
-        if (levelData.getCustomSpawners() == null) levelData.setCustomSpawners(LevelDataFactory.DEFAULT_CUSTOM_SPAWNERS);
-        if (levelData.getDataPackConfig() == null) levelData.setDataPackConfig(server.get().getWorldData().getDataPackConfig());
-        if (levelData.getGameRules() == null) levelData.setGameRules(server.get().getWorldData().getGameRules());
-
         PrimaryLevelData newLevelData = generateNewLevelData(levelData, worldGenSettings.dimensions());
         ChunkGenerator chunkGenerator = generateChunkGenerator(levelData, seed, server.get());
         DimensionType dimensionType = server.get().getRegistryHolder().dimensionTypes().getOrThrow(levelData.getDimensionType());

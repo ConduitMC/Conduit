@@ -11,7 +11,6 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import systems.conduit.main.api.ServerPlayer;
 import systems.conduit.main.inventory.events.InventoryEventHandler;
 import systems.conduit.main.inventory.events.InventoryEventType;
@@ -31,7 +30,7 @@ public class CustomInventory {
     @NonNull private UUID uuid;
 
     @NonNull private Map<InventoryEventType, InventoryEventHandler> eventHandlers;
-    @NonNull private Map<Integer, ItemLike> items;
+    @NonNull private Map<Integer, ItemStack> items;
 
     @Getter private List<Integer> ids = new ArrayList<>();
 
@@ -47,7 +46,7 @@ public class CustomInventory {
             menu.addSlotListener((net.minecraft.server.level.ServerPlayer) player);
 
             ids.add(menu.containerId);
-            items.forEach((key, value) -> menu.setItem(key, new ItemStack(value)));
+            items.forEach(menu::setItem);
 
             player.down().connection.send(new ClientboundOpenScreenPacket(menu.containerId, menu.getType(), new TextComponent(name)));
             player.down().containerMenu = menu;

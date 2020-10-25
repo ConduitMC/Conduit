@@ -3,7 +3,7 @@ package systems.conduit.main.api.factories;
 import lombok.Builder;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.ItemStack;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.inventory.CustomInventory;
 import systems.conduit.main.inventory.events.InventoryEventHandler;
@@ -25,7 +25,7 @@ public class InventoryFactory {
     @Builder.Default private int size = 9;
 
     private final Map<InventoryEventType, InventoryEventHandler> eventHandlers = new HashMap<>();
-    private final Map<Integer, ItemLike> items = new HashMap<>();
+    private final Map<Integer, ItemStack> items = new HashMap<>();
 
     public InventoryFactory rightClick(InventoryEventHandler handler) {
         eventHandlers.put(InventoryEventType.RIGHT_CLICK, handler);
@@ -42,7 +42,7 @@ public class InventoryFactory {
         return this;
     }
 
-    public InventoryFactory set(int i, ItemLike item) {
+    public InventoryFactory set(int i, ItemStack item) {
         items.put(i, item);
         return this;
     }

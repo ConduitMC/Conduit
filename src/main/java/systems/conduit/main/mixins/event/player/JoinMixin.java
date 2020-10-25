@@ -8,6 +8,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -65,7 +66,7 @@ public abstract class JoinMixin {
             .menuType(MenuType.GENERIC_9x2)
             .size(18)
             .build()
-            .set(1, Items.DIRT)
+            .set(1, new ItemStack(Items.DIRT, 5))
             .leftClick((player, clicked, m) -> player.down().sendMessage(new TextComponent("WOW YOU LEFT CLICKED A THING! " + clicked), UUID.randomUUID()))
             .rightClick((player, clicked, m) -> player.down().sendMessage(new TextComponent("WOW YOU RIGHT CLICKED A THING! " + clicked), UUID.randomUUID()))
             .middleClick((player, clicked, m) -> player.down().sendMessage(new TextComponent("WOW YOU MIDDLE CLICKED A THING! " + clicked), UUID.randomUUID()))

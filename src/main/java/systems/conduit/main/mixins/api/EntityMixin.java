@@ -2,6 +2,7 @@ package systems.conduit.main.mixins.api;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +23,7 @@ public abstract class EntityMixin implements systems.conduit.main.api.Entity {
     @Shadow public Level level;
 
     @Shadow public abstract UUID getUUID();
-    //@Shadow public abstract void sendMessage(Component component);
+    @Shadow public abstract void sendMessage(Component component, UUID uuid);
 
     @Override
     public void sendMessage(String message) {

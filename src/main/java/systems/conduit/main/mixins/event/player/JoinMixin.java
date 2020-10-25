@@ -64,7 +64,6 @@ public abstract class JoinMixin {
         CustomInventory inv = InventoryFactory.builder()
             .name("Testing!")
             .menuType(MenuType.GENERIC_9x2)
-            .size(18)
             .build()
             .set(1, new ItemStack(Items.DIRT, 5))
             .leftClick((player, clicked, m) -> player.down().sendMessage(new TextComponent("WOW YOU LEFT CLICKED A THING! " + clicked), UUID.randomUUID()))

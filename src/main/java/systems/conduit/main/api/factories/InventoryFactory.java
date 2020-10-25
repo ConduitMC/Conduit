@@ -22,7 +22,6 @@ public class InventoryFactory {
 
     @Builder.Default private String name = "Inventory";
     @Builder.Default private MenuType<ChestMenu> menuType = MenuType.GENERIC_9x1;
-    @Builder.Default private int size = 9;
 
     private final Map<InventoryEventType, InventoryEventHandler> eventHandlers = new HashMap<>();
     private final Map<Integer, ItemStack> items = new HashMap<>();
@@ -47,9 +46,18 @@ public class InventoryFactory {
         return this;
     }
 
+    private static int getSizeFromEnum(MenuType<ChestMenu> size) {
+        if (MenuType.GENERIC_9x2.equals(size)) return 18;
+        else if (MenuType.GENERIC_9x3.equals(size)) return 27;
+        else if (MenuType.GENERIC_9x4.equals(size)) return 36;
+        else if (MenuType.GENERIC_9x5.equals(size)) return 45;
+        else if (MenuType.GENERIC_9x6.equals(size)) return 54;
+        return 9;
+    }
+
     public CustomInventory register() {
         UUID uuid = UUID.randomUUID();
-        CustomInventory inv = new CustomInventory(name, menuType, size, uuid, eventHandlers, items);
+        CustomInventory inv = new CustomInventory(name, menuType, getSizeFromEnum(menuType), uuid, eventHandlers, items);
         inv.setup();
 
         Conduit.getInventoryManager().register(uuid, inv);

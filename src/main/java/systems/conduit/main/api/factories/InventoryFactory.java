@@ -46,7 +46,7 @@ public class InventoryFactory {
         return this;
     }
 
-    private static int getSizeFromEnum(MenuType<ChestMenu> size) {
+    public static int getSizeFromEnum(MenuType<ChestMenu> size) {
         if (MenuType.GENERIC_9x2.equals(size)) return 18;
         else if (MenuType.GENERIC_9x3.equals(size)) return 27;
         else if (MenuType.GENERIC_9x4.equals(size)) return 36;

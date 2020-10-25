@@ -5,7 +5,6 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.level.DataPackConfig;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.level.LevelSettings;
 
 /**
  * Handles the creation of new levels.
@@ -14,7 +13,7 @@ import net.minecraft.world.level.LevelSettings;
  * @since 12/1/2019
  */
 @Builder
-public class LevelFactory {
+public class LevelDataFactory {
     private String levelName;
     private GameType gameType;
     private boolean hardcore;
@@ -38,9 +37,4 @@ public class LevelFactory {
     private float ambientLight;
 
     private long seed;
-
-    public void generate() {
-        LevelSettings settings = new LevelSettings(levelName, gameType, hardcore, difficulty, allowCommands, gameRules, dataPackConfig);
-        throw new UnsupportedOperationException("not implemented");
-    }
 }

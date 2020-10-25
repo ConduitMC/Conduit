@@ -56,9 +56,6 @@ public abstract class JoinMixin {
                 .levelName("testing")
                 .hardcore(true)
                 .hasCeiling(false)
-                .build()).ifPresent(world -> {
-                    System.out.println("YEET WE HAVE WORLD " + world);
-                    serverPlayer.teleportTo(world, 0, 100, 0, 0, 0);
-        });
+                .build()).ifPresent(world -> System.out.println("YEET WE HAVE WORLD " + world));
     }
 }

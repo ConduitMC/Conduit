@@ -6,6 +6,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.commands.conduit.DimensionsCommand;
 import systems.conduit.main.commands.conduit.PluginsCommand;
 import systems.conduit.main.commands.conduit.VersionCommand;
 
@@ -24,6 +25,7 @@ public class ConduitCommand extends BaseCommand {
         })
         .then(PluginsCommand.baseCommand().then(PluginsCommand.reloadSubcommand()).then(PluginsCommand.changeStateSubcommand(true))
                 .then(PluginsCommand.changeStateSubcommand(false)))
-        .then(VersionCommand.getCommand());
+        .then(VersionCommand.getCommand())
+        .then(DimensionsCommand.baseCommand().then(DimensionsCommand.listCommand()).then(DimensionsCommand.teleportCommand()));
     }
 }

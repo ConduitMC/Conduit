@@ -3,6 +3,7 @@ package systems.conduit.main.mixins.api;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundContainerSetContentPacket;
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -24,6 +25,8 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow public ServerGamePacketListenerImpl connection;
 
     @Shadow protected abstract void nextContainerCounter();
+
+    @Shadow public abstract void teleportTo(ServerLevel level, double x, double y, double z, float pitch, float yaw);
 
     @Override
     public void openContainer(ChestContainer container) {

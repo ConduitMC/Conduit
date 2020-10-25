@@ -11,7 +11,7 @@ import java.util.UUID;
  * @author Innectic
  * @since 10/24/2020
  */
-public interface ServerLevel {
+public interface ServerLevel extends Level {
 
     List<ServerPlayer> getPlayers();
     Map<UUID, Entity> getEntitiesByUuid();

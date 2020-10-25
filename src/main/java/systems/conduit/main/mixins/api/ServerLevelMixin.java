@@ -19,7 +19,7 @@ import java.util.UUID;
  * @since 10/24/2020
  */
 @Mixin(value = net.minecraft.server.level.ServerLevel.class, remap = false)
-public class ServerLevelMixin implements ServerLevel {
+public abstract class ServerLevelMixin implements ServerLevel {
 
     @Shadow @Final @Getter private List<ServerPlayer> players;
     @Shadow @Final @Getter private Map<UUID, Entity> entitiesByUuid;
@@ -29,4 +29,6 @@ public class ServerLevelMixin implements ServerLevel {
     public Optional<Entity> getEntityByUuid(UUID uuid) {
         return Optional.ofNullable(entitiesByUuid.getOrDefault(uuid, null));
     }
+
+
 }

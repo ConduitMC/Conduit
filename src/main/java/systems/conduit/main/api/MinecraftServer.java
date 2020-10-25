@@ -29,4 +29,5 @@ public interface MinecraftServer {
     void close();
     CustomBossEvents getCustomBossEvents();
     String getServerModName();
+    Iterable<ServerLevel> getAllLevels();
 }

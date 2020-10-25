@@ -2,10 +2,13 @@ package systems.conduit.main.mixins;
 
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.storage.LevelStorageSource;
+import net.minecraft.world.level.storage.WorldData;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -26,7 +29,10 @@ import java.util.concurrent.Executor;
 public abstract class MinecraftServerMixin implements MinecraftServer {
 
     @Shadow @Final private Executor executor;
-    @Shadow @Final private Map<DimensionType, ServerLevel> levels;
+    @Shadow @Final private Map<ResourceKey<Level>, ServerLevel> levels;
+    @Shadow @Final protected RegistryAccess.RegistryHolder registryHolder;
+    @Shadow @Final private ChunkProgressListenerFactory progressListenerFactory;
+    @Shadow @Final protected LevelStorageSource.LevelStorageAccess storageSource;
 
     @Shadow public abstract ServerLevel getLevel(ResourceKey<Level> dimensionType);
 
@@ -36,6 +42,9 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Shadow public abstract CommandSourceStack createCommandSourceStack();
     @Shadow public abstract void close();
     @Shadow public abstract Iterable<ServerLevel> getAllLevels();
+    @Shadow public abstract WorldData getWorldData();
+
+    @Shadow @Final public long[] tickTimes;
 
     @Inject(method = "runServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;updateStatusIcon(Lnet/minecraft/network/protocol/status/ServerStatus;)V"))
     private void onRead(CallbackInfo ci) {
@@ -46,8 +55,20 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
         return executor;
     }
 
-    public Map<DimensionType, ServerLevel> getLevels() {
+    public Map<ResourceKey<Level>, ServerLevel> getLevels() {
         return levels;
+    }
+
+    public RegistryAccess.RegistryHolder getRegistryHolder() {
+        return this.registryHolder;
+    }
+
+    public ChunkProgressListenerFactory getProgressListenerFactory() {
+        return progressListenerFactory;
+    }
+
+    public LevelStorageSource.LevelStorageAccess getStorageSource() {
+        return storageSource;
     }
 
     @Inject(method = "stopServer", at = @At("HEAD"))

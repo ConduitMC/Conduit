@@ -5,7 +5,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.DimensionType;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.MinecraftServer;
 import systems.conduit.main.api.Player;
@@ -33,7 +32,7 @@ public class PlayerManager {
         MinecraftServer server = Conduit.getServer().get();
 
         // Check all levels for the player
-        for (Map.Entry<DimensionType, ServerLevel> entry : server.getLevels().entrySet()) {
+        for (Map.Entry<ResourceKey<Level>, ServerLevel> entry : server.getLevels().entrySet()) {
             // Find all players who have matching names
             List<ServerPlayer> players = entry.getValue().getPlayers(s -> s.getName().getString().equals(name));
             if (players.size() == 0) return Optional.empty();
@@ -57,7 +56,7 @@ public class PlayerManager {
         MinecraftServer server = Conduit.getServer().get();
 
         // Check all levels for the player
-        for (Map.Entry<DimensionType, ServerLevel> entry : server.getLevels().entrySet()) {
+        for (Map.Entry<ResourceKey<Level>, ServerLevel> entry : server.getLevels().entrySet()) {
             // Find all players who have matching uuids
             List<ServerPlayer> players = entry.getValue().getPlayers(s -> s.getUUID().equals(uuid));
             if (players.size() == 0) return Optional.empty();

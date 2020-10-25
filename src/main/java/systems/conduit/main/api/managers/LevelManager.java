@@ -5,7 +5,6 @@ import net.minecraft.core.MappedRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.progress.LoggerChunkProgressListener;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelSettings;
 import net.minecraft.world.level.biome.BiomeManager;
@@ -66,18 +65,9 @@ public class LevelManager {
         DimensionType dimensionType = server.get().getRegistryHolder().dimensionTypes().getOrThrow(levelData.getDimensionType());
 
         net.minecraft.server.level.ServerLevel newLevel = new net.minecraft.server.level.ServerLevel(
-                (net.minecraft.server.MinecraftServer) server.get(),
-                server.get().getExecutor(),
-                server.get().getStorageSource(),
-                newLevelData,
-                resourceKey,
-                dimensionType,
-                new LoggerChunkProgressListener(11),
-                chunkGenerator,
-                isDebugMode,
-                seed,
-                LevelDataFactory.DEFAULT_CUSTOM_SPAWNERS,
-                true);
+                (net.minecraft.server.MinecraftServer) server.get(), server.get().getExecutor(), server.get().getStorageSource(),
+                newLevelData, resourceKey, dimensionType, server.get().getProgressListenerFactory().create(11), chunkGenerator,
+                isDebugMode, seed, LevelDataFactory.DEFAULT_CUSTOM_SPAWNERS, true);
         server.get().getLevels().put(resourceKey, newLevel);
 
         // TODO: World border

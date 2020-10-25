@@ -8,8 +8,7 @@ public class CommandManager {
 
     public void loadDefaultCommands() {
         Conduit.getServer().ifPresent(server -> {
-            server.getCommands().getDispatcher().register(new PluginsCommand().getCommand());
-            server.getCommands().getDispatcher().register(new VersionCommand().getCommand());
+            server.getCommands().getDispatcher().register(new ConduitCommand().getCommand());
         });
     }
 

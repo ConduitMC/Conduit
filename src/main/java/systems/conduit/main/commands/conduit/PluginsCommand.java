@@ -1,4 +1,4 @@
-package systems.conduit.main.commands;
+package systems.conduit.main.commands.conduit;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -11,14 +11,9 @@ import systems.conduit.main.plugin.Plugin;
 
 import java.util.Optional;
 
-public class PluginsCommand extends BaseCommand {
+public class PluginsCommand {
 
-    @Override
-    public LiteralArgumentBuilder<CommandSourceStack> getCommand() {
-        return baseCommand().then(reloadSubcommand()).then(changeStateSubcommand(true)).then(changeStateSubcommand(false));
-    }
-
-    private LiteralArgumentBuilder<CommandSourceStack> baseCommand() {
+    public static LiteralArgumentBuilder<CommandSourceStack> baseCommand() {
         return Commands.literal("plugins").executes(c -> {
             Conduit.getPluginManager().getPlugins().stream().map(Plugin::toStringColored).reduce((a, b) -> a.concat(",").concat(b)).ifPresent(s -> {
                 c.getSource().sendSuccess(new TextComponent("Plugins: " + s), false);
@@ -27,7 +22,7 @@ public class PluginsCommand extends BaseCommand {
         });
     }
 
-    private LiteralArgumentBuilder<CommandSourceStack> reloadSubcommand() {
+    public static LiteralArgumentBuilder<CommandSourceStack> reloadSubcommand() {
         return Commands.literal("reload").then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
@@ -57,7 +52,7 @@ public class PluginsCommand extends BaseCommand {
         });
     }
 
-    private LiteralArgumentBuilder<CommandSourceStack> changeStateSubcommand(boolean enable) {
+    public static LiteralArgumentBuilder<CommandSourceStack> changeStateSubcommand(boolean enable) {
         String state = (enable ? "enable" : "disable");
         String preStateText = (enable ? "Enabling" : "Disabling") + " plugin: ";
         String postStateText = (enable ? "Enabled" : "Disabled") + " plugin: ";

@@ -26,18 +26,8 @@ public class InventoryFactory {
     private final Map<InventoryEventType, InventoryEventHandler> eventHandlers = new HashMap<>();
     private final Map<Integer, ItemStack> items = new HashMap<>();
 
-    public InventoryFactory rightClick(InventoryEventHandler handler) {
-        eventHandlers.put(InventoryEventType.RIGHT_CLICK, handler);
-        return this;
-    }
-
-    public InventoryFactory leftClick(InventoryEventHandler handler) {
-        eventHandlers.put(InventoryEventType.LEFT_CLICK, handler);
-        return this;
-    }
-
-    public InventoryFactory middleClick(InventoryEventHandler handler) {
-        eventHandlers.put(InventoryEventType.MIDDLE_CLICK, handler);
+    public InventoryFactory changed(InventoryEventHandler handler) {
+        eventHandlers.put(InventoryEventType.SLOT_CHANGED, handler);
         return this;
     }
 

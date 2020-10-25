@@ -5,5 +5,5 @@ package systems.conduit.main.inventory.events;
  * @since 10/25/2020
  */
 public enum InventoryEventType {
-    RIGHT_CLICK, LEFT_CLICK, MIDDLE_CLICK
+    SLOT_CHANGED
 }

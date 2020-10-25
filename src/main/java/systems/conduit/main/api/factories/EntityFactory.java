@@ -22,8 +22,8 @@ import java.util.Optional;
 public class EntityFactory {
 
     private TextComponent name;
-    private EntityType type;
-    private MobSpawnType spawnType;
+    @Builder.Default private EntityType type = EntityType.COW;
+    @Builder.Default private MobSpawnType spawnType = MobSpawnType.SPAWN_EGG;
     private ServerLevel level;
     private CompoundTag entityTag;
     private BlockPos position;
@@ -35,9 +35,12 @@ public class EntityFactory {
         if (level == null || position == null || type == null || spawnType == null) return Optional.empty();
 
         Entity entity = type.spawn(level, entityTag, customName, null, position, spawnType, center, negativeOffset);
-        if (entity == null) return Optional.empty();
 
+        if (entity == null) return Optional.empty();
         if (name != null) entity.setCustomName(name);
+
+        entity.teleportTo(position.getX(), position.getY(), position.getZ());
+
         return Optional.of(entity);
     }
 }

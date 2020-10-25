@@ -1,5 +1,6 @@
 package systems.conduit.main.mixins.event.player;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
@@ -7,6 +8,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.Player;
+import systems.conduit.main.api.factories.EntityFactory;
 import systems.conduit.main.api.factories.LevelDataFactory;
 import systems.conduit.main.events.types.PlayerEvents;
 
@@ -57,5 +60,6 @@ public abstract class JoinMixin {
                 .hardcore(true)
                 .hasCeiling(false)
                 .build()).ifPresent(world -> System.out.println("YEET WE HAVE WORLD " + world));
+        EntityFactory.builder().level(serverPlayer.getLevel()).position(new BlockPos(serverPlayer.position())).type(EntityType.CREEPER).build().spawn();
     }
 }

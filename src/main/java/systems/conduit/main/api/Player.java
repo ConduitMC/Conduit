@@ -4,9 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodData;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.scores.Scoreboard;
-
 import systems.conduit.main.inventory.ChestContainer;
 
 /**
@@ -19,7 +19,7 @@ public interface Player extends LivingEntity {
 
     String getName();
     void closeOpenedContainer();
-    void openContainer(ChestContainer container);
+    AbstractContainerMenu getContainerMenu();
 
     Scoreboard getScoreboard();
     boolean isCreative();

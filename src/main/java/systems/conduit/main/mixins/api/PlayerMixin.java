@@ -88,4 +88,9 @@ public abstract class PlayerMixin implements Player {
     public String getName() {
         return getGameProfile().getName();
     }
+
+    @Override
+    public AbstractContainerMenu getContainerMenu() {
+        return containerMenu;
+    }
 }

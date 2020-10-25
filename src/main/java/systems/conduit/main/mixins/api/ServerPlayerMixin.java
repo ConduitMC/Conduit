@@ -72,4 +72,13 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         Optional<CustomInventory> inventory = Conduit.getInventoryManager().findInventoryByPlayerContainerId(container.containerId);
         inventory.ifPresent(inv -> inv.pushEvent(InventoryEventType.LEFT_CLICK, this, clicked, container));
     }
+
+    @Inject(method = "doCloseContainer", at = @At("TAIL"))
+    public void doCloseContainer(CallbackInfo ci) {
+        int id = this.getContainerMenu().containerId;
+        Optional<CustomInventory> inventory = Conduit.getInventoryManager().findInventoryByPlayerContainerId(id);
+        System.out.println(inventory.get().getIds());
+        inventory.ifPresent(inv -> inv.finished(id));
+        System.out.println(inventory.get().getIds());
+    }
 }

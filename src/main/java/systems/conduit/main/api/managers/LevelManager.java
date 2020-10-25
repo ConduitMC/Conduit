@@ -1,7 +1,8 @@
 package systems.conduit.main.api.managers;
 
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.dimension.DimensionType;
+import systems.conduit.main.Conduit;
+import systems.conduit.main.api.ServerLevel;
 
 import java.util.Optional;
 
@@ -15,7 +16,13 @@ public class LevelManager {
      * @return a level with the name, if found.
      */
     public Optional<ServerLevel> getLevel(String name) {
-        return Optional.empty();
+        return Conduit.getServer().map(server -> {
+            for (net.minecraft.server.level.ServerLevel level : server.getAllLevels()) {
+                ServerLevel conduitLevel = (ServerLevel) level;
+                if (conduitLevel.getServerLevelData().getLevelName().equals(name)) return conduitLevel;
+            }
+            return null;
+        });
     }
 
     /**

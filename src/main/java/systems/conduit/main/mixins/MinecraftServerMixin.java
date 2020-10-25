@@ -35,6 +35,7 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Shadow public abstract boolean isRunning();
     @Shadow public abstract CommandSourceStack createCommandSourceStack();
     @Shadow public abstract void close();
+    @Shadow public abstract Iterable<ServerLevel> getAllLevels();
 
     @Inject(method = "runServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;updateStatusIcon(Lnet/minecraft/network/protocol/status/ServerStatus;)V"))
     private void onRead(CallbackInfo ci) {

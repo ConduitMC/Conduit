@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
 
@@ -21,7 +23,6 @@ import systems.conduit.main.events.Cancellable;
 public class PlayerEvents {
 
     /**
-     * Player join server event.
      * Mixin implementation: {@link systems.conduit.main.mixins.event.player.JoinMixin}
      */
     @AllArgsConstructor
@@ -32,8 +33,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Player leave server event.
-     * This is not currently implemented.
+     * Mixin implementation: {@link systems.conduit.main.mixins.ServerGamePacketListenerMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -72,7 +72,6 @@ public class PlayerEvents {
     }
 
     /**
-     * Player damage by entity event.
      * Mixin implementation: {@link systems.conduit.main.mixins.event.player.DamageMixin}
      */
     @AllArgsConstructor
@@ -85,7 +84,6 @@ public class PlayerEvents {
     }
 
     /**
-     * Player damage by another player event.
      * Mixin implementation: {@link systems.conduit.main.mixins.event.player.DamageMixin}
      */
     @AllArgsConstructor
@@ -98,7 +96,6 @@ public class PlayerEvents {
     }
 
     /**
-     * Player damage by arrow event. This can be either another player, skeleton, etc.
      * Mixin implementation: {@link systems.conduit.main.mixins.event.player.DamageMixin}
      */
     @AllArgsConstructor
@@ -112,7 +109,6 @@ public class PlayerEvents {
     }
 
     /**
-     * Player game mode change event.
      * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin}
      */
     @AllArgsConstructor
@@ -123,7 +119,6 @@ public class PlayerEvents {
     }
 
     /**
-     * Player chat event. No commands included.
      * Mixin implementation: {@link systems.conduit.main.mixins.ServerGamePacketListenerMixin}
      */
     @AllArgsConstructor
@@ -134,7 +129,6 @@ public class PlayerEvents {
     }
 
     /**
-     * Player send command event.
      * Mixin implementation: {@link systems.conduit.main.mixins.ServerGamePacketListenerMixin}
      */
     @AllArgsConstructor
@@ -173,6 +167,9 @@ public class PlayerEvents {
         private String reason;
     }
 
+    /**
+     * Mixin implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin#eat(Level, ItemStack, CallbackInfoReturnable)}
+     */
     @AllArgsConstructor
     @Getter
     public static class ConsumeEvent extends EventType {
@@ -186,6 +183,9 @@ public class PlayerEvents {
         private Player player;
     }
 
+    /**
+     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin#startSleeping(BlockPos, CallbackInfo)}
+     */
     @AllArgsConstructor
     @Getter
     public static class EnterBedEvent extends Cancellable {
@@ -193,6 +193,9 @@ public class PlayerEvents {
         private BlockPos bed;
     }
 
+    /**
+     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin#stopSleeping(CallbackInfo)}
+     */
     @AllArgsConstructor
     @Getter
     public static class LeaveBedEvent extends EventType {  // @Future: Should this be cancellable?

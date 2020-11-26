@@ -2,14 +2,17 @@ package systems.conduit.main.events.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.api.Level;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
@@ -31,6 +34,9 @@ public class WorldEvents {
         private Direction clickedFace;
     }
 
+    /**
+     * Implemented in: {@link systems.conduit.main.mixins.event.ItemStackMixin#useOn(UseOnContext, CallbackInfoReturnable)}
+     */
     @AllArgsConstructor
     @Getter
     public static class BlockInteractEvent extends Cancellable {
@@ -43,6 +49,9 @@ public class WorldEvents {
         private boolean inside;
     }
 
+    /**
+     * Implemented in: {@link systems.conduit.main.mixins.event.player.ServerPlayerGameModeMixin#destroyAndAck(BlockPos, CallbackInfoReturnable)}
+     */
     @AllArgsConstructor
     @Getter
     public static class BlockBreakEvent extends Cancellable {
@@ -76,6 +85,9 @@ public class WorldEvents {
         // TODO: Whatever goes in here
     }
 
+    /**
+     * Implemented in: {@link systems.conduit.main.mixins.event.world.ServerLevelDataMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class ThunderChangeStateEvent extends Cancellable {
@@ -83,18 +95,27 @@ public class WorldEvents {
         private Optional<Integer> time;
     }
 
+    /**
+     * Implemented in: {@link systems.conduit.main.mixins.event.world.ServerLevelDataMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class RainChangeStateEvent extends Cancellable {
         private int rainTime;
     }
 
+    /**
+     * Implemented in: {@link systems.conduit.main.mixins.event.world.ServerLevelDataMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class LightningStrikeEvent extends Cancellable {
         private Vec3 location;
     }
 
+    /**
+     * Implemented in {@link systems.conduit.main.mixins.event.world.ServerLevelDataMixin}
+     */
     @AllArgsConstructor
     @Getter
     public static class WeatherClearEvent extends Cancellable {

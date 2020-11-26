@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProgressListener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -12,9 +12,11 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.api.Level;
 import systems.conduit.main.api.Player;
+import systems.conduit.main.api.ServerLevel;
 import systems.conduit.main.events.Cancellable;
 
 import java.util.Optional;
@@ -59,10 +61,13 @@ public class WorldEvents {
         private BlockState blockState;
     }
 
+    /**
+     * Implemented in {@link systems.conduit.main.mixins.api.ServerLevelMixin#onLevelSave(ProgressListener, boolean, boolean, CallbackInfo)}
+     */
     @AllArgsConstructor
     @Getter
     public static class WorldSaveEvent extends EventType {
-        private Optional<ServerLevel> level;
+        private ServerLevel level;
     }
 
     @AllArgsConstructor

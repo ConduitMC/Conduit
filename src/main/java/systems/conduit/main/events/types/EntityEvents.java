@@ -22,8 +22,7 @@ import java.util.List;
 public class EntityEvents {
 
     /**
-     * This event is fired when an adult sheep consumes grass.
-     * Implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -32,8 +31,7 @@ public class EntityEvents {
     }
 
     /**
-     * This event is fired when a baby sheep eats something and progresses growth.
-     * Implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin#ate()}
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin#ate()}
      */
     @AllArgsConstructor
     @Getter
@@ -44,8 +42,7 @@ public class EntityEvents {
     }
 
     /**
-     * This event is fired when a slime takes enough damage to split into more, smaller slimes.
-     * Implementation: {@link systems.conduit.main.mixins.event.entity.SlimeMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.entity.SlimeMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -54,6 +51,9 @@ public class EntityEvents {
         private List<Slime> children;
     }
 
+    /**
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.goal.BreedGoalMixin#breed(CallbackInfo)}
+     */
     @AllArgsConstructor
     @Getter
     public static class EntityBreedEvent extends Cancellable {
@@ -70,8 +70,7 @@ public class EntityEvents {
     }
 
     /**
-     * This event is fired when any entity in the server has an effect added to it. 
-     * Implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin#onEffectAdded(MobEffectInstance, CallbackInfo)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin#onEffectAdded(MobEffectInstance, CallbackInfo)}
      */
     @AllArgsConstructor
     @Getter
@@ -81,8 +80,7 @@ public class EntityEvents {
     }
 
     /**
-     * This event is fired when any entity in the server has an effect removed from it.
-     * Implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin#onEffectRemoved(MobEffectInstance, CallbackInfo)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin#onEffectRemoved(MobEffectInstance, CallbackInfo)}
      */
     @AllArgsConstructor
     @Getter

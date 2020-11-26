@@ -1,7 +1,6 @@
 package systems.conduit.main.inventory;
 
 import lombok.Getter;
-import net.minecraft.world.ContainerListener;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;

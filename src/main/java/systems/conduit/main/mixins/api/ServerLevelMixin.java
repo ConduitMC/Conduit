@@ -29,6 +29,4 @@ public abstract class ServerLevelMixin implements ServerLevel {
     public Optional<Entity> getEntityByUuid(UUID uuid) {
         return Optional.ofNullable(entitiesByUuid.getOrDefault(uuid, null));
     }
-
-
 }

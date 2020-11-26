@@ -78,8 +78,15 @@ public class WorldEvents {
 
     @AllArgsConstructor
     @Getter
-    public static class WeatherChangeEvent extends Cancellable {
-        // TODO: Whatever goes in here
+    public static class ThunderChangeStateEvent extends Cancellable {
+        private boolean isThundering;
+        private Optional<Integer> time;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class RainChangeStateEvent extends Cancellable {
+        private int rainTime;
     }
 
     @AllArgsConstructor
@@ -90,8 +97,8 @@ public class WorldEvents {
 
     @AllArgsConstructor
     @Getter
-    public static class ThunderStatusChangeEvent extends Cancellable {
-        private boolean isThundering;
+    public static class WeatherClearEvent extends Cancellable {
+        private int duration;
     }
 
     @AllArgsConstructor

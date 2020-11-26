@@ -195,7 +195,7 @@ public class PlayerEvents {
 
     @AllArgsConstructor
     @Getter
-    public static class LeaveBedEvent extends Cancellable {
+    public static class LeaveBedEvent extends EventType {  // @Future: Should this be cancellable?
         private Player player;
         private BlockPos bed;
     }

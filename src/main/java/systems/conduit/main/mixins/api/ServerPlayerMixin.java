@@ -1,5 +1,6 @@
 package systems.conduit.main.mixins.api;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -61,5 +62,19 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         int id = this.getContainerMenu().containerId;
         Optional<CustomInventory> inventory = Conduit.getInventoryManager().findInventoryByPlayerContainerId(id);
         inventory.ifPresent(inv -> inv.finished(id));
+    }
+
+    @Inject(method = "startSleeping", at = @At("HEAD"))
+    public void startSleeping(BlockPos blockPos, CallbackInfo ci) {
+        PlayerEvents.EnterBedEvent event = new PlayerEvents.EnterBedEvent(this, blockPos);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) return;
+    }
+
+    @Inject(method = "stopSleepInBed", at = @At("HEAD"))
+    public void stopSleeping(CallbackInfo ci) {
+        PlayerEvents.LeaveBedEvent event = new PlayerEvents.LeaveBedEvent(this, new BlockPos(this.position()));
+        Conduit.getEventManager().dispatchEvent(event);
     }
 }

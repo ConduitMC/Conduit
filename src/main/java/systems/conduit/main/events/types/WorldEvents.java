@@ -8,9 +8,9 @@ import net.minecraft.util.ProgressListener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -74,14 +74,14 @@ public class WorldEvents {
     @Getter
     public static class ChunkLoadEvent extends Cancellable {
         private Level level;
-        private ChunkPos chunk;
+        private LevelChunk chunk;
     }
 
     @AllArgsConstructor
     @Getter
     public static class ChunkUnloadEvent extends Cancellable {
         private Level level;
-        private ChunkPos chunk;
+        private LevelChunk chunk;
     }
 
     @AllArgsConstructor

@@ -2,6 +2,7 @@ package systems.conduit.main.mixins.api;
 
 import lombok.Getter;
 import net.minecraft.util.ProgressListener;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.entity.PersistentEntitySectionManager;
 import net.minecraft.world.level.storage.ServerLevelData;
 import org.spongepowered.asm.mixin.Final;
@@ -43,5 +44,13 @@ public abstract class ServerLevelMixin implements ServerLevel {
     public void onLevelSave(ProgressListener progressListener, boolean b, boolean b1, CallbackInfo ci) {
         WorldEvents.WorldSaveEvent event = new WorldEvents.WorldSaveEvent(this);
         Conduit.getEventManager().dispatchEvent(event);
+    }
+
+    @Inject(method = "unload", at = @At("HEAD"))
+    public void unload(LevelChunk chunk, CallbackInfo callback) {
+        WorldEvents.ChunkUnloadEvent event = new WorldEvents.ChunkUnloadEvent(this, chunk);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) return;
     }
 }

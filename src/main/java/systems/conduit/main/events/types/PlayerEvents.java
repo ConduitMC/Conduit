@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
@@ -140,8 +141,11 @@ public class PlayerEvents {
 
     @AllArgsConstructor
     @Getter
+    /**
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.player.PlayerListMixin}
+     */
     public static class RespawnEvent extends EventType {
-        private Player player;
+        private ServerPlayer player;
     }
 
     @AllArgsConstructor

@@ -29,6 +29,7 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.PlayerChatEvent.class);
         eventMappings.add(PlayerEvents.PlayerCommandEvent.class);
         eventMappings.add(PlayerEvents.ConsumeEvent.class);
+        eventMappings.add(PlayerEvents.RespawnEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);

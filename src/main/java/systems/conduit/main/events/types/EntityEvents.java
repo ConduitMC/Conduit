@@ -22,7 +22,7 @@ import java.util.List;
 public class EntityEvents {
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.entity.SheepMixin#ate()}
      */
     @AllArgsConstructor
     @Getter

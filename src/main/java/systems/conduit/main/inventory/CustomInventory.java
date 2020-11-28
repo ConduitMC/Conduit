@@ -42,7 +42,7 @@ public class CustomInventory {
 
     public void open(ServerPlayer player) {
         container.ifPresent(c -> {
-            AbstractContainerMenu menu = new ChestMenu(c.getType(), player.getContainerCounter(), ((Player) player).inventory, c, c.getContainerSize() / 9);
+            AbstractContainerMenu menu = new ChestMenu(c.getType(), player.getContainerCounter(), ((Player) player).getInventory(), c, c.getContainerSize() / 9);
             menu.addSlotListener((net.minecraft.server.level.ServerPlayer) player);
 
             ids.add(menu.containerId);

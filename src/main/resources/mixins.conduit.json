@@ -26,6 +26,7 @@
     "event.player.DamageMixin",
     "event.player.ServerPlayerGameModeMixin",
     "event.player.JoinMixin",
+    "event.player.PlayerListMixin",
     "event.world.ServerLevelDataMixin",
 
     "event.entity.SheepMixin",

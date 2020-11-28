@@ -19,7 +19,8 @@ public class ServerEvents {
     public static class ServerShuttingDownEvent extends EventType {
     }
 
-    @AllArgsConstructor @Getter
+    @Getter
+    @AllArgsConstructor
     public static class PluginReloadEvent extends EventType {
         private Plugin plugin;
     }

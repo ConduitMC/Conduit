@@ -2,10 +2,13 @@ package systems.conduit.main.mixins.api;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,6 +32,8 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow protected abstract void nextContainerCounter();
 
     @Shadow public abstract void teleportTo(ServerLevel level, double x, double y, double z, float pitch, float yaw);
+
+    @Shadow @Final public ServerPlayerGameMode gameMode;
 
     @Override
     public int getContainerCounter() {
@@ -76,5 +81,14 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     public void stopSleeping(CallbackInfo ci) {
         PlayerEvents.LeaveBedEvent event = new PlayerEvents.LeaveBedEvent(this, new BlockPos(this.position()));
         Conduit.getEventManager().dispatchEvent(event);
+    }
+
+    @Inject(method = "attack", at = @At(value = "HEAD", target = "Lnet/minecraft/server/level/ServerPlayer;setCamera(Lnet/minecraft/world/entity/Entity;)V"))
+    public void attack(Entity entity, CallbackInfo ci) {
+        PlayerEvents.SpectateEvent event = new PlayerEvents.SpectateEvent((net.minecraft.server.level.ServerPlayer) (Object) this, entity);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        // If the event is cancelled, prevent the player from continuing to spectate.
+        if (event.isCanceled()) return;
     }
 }

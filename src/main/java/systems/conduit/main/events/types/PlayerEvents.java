@@ -209,8 +209,11 @@ public class PlayerEvents {
 
     @AllArgsConstructor
     @Getter
+    /**
+     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin#attack(Entity, CallbackInfo)}
+     */
     public static class SpectateEvent extends Cancellable {
-        private Player player;
+        private ServerPlayer player;
         private Entity spectating;
     }
 }

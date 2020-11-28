@@ -63,22 +63,6 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
     @Shadow public abstract int getPortalWaitTime();
 
-    /**
-    @Override
-    public void setRespawnPosition(BlockPos pos, boolean forced) {
-        if (pos != null) {
-            if (!pos.equals(this.respawnPosition)) {
-                this.sendMessage(new TranslatableComponent("block.minecraft.bed.set_spawn"));
-            }
-            this.respawnPosition = pos;
-            this.respawnForced = forced;
-        } else {
-            this.respawnPosition = null;
-            this.respawnForced = false;
-        }
-    }
-    */
-
     public void closeOpenedContainer() {
         if (this.containerMenu != this.inventoryMenu) {
             this.closeContainer();

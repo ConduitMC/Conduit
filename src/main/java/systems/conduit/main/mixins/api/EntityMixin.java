@@ -4,6 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -13,6 +14,11 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import systems.conduit.main.Conduit;
+import systems.conduit.main.events.types.EntityEvents;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -146,5 +152,13 @@ public abstract class EntityMixin implements systems.conduit.main.api.Entity {
         Entity entity = this.shadow$getControllingPassenger();
         if (entity == null) return Optional.empty();
         return Optional.of((systems.conduit.main.api.Entity) entity);
+    }
+
+    @Inject(method = "changeDimension", at = @At("HEAD"))
+    public void changeDimension(ServerLevel level, CallbackInfoReturnable<Entity> callback) {
+        EntityEvents.LevelSwitchEvent event = new EntityEvents.LevelSwitchEvent((Entity) (Object) this, (ServerLevel) this.getLevel(), level);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) return;
     }
 }

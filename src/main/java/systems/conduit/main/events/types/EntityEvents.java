@@ -3,6 +3,7 @@ package systems.conduit.main.events.types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
@@ -87,5 +88,16 @@ public class EntityEvents {
     public static class EffectRemovedFromEntityEvent extends Cancellable {
         private LivingEntity entity;
         private MobEffectInstance effect;
+    }
+
+    /**
+     * Mixin implementation: {@link systems.conduit.main.mixins.api.EntityMixin}
+     */
+    @AllArgsConstructor
+    @Getter
+    public static class LevelSwitchEvent extends Cancellable {
+        private Entity entity;
+        private ServerLevel current;
+        private ServerLevel destination;
     }
 }

@@ -28,6 +28,7 @@
     "event.player.JoinMixin",
     "event.player.PlayerListMixin",
     "event.world.ServerLevelDataMixin",
+    "event.command.KickCommandMixin",
 
     "event.entity.SheepMixin",
     "event.entity.SlimeMixin",

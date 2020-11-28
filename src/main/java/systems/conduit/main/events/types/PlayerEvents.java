@@ -3,6 +3,7 @@ package systems.conduit.main.events.types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -16,6 +17,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
+
+import java.util.Collection;
 
 /*
  * @author Innectic
@@ -164,11 +167,14 @@ public class PlayerEvents {
         private Level from;
     }
 
+    /**
+     * Mixin implementation: {@link systems.conduit.main.mixins.event.command.KickCommandMixin#kickPlayers(CommandSourceStack, Collection, Component, CallbackInfoReturnable)}
+     */
     @AllArgsConstructor
     @Getter
-    public static class KickEvent extends EventType {
-        private Player player;
-        private String reason;
+    public static class KickEvent extends Cancellable {
+        private ServerPlayer player;
+        private Component reason;
     }
 
     /**

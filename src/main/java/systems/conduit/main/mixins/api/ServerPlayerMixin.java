@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.ServerPlayer;
 import systems.conduit.main.events.types.PlayerEvents;
@@ -34,6 +35,8 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow public abstract void teleportTo(ServerLevel level, double x, double y, double z, float pitch, float yaw);
 
     @Shadow @Final public ServerPlayerGameMode gameMode;
+
+    @Shadow public abstract ServerLevel getLevel();
 
     @Override
     public int getContainerCounter() {
@@ -89,6 +92,14 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         Conduit.getEventManager().dispatchEvent(event);
 
         // If the event is cancelled, prevent the player from continuing to spectate.
+        if (event.isCanceled()) return;
+    }
+
+    @Inject(method = "changeDimension", at = @At(value = "HEAD"))
+    public void changeDimension(ServerLevel destination, CallbackInfoReturnable<Entity> callback) {
+        PlayerEvents.LevelSwitchEvent event = new PlayerEvents.LevelSwitchEvent(this, this.getLevel(), destination);
+        Conduit.getEventManager().dispatchEvent(event);
+
         if (event.isCanceled()) return;
     }
 }

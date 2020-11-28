@@ -163,8 +163,8 @@ public class PlayerEvents {
     @Getter
     public static class LevelSwitchEvent extends Cancellable {
         private Player player;
-        private Level to;
-        private Level from;
+        private Level current;
+        private Level destination;
     }
 
     /**

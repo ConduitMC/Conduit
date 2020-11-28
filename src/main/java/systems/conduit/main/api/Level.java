@@ -2,7 +2,6 @@ package systems.conduit.main.api;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
@@ -41,7 +40,7 @@ public interface Level {
     boolean isDay();
     void playSound(Player player, BlockPos pos, SoundEvent event, SoundSource source, float pitch, float volume);
     Optional<BlockEntity> getBlockEntity(BlockPos pos);
-    void setBlockEntity(BlockPos pos, BlockEntity entity);
+    void setBlockEntity(BlockEntity entity);
     void removeBlockEntity(BlockPos pos);
     boolean isLoaded(BlockPos pos);
     int getSeaLevel();

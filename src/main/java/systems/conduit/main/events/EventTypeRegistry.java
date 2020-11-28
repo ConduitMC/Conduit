@@ -31,6 +31,7 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.ConsumeEvent.class);
         eventMappings.add(PlayerEvents.RespawnEvent.class);
         eventMappings.add(PlayerEvents.SpectateEvent.class);
+        eventMappings.add(PlayerEvents.LevelSwitchEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);
@@ -38,6 +39,7 @@ public class EventTypeRegistry {
         eventMappings.add(EntityEvents.SlimeSplitEvent.class);
         eventMappings.add(EntityEvents.EffectAddedToEntityEvent.class);
         eventMappings.add(EntityEvents.EffectRemovedFromEntityEvent.class);
+        eventMappings.add(EntityEvents.LevelSwitchEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);

@@ -44,8 +44,6 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Shadow public abstract Iterable<ServerLevel> getAllLevels();
     @Shadow public abstract WorldData getWorldData();
 
-    @Shadow @Final public long[] tickTimes;
-
     @Inject(method = "runServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;updateStatusIcon(Lnet/minecraft/network/protocol/status/ServerStatus;)V"))
     private void onRead(CallbackInfo ci) {
         Console.createConsole();

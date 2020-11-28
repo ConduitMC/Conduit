@@ -36,8 +36,6 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Shadow @Final public ServerPlayerGameMode gameMode;
 
-    @Shadow public abstract ServerLevel getLevel();
-
     @Override
     public int getContainerCounter() {
         return containerCounter;

@@ -21,6 +21,7 @@ import systems.conduit.main.Conduit;
 import systems.conduit.main.events.types.EntityEvents;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Mixin(value = Entity.class, remap = false)
@@ -89,7 +90,6 @@ public abstract class EntityMixin implements systems.conduit.main.api.Entity {
     //@Shadow public abstract boolean isUnderLiquid(Tag<Fluid> fluid);
     @Shadow public abstract boolean isInLava();
     @Shadow public abstract void moveRelative(float scale, Vec3 vector);
-    @Shadow public abstract void setLevel(Level level);
     @Shadow public abstract void moveTo(double x, double y, double z, float xRot, float yRot);
     @Shadow public abstract float distanceTo(Entity entity);
     @Shadow public abstract double distanceToSqr(double x, double y, double z);
@@ -117,11 +117,10 @@ public abstract class EntityMixin implements systems.conduit.main.api.Entity {
     @Shadow public abstract Entity shadow$getControllingPassenger();
     @Shadow public abstract List<Entity> shadow$getPassengers();
     @Shadow public abstract boolean hasPassenger(Entity entity);
-    @Shadow public abstract boolean hasPassenger(Class<? extends Entity> entity);
-    @Shadow public abstract Collection<Entity> getIndirectPassengers();
-    @Shadow public abstract boolean hasOnePlayerPassenger();
+    @Shadow public abstract boolean hasPassenger(Predicate<Entity> entity);
+    @Shadow public abstract Iterable<Entity> getIndirectPassengers();
+    @Shadow public abstract boolean hasExactlyOnePlayerPassenger();
     @Shadow public abstract boolean isPassengerOfSameVehicle(Entity entity);
-    //@Shadow public abstract boolean hasIndirectPassenger(Entity entity);
     @Shadow public abstract Vec3 position();
 
     @Shadow protected abstract SoundEvent shadow$getSwimSound();

@@ -2,7 +2,6 @@ package systems.conduit.main.mixins.api;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.AbstractContainerMenu;

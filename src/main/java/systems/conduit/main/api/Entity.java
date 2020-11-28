@@ -13,6 +13,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Base Conduit interface for use with mixins.
@@ -64,7 +65,6 @@ public interface Entity {
     boolean isUnderLiquid(Tag<Fluid> fluid);
     boolean isInLava();
     void moveRelative(float scale, Vec3 vector);
-    void setLevel(Level level);
     void moveTo(double x, double y, double z, float xRot, float yRot);
     float distanceTo(Entity entity);
     double distanceToSqr(double x, double y, double z);
@@ -92,11 +92,10 @@ public interface Entity {
     Optional<Entity> conduit_getControllingPassenger();
     List<Entity> conduit_getPassengers();
     boolean hasPassenger(Entity entity);
-    boolean hasPassenger(Class<? extends net.minecraft.world.entity.Entity> entity);  // TODO: Convert to Conduit entity
-    Collection<net.minecraft.world.entity.Entity> getIndirectPassengers();  // TODO: Convert to Conduit entity
-    boolean hasOnePlayerPassenger();
+    boolean hasPassenger(Predicate<net.minecraft.world.entity.Entity> entity);  // TODO: Convert to Conduit entity
+    Iterable<net.minecraft.world.entity.Entity> getIndirectPassengers();  // TODO: Convert to Conduit entity
+    boolean hasExactlyOnePlayerPassenger();
     boolean isPassengerOfSameVehicle(Entity entity);
-    boolean hasIndirectPassenger(Entity entity);
     Vec3 position();
 
     SoundEvent conduit_getSwimSound();

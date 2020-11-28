@@ -2,6 +2,7 @@ package systems.conduit.main.mixins.api;
 
 import lombok.Getter;
 import net.minecraft.util.ProgressListener;
+import net.minecraft.world.level.entity.PersistentEntitySectionManager;
 import net.minecraft.world.level.storage.ServerLevelData;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +17,6 @@ import systems.conduit.main.api.ServerPlayer;
 import systems.conduit.main.events.types.WorldEvents;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -28,12 +28,15 @@ import java.util.UUID;
 public abstract class ServerLevelMixin implements ServerLevel {
 
     @Shadow @Final @Getter private List<ServerPlayer> players;
-    @Shadow @Final @Getter private Map<UUID, Entity> entitiesByUuid;
     @Shadow @Final @Getter private ServerLevelData serverLevelData;
+
+    @Shadow @Final private PersistentEntitySectionManager<net.minecraft.world.entity.Entity> entityManager;
 
     @Override
     public Optional<Entity> getEntityByUuid(UUID uuid) {
-        return Optional.ofNullable(entitiesByUuid.getOrDefault(uuid, null));
+        net.minecraft.world.entity.Entity entity = this.entityManager.getEntityGetter().get(uuid);
+        if (entity == null) return Optional.empty();
+        return Optional.of((Entity) entity);
     }
 
     @Inject(method = "save", at = @At("HEAD"))

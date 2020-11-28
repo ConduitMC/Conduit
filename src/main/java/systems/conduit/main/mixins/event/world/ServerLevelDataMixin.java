@@ -1,6 +1,7 @@
 package systems.conduit.main.mixins.event.world;
 
-import net.minecraft.world.level.storage.ServerLevelData;
+import net.minecraft.world.level.storage.DerivedLevelData;
+import net.minecraft.world.level.storage.PrimaryLevelData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -14,7 +15,7 @@ import java.util.Optional;
  * @author Innectic
  * @since 11/25/2020
  */
-@Mixin(value = ServerLevelData.class, remap = false)
+@Mixin(value = {DerivedLevelData.class, PrimaryLevelData.class}, remap = false)
 public abstract class ServerLevelDataMixin implements systems.conduit.main.api.ServerLevelData {
 
     @Inject(method = "setThundering", at = @At("HEAD"))

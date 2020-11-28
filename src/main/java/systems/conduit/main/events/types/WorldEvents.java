@@ -87,7 +87,8 @@ public class WorldEvents {
     @AllArgsConstructor
     @Getter
     public static class PortalCreateEvent extends EventType {
-        // TODO: Whatever goes in here
+        private BlockPos blockPos;
+        private Direction.Axis axis;
     }
 
     /**

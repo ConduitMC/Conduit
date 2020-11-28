@@ -29,6 +29,7 @@
     "event.player.PlayerListMixin",
     "event.world.ServerLevelDataMixin",
     "event.command.KickCommandMixin",
+    "event.world.PortalForcerMixin",
 
     "event.entity.SheepMixin",
     "event.entity.SlimeMixin",

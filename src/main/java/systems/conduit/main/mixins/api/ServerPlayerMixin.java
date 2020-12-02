@@ -59,6 +59,11 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Inject(method = "slotChanged", at = @At(value = "HEAD", target = "Lnet/minecraft/advancements/critereon/InventoryChangeTrigger;trigger(Lnet/minecraft/server/level/ServerPlayer;Lnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/item/ItemStack;)V"))
     public void slotChanged(AbstractContainerMenu container, int slotId, ItemStack clicked, CallbackInfo ci) {
+        PlayerEvents.InventoryMoveItemEvent event = new PlayerEvents.InventoryMoveItemEvent(this, container, clicked);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) return;
+
         Optional<CustomInventory> inventory = Conduit.getInventoryManager().findInventoryByPlayerContainerId(container.containerId);
         inventory.ifPresent(inv -> inv.pushEvent(InventoryEventType.SLOT_CHANGED, this, clicked, container));
     }

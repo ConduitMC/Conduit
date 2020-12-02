@@ -18,6 +18,8 @@ public class EventTypeRegistry {
         eventMappings.add(WorldEvents.WeatherClearEvent.class);
         eventMappings.add(WorldEvents.ThunderChangeStateEvent.class);
         eventMappings.add(WorldEvents.RainChangeStateEvent.class);
+        eventMappings.add(WorldEvents.ChunkUnloadEvent.class);
+        eventMappings.add(WorldEvents.ChunkLoadEvent.class);
 
         // Player events
         eventMappings.add(PlayerEvents.PlayerJoinEvent.class);

@@ -3,6 +3,7 @@ package systems.conduit.main.mixins.api;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -20,6 +21,8 @@ public abstract class PlayerMixin implements Player {
     @Shadow @Final public InventoryMenu inventoryMenu;
     //@Shadow private BlockPos respawnPosition;
     //@Shadow private boolean respawnForced;
+
+    @Shadow public abstract Inventory getInventory();
 
     @Shadow public abstract GameProfile getGameProfile();
     @Shadow protected abstract void closeContainer();

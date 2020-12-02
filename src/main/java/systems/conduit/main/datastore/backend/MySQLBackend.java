@@ -84,7 +84,7 @@ public class MySQLBackend implements DatastoreHandler {
 
     @Override
     public void set(String key, Storable<?> value) {
-        set(key, String.valueOf(value));
+        set(key, value.serialize());
     }
 
     @Override

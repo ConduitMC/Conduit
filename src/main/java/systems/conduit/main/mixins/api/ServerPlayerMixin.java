@@ -35,6 +35,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow public abstract void teleportTo(ServerLevel level, double x, double y, double z, float pitch, float yaw);
 
     @Shadow @Final public ServerPlayerGameMode gameMode;
+    @Shadow public abstract void onUpdateAbilities();
 
     @Override
     public int getContainerCounter() {

@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import systems.conduit.main.api.Player;
+import systems.conduit.main.api.player.Abilities;
 
 @Mixin(value = net.minecraft.world.entity.player.Player.class, remap = false)
 public abstract class PlayerMixin implements Player {
@@ -65,6 +66,10 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
     @Shadow public abstract int getPortalWaitTime();
 
+    @Shadow @Final private net.minecraft.world.entity.player.Abilities abilities;
+
+    @Shadow public abstract void onUpdateAbilities();
+
     public void closeOpenedContainer() {
         if (this.containerMenu != this.inventoryMenu) {
             this.closeContainer();
@@ -79,5 +84,10 @@ public abstract class PlayerMixin implements Player {
     @Override
     public AbstractContainerMenu getContainerMenu() {
         return containerMenu;
+    }
+
+    @Override
+    public Abilities getAbilities() {
+        return (Abilities) this.abilities;
     }
 }

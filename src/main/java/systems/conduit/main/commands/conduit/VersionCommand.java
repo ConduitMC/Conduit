@@ -24,7 +24,7 @@ public class VersionCommand {
             } else c.getSource().sendFailure(new TextComponent(pluginName + " is not a plugin!"));
             return 1;
         })).executes(c -> {
-            c.getSource().sendSuccess(new TextComponent(Conduit.getMeta().name()).append(" v").append(Conduit.getMeta().version()), false);
+            c.getSource().sendSuccess(new TextComponent("Conduit ").append(" v").append(Conduit.getVersion()), false);
             c.getSource().sendSuccess(new TextComponent("Minecraft Server v" + SharedConstants.getCurrentVersion().getName().split("/")[0]), false);
             return 1;
         });

@@ -19,7 +19,7 @@ public class ConduitCommand extends BaseCommand {
     @Override
     public LiteralArgumentBuilder<CommandSourceStack> getCommand() {
         return Commands.literal("conduit").executes(c -> {
-            c.getSource().sendSuccess(new TextComponent(Conduit.getMeta().name()).append(" v").append(Conduit.getMeta().version()), false);
+            c.getSource().sendSuccess(new TextComponent("Conduit v").append(Conduit.getVersion()), false);
             c.getSource().sendSuccess(new TextComponent("Minecraft Server v" + SharedConstants.getCurrentVersion().getName().split("/")[0]), false);
             return 1;
         })

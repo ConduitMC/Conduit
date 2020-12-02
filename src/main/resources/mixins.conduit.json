@@ -22,6 +22,8 @@
     "api.WorldGenSettingsMixin",
     "api.LevelMixin",
 
+    "api.player.AbilitiesMixin",
+
     "event.ItemStackMixin",
     "event.player.DamageMixin",
     "event.player.ServerPlayerGameModeMixin",

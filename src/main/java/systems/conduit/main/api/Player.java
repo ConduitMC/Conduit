@@ -3,6 +3,7 @@ package systems.conduit.main.api;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
@@ -54,4 +55,6 @@ public interface Player extends LivingEntity {
 
     void playSound(SoundEvent sound, float volume, float pitch);
     int getPortalWaitTime();
+
+    Inventory getInventory();
 }

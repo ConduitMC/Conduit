@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
@@ -99,11 +100,17 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         if (event.isCanceled()) return;
     }
 
-    @Inject(method = "changeDimension", at = @At(value = "HEAD"))
+    @Inject(method = "changeDimension", at = @At("HEAD"))
     public void changeDimension(ServerLevel destination, CallbackInfoReturnable<Entity> callback) {
         PlayerEvents.LevelSwitchEvent event = new PlayerEvents.LevelSwitchEvent(this, this.getLevel(), destination);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) return;
+    }
+
+    @Inject(method = "die", at = @At(value = "HEAD", target = "Lnet/minecraft/world/level/Level;broadcastEntityEvent(Lnet/minecraft/world/entity/Entity;B)V"))
+    public void die(DamageSource damageSource, CallbackInfo ci) {
+        PlayerEvents.DeathEvent event = new PlayerEvents.DeathEvent(this, this.conduit_getKillCredit(), damageSource);
+        Conduit.getEventManager().dispatchEvent(event);
     }
 }

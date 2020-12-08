@@ -7,6 +7,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -16,10 +17,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import systems.conduit.main.api.LivingEntity;
 import systems.conduit.main.api.Player;
 import systems.conduit.main.events.Cancellable;
 
 import java.util.Collection;
+import java.util.Optional;
 
 /*
  * @author Innectic
@@ -233,5 +236,13 @@ public class PlayerEvents {
         private systems.conduit.main.api.ServerPlayer player;
         private AbstractContainerMenu inventory;
         private ItemStack moved;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class DeathEvent extends EventType {
+        private systems.conduit.main.api.ServerPlayer player;
+        private Optional<LivingEntity> killer;
+        private DamageSource source;
     }
 }

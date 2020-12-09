@@ -48,6 +48,16 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         return (net.minecraft.server.level.ServerPlayer) (Object) this;
     }
 
+    @Override
+    public ServerPlayerGameMode getGameMode() {
+        return this.gameMode;
+    }
+
+    @Override
+    public GameType getGameType() {
+        return this.getGameMode().getGameModeForPlayer();
+    }
+
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))
     private GameType updateGameMode(GameType gameType) {
         // TODO: Allow this event to be cancelled

@@ -17,6 +17,7 @@ import systems.conduit.main.inventory.InventoryManager;
 import systems.conduit.main.plugin.PluginManager;
 import systems.conduit.main.plugin.config.ConfigurationLoader;
 import systems.conduit.main.plugin.config.ConfigurationTypes;
+import systems.conduit.main.threading.RunnableManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,14 +38,11 @@ public class Conduit {
     @Getter private static final LevelManager levelManager = new LevelManager();
     @Getter private static final BossBarManager bossBarManager = new BossBarManager();
     @Getter private static final InventoryManager inventoryManager = new InventoryManager();
+    @Getter private static final RunnableManager runnableManager = new RunnableManager();
 
     @Setter private static MinecraftServer server = null;
-
     @Getter private static String version = "@VERSION@";
-
     @Getter private static ConduitConfiguration configuration;
-
-    private static Optional<DatastoreBackend> permissionsDatastore = Optional.empty();
 
     public static void setupLogger() {
         // Redirect print to logger

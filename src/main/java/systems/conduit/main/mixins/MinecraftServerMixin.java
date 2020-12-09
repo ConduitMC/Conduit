@@ -6,6 +6,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.WorldData;
@@ -24,6 +25,7 @@ import systems.conduit.main.events.types.ServerEvents;
 
 import java.util.Map;
 import java.util.concurrent.Executor;
+import java.util.function.BooleanSupplier;
 
 @Mixin(value = net.minecraft.server.MinecraftServer.class, remap = false)
 public abstract class MinecraftServerMixin implements MinecraftServer {
@@ -43,6 +45,10 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Shadow public abstract void close();
     @Shadow public abstract Iterable<ServerLevel> getAllLevels();
     @Shadow public abstract WorldData getWorldData();
+
+    @Shadow private ProfilerFiller profiler;
+
+    @Shadow private int tickCount;
 
     @Inject(method = "runServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;updateStatusIcon(Lnet/minecraft/network/protocol/status/ServerStatus;)V"))
     private void onRead(CallbackInfo ci) {
@@ -90,5 +96,16 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Overwrite
     public String getServerModName() {
         return "Conduit";
+    }
+
+    @Inject(method = "tickServer", at = @At(value = "TAIL"))
+    public void tickServer(BooleanSupplier booleanSupplier, CallbackInfo ci) {
+        this.profiler.push("plugin runnables");
+
+        Conduit.getRunnableManager().getActiveRunnables().values().stream()
+                .filter(runnableData -> this.tickCount % runnableData.getEvery() == 0)
+                .filter(data -> !data.isRunning()).forEach(entry -> entry.getRunnable().run());
+
+        this.profiler.pop();
     }
 }

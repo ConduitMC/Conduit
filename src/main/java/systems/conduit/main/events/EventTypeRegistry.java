@@ -34,8 +34,10 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.RespawnEvent.class);
         eventMappings.add(PlayerEvents.SpectateEvent.class);
         eventMappings.add(PlayerEvents.LevelSwitchEvent.class);
-        eventMappings.add(PlayerEvents.InventoryMoveItemEvent.class);
         eventMappings.add(PlayerEvents.DeathEvent.class);
+        eventMappings.add(PlayerEvents.InventoryClickEvent.class);
+        eventMappings.add(PlayerEvents.InventoryCloseEvent.class);
+        eventMappings.add(PlayerEvents.InventoryOpenEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);

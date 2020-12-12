@@ -11,11 +11,13 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
+import systems.conduit.main.Conduit;
 import systems.conduit.main.api.ServerPlayer;
 import systems.conduit.main.inventory.events.InventoryEventHandler;
 import systems.conduit.main.inventory.events.InventoryEventType;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Innectic
@@ -32,7 +34,7 @@ public class CustomInventory {
     @NonNull private Map<InventoryEventType, InventoryEventHandler> eventHandlers;
     @NonNull private Map<Integer, ItemStack> items;
 
-    @Getter private List<Integer> ids = new ArrayList<>();
+    @Getter private Map<UUID, Integer> viewers = new HashMap<>();
 
     private Optional<ChestContainer> container = Optional.empty();
 
@@ -45,13 +47,35 @@ public class CustomInventory {
             AbstractContainerMenu menu = new ChestMenu(c.getType(), player.getContainerCounter(), ((Player) player).getInventory(), c, c.getContainerSize() / 9);
             menu.addSlotListener((net.minecraft.server.level.ServerPlayer) player);
 
-            ids.add(menu.containerId);
+            viewers.put(player.getUUID(), menu.containerId);
             items.forEach(menu::setItem);
 
             player.down().connection.send(new ClientboundOpenScreenPacket(menu.containerId, menu.getType(), new TextComponent(name)));
             player.down().containerMenu = menu;
             player.down().connection.send(new ClientboundContainerSetContentPacket(menu.containerId, player.down().containerMenu.getItems()));
         });
+    }
+
+    public void setItem(int position, ItemStack item, Optional<ServerPlayer> player) {
+        Set<Map.Entry<UUID, Integer>> viewersToUpdate = player.map(p -> viewers.entrySet().stream().filter(entry -> entry.getKey() == p.getUUID()).collect(Collectors.toSet())).orElse(viewers.entrySet());
+
+        // Modify the list in preparation to send to all the viewers that we're updating.
+        Map<Integer, ItemStack> newItems = new HashMap<>(items);
+        newItems.put(position, item);
+
+        viewersToUpdate.forEach(entry -> {
+            Optional<ServerPlayer> updating = Conduit.getPlayerManager().getPlayer(entry.getKey());
+            if (!updating.isPresent() || viewers.containsValue(updating.get().down().containerMenu.containerId)) return;
+
+            AbstractContainerMenu menu = updating.get().getContainerMenu();
+            menu.setItem(position, item);
+
+            updating.get().down().connection.send(new ClientboundContainerSetContentPacket(entry.getValue(), menu.getItems()));
+        });
+    }
+
+    public void setItem(int position, ItemStack item) {
+        setItem(position, item, Optional.empty());
     }
 
     public void pushEvent(InventoryEventType type, ServerPlayer player, ItemStack clicked, AbstractContainerMenu menu) {
@@ -62,6 +86,6 @@ public class CustomInventory {
     }
 
     public void finished(int id) {
-        ids.removeIf(v -> v == id);
+//        ids.removeIf(v -> v == id);
     }
 }

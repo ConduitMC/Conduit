@@ -14,7 +14,8 @@ public class InventoryManager {
     private Map<UUID, CustomInventory> inventories = new HashMap<>();
 
     public Optional<CustomInventory> findInventoryByPlayerContainerId(int id) {
-        return inventories.values().stream().filter(inv -> inv.getIds().contains(id)).findFirst();
+        return null;
+//        return inventories.values().stream().filter(inv -> inv.getIds().contains(id)).findFirst();
     }
 
     public void register(UUID uuid, CustomInventory inventory) {

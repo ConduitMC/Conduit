@@ -24,18 +24,11 @@ public class EventManager {
         return Optional.of((Class<? extends EventType>) param.getType());
     }
 
-    public void registerEventClass(Plugin plugin, Class<? extends EventListener> clazz) {
+    public void registerEventClass(Plugin plugin, EventListener listener) {
         // Attempt to create an instance of the listener.
-        EventListener listener = null;
-        try {
-            listener = clazz.getConstructor().newInstance();
-        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            Conduit.getLogger().error("Failed to create instance of event listener: " + clazz.getName());
-            e.printStackTrace();
-        }
         if (listener == null) return;
 
-        Method[] methods = clazz.getMethods();
+        Method[] methods = listener.getClass().getMethods();
         for (Method method : methods) {
             // If this method is not annotated, then we don't care about it.
             if (!method.isAnnotationPresent(Listener.class)) continue;

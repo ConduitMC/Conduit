@@ -23,9 +23,7 @@ public abstract class AbilitiesMixin implements systems.conduit.main.api.player.
     @Shadow public boolean flying;
     @Shadow public boolean instabuild;
     @Shadow public boolean mayBuild;
-
     @Shadow private float flyingSpeed;
-
     @Shadow private float walkingSpeed;
 
     @Override

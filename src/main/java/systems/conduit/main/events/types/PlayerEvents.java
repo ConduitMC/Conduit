@@ -11,6 +11,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
@@ -227,15 +228,27 @@ public class PlayerEvents {
         private Entity spectating;
     }
 
-    /**
-     * Mixin implementation: {@link}
-     */
     @AllArgsConstructor
     @Getter
-    public static class InventoryMoveItemEvent extends Cancellable {
+    public static class InventoryClickEvent extends Cancellable {
         private systems.conduit.main.api.ServerPlayer player;
-        private AbstractContainerMenu inventory;
-        private ItemStack moved;
+        private AbstractContainerMenu container;
+        private ClickType clickType;
+        private int slotId;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class InventoryCloseEvent extends Cancellable {
+        private systems.conduit.main.api.ServerPlayer player;
+        private AbstractContainerMenu container;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class InventoryOpenEvent extends Cancellable {
+        private ServerPlayer player;
+        private AbstractContainerMenu menu;
     }
 
     @AllArgsConstructor

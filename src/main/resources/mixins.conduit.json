@@ -32,12 +32,10 @@
     "event.world.ServerLevelDataMixin",
     "event.command.KickCommandMixin",
     "event.world.PortalForcerMixin",
-
     "event.entity.SheepMixin",
     "event.entity.SlimeMixin",
-
     "event.goal.BreedGoalMixin",
-
-    "event.BaseSpawnerMixin"
+    "event.BaseSpawnerMixin",
+    "inventory.AbstractContainerMenuMixin"
   ]
 }

@@ -1,5 +1,6 @@
 package systems.conduit.main.api;
 
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.world.level.GameType;
 
@@ -10,6 +11,8 @@ public interface ServerPlayer extends Player {
     void onUpdateAbilities();
     ServerPlayerGameMode getGameMode();
     GameType getGameType();
+
+    void kick(TextComponent kickMessage);
 
     net.minecraft.server.level.ServerPlayer down();
 }

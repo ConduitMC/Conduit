@@ -32,9 +32,8 @@ public abstract class Plugin {
 
     protected abstract void onDisable();
 
-    @SafeVarargs
-    protected final void registerListeners(Class<? extends EventListener>... clazz) {
-        Arrays.stream(clazz).forEach(eventClass -> Conduit.getEventManager().registerEventClass(this, eventClass));
+    protected final void registerListeners(EventListener... listeners) {
+        Arrays.stream(listeners).forEach(listener -> Conduit.getEventManager().registerEventClass(this, listener));
     }
 
     /**

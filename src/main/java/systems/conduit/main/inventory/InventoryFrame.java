@@ -18,6 +18,9 @@ public class InventoryFrame {
 
     @Getter private boolean changed = false;
 
+    protected void prepareFrame() {
+    }
+
     protected void showFrame(ServerPlayer player) {
     }
 

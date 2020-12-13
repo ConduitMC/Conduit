@@ -21,19 +21,19 @@ import systems.conduit.main.events.types.PlayerEvents;
 public class AbstractContainerMenuMixin {
 
     @Inject(method = "doClick", at = @At("HEAD"), cancellable = true)
-    public void doClick(int slotId, int quickcraftHeader, ClickType clickType, Player p, CallbackInfoReturnable<ItemStack> cir) {
-        ServerPlayer player = (ServerPlayer) p;
-        PlayerEvents.InventoryClickEvent event = new PlayerEvents.InventoryClickEvent(player, (AbstractContainerMenu) (Object) this, clickType, slotId);
-        Conduit.getEventManager().dispatchEvent(event);
+    public void doClick(int slotId, int quickcraftHeader, ClickType clickType, Player p, CallbackInfoReturnable<ItemStack> callback) {
+//        ServerPlayer player = (ServerPlayer) p;
+//        PlayerEvents.InventoryClickEvent event = new PlayerEvents.InventoryClickEvent(player, (AbstractContainerMenu) (Object) this, clickType, slotId);
+//        Conduit.getEventManager().dispatchEvent(event);
 
 //        if (event.isCanceled()) {
 //            AbstractContainerMenu inventory = player.getContainerMenu();
 //            if (inventory == null) return;
+//            inventory.broadcastChanges();
+//            p.getInventory().setCarried(ItemStack.EMPTY);
 //
-//            inventory.setItem(slotId, inventory.getSlot(slotId).getItem());
-//
-//            cir.setReturnValue(ItemStack.EMPTY);
-//            cir.cancel();
+//            callback.setReturnValue(inventory.getSlot(slotId).getItem());
+//            callback.cancel();
 //        }
     }
 

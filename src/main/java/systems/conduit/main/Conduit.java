@@ -12,7 +12,6 @@ import systems.conduit.main.api.managers.PlayerManager;
 import systems.conduit.main.commands.CommandManager;
 import systems.conduit.main.console.MessageFactory;
 import systems.conduit.main.events.EventManager;
-import systems.conduit.main.inventory.InventoryManager;
 import systems.conduit.main.plugin.PluginManager;
 import systems.conduit.main.plugin.config.ConfigurationLoader;
 import systems.conduit.main.plugin.config.ConfigurationTypes;
@@ -36,7 +35,6 @@ public class Conduit {
     @Getter private static final PlayerManager playerManager = new PlayerManager();
     @Getter private static final LevelManager levelManager = new LevelManager();
     @Getter private static final BossBarManager bossBarManager = new BossBarManager();
-    @Getter private static final InventoryManager inventoryManager = new InventoryManager();
     @Getter private static final RunnableManager runnableManager = new RunnableManager();
 
     @Setter private static MinecraftServer server = null;

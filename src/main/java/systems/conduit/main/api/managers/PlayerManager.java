@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.MinecraftServer;
+import systems.conduit.main.api.mixins.MinecraftServer;
 
 import java.util.*;
 
@@ -26,7 +26,7 @@ public class PlayerManager {
      * @return the player, if they're online. Empty otherwise.
      */
     @Deprecated
-    public Optional<systems.conduit.main.api.ServerPlayer> getPlayer(String name) {
+    public Optional<systems.conduit.main.api.mixins.ServerPlayer> getPlayer(String name) {
         if (!Conduit.getServer().isPresent()) return Optional.empty();
         MinecraftServer server = Conduit.getServer().get();
 
@@ -37,7 +37,7 @@ public class PlayerManager {
             if (players.size() == 0) return Optional.empty();
 
             // We'll assume that if there's any players in this list, that the first one should match the name. So, cast it to our type and return it.
-            return Optional.of((systems.conduit.main.api.ServerPlayer) players.get(0));
+            return Optional.of((systems.conduit.main.api.mixins.ServerPlayer) players.get(0));
         }
         return Optional.empty();
     }
@@ -50,7 +50,7 @@ public class PlayerManager {
      * @param uuid the uuid of the player to find.
      * @return the player, if they're online. Empty otherwise.
      */
-    public Optional<systems.conduit.main.api.ServerPlayer> getPlayer(UUID uuid) {
+    public Optional<systems.conduit.main.api.mixins.ServerPlayer> getPlayer(UUID uuid) {
         if (!Conduit.getServer().isPresent()) return Optional.empty();
         MinecraftServer server = Conduit.getServer().get();
 
@@ -61,7 +61,7 @@ public class PlayerManager {
             if (players.size() == 0) return Optional.empty();
 
             // We'll assume that if there's any players in this list, that the first one should match the name. So, cast it to our type and return it.
-            return Optional.of((systems.conduit.main.api.ServerPlayer) players.get(0));
+            return Optional.of((systems.conduit.main.api.mixins.ServerPlayer) players.get(0));
         }
         return Optional.empty();
     }
@@ -75,7 +75,7 @@ public class PlayerManager {
      * @param level the level that they should be in.
      * @return the player, if they're online and in the world. Empty otherwise.
      */
-    public Optional<systems.conduit.main.api.ServerPlayer> getPlayer(UUID uuid, ResourceKey<Level> level) {
+    public Optional<systems.conduit.main.api.mixins.ServerPlayer> getPlayer(UUID uuid, ResourceKey<Level> level) {
         if (!Conduit.getServer().isPresent()) return Optional.empty();
         MinecraftServer server = Conduit.getServer().get();
 
@@ -84,7 +84,7 @@ public class PlayerManager {
         if (players.size() == 0) return Optional.empty();
 
         // We have a player that is most likely the one we want, so cast it to our and return it.
-        return Optional.of((systems.conduit.main.api.ServerPlayer) players.get(0));
+        return Optional.of((systems.conduit.main.api.mixins.ServerPlayer) players.get(0));
     }
 
     /**
@@ -98,7 +98,7 @@ public class PlayerManager {
      * @return the player, if they're online and in the specified world. Empty otherwise.
      */
     @Deprecated
-    public Optional<systems.conduit.main.api.ServerPlayer> getPlayerInWorld(String name, ResourceKey<Level> level) {
+    public Optional<systems.conduit.main.api.mixins.ServerPlayer> getPlayerInWorld(String name, ResourceKey<Level> level) {
         if (!Conduit.getServer().isPresent()) return Optional.empty();
         MinecraftServer server = Conduit.getServer().get();
 
@@ -107,7 +107,7 @@ public class PlayerManager {
         if (players.size() == 0) return Optional.empty();
 
         // We have a player that is most likely the one we want, so cast it to our and return it.
-        return Optional.of((systems.conduit.main.api.ServerPlayer) players.get(0));
+        return Optional.of((systems.conduit.main.api.mixins.ServerPlayer) players.get(0));
     }
 
     /**

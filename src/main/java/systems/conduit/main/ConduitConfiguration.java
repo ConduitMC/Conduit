@@ -2,8 +2,8 @@ package systems.conduit.main;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import systems.conduit.main.plugin.config.Configuration;
-import systems.conduit.main.plugin.config.annotation.ConfigFile;
+import systems.conduit.main.core.plugin.config.Configuration;
+import systems.conduit.main.core.plugin.config.annotation.ConfigFile;
 
 /**
  * Main configuration file for Conduit.

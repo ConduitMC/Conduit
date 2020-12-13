@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Abilities;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
 /**
  * @author Innectic
@@ -18,18 +19,19 @@ public abstract class AbilitiesMixin implements systems.conduit.main.api.mixins.
     @Shadow public abstract float getFlyingSpeed();
     @Shadow public abstract float getWalkingSpeed();
 
-    @Shadow public boolean invulnerable;
     @Shadow public boolean mayfly;
-    @Shadow public boolean flying;
     @Shadow public boolean instabuild;
     @Shadow public boolean mayBuild;
-    @Shadow private float flyingSpeed;
-    @Shadow private float walkingSpeed;
 
-    @Override
-    public boolean isInvulnerable() {
-        return this.invulnerable;
-    }
+    @Accessor public abstract boolean isInvulnerable();
+    @Accessor public abstract boolean isFlying();
+
+    @Accessor public abstract void setInvulnerable(boolean invulnerable);
+    @Accessor public abstract void setFlying(boolean flying);
+    @Accessor public abstract void setInstabuild(boolean instabuild);
+    @Accessor public abstract void setMayBuild(boolean mayBuild);
+    @Accessor public abstract void setFlyingSpeed(float flyingSpeed);
+    @Accessor public abstract void setWalkingSpeed(float walkingSpeed);
 
     @Override
     public boolean mayFly() {
@@ -37,8 +39,8 @@ public abstract class AbilitiesMixin implements systems.conduit.main.api.mixins.
     }
 
     @Override
-    public boolean isFlying() {
-        return this.flying;
+    public void setMayFly(boolean mayFly) {
+        this.mayfly = mayFly;
     }
 
     @Override
@@ -48,41 +50,6 @@ public abstract class AbilitiesMixin implements systems.conduit.main.api.mixins.
 
     @Override
     public boolean mayBuild() {
-        return this.mayBuild;
-    }
-
-    @Override
-    public void setFlyingSpeed(float speed){
-        this.flyingSpeed = speed;
-    }
-
-    @Override
-    public void setWalkingSpeed(float speed) {
-        this.walkingSpeed = speed;
-    }
-
-    @Override
-    public void setInvulnerable(boolean invulnerable) {
-        this.invulnerable = invulnerable;
-    }
-
-    @Override
-    public void setMayFly(boolean mayFly) {
-        this.mayfly = mayFly;
-    }
-
-    @Override
-    public void setIsFlying(boolean isFlying) {
-        this.flying = isFlying;
-    }
-
-    @Override
-    public void setInstaBuild(boolean instabuild) {
-        this.instabuild = instabuild;
-    }
-
-    @Override
-    public void setMayBuild(boolean mayBuild) {
-        this.mayBuild = mayBuild;
+        return mayBuild;
     }
 }

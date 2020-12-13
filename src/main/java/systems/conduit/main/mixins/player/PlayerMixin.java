@@ -12,18 +12,20 @@ import net.minecraft.world.scores.Scoreboard;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import systems.conduit.main.api.mixins.Player;
 import systems.conduit.main.api.mixins.player.Abilities;
 
 @Mixin(value = net.minecraft.world.entity.player.Player.class, remap = false)
 public abstract class PlayerMixin implements Player {
 
-    @Shadow public AbstractContainerMenu containerMenu;
+    @Accessor public abstract AbstractContainerMenu getContainerMenu();
     @Shadow @Final public InventoryMenu inventoryMenu;
-    //@Shadow private BlockPos respawnPosition;
-    //@Shadow private boolean respawnForced;
-
     @Shadow public abstract Inventory getInventory();
+    @Shadow public abstract Iterable<ItemStack> getArmorSlots();
+    @Shadow public abstract Iterable<ItemStack> getHandSlots();
+    @Shadow public abstract boolean addItem(ItemStack item);
+    @Shadow public abstract void setItemSlot(EquipmentSlot slot, ItemStack item);
 
     @Shadow public abstract GameProfile getGameProfile();
     @Shadow protected abstract void closeContainer();
@@ -32,12 +34,6 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract boolean isCreative();
     @Shadow public abstract boolean isSpectator();
     @Shadow public abstract boolean isSwimming();
-
-    @Shadow public abstract Iterable<ItemStack> getArmorSlots();
-    @Shadow public abstract Iterable<ItemStack> getHandSlots();
-
-    @Shadow public abstract boolean addItem(ItemStack item);
-    @Shadow public abstract void setItemSlot(EquipmentSlot slot, ItemStack item);
 
     @Shadow public abstract boolean isHurt();
     @Shadow public abstract boolean mayBuild();
@@ -49,8 +45,6 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract void giveExperienceLevels(int levels);
     @Shadow public abstract void giveExperiencePoints(int points);
 
-    //@Shadow public abstract boolean isRespawnForced();
-    //@Shadow public abstract BlockPos getRespawnPosition();
     @Shadow public abstract boolean isSleepingLongEnough();
     @Shadow public abstract void stopSleeping();
 
@@ -71,7 +65,7 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract void onUpdateAbilities();
 
     public void closeOpenedContainer() {
-        if (this.containerMenu != this.inventoryMenu) {
+        if (this.getContainerMenu() != this.inventoryMenu) {
             this.closeContainer();
         }
     }
@@ -79,11 +73,6 @@ public abstract class PlayerMixin implements Player {
     @Override
     public String getName() {
         return getGameProfile().getName();
-    }
-
-    @Override
-    public AbstractContainerMenu getContainerMenu() {
-        return containerMenu;
     }
 
     @Override

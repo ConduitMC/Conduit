@@ -23,7 +23,7 @@ public interface Abilities {
     void setWalkingSpeed(float speed);
     void setInvulnerable(boolean invulnerable);
     void setMayFly(boolean mayFly);
-    void setIsFlying(boolean isFlying);
+    void setFlying(boolean isFlying);
     void setInstaBuild(boolean instaBuild);
     void setMayBuild(boolean mayBuild);
 }

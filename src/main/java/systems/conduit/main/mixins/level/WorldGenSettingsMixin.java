@@ -5,6 +5,7 @@ import net.minecraft.world.level.dimension.LevelStem;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import systems.conduit.main.api.mixins.WorldGenSettings;
 
 import java.util.Optional;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @Mixin(value = net.minecraft.world.level.levelgen.WorldGenSettings.class, remap = false)
 public abstract class WorldGenSettingsMixin implements WorldGenSettings {
 
-    @Shadow @Final private long seed;
+    @Accessor public abstract long getSeed();
     @Shadow @Final private boolean generateFeatures;
     @Shadow @Final private boolean generateBonusChest;
     @Shadow @Final private MappedRegistry<LevelStem> dimensions;
@@ -24,11 +25,6 @@ public abstract class WorldGenSettingsMixin implements WorldGenSettings {
 
     @Shadow public abstract boolean isDebug();
     @Shadow public abstract boolean isFlatWorld();
-
-    @Override
-    public long seed() {
-        return this.seed;
-    }
 
     @Override
     public boolean generateFeatures() {

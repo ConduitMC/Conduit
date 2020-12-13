@@ -14,20 +14,24 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.events.types.EntityEvents;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Mixin(value = Entity.class, remap = false)
 public abstract class EntityMixin implements systems.conduit.main.api.mixins.Entity {
 
-    @Shadow public Level level;
+    @Accessor public abstract Level getLevel();
 
     @Shadow public abstract UUID getUUID();
     @Shadow public abstract void sendMessage(Component component, UUID uuid);
@@ -38,11 +42,6 @@ public abstract class EntityMixin implements systems.conduit.main.api.mixins.Ent
     }
 
     @Shadow public abstract void teleportTo(double v, double v1, double v2);
-
-    @Override
-    public Level getLevel() {
-        return level;
-    }
 
     @Shadow public abstract double getX();
     @Shadow public abstract double getY();

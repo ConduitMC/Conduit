@@ -21,6 +21,8 @@ public class ConduitCommand extends BaseCommand {
         return Commands.literal("conduit").executes(c -> {
             c.getSource().sendSuccess(new TextComponent("Conduit v").append(Conduit.getVersion()), false);
             c.getSource().sendSuccess(new TextComponent("Minecraft Server v" + SharedConstants.getCurrentVersion().getName().split("/")[0]), false);
+
+            System.out.println(Conduit.getServer().get().getLevels());
             return 1;
         })
         .then(PluginsCommand.baseCommand().then(PluginsCommand.reloadSubcommand()).then(PluginsCommand.changeStateSubcommand(true))

@@ -13,6 +13,7 @@ import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -27,7 +28,9 @@ import java.util.UUID;
 @Mixin(value = net.minecraft.server.level.ServerPlayer.class, remap = false)
 public abstract class ServerPlayerMixin implements ServerPlayer {
 
-    @Shadow private int containerCounter;
+    @Accessor public abstract int getContainerCounter();
+    @Accessor public abstract ServerPlayerGameMode getGameMode();
+
     @Shadow public ServerGamePacketListenerImpl connection;
 
     @Shadow protected abstract void nextContainerCounter();
@@ -44,19 +47,8 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     }
 
     @Override
-    public int getContainerCounter() {
-        return containerCounter;
-    }
-
-
-    @Override
     public net.minecraft.server.level.ServerPlayer down() {
         return (net.minecraft.server.level.ServerPlayer) (Object) this;
-    }
-
-    @Override
-    public ServerPlayerGameMode getGameMode() {
-        return this.gameMode;
     }
 
     @Override

@@ -13,6 +13,7 @@ public interface ServerPlayer extends Player {
     GameType getGameType();
 
     void kick(TextComponent kickMessage);
+    void sendUpdatedAbilities();
 
     net.minecraft.server.level.ServerPlayer down();
 }

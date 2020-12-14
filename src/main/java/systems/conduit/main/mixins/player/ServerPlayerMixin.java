@@ -4,11 +4,13 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -44,6 +46,10 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     public final void sendMessage(String message) {
         this.sendMessage(new TextComponent(message), Util.NIL_UUID);
+    }
+
+    public final void sendUpdatedAbilities() {
+        down().connection.send(new ClientboundPlayerAbilitiesPacket((Abilities) getAbilities()));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package systems.conduit.main.mixins.entity;
 
+import net.minecraft.Util;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
 import net.minecraft.network.chat.Component;
@@ -39,6 +40,11 @@ public abstract class EntityMixin implements systems.conduit.main.api.mixins.Ent
     @Override
     public void sendMessage(String message) {
         sendMessage(new TextComponent(message));
+    }
+
+    @Override
+    public void sendMessage(Component component) {
+        this.sendMessage(component, Util.NIL_UUID);
     }
 
     @Shadow public abstract void teleportTo(double v, double v1, double v2);

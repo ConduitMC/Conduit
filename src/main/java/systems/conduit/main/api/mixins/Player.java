@@ -12,7 +12,7 @@ import systems.conduit.main.api.mixins.player.Abilities;
 
 /**
  * Base Conduit interface for use with mixins.
- * Implementation: {@link systems.conduit.main.mixins.api.PlayerMixin}
+ * Implementation: {@link systems.conduit.main.mixins.player.PlayerMixin}
  *
  * @since API 0.1
  */

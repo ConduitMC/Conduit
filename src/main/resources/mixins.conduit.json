@@ -7,9 +7,7 @@
   "mixins": [
     "entity.EntityMixin",
     "entity.LivingEntityMixin",
-    "entity.MobMixin",
     "entity.SheepMixin",
-    "entity.SlimeMixin",
 
     "goal.BreedGoalMixin",
 

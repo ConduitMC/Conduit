@@ -30,7 +30,7 @@ cd ..
 
 mkdir Server
 cd Server
-cp ../ConduitLauncher/target/ConduitLauncher-*.jar ConduitLauncher.jar
+cp ../ConduitLauncher/build/libs/ConduitLauncher-*.jar ConduitLauncher.jar
 java -jar ConduitLauncher.jar dev
 
 # Once that finishes, you have a fully ready to go server for development, and all other libraries installed.

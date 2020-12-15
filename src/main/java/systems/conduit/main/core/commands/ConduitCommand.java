@@ -34,6 +34,8 @@ public class ConduitCommand extends BaseCommand {
                         .then(DimensionsCommand.listCommand())
                         .then(DimensionsCommand.teleportCommand()))
                 .then(PermissionsCommand.baseCommand()
-                        .then(PermissionsCommand.listPermissions()));
+                        .then(PermissionsCommand.listPermissions())
+                        .then(PermissionsCommand.addPermission())
+                        .then(PermissionsCommand.removePermission()));
     }
 }

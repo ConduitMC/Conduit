@@ -1,7 +1,7 @@
 package systems.conduit.main.core.commands.conduit;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
@@ -26,18 +26,49 @@ public class PermissionsCommand {
             Optional<ServerPlayer> target = PlayerArgumentType.getPlayer(ctx, "player");
 
             if (!target.isPresent()) {
+                // TODO Check if sender is a player
                 ctx.getSource().sendFailure(new TextComponent("Could not find targeted player."));
                 return 0;
             }
-
-            ctx.getSource().getEntity().sendMessage(new TextComponent(target.get().getName()), Util.NIL_UUID);
 
             TextComponent permissionsListComponent = (TextComponent) new TextComponent("Permissions for ").append(target.get().getName()).append(": ");
             permissionsListComponent.append(target.get().getPermissionNodes().stream().map(PermissionNode::getPermission).reduce((a, b) -> a.concat(", ").concat(b)).orElse("No permissions!"));
 
             ctx.getSource().sendSuccess(permissionsListComponent, false);
 
-            return 0;
+            return 1;
         }));
+    }
+
+    public static LiteralArgumentBuilder<CommandSourceStack> addPermission() {
+        return Commands.literal("add").then(Commands.argument("permission", StringArgumentType.word()).then(Commands.argument("player", PlayerArgumentType.name()).executes(ctx -> {
+            Optional<ServerPlayer> target = PlayerArgumentType.getPlayer(ctx, "player");
+            if (!target.isPresent()) {
+                // TODO: check if sender is a player
+                ctx.getSource().sendFailure(new TextComponent("Could not find targeted player"));
+                return 0;
+            }
+
+            target.get().addPermission(StringArgumentType.getString(ctx, "permission"));
+            ctx.getSource().sendSuccess(new TextComponent("Permission has been added!"), false);
+
+            return 1;
+        })));
+    }
+
+    public static LiteralArgumentBuilder<CommandSourceStack> removePermission() {
+        return Commands.literal("remove").then(Commands.argument("permission", StringArgumentType.word()).then(Commands.argument("player", PlayerArgumentType.name()).executes(ctx -> {
+            Optional<ServerPlayer> target = PlayerArgumentType.getPlayer(ctx, "player");
+            if (!target.isPresent()) {
+                // TODO: check if sender is a player
+                ctx.getSource().sendFailure(new TextComponent("Could not find targeted player"));
+                return 0;
+            }
+
+            target.get().removePermission(StringArgumentType.getString(ctx, "permission"));
+            ctx.getSource().sendSuccess(new TextComponent("Permission has been removed!"), false);
+
+            return 1;
+        })));
     }
 }

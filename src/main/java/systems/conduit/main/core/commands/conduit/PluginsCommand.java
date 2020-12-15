@@ -15,7 +15,7 @@ import java.util.Optional;
 public class PluginsCommand {
 
     public static LiteralArgumentBuilder<CommandSourceStack> baseCommand() {
-        return Commands.literal("plugins").executes(PluginsCommand::listPlugins);
+        return Commands.literal("plugins").executes(PluginsCommand::displayPluginList);
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> reloadSubcommand() {
@@ -48,14 +48,14 @@ public class PluginsCommand {
         });
     }
 
-    public static int listPlugins(CommandContext<CommandSourceStack> ctx) {
-        Conduit.getPluginManager().getPlugins().stream().map(Plugin::toStringColored).reduce((a, b) -> a.concat(",").concat(b))
+    public static int displayPluginList(CommandContext<CommandSourceStack> ctx) {
+        Conduit.getPluginManager().getPlugins().stream().map(Plugin::toStringColored).reduce((a, b) -> a.concat(", ").concat(b))
                 .ifPresent(s -> ctx.getSource().sendSuccess(new TextComponent("Plugins: " + s), false));
         return 1;
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> listPlugins() {
-        return Commands.literal("list").executes(PluginsCommand::listPlugins);
+        return Commands.literal("list").executes(PluginsCommand::displayPluginList);
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> changeStateSubcommand(boolean enable) {

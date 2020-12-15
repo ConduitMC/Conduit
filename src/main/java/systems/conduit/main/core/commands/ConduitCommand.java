@@ -23,9 +23,14 @@ public class ConduitCommand extends BaseCommand {
             c.getSource().sendSuccess(new TextComponent("Minecraft Server v" + SharedConstants.getCurrentVersion().getName().split("/")[0]), false);
             return 1;
         })
-        .then(PluginsCommand.baseCommand().then(PluginsCommand.reloadSubcommand()).then(PluginsCommand.changeStateSubcommand(true))
-                .then(PluginsCommand.changeStateSubcommand(false)).then(PluginsCommand.listPlugins()))
-        .then(VersionCommand.getCommand())
-        .then(DimensionsCommand.baseCommand().then(DimensionsCommand.listCommand()).then(DimensionsCommand.teleportCommand()));
+                .then(VersionCommand.getCommand())
+                .then(PluginsCommand.baseCommand()
+                        .then(PluginsCommand.reloadSubcommand())
+                        .then(PluginsCommand.changeStateSubcommand(true))
+                        .then(PluginsCommand.changeStateSubcommand(false))
+                        .then(PluginsCommand.listPlugins()))
+                .then(DimensionsCommand.baseCommand()
+                        .then(DimensionsCommand.listCommand())
+                        .then(DimensionsCommand.teleportCommand()));
     }
 }

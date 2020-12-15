@@ -2,6 +2,7 @@ package systems.conduit.main.core.commands.conduit;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
 import javassist.tools.Callback;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -14,12 +15,7 @@ import java.util.Optional;
 public class PluginsCommand {
 
     public static LiteralArgumentBuilder<CommandSourceStack> baseCommand() {
-        return Commands.literal("plugins").executes(c -> {
-            Conduit.getPluginManager().getPlugins().stream().map(Plugin::toStringColored).reduce((a, b) -> a.concat(",").concat(b)).ifPresent(s -> {
-                c.getSource().sendSuccess(new TextComponent("Plugins: " + s), false);
-            });
-            return 1;
-        });
+        return Commands.literal("plugins").executes(PluginsCommand::listPlugins);
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> reloadSubcommand() {
@@ -50,6 +46,16 @@ public class PluginsCommand {
             });
             return 1;
         });
+    }
+
+    public static int listPlugins(CommandContext<CommandSourceStack> ctx) {
+        Conduit.getPluginManager().getPlugins().stream().map(Plugin::toStringColored).reduce((a, b) -> a.concat(",").concat(b))
+                .ifPresent(s -> ctx.getSource().sendSuccess(new TextComponent("Plugins: " + s), false));
+        return 1;
+    }
+
+    public static LiteralArgumentBuilder<CommandSourceStack> listPlugins() {
+        return Commands.literal("list").executes(PluginsCommand::listPlugins);
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> changeStateSubcommand(boolean enable) {

@@ -24,7 +24,7 @@ public class ConduitCommand extends BaseCommand {
             return 1;
         })
         .then(PluginsCommand.baseCommand().then(PluginsCommand.reloadSubcommand()).then(PluginsCommand.changeStateSubcommand(true))
-                .then(PluginsCommand.changeStateSubcommand(false)))
+                .then(PluginsCommand.changeStateSubcommand(false)).then(PluginsCommand.listCommand()))
         .then(VersionCommand.getCommand())
         .then(DimensionsCommand.baseCommand().then(DimensionsCommand.listCommand()).then(DimensionsCommand.teleportCommand()));
     }

@@ -1,4 +1,4 @@
-package systems.conduit.main.core.commands;
+package systems.conduit.main.core.commands.argument;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;

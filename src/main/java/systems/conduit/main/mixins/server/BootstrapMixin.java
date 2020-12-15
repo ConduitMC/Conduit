@@ -6,8 +6,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import systems.conduit.main.core.commands.PlayerArgumentSerializer;
-import systems.conduit.main.core.commands.PlayerArgumentType;
+import systems.conduit.main.core.commands.argument.PlayerArgumentSerializer;
+import systems.conduit.main.core.commands.argument.PlayerArgumentType;
 
 /**
  * @author Innectic

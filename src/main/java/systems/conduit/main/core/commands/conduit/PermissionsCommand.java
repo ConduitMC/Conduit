@@ -6,7 +6,8 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import systems.conduit.main.api.mixins.ServerPlayer;
-import systems.conduit.main.core.commands.PlayerArgumentType;
+import systems.conduit.main.core.commands.argument.PlayerArgumentType;
+import systems.conduit.main.core.permissions.PermissionNode;
 
 import java.util.Optional;
 
@@ -30,6 +31,11 @@ public class PermissionsCommand {
             }
 
             ctx.getSource().getEntity().sendMessage(new TextComponent(target.get().getName()), Util.NIL_UUID);
+
+            TextComponent permissionsListComponent = (TextComponent) new TextComponent("Permissions for ").append(target.get().getName()).append(": ");
+            permissionsListComponent.append(target.get().getPermissionNodes().stream().map(PermissionNode::getPermission).reduce((a, b) -> a.concat(", ").concat(b)).orElse("No permissions!"));
+
+            ctx.getSource().sendSuccess(permissionsListComponent, false);
 
             return 0;
         }));

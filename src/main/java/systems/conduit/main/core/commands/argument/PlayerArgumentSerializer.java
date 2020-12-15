@@ -1,4 +1,4 @@
-package systems.conduit.main.core.commands;
+package systems.conduit.main.core.commands.argument;
 
 import com.google.gson.JsonObject;
 import net.minecraft.commands.synchronization.ArgumentSerializer;

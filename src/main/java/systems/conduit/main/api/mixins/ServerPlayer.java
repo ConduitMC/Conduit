@@ -21,6 +21,7 @@ public interface ServerPlayer extends Player {
     void addPermission(String permission);
     void removePermission(String permission);
     List<PermissionNode> getPermissionNodes();
+    boolean hasPermission(String permission);
 
     net.minecraft.server.level.ServerPlayer down();
 }

@@ -67,6 +67,10 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         permissionNodes.removeIf(n -> n.getPermission().equalsIgnoreCase(permission));
     }
 
+    public boolean hasPermission(String permission) {
+        return permissionNodes.stream().anyMatch(p -> p.applies(permission));
+    }
+
     @Override
     public net.minecraft.server.level.ServerPlayer down() {
         return (net.minecraft.server.level.ServerPlayer) (Object) this;

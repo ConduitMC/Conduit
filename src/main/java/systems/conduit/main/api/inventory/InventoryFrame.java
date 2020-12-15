@@ -47,7 +47,6 @@ public class InventoryFrame implements GUI {
         // Add the overrides for a custom layer
         layerData.getOrDefault(player.getUUID(), new HashMap<>()).forEach((slot, button) -> containerMenu.setItem(slot, button.getItem()));
 
-        System.out.println(player.down().containerMenu.getItems());
         player.down().connection.send(new ClientboundContainerSetContentPacket(containerMenu.containerId, player.down().containerMenu.getItems()));
     }
 

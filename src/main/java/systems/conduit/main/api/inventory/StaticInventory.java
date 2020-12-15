@@ -77,23 +77,17 @@ public class StaticInventory implements EventListener {
         ServerPlayer player = event.getPlayer();
         if (player == null) return;
 
-        System.out.println("RASEIN");
-
         InventoryFrame viewedFrame = frames.get(viewers.get(player.getUUID()));
         if (viewedFrame == null) return;
-        System.out.println("RASEIN");
 
         Optional<AbstractContainerMenu> inventoryMenu = viewedFrame.getMenu(player);
         if (!inventoryMenu.isPresent()) return;
         if (event.getContainer().containerId != inventoryMenu.get().containerId) return;
-        System.out.println("RASEIN");
 
         Optional<InventoryButton> button = viewedFrame.findButtonBySlotId(player, event.getSlotId());
         if (!button.isPresent()) return;
-        System.out.println("RASEIN");
 
         button.get().getConsumer().accept(player, event.getClickType());
-        System.out.println("RASEIN");
 
         event.setCanceled(true);
     }

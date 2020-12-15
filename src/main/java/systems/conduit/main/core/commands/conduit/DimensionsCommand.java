@@ -12,6 +12,7 @@ import net.minecraft.world.level.dimension.DimensionType;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.mixins.MinecraftServer;
 import systems.conduit.main.api.mixins.ServerLevel;
+import systems.conduit.main.core.utils.PermissionUtils;
 
 import java.util.Map;
 import java.util.Optional;
@@ -31,7 +32,7 @@ public class DimensionsCommand {
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> teleportCommand() {
-        return Commands.literal("teleport").then(Commands.argument("dimensionName", StringArgumentType.word()).executes(c -> {
+        return Commands.literal("teleport").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.dimensions.teleport", false, true)).then(Commands.argument("dimensionName", StringArgumentType.word()).executes(c -> {
             String dimensionName = StringArgumentType.getString(c, "dimensionName");
             Optional<ServerLevel> destination = Conduit.getLevelManager().getLevel(dimensionName);
             if (!destination.isPresent()) {
@@ -54,7 +55,7 @@ public class DimensionsCommand {
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> listCommand() {
-        return Commands.literal("list").executes(c -> {
+        return Commands.literal("list").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.dimensions.list", false, true)).executes(c -> {
             Optional<MinecraftServer> server = Conduit.getServer();
             if (!server.isPresent()) {
                 c.getSource().sendFailure(new TextComponent("An internal error has occurred."));

@@ -86,7 +86,6 @@ public class ServerGamePacketListenerMixin {
         PlayerEvents.InventoryClickEvent event = new PlayerEvents.InventoryClickEvent((systems.conduit.main.api.mixins.ServerPlayer) player, player.containerMenu, packet.getClickType(), packet.getSlotNum());
         Conduit.getEventManager().dispatchEvent(event);
 
-        System.out.println(event.isCanceled());
         if (!event.isCanceled()) {
             ItemStack clickResult = this.player.containerMenu.clicked(packet.getSlotNum(), packet.getButtonNum(), packet.getClickType(), player);
 

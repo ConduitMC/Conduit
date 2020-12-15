@@ -71,6 +71,10 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         return permissionNodes.stream().anyMatch(p -> p.applies(permission));
     }
 
+    public boolean isOp() {
+        return Conduit.getServer().map(s -> s.getPlayerList().isOp(this.down().getGameProfile())).orElse(false);
+    }
+
     @Override
     public net.minecraft.server.level.ServerPlayer down() {
         return (net.minecraft.server.level.ServerPlayer) (Object) this;

@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.bossevents.CustomBossEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
+import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.WorldData;
@@ -38,4 +39,5 @@ public interface MinecraftServer {
     RegistryAccess.RegistryHolder getRegistryHolder();
     ChunkProgressListenerFactory getProgressListenerFactory();
     LevelStorageSource.LevelStorageAccess getStorageSource();
+    PlayerList getPlayerList();
 }

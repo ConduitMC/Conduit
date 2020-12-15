@@ -8,13 +8,14 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TextComponent;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.plugin.Plugin;
+import systems.conduit.main.core.utils.PermissionUtils;
 
 import java.util.Optional;
 
 public class VersionCommand {
 
     public static LiteralArgumentBuilder<CommandSourceStack> getCommand() {
-        return Commands.literal("version").then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
+        return Commands.literal("version").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.admin", false, true)).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {

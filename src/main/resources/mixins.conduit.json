@@ -38,6 +38,7 @@
     "server.MinecraftServerThreadMixin",
     "server.ServerGamePacketListenerMixin",
     "server.StartupMixin",
-    "server.VersionMixin"
+    "server.VersionMixin",
+    "server.BootstrapMixin"
   ]
 }

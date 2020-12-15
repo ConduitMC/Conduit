@@ -1,7 +1,9 @@
 package systems.conduit.main.mixins.player;
 
+import lombok.Getter;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
@@ -24,7 +26,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.PlayerEvents;
+import systems.conduit.main.core.permissions.PermissionNode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Mixin(value = net.minecraft.server.level.ServerPlayer.class, remap = false)
@@ -44,12 +49,22 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Shadow public abstract void sendMessage(Component component, UUID uuid);
 
+    @Getter private List<PermissionNode> permissionNodes = new ArrayList<>();
+
     public final void sendMessage(String message) {
         this.sendMessage(new TextComponent(message), Util.NIL_UUID);
     }
 
     public final void sendUpdatedAbilities() {
         down().connection.send(new ClientboundPlayerAbilitiesPacket((Abilities) getAbilities()));
+    }
+
+    public void addPermission(String permission) {
+        permissionNodes.add(new PermissionNode(permission));
+    }
+
+    public void removePermission(String permission) {
+        permissionNodes.removeIf(n -> n.getPermission().equalsIgnoreCase(permission));
     }
 
     @Override
@@ -113,5 +128,27 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     public void die(DamageSource damageSource, CallbackInfo ci) {
         PlayerEvents.DeathEvent event = new PlayerEvents.DeathEvent(this, this.conduit_getKillCredit(), damageSource);
         Conduit.getEventManager().dispatchEvent(event);
+    }
+
+    @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
+    public void readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        if (tag.contains("ConduitPermissions", 10)) {
+            CompoundTag permissionsTag = tag.getCompound("ConduitPermissions");
+
+            List<String> keys = new ArrayList<>(permissionsTag.getAllKeys());
+            keys.forEach(permission -> {
+                if (!permissionsTag.getBoolean(permission)) return;
+                this.addPermission(permission);
+            });
+        }
+
+        permissionNodes.forEach(permission -> permission.applies("conduit.testing"));
+    }
+
+    @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
+    public void addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+        CompoundTag permissionsTag = new CompoundTag();
+        permissionNodes.forEach(node -> permissionsTag.putBoolean(node.getPermission(), true));
+        tag.put("ConduitPermissions", permissionsTag);
     }
 }

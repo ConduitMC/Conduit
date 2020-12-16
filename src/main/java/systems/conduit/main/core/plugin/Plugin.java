@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class Plugin {
 
     @Getter(AccessLevel.MODULE) @Setter(AccessLevel.MODULE) PluginClassLoader classLoader;
-    @Getter @Setter(AccessLevel.MODULE) private PluginMeta meta;
+    @Getter @Setter(AccessLevel.MODULE) private static PluginMeta meta;
     @Getter @Setter(AccessLevel.MODULE) private PluginState pluginState = PluginState.UNLOADED;
     @Getter(AccessLevel.PUBLIC) private Map<Integer, Map<EventListener, List<Method>>> events = new ConcurrentHashMap<>();
     @Setter(AccessLevel.MODULE) private Configuration config = null;
@@ -52,6 +52,10 @@ public abstract class Plugin {
         } catch (ClassCastException ignored) {
             return Optional.empty();
         }
+    }
+
+    public static <T extends Plugin> Optional<T> getPlugin(Class<T> type) {
+        return Conduit.getPluginManager().getPlugin(meta.name()).filter(p -> p.getClass().isAssignableFrom(type)).map(type::cast);
     }
 
     protected void registerCommands(BaseCommand... commands) {

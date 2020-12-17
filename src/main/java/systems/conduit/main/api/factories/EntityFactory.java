@@ -12,7 +12,7 @@ import net.minecraft.world.entity.MobSpawnType;
 
 import java.util.Optional;
 
-/**
+/*
  * Build new entities to add into the world.
  *
  * @author Innectic

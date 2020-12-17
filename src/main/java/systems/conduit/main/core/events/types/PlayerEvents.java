@@ -38,7 +38,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class PlayerJoinEvent extends EventType {
-        private Player player;
+        private systems.conduit.main.api.mixins.ServerPlayer player;
         @Setter private Component message;
     }
 
@@ -48,7 +48,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class PlayerLeaveEvent extends EventType {
-        private Player player;
+        private systems.conduit.main.api.mixins.ServerPlayer player;
         @Setter private Component message;
         private LeaveType type;
     }

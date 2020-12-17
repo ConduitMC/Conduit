@@ -17,9 +17,9 @@ import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.WorldGenSettings;
 import net.minecraft.world.level.storage.PrimaryLevelData;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.api.factories.LevelDataFactory;
 import systems.conduit.main.api.mixins.MinecraftServer;
 import systems.conduit.main.api.mixins.ServerLevel;
-import systems.conduit.main.api.factories.LevelDataFactory;
 
 import java.util.Optional;
 
@@ -36,6 +36,7 @@ public class LevelManager {
         return Conduit.getServer().map(server -> {
             for (net.minecraft.server.level.ServerLevel level : server.getAllLevels()) {
                 ServerLevel conduitLevel = (ServerLevel) level;
+
                 if (conduitLevel.getServerLevelData().getLevelName().equals(name)) return conduitLevel;
             }
             return null;

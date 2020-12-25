@@ -1,11 +1,9 @@
 package systems.conduit.main.core.datastore.backend;
 
 import systems.conduit.main.core.datastore.DatastoreHandler;
-import systems.conduit.main.core.datastore.Storable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Datastore backend that puts everything in memory.

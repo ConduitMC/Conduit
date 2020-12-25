@@ -1,4 +1,4 @@
-package systems.conduit.main.core.datastore;
+package systems.conduit.main.core.datastore.schema;
 
 /**
  * @author Innectic

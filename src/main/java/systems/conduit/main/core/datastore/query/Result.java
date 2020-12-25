@@ -1,7 +1,7 @@
 package systems.conduit.main.core.datastore.query;
 
 import lombok.AllArgsConstructor;
-import systems.conduit.main.core.datastore.Schema;
+import systems.conduit.main.core.datastore.schema.Schema;
 
 import java.sql.ResultSet;
 import java.util.HashMap;

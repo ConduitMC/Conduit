@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DatastoreController {
 
-    private Map<String, DatastoreHandler> handlers = new HashMap<>();
+    private final Map<String, Datastore> handlers = new HashMap<>();
     private final String pluginName;
 
     /**
@@ -37,10 +37,10 @@ public class DatastoreController {
      * @param clazz the datastore class to create
      * @return an instance of the datastore ready to be attached, empty if it failed.
      */
-    private Optional<DatastoreHandler> createNewHandlerInstance(Class<? extends DatastoreHandler> clazz) {
+    private Optional<Datastore> createNewHandlerInstance(Class<? extends Datastore> clazz) {
         try {
-            Constructor<? extends DatastoreHandler> constructor = clazz.getConstructor();
-            DatastoreHandler handler = constructor.newInstance();
+            Constructor<? extends Datastore> constructor = clazz.getConstructor();
+            Datastore handler = constructor.newInstance();
             return Optional.of(handler);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             Conduit.getLogger().error("Failed to instantiate datastore handler!");
@@ -63,7 +63,7 @@ public class DatastoreController {
         meta.put("table", name);
 
         // Once we have converted that, we need to make a new instance of the selected handler that we will be using for this store.
-        Optional<DatastoreHandler> handler = createNewHandlerInstance(backend.getHandler());
+        Optional<Datastore> handler = createNewHandlerInstance(backend.getHandler());
         if (!handler.isPresent()) {
             Conduit.getLogger().error("Failed to instantiate datastore handler!");
             return;
@@ -81,7 +81,7 @@ public class DatastoreController {
     public void close(String name) {
         if (isInvalidName(name)) return;
 
-        DatastoreHandler handler = handlers.getOrDefault(pluginName + "-" + name, null);
+        Datastore handler = handlers.getOrDefault(pluginName + "-" + name, null);
         if (handler == null) return;
 
         handler.detach();
@@ -94,7 +94,7 @@ public class DatastoreController {
      * @param name   the name of the datastore
      * @return       the datastore, if present. Empty otherwise.
      */
-    public Optional<DatastoreHandler> get(String name) {
+    public Optional<Datastore> get(String name) {
         if (isInvalidName(name)) return Optional.empty();
         return Optional.ofNullable(handlers.getOrDefault(pluginName + "-" + name, null));
     }

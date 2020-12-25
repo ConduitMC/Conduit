@@ -16,11 +16,11 @@ import java.util.Optional;
 public class PluginsCommand {
 
     public static LiteralArgumentBuilder<CommandSourceStack> baseCommand() {
-        return Commands.literal("plugins").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.admin", false, true)).executes(PluginsCommand::displayPluginList);
+        return Commands.literal("plugins").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.admin", true, true)).executes(PluginsCommand::displayPluginList);
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> reloadSubcommand() {
-        return Commands.literal("reload").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.plugins.modify", false, true)).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
+        return Commands.literal("reload").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.plugins.modify", true, true)).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {
@@ -63,7 +63,7 @@ public class PluginsCommand {
         String state = (enable ? "enable" : "disable");
         String preStateText = (enable ? "Enabling" : "Disabling") + " plugin: ";
         String postStateText = (enable ? "Enabled" : "Disabled") + " plugin: ";
-        return Commands.literal(state).requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.plugins.modify", false, true)).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
+        return Commands.literal(state).requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.plugins.modify", true, true)).then(Commands.argument("pluginName", StringArgumentType.word()).executes(c -> {
             String pluginName = StringArgumentType.getString(c, "pluginName");
             Optional<Plugin> plugin = Conduit.getPluginManager().getPlugin(pluginName);
             if (plugin.isPresent()) {

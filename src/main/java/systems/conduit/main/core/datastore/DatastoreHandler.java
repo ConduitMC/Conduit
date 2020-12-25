@@ -20,11 +20,4 @@ public interface DatastoreHandler {
      * Detach from the storage location.
      */
     void detach();
-
-    /**
-     * Delete a key from the datastore.
-     *
-     * @param key the key to delete
-     */
-    void delete(String key);
 }

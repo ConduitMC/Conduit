@@ -1,5 +1,6 @@
 package systems.conduit.main;
 
+import lombok.AllArgsConstructor;
 import systems.conduit.main.core.datastore.schema.Schema;
 import systems.conduit.main.core.datastore.schema.annotations.Field;
 
@@ -9,6 +10,7 @@ import java.util.UUID;
  * @author Innectic
  * @since 12/24/2020
  */
+@AllArgsConstructor
 public class TestSchema extends Schema {
 
     @Field("name") private String name;

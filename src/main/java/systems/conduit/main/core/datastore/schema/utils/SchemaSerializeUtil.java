@@ -1,4 +1,4 @@
-package systems.conduit.main.core.datastore.schema;
+package systems.conduit.main.core.datastore.schema.utils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * @author Innectic
  * @since 12/24/2020
  */
-public class SchemaFieldUtil {
+public class SchemaSerializeUtil {
 
     /**
      * Find a function on the target serializer class WITHOUT looking at arguments.

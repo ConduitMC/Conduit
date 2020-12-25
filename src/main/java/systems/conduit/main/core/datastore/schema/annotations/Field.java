@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Field {
 
-    String value();
+    String value() default "";
 
     Class<?> factoryClazz() default NoFactoryClass.class;
     String factoryMethod() default "";

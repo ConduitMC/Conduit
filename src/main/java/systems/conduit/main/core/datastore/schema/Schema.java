@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
  */
 public abstract class Schema {
 
+    private static String fieldLabel(Field field, systems.conduit.main.core.datastore.schema.annotations.Field annotation) {
+        return annotation.value().isEmpty() ? field.getName() : annotation.value();
+    }
+
     public final Map<String, Object> serialize() {
         Map<String, Object> serialized = new HashMap<>();
 
@@ -26,11 +30,13 @@ public abstract class Schema {
             systems.conduit.main.core.datastore.schema.annotations.Field fieldAnnotation = field.getAnnotation(systems.conduit.main.core.datastore.schema.annotations.Field.class);
             if (fieldAnnotation == null) continue;
 
+            String fieldLabel = fieldLabel(field, fieldAnnotation);
+
             // Before attempting to get any value out of it, check if we need to use a custom serializer method.
             if (!fieldAnnotation.serializeMethod().equals("")) {
                 // It isn't empty, so we're supposed to be using a custom serializer. Double check that a class was provided.
                 if (fieldAnnotation.factoryClazz() == NoFactoryClass.class) {
-                    Conduit.getLogger().error("Schema field '" + fieldAnnotation.value() + "' does not have a factory class for serialization!");
+                    Conduit.getLogger().error("Schema field '" + fieldLabel + "' does not have a factory class for serialization!");
                     continue;
                 }
 
@@ -39,16 +45,16 @@ public abstract class Schema {
                 if (!result.isPresent()) {
                     // Failed to serialize the field.
                     // TODO: Put more error information here.
-                    Conduit.getLogger().error("Schema field '" + fieldAnnotation.value() + "' failed to serialize in factory method!");
+                    Conduit.getLogger().error("Schema field '" + fieldLabel + "' failed to serialize in factory method!");
                     continue;
                 }
-                serialized.put(fieldAnnotation.value(), result.get());
+                serialized.put(fieldLabel, result.get());
 
             } else {
                 // We don't have a custom serializer, so just get the value of the field.
                 try {
                     field.setAccessible(true);
-                    serialized.put(fieldAnnotation.value(), field.get(this));
+                    serialized.put(fieldLabel, field.get(this));
                 } catch (IllegalAccessException ignored) { }
             }
         }
@@ -65,25 +71,26 @@ public abstract class Schema {
 
         for (Field field : fields) {
             systems.conduit.main.core.datastore.schema.annotations.Field fieldAnnotation = field.getAnnotation(systems.conduit.main.core.datastore.schema.annotations.Field.class);
+            String fieldLabel = fieldLabel(field, fieldAnnotation);
 
             // Check if there is a data entry for this field name
-            if (!data.containsKey(fieldAnnotation.value())) continue;
+            if (!data.containsKey(fieldLabel)) continue;
 
             // We do in fact have data for this key. Now we have to attempt to fill the field.
-            Object currentValue = data.get(fieldAnnotation.value());
+            Object currentValue = data.get(fieldLabel);
 
             // Now, check to see if we have a custom data deserializer.
             if (!fieldAnnotation.factoryMethod().equals("")) {
                 // It isn't empty, so we're supposed to be using a custom serializer. Double check that a class was provided.
                 if (fieldAnnotation.factoryClazz() == NoFactoryClass.class) {
-                    Conduit.getLogger().error("Schema field '" + fieldAnnotation.value() + "' does not have a factory class for serialization!");
+                    Conduit.getLogger().error("Schema field '" + fieldLabel + "' does not have a factory class for serialization!");
                     continue;
                 }
                 // We do in fact have a custom deserializer. Feed this data to it.
                 Optional<Object> result = SchemaDeserializeUtil.feedFactoryMethod(fieldAnnotation.factoryClazz(), fieldAnnotation.factoryMethod(), currentValue);
                 if (!result.isPresent()) {
                     // Failed to get data back from the factory method.
-                    Conduit.getLogger().error("Schema field '" + fieldAnnotation.value() + "' failed to be converted in the factory!");
+                    Conduit.getLogger().error("Schema field '" + fieldLabel + "' failed to be converted in the factory!");
                     continue;
                 }
                 currentValue = result.get();

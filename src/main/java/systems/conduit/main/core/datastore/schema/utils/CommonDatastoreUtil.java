@@ -36,4 +36,8 @@ public class CommonDatastoreUtil {
                 .filter(m -> m.getParameters()[0].getType() == clazz)
                 .findFirst();
     }
+
+    public static String fieldLabel(Field field, systems.conduit.main.core.datastore.schema.annotations.Field annotation) {
+        return annotation.value().isEmpty() ? field.getName() : annotation.value();
+    }
 }

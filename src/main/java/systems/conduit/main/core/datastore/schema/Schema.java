@@ -1,6 +1,7 @@
 package systems.conduit.main.core.datastore.schema;
 
 import systems.conduit.main.Conduit;
+import systems.conduit.main.core.datastore.schema.utils.CommonDatastoreUtil;
 import systems.conduit.main.core.datastore.schema.utils.SchemaDeserializeUtil;
 import systems.conduit.main.core.datastore.schema.utils.SchemaSerializeUtil;
 
@@ -14,10 +15,6 @@ import java.util.stream.Collectors;
  */
 public abstract class Schema {
 
-    private static String fieldLabel(Field field, systems.conduit.main.core.datastore.schema.annotations.Field annotation) {
-        return annotation.value().isEmpty() ? field.getName() : annotation.value();
-    }
-
     public final Map<String, Object> serialize() {
         Map<String, Object> serialized = new HashMap<>();
 
@@ -30,7 +27,7 @@ public abstract class Schema {
             systems.conduit.main.core.datastore.schema.annotations.Field fieldAnnotation = field.getAnnotation(systems.conduit.main.core.datastore.schema.annotations.Field.class);
             if (fieldAnnotation == null) continue;
 
-            String fieldLabel = fieldLabel(field, fieldAnnotation);
+            String fieldLabel = CommonDatastoreUtil.fieldLabel(field, fieldAnnotation);
 
             // Before attempting to get any value out of it, check if we need to use a custom serializer method.
             if (!fieldAnnotation.serializeMethod().equals("")) {
@@ -71,7 +68,7 @@ public abstract class Schema {
 
         for (Field field : fields) {
             systems.conduit.main.core.datastore.schema.annotations.Field fieldAnnotation = field.getAnnotation(systems.conduit.main.core.datastore.schema.annotations.Field.class);
-            String fieldLabel = fieldLabel(field, fieldAnnotation);
+            String fieldLabel = CommonDatastoreUtil.fieldLabel(field, fieldAnnotation);
 
             // Check if there is a data entry for this field name
             if (!data.containsKey(fieldLabel)) continue;

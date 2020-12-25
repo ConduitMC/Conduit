@@ -23,7 +23,7 @@ public class PermissionsCommand {
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> listPermissions() {
-        return Commands.literal("list").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.permissions.list", false, true)).then(Commands.argument("player", PlayerArgumentType.name()).executes(ctx -> {
+        return Commands.literal("list").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.permissions.list", true, true)).then(Commands.argument("player", PlayerArgumentType.name()).executes(ctx -> {
             Optional<ServerPlayer> target = PlayerArgumentType.getPlayer(ctx, "player");
 
             if (!target.isPresent()) {
@@ -42,7 +42,7 @@ public class PermissionsCommand {
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> addPermission() {
-        return Commands.literal("add").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.permissions.add", false, true)).then(Commands.argument("permission", StringArgumentType.word()).then(Commands.argument("player", PlayerArgumentType.name()).executes(ctx -> {
+        return Commands.literal("add").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.permissions.add", true, true)).then(Commands.argument("permission", StringArgumentType.word()).then(Commands.argument("player", PlayerArgumentType.name()).executes(ctx -> {
             Optional<ServerPlayer> target = PlayerArgumentType.getPlayer(ctx, "player");
             if (!target.isPresent()) {
                 // TODO: check if sender is a player
@@ -58,7 +58,7 @@ public class PermissionsCommand {
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> removePermission() {
-        return Commands.literal("remove").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.permissions.remove", false, true)).then(Commands.argument("permission", StringArgumentType.word()).then(Commands.argument("player", PlayerArgumentType.name()).executes(ctx -> {
+        return Commands.literal("remove").requires(ctx -> PermissionUtils.checkPermissions(ctx, "conduit.permissions.remove", true, true)).then(Commands.argument("permission", StringArgumentType.word()).then(Commands.argument("player", PlayerArgumentType.name()).executes(ctx -> {
             Optional<ServerPlayer> target = PlayerArgumentType.getPlayer(ctx, "player");
             if (!target.isPresent()) {
                 // TODO: check if sender is a player

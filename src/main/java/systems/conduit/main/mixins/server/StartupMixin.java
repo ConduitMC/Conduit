@@ -18,8 +18,13 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.TestSchema;
 
 import java.net.Proxy;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 @Mixin(value = DedicatedServer.class, remap = false)
 public abstract class StartupMixin extends MinecraftServer {
@@ -47,5 +52,19 @@ public abstract class StartupMixin extends MinecraftServer {
         Conduit.getLogger().info("Server starting initialization...");
         Conduit.getCommandManager().loadDefaultCommands();
         Conduit.getPluginManager().loadPlugins();
+
+        TestSchema schema = new TestSchema("MyName", UUID.randomUUID(), 127);
+        Map<String, Object> serialized = schema.serialize();
+        serialized.forEach((key, val) -> System.out.println(key + " -> " + val));
+
+        Map<String, Object> feeding = new HashMap<>();
+        feeding.put("uuid", serialized.get("uuid").toString());
+        feeding.put("name", serialized.get("name").toString());
+        feeding.put("level", serialized.get("level"));
+
+        Optional<TestSchema> another = TestSchema.of(TestSchema.class, feeding);
+        System.out.println("UUID: " + another.get().getUuid());
+        System.out.println("Name: " + another.get().getName());
+        System.out.println("Level: " + another.get().getLevel());
     }
 }

@@ -1,6 +1,7 @@
 package systems.conduit.main.core.datastore.schema;
 
 import systems.conduit.main.Conduit;
+import systems.conduit.main.core.datastore.schema.utils.SchemaDeserializeUtil;
 import systems.conduit.main.core.datastore.schema.utils.SchemaSerializeUtil;
 
 import java.lang.reflect.Field;
@@ -14,16 +15,13 @@ import java.util.stream.Collectors;
 public abstract class Schema {
 
     public final Map<String, Object> serialize() {
-        System.out.println("A");
         Map<String, Object> serialized = new HashMap<>();
 
         List<Field> schemaFields = Arrays.stream(getClass().getDeclaredFields())
                 .filter(f -> f.isAnnotationPresent(systems.conduit.main.core.datastore.schema.annotations.Field.class))
                 .collect(Collectors.toList());
-        System.out.println("A");
 
         for (Field field : schemaFields) {
-            System.out.println("A " + field.getName());
             // We already know every field has the @Field annotation, so just get it so we can start working with it.
             systems.conduit.main.core.datastore.schema.annotations.Field fieldAnnotation = field.getAnnotation(systems.conduit.main.core.datastore.schema.annotations.Field.class);
             if (fieldAnnotation == null) continue;
@@ -51,9 +49,55 @@ public abstract class Schema {
                 try {
                     field.setAccessible(true);
                     serialized.put(fieldAnnotation.value(), field.get(this));
-                } catch (IllegalAccessException ignored) { ignored.printStackTrace(); }
+                } catch (IllegalAccessException ignored) { }
             }
         }
         return serialized;
+    }
+
+    public static <T extends Schema> Optional<T> of(Class<? extends Schema> clazz, Map<String, Object> data) {
+        // First create a new schema.
+        Optional<Schema> schema = SchemaDeserializeUtil.tryCreateNewSchema(clazz);
+        if (!schema.isPresent()) return Optional.empty();
+        T actualSchema = (T) schema.get();
+
+        List<Field> fields = Arrays.stream(actualSchema.getClass().getDeclaredFields()).filter(m -> m.isAnnotationPresent(systems.conduit.main.core.datastore.schema.annotations.Field.class)).collect(Collectors.toList());
+
+        for (Field field : fields) {
+            systems.conduit.main.core.datastore.schema.annotations.Field fieldAnnotation = field.getAnnotation(systems.conduit.main.core.datastore.schema.annotations.Field.class);
+
+            // Check if there is a data entry for this field name
+            if (!data.containsKey(fieldAnnotation.value())) continue;
+
+            // We do in fact have data for this key. Now we have to attempt to fill the field.
+            Object currentValue = data.get(fieldAnnotation.value());
+
+            // Now, check to see if we have a custom data deserializer.
+            if (!fieldAnnotation.factoryMethod().equals("")) {
+                // It isn't empty, so we're supposed to be using a custom serializer. Double check that a class was provided.
+                if (fieldAnnotation.factoryClazz() == NoFactoryClass.class) {
+                    Conduit.getLogger().error("Schema field '" + fieldAnnotation.value() + "' does not have a factory class for serialization!");
+                    continue;
+                }
+                // We do in fact have a custom deserializer. Feed this data to it.
+                Optional<Object> result = SchemaDeserializeUtil.feedFactoryMethod(fieldAnnotation.factoryClazz(), fieldAnnotation.factoryMethod(), currentValue);
+                if (!result.isPresent()) {
+                    // Failed to get data back from the factory method.
+                    Conduit.getLogger().error("Schema field '" + fieldAnnotation.value() + "' failed to be converted in the factory!");
+                    continue;
+                }
+                currentValue = result.get();
+            }
+            // Now that we have the final data, lets try to fit it into the field.
+
+            try {
+                field.setAccessible(true);
+                field.set(actualSchema, currentValue);
+            } catch (IllegalAccessException ignored) {
+                ignored.printStackTrace();
+            }
+        }
+
+        return Optional.of(actualSchema);
     }
 }

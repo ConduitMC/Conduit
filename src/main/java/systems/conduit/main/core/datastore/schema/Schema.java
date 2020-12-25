@@ -100,9 +100,7 @@ public abstract class Schema {
             try {
                 field.setAccessible(true);
                 field.set(actualSchema, currentValue);
-            } catch (IllegalAccessException ignored) {
-                ignored.printStackTrace();
-            }
+            } catch (IllegalAccessException ignored) { }
         }
 
         return Optional.of(actualSchema);

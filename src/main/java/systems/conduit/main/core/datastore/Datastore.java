@@ -28,10 +28,9 @@ public interface Datastore {
     /**
      * Register a new schema in the datastore.
      *
-     * @param name the name that should be used internally for this schema
      * @param schema the schema to add
      */
-    void attachSchema(String name, Class<? extends Schema> schema);
+    void attachSchema(Class<? extends Schema> schema);
 
     /**
      * Insert a schema into the datastore

@@ -5,8 +5,10 @@ import com.zaxxer.hikari.HikariDataSource;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.datastore.Datastore;
 import systems.conduit.main.core.datastore.schema.Schema;
+import systems.conduit.main.core.datastore.schema.annotations.SchemaMeta;
 import systems.conduit.main.core.datastore.schema.types.MySQLTypes;
 import systems.conduit.main.core.datastore.schema.utils.DatabaseSchemaUtil;
+import systems.conduit.main.core.datastore.schema.utils.DatastoreUtils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -48,8 +50,10 @@ public class MySQLBackend implements Datastore {
     }
 
     @Override
-    public void attachSchema(String name, Class<? extends Schema> schema) {
-        // First, convert the schema from the class to something mysql can underrstand
+    public void attachSchema(Class<? extends Schema> schema) {
+        String name = schema.isAnnotationPresent(SchemaMeta.class) ? schema.getAnnotation(SchemaMeta.class).value() : DatastoreUtils.cleanupSchemaName(schema.getName());
+
+        // First, convert the schema from the class to something mysql can understand
         Map<String, MySQLTypes> convertedSchema = DatabaseSchemaUtil.convertSchemaToMySQLSchema(schema);
 
         Optional<Connection> connection = getConnection();

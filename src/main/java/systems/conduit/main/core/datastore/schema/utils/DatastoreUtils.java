@@ -25,6 +25,10 @@ public class DatastoreUtils {
         return !name.chars().allMatch(v -> Character.isLetterOrDigit(v) || v == '_');
     }
 
+    public static String cleanupSchemaName(String input) {
+        return input.replaceAll("[sS]chema", "").toLowerCase();
+    }
+
     /**
      * Create a new instance of a datastore.
      *

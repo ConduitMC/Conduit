@@ -34,15 +34,32 @@ public interface Datastore {
     void attachSchema(String name, Class<? extends Schema> schema);
 
     /**
-     * Get a registered schema
+     * Insert a schema into the datastore
      *
-     * @param schema the schema type to find
+     * @param schema the schema to be serialized
      */
-    void getAttachedSchema(Class<? extends Schema> schema);
+    void insert(Schema schema);
 
-    void insert(Class<? extends Schema> schema);
-
+    /**
+     * Delete an object from the datastore by the primary key
+     *
+     * @param primaryKey the primary key to search for and remove
+     */
     void delete(Object primaryKey);
 
+    /**
+     * Filter the datastore and remove anything that matches
+     *
+     * @param filter the filter that defines the removal
+     */
+    void filterAndDelete(Function<Schema, Boolean> filter);
+
+    /**
+     * Filter the datastore and return matching schemas
+     *
+     * @param schema the schema type that should be returned
+     * @param filter the rules to match with
+     * @return any matching schemas
+     */
     List<Schema> filter(Class<? extends Schema> schema, Function<Schema, Boolean> filter);
 }

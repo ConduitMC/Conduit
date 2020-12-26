@@ -61,26 +61,25 @@ public class MySQLBackend implements Datastore {
         StringBuilder statement = new StringBuilder("create table if not exists " + name + " (");
 
         // Build a statement to create the table based off of the converted schema.
-
         Iterator<Map.Entry<String, MySQLTypes>> schemaSet = convertedSchema.entrySet().iterator();
         boolean hasNext = schemaSet.hasNext();
         do {
             Map.Entry<String, MySQLTypes> entry = schemaSet.next();
-            // Put the column definition here
+
+            // Define the column
             statement
                     .append(entry.getKey())
                     .append(" ")
                     .append(entry.getValue().getMysqlType());
 
+            // If there is another column after this one, then we need to add a comma.
             if (hasNext) statement.append(", ");
-
             hasNext = schemaSet.hasNext();
         } while (hasNext);
 
         statement.append(");");
 
-        // Done building the table creation statement.
-
+        // Done building the table creation statement. Insert the new table.
         try {
             PreparedStatement creationStatement = connection.get().prepareStatement(statement.toString());
             creationStatement.execute();
@@ -91,18 +90,17 @@ public class MySQLBackend implements Datastore {
     }
 
     @Override
-    public void getAttachedSchema(Class<? extends Schema> schema) {
-
-    }
-
-    @Override
-    public void insert(Class<? extends Schema> schema) {
+    public void insert(Schema schema) {
 
     }
 
     @Override
     public void delete(Object primaryKey) {
 
+    }
+
+    @Override
+    public void filterAndDelete(Function<Schema, Boolean> filter) {
     }
 
     @Override

@@ -5,12 +5,12 @@ import com.zaxxer.hikari.HikariDataSource;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.datastore.Datastore;
 import systems.conduit.main.core.datastore.schema.Schema;
-import systems.conduit.main.core.datastore.schema.annotations.SchemaMeta;
 import systems.conduit.main.core.datastore.schema.types.MySQLTypes;
 import systems.conduit.main.core.datastore.schema.utils.DatabaseSchemaUtil;
 import systems.conduit.main.core.datastore.schema.utils.DatastoreUtils;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Iterator;
@@ -34,9 +34,28 @@ public class MySQLBackend implements Datastore {
     public void attach(Map<String, Object> meta) {
         // TODO: Implement SQLite
 
-        if (!meta.containsKey("host") || !meta.containsKey("port") || !meta.containsKey("database") || !meta.containsKey("username") || !meta.containsKey("password") || !meta.containsKey("table")) return;
+        if (!meta.containsKey("host") || !meta.containsKey("port") || !meta.containsKey("database") || !meta.containsKey("username") || !meta.containsKey("password")) return;
 
-        String url = "jdbc:mysql://" + meta.get("host") + ":"  + meta.get("port") + "/" + meta.get("database");
+        // Before doing anything, lets just make sure the database exists.
+        String url = "jdbc:mysql://" + meta.get("host") + ":"  + meta.get("port");
+
+        try {
+            Connection connection = DriverManager.getConnection(url, meta.get("username").toString(), meta.get("password").toString());
+            if (connection == null) {
+                // Failed to connect to the given mysql server.
+                Conduit.getLogger().error("Failed to connect to the mysql server on initial DB creation!");
+                return;
+            }
+            PreparedStatement statement = connection.prepareStatement("create database if not exists " + meta.get("database"));
+            statement.execute();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        url += "/" + meta.get("database");
         config.setJdbcUrl(url);
         config.setUsername((String) meta.get("username"));
         config.setPassword((String) meta.get("password"));
@@ -51,10 +70,11 @@ public class MySQLBackend implements Datastore {
 
     @Override
     public void attachSchema(Class<? extends Schema> schema) {
-        String name = schema.isAnnotationPresent(SchemaMeta.class) ? schema.getAnnotation(SchemaMeta.class).value() : DatastoreUtils.cleanupSchemaName(schema.getName());
+        String name = DatastoreUtils.getNameOfSchema(schema);
 
         // First, convert the schema from the class to something mysql can understand
         Map<String, MySQLTypes> convertedSchema = DatabaseSchemaUtil.convertSchemaToMySQLSchema(schema);
+        System.out.println(convertedSchema);
 
         Optional<Connection> connection = getConnection();
         if (!connection.isPresent()) {
@@ -77,7 +97,7 @@ public class MySQLBackend implements Datastore {
                     .append(entry.getValue().getMysqlType());
 
             // If there is another column after this one, then we need to add a comma.
-            if (hasNext) statement.append(", ");
+            if (schemaSet.hasNext()) statement.append(", ");
             hasNext = schemaSet.hasNext();
         } while (hasNext);
 
@@ -87,6 +107,7 @@ public class MySQLBackend implements Datastore {
         try {
             PreparedStatement creationStatement = connection.get().prepareStatement(statement.toString());
             creationStatement.execute();
+            creationStatement.close();
         } catch (SQLException e) {
             Conduit.getLogger().error("Failed to attach new schema: " + name);
             e.printStackTrace();
@@ -95,7 +116,50 @@ public class MySQLBackend implements Datastore {
 
     @Override
     public void insert(Schema schema) {
+        String name = DatastoreUtils.getNameOfSchema(schema.getClass());
 
+        // First, convert the schema from the class to something mysql can understand
+
+        Map<String, Object> serialized = schema.serialize();
+
+        Optional<Connection> connection = getConnection();
+        if (!connection.isPresent()) {
+            Conduit.getLogger().error("Failed to get connection to mysql server");
+            return;
+        }
+
+        StringBuilder statement = new StringBuilder("insert into " + name);
+
+        StringBuilder columnNames = new StringBuilder("(");
+        StringBuilder values = new StringBuilder("(");
+
+        Iterator<Map.Entry<String, Object>> schemaSet = serialized.entrySet().iterator();
+        boolean hasNext = schemaSet.hasNext();
+        do {
+            Map.Entry<String, Object> entry = schemaSet.next();
+
+            // Insert into the column names and the associated values
+            columnNames.append(entry.getKey());
+            values.append(entry.getValue());
+
+            // If there is another column after this one, then we need to add a comma.
+            if (schemaSet.hasNext()) {
+                columnNames.append(", ");
+                values.append(", ");
+            }
+            hasNext = schemaSet.hasNext();
+        } while (hasNext);
+
+        statement.append(" ").append(columnNames).append(") values ").append(values).append(");");
+
+        try {
+            PreparedStatement insertStatement = connection.get().prepareStatement(statement.toString());
+            insertStatement.execute();
+            insertStatement.close();
+        } catch (SQLException e) {
+            Conduit.getLogger().error("Failed to insert schema: " + name);
+            e.printStackTrace();
+        }
     }
 
     @Override

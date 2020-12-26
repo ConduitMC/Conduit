@@ -17,16 +17,23 @@ public class DatabaseSchemaUtil {
 
     private static MySQLTypes convertType(Field field) {
         Class<?> type = field.getType();
+        System.out.println(type);
 
-        return Arrays.stream(MySQLTypes.values()).filter(t -> t.getClazz().equals(type)).findFirst().orElse(MySQLTypes.INVALID);
+        return Arrays.stream(MySQLTypes.values())
+                .filter(t -> t.getClazz() != null)
+                .filter(t -> t.getClazz().equals(type))
+                .findFirst().orElse(MySQLTypes.INVALID);
     }
 
     public static Map<String, MySQLTypes> convertSchemaToMySQLSchema(Class<? extends Schema> schema) {
         Map<String, MySQLTypes> convertedSchema = new HashMap<>();
 
-        Field[] fields = schema.getFields();
+        Field[] fields = schema.getDeclaredFields();
+
+        System.out.println(Arrays.toString(fields));
 
         for (Field field : fields) {
+            System.out.println(field.getName() + ": " + field.isAnnotationPresent(systems.conduit.main.core.datastore.schema.annotations.Field.class));
             if (!field.isAnnotationPresent(systems.conduit.main.core.datastore.schema.annotations.Field.class)) continue;
 
             // First, try to get the mysql type for this

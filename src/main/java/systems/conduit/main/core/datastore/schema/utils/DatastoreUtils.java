@@ -2,6 +2,8 @@ package systems.conduit.main.core.datastore.schema.utils;
 
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.datastore.Datastore;
+import systems.conduit.main.core.datastore.schema.Schema;
+import systems.conduit.main.core.datastore.schema.annotations.SchemaMeta;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -27,6 +29,10 @@ public class DatastoreUtils {
 
     public static String cleanupSchemaName(String input) {
         return input.replaceAll("[sS]chema", "").toLowerCase();
+    }
+
+    public static String getNameOfSchema(Class<? extends Schema> schema) {
+        return schema.isAnnotationPresent(SchemaMeta.class) ? schema.getAnnotation(SchemaMeta.class).value() : DatastoreUtils.cleanupSchemaName(schema.getSimpleName());
     }
 
     /**

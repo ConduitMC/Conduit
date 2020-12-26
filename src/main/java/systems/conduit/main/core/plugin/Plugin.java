@@ -75,7 +75,13 @@ public abstract class Plugin {
             Conduit.getLogger().error("INTERNAL ERROR: Failed to initialize new datastore backend!");
             return Optional.empty();
         }
+
+        Map<String, Object> meta = Conduit.getConfiguration().getDatastores().getMysql().toMeta();
+        meta.put("database", getMeta().name());
+
+        datastore.get().attach(meta);
         datastores.put(backend, datastore.get());
+
         return datastore;
     }
 

@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "systems.conduit:Stream:1.0.1"
+        classpath "systems.conduit:Stream:1.0.3"
     }
 }
 plugins {

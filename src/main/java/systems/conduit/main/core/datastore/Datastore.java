@@ -4,7 +4,6 @@ import systems.conduit.main.core.datastore.schema.Schema;
 
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 /**
  * The abstract type that different backends must extend to be valid datastore backends.
@@ -44,14 +43,14 @@ public interface Datastore {
      *
      * @param primaryKey the primary key to search for and remove
      */
-    void delete(Object primaryKey);
+    void delete(Class<? extends Schema> schema, Object primaryKey);
 
     /**
      * Filter the datastore and remove anything that matches
      *
      * @param filter the filter that defines the removal
      */
-    void filterAndDelete(Function<Schema, Boolean> filter);
+    void filterAndDelete(Class<? extends Schema> schema, Map<String, Object> filter);
 
     /**
      * Filter the datastore and return matching schemas
@@ -60,5 +59,5 @@ public interface Datastore {
      * @param filter the rules to match with
      * @return any matching schemas
      */
-    List<Schema> filter(Class<? extends Schema> schema, Function<Schema, Boolean> filter);
+    List<Schema> filter(Class<? extends Schema> schema, Map<String, Object> filter);
 }

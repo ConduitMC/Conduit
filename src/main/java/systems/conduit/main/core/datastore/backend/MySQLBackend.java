@@ -9,15 +9,8 @@ import systems.conduit.main.core.datastore.schema.types.MySQLTypes;
 import systems.conduit.main.core.datastore.schema.utils.DatabaseSchemaUtil;
 import systems.conduit.main.core.datastore.schema.utils.DatastoreUtils;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
+import java.sql.*;
+import java.util.*;
 
 /**
  * Datastore backend that stores its information in MySQL / SQLite.
@@ -74,7 +67,6 @@ public class MySQLBackend implements Datastore {
 
         // First, convert the schema from the class to something mysql can understand
         Map<String, MySQLTypes> convertedSchema = DatabaseSchemaUtil.convertSchemaToMySQLSchema(schema);
-        System.out.println(convertedSchema);
 
         Optional<Connection> connection = getConnection();
         if (!connection.isPresent()) {
@@ -119,7 +111,6 @@ public class MySQLBackend implements Datastore {
         String name = DatastoreUtils.getNameOfSchema(schema.getClass());
 
         // First, convert the schema from the class to something mysql can understand
-
         Map<String, Object> serialized = schema.serialize();
 
         Optional<Connection> connection = getConnection();
@@ -163,17 +154,63 @@ public class MySQLBackend implements Datastore {
     }
 
     @Override
-    public void delete(Object primaryKey) {
-
+    public void delete(Class<? extends Schema> schema, Object primaryKey) {
     }
 
     @Override
-    public void filterAndDelete(Function<Schema, Boolean> filter) {
+    public void filterAndDelete(Class<? extends Schema> schema, Map<String, Object> filter) {
+        this.filter(schema, filter).forEach(matched -> {
+            // Delete it
+        });
     }
 
     @Override
-    public List<Schema> filter(Class<? extends Schema> schema, Function<Schema, Boolean> filter) {
-        return null;
+    public List<Schema> filter(Class<? extends Schema> schema, Map<String, Object> filter) {
+        Optional<Connection> connection = getConnection();
+        if (!connection.isPresent()) {
+            Conduit.getLogger().error("Failed to get connection to mysql server");
+            return new ArrayList<>();
+        }
+
+        StringBuilder filterBuilder = new StringBuilder("select * from ").append(DatastoreUtils.getNameOfSchema(schema)).append(" where ");
+
+        Iterator<Map.Entry<String, Object>> iterator = filter.entrySet().iterator();
+        boolean hasNext = iterator.hasNext();
+
+        do {
+            Map.Entry<String, Object> entry = iterator.next();
+            filterBuilder
+                    .append(entry.getKey())
+                    .append("=")
+                    .append(entry.getValue());
+            if (iterator.hasNext()) filterBuilder.append(", ");
+
+            hasNext = iterator.hasNext();
+        } while(hasNext);
+
+        // Statement built, now get the results and start building out proper schemas.
+        try {
+            PreparedStatement statement = connection.get().prepareStatement(filterBuilder.toString());
+            ResultSet results = statement.executeQuery();
+
+            List<Schema> schemas = new ArrayList<>();
+
+            while (results.next()) {
+                Map<String, Object> data = new HashMap<>();
+
+                int columns = results.getMetaData().getColumnCount();
+                for (int i = 1; i <= columns; i++) data.put(results.getMetaData().getColumnName(i), results.getObject(i));
+
+                // Now that we have pulled all the data out of this result, convert it into a schema.
+                Schema.of(schema, data).ifPresent(schemas::add);
+            }
+
+            return schemas;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 
     private Optional<HikariDataSource> getSource() {

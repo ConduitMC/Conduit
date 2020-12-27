@@ -13,6 +13,7 @@ import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.SpawnerBlock;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.api.mixins.LivingEntity;
@@ -140,5 +141,12 @@ public class EntityEvents {
     public static class EntityTameEvent extends Cancellable {
         private TamableAnimal animal;
         private ServerPlayer player;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SheepSetColorEvent extends Cancellable {
+        private Sheep sheep;
+        private DyeColor color;
     }
 }

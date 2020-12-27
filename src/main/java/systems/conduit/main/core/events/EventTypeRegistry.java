@@ -51,6 +51,7 @@ public class EventTypeRegistry {
         eventMappings.add(EntityEvents.ZombieKillEntityEvent.class);
         eventMappings.add(EntityEvents.EntityTameEvent.class);
         eventMappings.add(EntityEvents.PigConvertToPiglinEvent.class);
+        eventMappings.add(EntityEvents.SheepSetColorEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);

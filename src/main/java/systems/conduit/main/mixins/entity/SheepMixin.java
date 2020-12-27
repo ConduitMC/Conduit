@@ -3,9 +3,13 @@ package systems.conduit.main.mixins.entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.events.types.EntityEvents;
 
@@ -45,5 +49,13 @@ public abstract class SheepMixin extends Animal {
 
         // If this event was cancelled, then we will leave the sheep sheared.
         sheep.setSheared(event.isCanceled());
+    }
+
+    @Inject(method = "setColor", at = @At("HEAD"), cancellable = true)
+    public void setColor(DyeColor dyeColor, CallbackInfo ci) {
+        EntityEvents.SheepSetColorEvent event = new EntityEvents.SheepSetColorEvent((Sheep) ((Object) this), dyeColor);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) ci.cancel();
     }
 }

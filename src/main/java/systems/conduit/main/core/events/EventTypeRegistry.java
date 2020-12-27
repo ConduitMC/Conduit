@@ -46,6 +46,7 @@ public class EventTypeRegistry {
         eventMappings.add(EntityEvents.EffectAddedToEntityEvent.class);
         eventMappings.add(EntityEvents.EffectRemovedFromEntityEvent.class);
         eventMappings.add(EntityEvents.LevelSwitchEvent.class);
+        eventMappings.add(EntityEvents.CreeperChargeEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);

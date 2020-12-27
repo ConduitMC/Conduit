@@ -100,4 +100,10 @@ public class EntityEvents {
         private ServerLevel current;
         private ServerLevel destination;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class CreeperChargeEvent extends Cancellable {
+        private systems.conduit.main.api.mixins.Entity entity;
+    }
 }

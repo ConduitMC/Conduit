@@ -244,4 +244,21 @@ public class WorldEvents {
         private ServerPlayer player;
         private InteractionHand hand;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class NoteBlockPlayNoteEvent extends Cancellable {
+        private Level level;
+        private BlockPos pos;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class NoteBlockTuneEvent extends Cancellable {
+        private BlockState blockState;
+        private Level level;
+        private BlockPos blockPos;
+        private Player player;
+        private InteractionHand interactionHand;
+    }
 }

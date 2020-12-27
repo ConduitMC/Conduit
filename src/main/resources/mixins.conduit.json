@@ -33,6 +33,7 @@
     "level.block.ItemFrameMixin",
     "level.block.BellBlockMixin",
     "level.block.ShulkerBoxBlockMixin",
+    "level.block.NoteBlockMixin",
 
     "player.AbilitiesMixin",
     "player.DamageMixin",

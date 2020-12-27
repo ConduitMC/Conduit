@@ -159,7 +159,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         PlayerEvents.EnterBedEvent event = new PlayerEvents.EnterBedEvent(this, blockPos);
         Conduit.getEventManager().dispatchEvent(event);
 
-        if (event.isCanceled()) return;
+        if (event.isCanceled()) ci.cancel();
     }
 
     @Inject(method = "stopSleepInBed", at = @At("HEAD"))
@@ -174,7 +174,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         Conduit.getEventManager().dispatchEvent(event);
 
         // If the event is cancelled, prevent the player from continuing to spectate.
-        if (event.isCanceled()) return;
+        if (event.isCanceled()) ci.cancel();
     }
 
     @Inject(method = "changeDimension", at = @At("HEAD"))
@@ -182,7 +182,10 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         PlayerEvents.LevelSwitchEvent event = new PlayerEvents.LevelSwitchEvent(this, this.getLevel(), destination);
         Conduit.getEventManager().dispatchEvent(event);
 
-        if (event.isCanceled()) return;
+        if (event.isCanceled()) {
+            callback.setReturnValue(null);
+            callback.cancel();
+        }
     }
 
     @Inject(method = "die", at = @At(value = "HEAD", target = "Lnet/minecraft/world/level/Level;broadcastEntityEvent(Lnet/minecraft/world/entity/Entity;B)V"))

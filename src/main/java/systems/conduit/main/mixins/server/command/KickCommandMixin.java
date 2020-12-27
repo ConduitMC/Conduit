@@ -32,7 +32,11 @@ public class KickCommandMixin {
             Conduit.getEventManager().dispatchEvent(event);
 
             // If the event was cancelled, don't proceed with kicking this player.
-            if (event.isCanceled()) return;
+            if (event.isCanceled()) {
+                callback.setReturnValue(0);
+                callback.cancel();
+                return;
+            }
 
             p.connection.disconnect(component);
             Component successComponent = new TranslatableComponent("commands.kick.success", p.getDisplayName(), component);

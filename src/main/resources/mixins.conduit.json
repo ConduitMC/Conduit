@@ -31,6 +31,7 @@
     "level.block.EnderChestBlockMixin",
     "level.block.LeavesBlockMixin",
     "level.block.ItemFrameMixin",
+    "level.block.BellBlockMixin",
 
     "player.AbilitiesMixin",
     "player.DamageMixin",

@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.ProgressListener;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
@@ -214,5 +215,23 @@ public class WorldEvents {
     public static class ItemFrameDisplayItemEvent extends Cancellable {
         private BlockPos position;
         private ItemStack item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PlayerRingBellEvent extends Cancellable {
+        private Level level;
+        private BlockState state;
+        private Player player;
+        private InteractionHand hand;
+        private BlockPos pos;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ProjectiveRingBellEvent extends Cancellable {
+        private Level level;
+        private BlockState state;
+        private Projectile projectile;
     }
 }

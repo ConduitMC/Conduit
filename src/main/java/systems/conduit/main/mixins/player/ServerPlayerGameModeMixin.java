@@ -24,6 +24,9 @@ public abstract class ServerPlayerGameModeMixin {
         // TODO: Event cancellations
         WorldEvents.BlockBreakEvent event = new WorldEvents.BlockBreakEvent((systems.conduit.main.api.mixins.ServerPlayer) player, level.getBlockState(blockPos));
         Conduit.getEventManager().dispatchEvent(event);
-        if (event.isCanceled()) return;
+        if (event.isCanceled()) {
+            cir.setReturnValue(false);
+            cir.cancel();
+        }
     }
 }

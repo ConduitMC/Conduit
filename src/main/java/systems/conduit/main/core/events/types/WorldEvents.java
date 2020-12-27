@@ -155,4 +155,11 @@ public class WorldEvents {
         private Block block;
         // TODO: Ignite source
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SpawnChangeEvent extends EventType {
+        private BlockPos position;
+        private ServerLevel level;
+    }
 }

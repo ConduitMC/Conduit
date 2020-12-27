@@ -1,12 +1,15 @@
 package systems.conduit.main.mixins.level;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.storage.DerivedLevelData;
 import net.minecraft.world.level.storage.PrimaryLevelData;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.api.mixins.ServerLevel;
 import systems.conduit.main.api.mixins.ServerLevelData;
 import systems.conduit.main.core.events.types.WorldEvents;
 
@@ -18,6 +21,8 @@ import java.util.Optional;
  */
 @Mixin(value = {DerivedLevelData.class, PrimaryLevelData.class}, remap = false)
 public abstract class ServerLevelDataMixin implements ServerLevelData {
+
+    @Shadow public abstract String getLevelName();
 
     @Inject(method = "setThundering", at = @At("HEAD"))
     public void setThunderingMixin(boolean isThundering, CallbackInfo ci) {
@@ -49,5 +54,18 @@ public abstract class ServerLevelDataMixin implements ServerLevelData {
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) return;
+    }
+
+    @Inject(method = "setSpawn", at = @At("HEAD"))
+    public void setSpawn(BlockPos blockPos, float v, CallbackInfo ci) {
+        Optional<ServerLevel> level = Conduit.getLevelManager().getLevel(this.getLevelName());
+        if (!level.isPresent()) {
+            // Somehow couldn't find a level that clearly exists?
+            Conduit.getLogger().error("INTERNAL ERROR: Could not find the level that had their spawn changed??");
+            return;
+        }
+        // We have the level, so lets emit the event.
+        WorldEvents.SpawnChangeEvent event = new WorldEvents.SpawnChangeEvent(blockPos, level.get());
+        Conduit.getEventManager().dispatchEvent(event);
     }
 }

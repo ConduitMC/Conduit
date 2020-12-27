@@ -27,7 +27,7 @@ public class EventTypeRegistry {
         eventMappings.add(WorldEvents.ItemFrameDisplayItemEvent.class);
         eventMappings.add(WorldEvents.PiglinAngerEvent.class);
         eventMappings.add(WorldEvents.PlayerRingBellEvent.class);
-        eventMappings.add(WorldEvents.ProjectiveRingBellEvent.class);
+        eventMappings.add(WorldEvents.ProjectileRingBellEvent.class);
 
         // Player events
         eventMappings.add(PlayerEvents.PlayerJoinEvent.class);

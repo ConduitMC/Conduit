@@ -27,7 +27,7 @@ public class BellBlockMixin {
 
     @Inject(method = "onProjectileHit", at = @At("HEAD"), cancellable = true)
     public void onProjectileHit(Level level, BlockState blockState, BlockHitResult blockHitResult, Projectile projectile, CallbackInfo ci) {
-        WorldEvents.ProjectiveRingBellEvent event = new WorldEvents.ProjectiveRingBellEvent((systems.conduit.main.api.mixins.Level) level, blockState, projectile);
+        WorldEvents.ProjectileRingBellEvent event = new WorldEvents.ProjectileRingBellEvent((systems.conduit.main.api.mixins.Level) level, blockState, projectile);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();

@@ -10,6 +10,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
@@ -229,7 +230,7 @@ public class WorldEvents {
 
     @AllArgsConstructor
     @Getter
-    public static class ProjectiveRingBellEvent extends Cancellable {
+    public static class ProjectileRingBellEvent extends Cancellable {
         private Level level;
         private BlockState state;
         private Projectile projectile;
@@ -260,5 +261,22 @@ public class WorldEvents {
         private BlockPos blockPos;
         private Player player;
         private InteractionHand interactionHand;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class JukeboxChangeRecordEvent extends Cancellable {
+        private BlockPos position;
+        private BlockState jukebox;
+        private ItemStack record;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class JukeboxDropRecordEvent extends Cancellable {
+        private BlockPos position;
+        private JukeboxBlockEntity jukebox;
+        private ItemStack record;
+        private Level level;
     }
 }

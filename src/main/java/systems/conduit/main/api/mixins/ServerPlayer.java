@@ -36,7 +36,7 @@ public interface ServerPlayer extends Player {
 
     void sendResourcePack(String url, String hash, boolean required);
     ChatVisiblity getChatVisibility();
-    int getPermissionLevel();
+    int getOpPermissionLevel();
     void resetLastActionTime();
     long getLastActionTime();
 

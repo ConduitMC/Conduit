@@ -67,7 +67,7 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract int getScore();
     @Shadow public abstract void setScore(int score);
     @Shadow public abstract void increaseScore(int score);
-    @Shadow protected abstract int shadow$getFireImmuneTicks();
+    @Shadow protected abstract int getFireImmuneTicks();
     @Shadow public abstract void die(DamageSource source);
     @Shadow public abstract float getDestroySpeed(BlockState state);
     @Shadow public abstract boolean hasCorrectToolForDrops(BlockState state);
@@ -79,7 +79,7 @@ public abstract class PlayerMixin implements Player {
 
     @Shadow public abstract double getMyRidingOffset();
     @Shadow public abstract void removeVehicle();
-    @Shadow protected abstract boolean shadow$isImmobile();
+    @Shadow protected abstract boolean isImmobile();
     @Shadow public abstract boolean isAffectedByFluids();
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
     @Shadow public abstract int getPortalWaitTime();
@@ -111,39 +111,39 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract float getLuck();
     @Shadow public abstract boolean canUseGameMasterBlocks();
 
+//    @Override
+//    public void setShoulderEntityLeft(CompoundTag tag) {
+//        shadow$setShoulderEntityLeft(tag);
+//    }
+//
+//    @Override
+//    public void setShoulderEntityRight(CompoundTag tag) {
+//        shadow$setShoulderEntityRight(tag);
+//    }
+//
+//    @Override
+//    public void removeEntitiesOnShoulder() {
+//        shadow$removeEntitiesOnShoulder();
+//    }
+//
+//    @Override
+//    public void respawnEntityOnShoulder(CompoundTag tag) {
+//        shadow$respawnEntityOnShoulder(tag);
+//    }
+//
+//    @Override
+//    public boolean isAboveGround() {
+//        return shadow$isAboveGround();
+//    }
+
     @Override
-    public void setShoulderEntityLeft(CompoundTag tag) {
-        shadow$setShoulderEntityLeft(tag);
+    public boolean isImmobilized() {
+        return isImmobile();
     }
 
     @Override
-    public void setShoulderEntityRight(CompoundTag tag) {
-        shadow$setShoulderEntityRight(tag);
-    }
-
-    @Override
-    public void removeEntitiesOnShoulder() {
-        shadow$removeEntitiesOnShoulder();
-    }
-
-    @Override
-    public void respawnEntityOnShoulder(CompoundTag tag) {
-        shadow$respawnEntityOnShoulder(tag);
-    }
-
-    @Override
-    public boolean isAboveGround() {
-        return shadow$isAboveGround();
-    }
-
-    @Override
-    public boolean isImmobile() {
-        return shadow$isImmobile();
-    }
-
-    @Override
-    public int getFireImmuneTicks() {
-        return this.shadow$getFireImmuneTicks();
+    public int getFireImmunityTicks() {
+        return this.getFireImmuneTicks();
     }
 
     public void closeOpenedContainer() {

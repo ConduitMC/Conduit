@@ -39,7 +39,6 @@ import systems.conduit.main.core.permissions.PermissionNode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Mixin(value = net.minecraft.server.level.ServerPlayer.class, remap = false)
@@ -58,7 +57,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Shadow public abstract ChatVisiblity getChatVisibility();
 
-    @Shadow protected abstract int shadow$getPermissionLevel();
+    @Shadow protected abstract int getPermissionLevel();
 
     @Shadow public abstract void resetLastActionTime();
     @Shadow public abstract long getLastActionTime();
@@ -99,15 +98,15 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         permissionNodes.removeIf(n -> n.getPermission().equalsIgnoreCase(permission));
     }
 
-    @Override
-    public systems.conduit.main.api.mixins.Entity getCamera() {
-        return (systems.conduit.main.api.mixins.Entity) shadow$getCamera();
-    }
-
-    @Override
-    public Optional<TextFilter> getTextFilter() {
-        return Optional.ofNullable(shadow$getTextFilter());
-    }
+//    @Override
+//    public systems.conduit.main.api.mixins.Entity getCamera() {
+//        return (systems.conduit.main.api.mixins.Entity) shadow$getCamera();
+//    }
+//
+//    @Override
+//    public Optional<TextFilter> getTextFilter() {
+//        return Optional.ofNullable(shadow$getTextFilter());
+//    }
 
     @Override
     public boolean hasPermission(String permission) {
@@ -140,8 +139,8 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     }
 
     @Override
-    public int getPermissionLevel() {
-        return shadow$getPermissionLevel();
+    public int getOpPermissionLevel() {
+        return getPermissionLevel();
     }
 
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))

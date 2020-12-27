@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.api.mixins.Level;
 import systems.conduit.main.api.mixins.Player;
 import systems.conduit.main.api.mixins.ServerLevel;
+import systems.conduit.main.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.Cancellable;
 import systems.conduit.main.mixins.item.ItemStackMixin;
 import systems.conduit.main.mixins.level.ServerLevelDataMixin;
@@ -161,5 +162,32 @@ public class WorldEvents {
     public static class SpawnChangeEvent extends EventType {
         private BlockPos position;
         private ServerLevel level;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ChestOpenEvent extends Cancellable {
+        private BlockPos position;
+        private Level level;
+        private BlockState state;
+        private ServerPlayer player;
+        private InteractionHand hand;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PiglinAngerEvent extends Cancellable {
+
+        private interface AngerSource {}
+
+        @Getter
+        @AllArgsConstructor
+        public static class ChestSource implements AngerSource {
+            private BlockState state;
+        }
+
+        private ServerPlayer player;
+        private Level level;
+        private AngerSource angerSource;
     }
 }

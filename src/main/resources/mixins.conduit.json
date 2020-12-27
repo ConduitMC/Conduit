@@ -27,6 +27,8 @@
     "level.ServerLevelMixin",
     "level.WorldGenSettingsMixin",
 
+    "level.block.ChestBlockMixin",
+
     "player.AbilitiesMixin",
     "player.DamageMixin",
     "player.JoinMixin",

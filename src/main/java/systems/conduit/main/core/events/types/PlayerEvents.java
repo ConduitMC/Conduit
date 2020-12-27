@@ -6,7 +6,6 @@ import lombok.Setter;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -20,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.api.mixins.LivingEntity;
 import systems.conduit.main.api.mixins.Player;
+import systems.conduit.main.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.Cancellable;
 import systems.conduit.main.mixins.server.ServerGamePacketListenerMixin;
 
@@ -38,7 +38,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class PlayerJoinEvent extends EventType {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         @Setter private Component message;
     }
 
@@ -48,7 +48,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class PlayerLeaveEvent extends EventType {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         @Setter private Component message;
         private LeaveType type;
     }
@@ -119,7 +119,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -184,7 +184,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin#eat(Level, ItemStack, CallbackInfoReturnable)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.entity.LivingEntityMixin#eat(Level, ItemStack, CallbackInfoReturnable)}
      */
     @AllArgsConstructor
     @Getter
@@ -200,7 +200,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin#startSleeping(BlockPos, CallbackInfo)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin#startSleeping(BlockPos, CallbackInfo)}
      */
     @AllArgsConstructor
     @Getter
@@ -210,7 +210,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin#stopSleeping(CallbackInfo)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin#stopSleeping(CallbackInfo)}
      */
     @AllArgsConstructor
     @Getter
@@ -220,7 +220,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin#attack(Entity, CallbackInfo)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin#attack(Entity, CallbackInfo)}
      */
     @AllArgsConstructor
     @Getter
@@ -232,7 +232,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class InventoryClickEvent extends Cancellable {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         private AbstractContainerMenu container;
         private ClickType clickType;
         private int slotId;
@@ -241,7 +241,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class InventoryCloseEvent extends Cancellable {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         private AbstractContainerMenu container;
     }
 
@@ -255,7 +255,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class DeathEvent extends EventType {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         private Optional<LivingEntity> killer;
         private DamageSource source;
     }

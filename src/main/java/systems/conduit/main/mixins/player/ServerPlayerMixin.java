@@ -117,7 +117,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Inject(method = "attack", at = @At(value = "HEAD", target = "Lnet/minecraft/server/level/ServerPlayer;setCamera(Lnet/minecraft/world/entity/Entity;)V"))
     public void attack(Entity entity, CallbackInfo ci) {
-        PlayerEvents.SpectateEvent event = new PlayerEvents.SpectateEvent((net.minecraft.server.level.ServerPlayer) (Object) this, entity);
+        PlayerEvents.SpectateEvent event = new PlayerEvents.SpectateEvent((ServerPlayer) (Object) this, entity);
         Conduit.getEventManager().dispatchEvent(event);
 
         // If the event is cancelled, prevent the player from continuing to spectate.

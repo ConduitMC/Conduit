@@ -28,7 +28,7 @@ public class KickCommandMixin {
     private static void kickPlayers(CommandSourceStack sourceStack, Collection<ServerPlayer> players, Component component, CallbackInfoReturnable<Integer> callback) {
         players.forEach(p -> {
             // Before kicking the player, send out the event so we can check if it should be cancelled.
-            PlayerEvents.KickEvent event = new PlayerEvents.KickEvent(p, component);
+            PlayerEvents.KickEvent event = new PlayerEvents.KickEvent((systems.conduit.main.api.mixins.ServerPlayer) p, component);
             Conduit.getEventManager().dispatchEvent(event);
 
             // If the event was cancelled, don't proceed with kicking this player.

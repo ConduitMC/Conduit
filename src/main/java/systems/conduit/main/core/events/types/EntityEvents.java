@@ -3,9 +3,7 @@ package systems.conduit.main.core.events.types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Pig;
@@ -16,7 +14,9 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.SpawnerBlock;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import systems.conduit.main.api.mixins.Entity;
 import systems.conduit.main.api.mixins.LivingEntity;
+import systems.conduit.main.api.mixins.ServerLevel;
 import systems.conduit.main.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.Cancellable;
 
@@ -117,13 +117,13 @@ public class EntityEvents {
     @Getter
     public static class PigConvertToPiglinEvent extends Cancellable {
         private Pig pig;
-        private systems.conduit.main.api.mixins.ServerLevel level;
+        private ServerLevel level;
     }
 
     @AllArgsConstructor
     @Getter
     public static class VillagerZombieConversionEvent extends Cancellable {
-        private systems.conduit.main.api.mixins.ServerLevel level;
+        private ServerLevel level;
         private Zombie zombie;
         private Villager villager;
     }
@@ -131,7 +131,7 @@ public class EntityEvents {
     @AllArgsConstructor
     @Getter
     public static class ZombieKillEntityEvent extends Cancellable {
-        private systems.conduit.main.api.mixins.ServerLevel level;
+        private ServerLevel level;
         private Zombie zombie;
         private LivingEntity entity;
     }

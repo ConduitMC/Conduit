@@ -24,36 +24,36 @@ public abstract class ServerLevelDataMixin implements ServerLevelData {
 
     @Shadow public abstract String getLevelName();
 
-    @Inject(method = "setThundering", at = @At("HEAD"))
+    @Inject(method = "setThundering", at = @At("HEAD"), cancellable = true)
     public void setThunderingMixin(boolean isThundering, CallbackInfo ci) {
         WorldEvents.ThunderChangeStateEvent event = new WorldEvents.ThunderChangeStateEvent(isThundering, Optional.empty());
         Conduit.getEventManager().dispatchEvent(event);
 
-        isThundering = !event.isCanceled();
+        if (event.isCanceled()) ci.cancel();
     }
 
-    @Inject(method = "setRainTime", at = @At("HEAD"))
+    @Inject(method = "setRainTime", at = @At("HEAD"), cancellable = true)
     public void setRainTimeMixin(int rainTime, CallbackInfo ci) {
         WorldEvents.RainChangeStateEvent event = new WorldEvents.RainChangeStateEvent(rainTime);
         Conduit.getEventManager().dispatchEvent(event);
 
-        if (event.isCanceled()) rainTime = 0;
+        if (event.isCanceled()) ci.cancel();
     }
 
-    @Inject(method = "setThunderTime", at = @At("HEAD"))
+    @Inject(method = "setThunderTime", at = @At("HEAD"), cancellable = true)
     public void setThunderTimeMixin(int thunderTime, CallbackInfo ci) {
         WorldEvents.ThunderChangeStateEvent event = new WorldEvents.ThunderChangeStateEvent(thunderTime > 0, Optional.of(thunderTime));
         Conduit.getEventManager().dispatchEvent(event);
 
-        if (event.isCanceled()) thunderTime = 0;
+        if (event.isCanceled()) ci.cancel();
     }
 
-    @Inject(method = "setClearWeatherTime", at = @At("HEAD"))
+    @Inject(method = "setClearWeatherTime", at = @At("HEAD"), cancellable = true)
     public void setClearWeatherTimeMixin(int clearTime, CallbackInfo ci) {
         WorldEvents.WeatherClearEvent event = new WorldEvents.WeatherClearEvent(clearTime);
         Conduit.getEventManager().dispatchEvent(event);
 
-        if (event.isCanceled()) return;
+        if (event.isCanceled()) ci.cancel();
     }
 
     @Inject(method = "setSpawn", at = @At("HEAD"))

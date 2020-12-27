@@ -18,7 +18,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.mixins.Player;
 import systems.conduit.main.core.events.types.PlayerEvents;
@@ -41,13 +43,13 @@ public class ServerGamePacketListenerMixin {
         if (eventMessage != null) playerList.broadcastMessage(eventMessage, chatType, UUID.randomUUID());
     }
 
-    // TODO
-//    @Inject(method = "handleCommand", at = @At("HEAD"))
-//    private void handleCommand(String s, CallbackInfo ci) {
-//        PlayerEvents.PlayerCommandEvent event = new PlayerEvents.PlayerCommandEvent((systems.conduit.main.api.mixins.Player) this.player, message);
-//        Conduit.getEventManager().dispatchEvent(event);
-//        return event.getMessage();
-//    }
+    @Inject(method = "handleCommand", at = @At("HEAD"), cancellable = true)
+    private void handleCommand(String message, CallbackInfo ci) {
+        PlayerEvents.PlayerCommandEvent event = new PlayerEvents.PlayerCommandEvent((systems.conduit.main.api.mixins.Player) this.player, message);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) ci.cancel();
+    }
 
     @Redirect(method = "onDisconnect", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;)V"))
     private void playerLeaveMessage(PlayerList playerList, Component message, Component arg) {

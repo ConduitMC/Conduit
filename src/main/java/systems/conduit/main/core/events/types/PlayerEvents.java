@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -265,5 +266,14 @@ public class PlayerEvents {
     public static class DropItemEvent extends Cancellable {
         private ServerPlayer player;
         private ItemStack item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class InteractAtEntityEvent extends Cancellable {
+        private ServerPlayer player;
+        private ItemStack itemInHand;
+        private InteractionHand hand;
+        private systems.conduit.main.api.mixins.Entity entity;
     }
 }

@@ -2,6 +2,9 @@ package systems.conduit.main.mixins.player;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.food.FoodData;
@@ -13,8 +16,14 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import systems.conduit.main.Conduit;
 import systems.conduit.main.api.mixins.Player;
+import systems.conduit.main.api.mixins.ServerPlayer;
 import systems.conduit.main.api.mixins.player.Abilities;
+import systems.conduit.main.core.events.types.PlayerEvents;
 
 @Mixin(value = net.minecraft.world.entity.player.Player.class, remap = false)
 public abstract class PlayerMixin implements Player {
@@ -78,5 +87,16 @@ public abstract class PlayerMixin implements Player {
     @Override
     public Abilities getAbilities() {
         return (Abilities) this.abilities;
+    }
+
+    @Inject(method = "interactOn", at = @At("HEAD"))
+    public void interactOn(Entity entity, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
+        PlayerEvents.InteractAtEntityEvent event = new PlayerEvents.InteractAtEntityEvent((ServerPlayer) ((Object) this), this.getItemInHand(interactionHand), interactionHand, (systems.conduit.main.api.mixins.Entity) entity);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) {
+            cir.setReturnValue(InteractionResult.PASS);
+            cir.cancel();
+        }
     }
 }

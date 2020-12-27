@@ -5,10 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
@@ -20,6 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.api.mixins.LivingEntity;
 import systems.conduit.main.api.mixins.Player;
+import systems.conduit.main.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.Cancellable;
 import systems.conduit.main.mixins.server.ServerGamePacketListenerMixin;
 
@@ -38,7 +42,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class PlayerJoinEvent extends EventType {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         @Setter private Component message;
     }
 
@@ -48,7 +52,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class PlayerLeaveEvent extends EventType {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         @Setter private Component message;
         private LeaveType type;
     }
@@ -119,7 +123,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin}
+     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin}
      */
     @AllArgsConstructor
     @Getter
@@ -184,7 +188,7 @@ public class PlayerEvents {
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.LivingEntityMixin#eat(Level, ItemStack, CallbackInfoReturnable)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.entity.LivingEntityMixin#eat(Level, ItemStack, CallbackInfoReturnable)}
      */
     @AllArgsConstructor
     @Getter
@@ -195,12 +199,13 @@ public class PlayerEvents {
 
     @AllArgsConstructor
     @Getter
-    public static class FishEvent extends Cancellable {
+    public static class CaughtFishEvent extends Cancellable {
         private Player player;
+        private ItemEntity fish;
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin#startSleeping(BlockPos, CallbackInfo)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin#startSleeping(BlockPos, CallbackInfo)}
      */
     @AllArgsConstructor
     @Getter
@@ -210,17 +215,17 @@ public class PlayerEvents {
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin#stopSleeping(CallbackInfo)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin#stopSleeping(CallbackInfo)}
      */
     @AllArgsConstructor
     @Getter
-    public static class LeaveBedEvent extends EventType {  // @Future: Should this be cancellable?
+    public static class LeaveBedEvent extends EventType {
         private Player player;
         private BlockPos bed;
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.api.ServerPlayerMixin#attack(Entity, CallbackInfo)}
+     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin#attack(Entity, CallbackInfo)}
      */
     @AllArgsConstructor
     @Getter
@@ -232,7 +237,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class InventoryClickEvent extends Cancellable {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         private AbstractContainerMenu container;
         private ClickType clickType;
         private int slotId;
@@ -241,7 +246,7 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class InventoryCloseEvent extends Cancellable {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         private AbstractContainerMenu container;
     }
 
@@ -255,8 +260,51 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class DeathEvent extends EventType {
-        private systems.conduit.main.api.mixins.ServerPlayer player;
+        private ServerPlayer player;
         private Optional<LivingEntity> killer;
         private DamageSource source;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class DropItemEvent extends Cancellable {
+        private ServerPlayer player;
+        private ItemStack item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class EntityClickEvent extends Cancellable {
+        private ServerPlayer player;
+        private ItemStack itemInHand;
+        private InteractionHand hand;
+        private systems.conduit.main.api.mixins.Entity entity;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MainHandChangeEvent extends EventType {
+        private ServerPlayer player;
+        private HumanoidArm arm;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemInteractEvent extends Cancellable {
+        private ServerPlayer player;
+        private InteractionHand hand;
+        private ItemStack itemInHand;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class EntityRideShoulderEvent extends Cancellable {
+        private Player player;
+        private CompoundTag tag;
+        private Shoulder shoulder;
+
+        public enum Shoulder {
+            LEFT, RIGHT
+        }
     }
 }

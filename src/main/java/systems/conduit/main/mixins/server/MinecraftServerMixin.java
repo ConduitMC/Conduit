@@ -3,6 +3,7 @@ package systems.conduit.main.mixins.server;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.protocol.status.ServerStatus;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
@@ -48,10 +49,9 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
     @Shadow public abstract WorldData getWorldData();
 
     @Shadow private ProfilerFiller profiler;
-
     @Shadow private int tickCount;
-
     @Shadow public abstract PlayerList getPlayerList();
+    @Shadow public abstract ServerStatus getStatus();
 
     @Inject(method = "runServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;updateStatusIcon(Lnet/minecraft/network/protocol/status/ServerStatus;)V"))
     private void onRead(CallbackInfo ci) {

@@ -2,6 +2,9 @@ package systems.conduit.main.core.events.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.status.ServerStatus;
 import systems.conduit.main.core.plugin.Plugin;
 
 /*
@@ -23,5 +26,19 @@ public class ServerEvents {
     @AllArgsConstructor
     public static class PluginReloadEvent extends EventType {
         private Plugin plugin;
+    }
+
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class ServerStatusRequestEvent extends EventType {
+        private Component motd;
+        private ServerStatus.Players onlinePlayers;
+        private ServerStatus.Version serverVersion;
+        private String serverIcon;
+
+        public static ServerStatusRequestEvent of(ServerStatus status) {
+            return new ServerStatusRequestEvent(status.getDescription(), status.getPlayers(), status.getVersion(), status.getFavicon());
+        }
     }
 }

@@ -3,6 +3,7 @@ package systems.conduit.main.api.mixins;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.protocol.status.ServerStatus;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.bossevents.CustomBossEvents;
 import net.minecraft.server.level.ServerLevel;
@@ -40,4 +41,5 @@ public interface MinecraftServer {
     ChunkProgressListenerFactory getProgressListenerFactory();
     LevelStorageSource.LevelStorageAccess getStorageSource();
     PlayerList getPlayerList();
+    ServerStatus getStatus();
 }

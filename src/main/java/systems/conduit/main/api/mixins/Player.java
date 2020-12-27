@@ -1,12 +1,24 @@
 package systems.conduit.main.api.mixins;
 
+import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.scores.Scoreboard;
 import systems.conduit.main.api.mixins.player.Abilities;
 
@@ -32,6 +44,7 @@ public interface Player extends LivingEntity {
 
     boolean addItem(ItemStack item);
     void setItemSlot(EquipmentSlot slot, ItemStack item);
+    ItemStack getItemBySlot(EquipmentSlot slot);
 
     boolean isHurt();
     boolean mayBuild();
@@ -48,16 +61,63 @@ public interface Player extends LivingEntity {
     BlockPos getRespawnPosition();
     boolean isSleepingLongEnough();
     void stopSleeping();
+    void die();
 
     int getScore();
     void setScore(int score);
     void increaseScore(int score);
-    int conduit_getFireImmuneTicks();
+    int getFireImmunityTicks();
 
     void playSound(SoundEvent sound, float volume, float pitch);
     int getPortalWaitTime();
 
     Inventory getInventory();
-
     Abilities getAbilities();
+
+    float getDestroySpeed(BlockState state);
+    boolean hasCorrectToolForDrops(BlockState state);
+
+    void addAdditionalSaveData(CompoundTag tag);
+    boolean isInvulnerableTo(DamageSource source);
+
+    InteractionResult interactOn(Entity entity, InteractionHand hand);
+
+    double getMyRidingOffset();
+    void removeVehicle();
+    boolean isImmobilized();
+    boolean isAffectedByFluids();
+    boolean isAboveGround();
+
+    GameProfile getGameProfile();
+
+    void awardStat(ResourceLocation location);
+    void awardStat(ResourceLocation location, int amount);
+
+    void updateSwimming();
+    float getSpeed();
+
+    int getEnchantmentSeed();
+
+    boolean mayUseItemAt(BlockPos pos, Direction direction, ItemStack with);
+
+    boolean setEntityOnShoulder(CompoundTag tag);
+    void removeEntitiesOnShoulder();
+    void respawnEntityOnShoulder(CompoundTag tag);
+
+    float getStandingEyeHeight(Pose pose, EntityDimensions dimensions);
+    float getAbsorptionAmount();
+    void setAbsorptionAmount(float amount);
+    void setRemainingFireTicks(int ticks);
+
+    HumanoidArm getMainArm();
+
+    CompoundTag getShoulderEntityLeft();
+    CompoundTag getShoulderEntityRight();
+    void setShoulderEntityLeft(CompoundTag tag);
+    void setShoulderEntityRight(CompoundTag tag);
+
+    ItemCooldowns getCooldowns();
+
+    float getLuck();
+    boolean canUseGameMasterBlocks();
 }

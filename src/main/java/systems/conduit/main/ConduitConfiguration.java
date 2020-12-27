@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 import systems.conduit.main.core.plugin.config.Configuration;
 import systems.conduit.main.core.plugin.config.annotation.ConfigFile;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Main configuration file for Conduit.
  *
@@ -17,17 +20,27 @@ public class ConduitConfiguration extends Configuration {
 
     @Getter
     @NoArgsConstructor
-    private class MySQLConfiguration {
+    public class MySQLConfiguration {
         private String host;
         private int port;
         private String username;
         private String password;
-        private String database;
+
+        public Map<String, Object> toMeta() {
+            Map<String, Object> meta = new HashMap<>();
+
+            meta.put("host", host);
+            meta.put("port", port);
+            meta.put("username", username);
+            meta.put("password", password);
+
+            return meta;
+        }
     }
 
     @Getter
     @NoArgsConstructor
-    private class RedisConfiguration {
+    public class RedisConfiguration {
         private String host;
         private int port;
         private String password;
@@ -36,7 +49,7 @@ public class ConduitConfiguration extends Configuration {
 
     @Getter
     @NoArgsConstructor
-    private class DatastoreConfiguration {
+    public class DatastoreConfiguration {
         private MySQLConfiguration mysql;
         private RedisConfiguration redis;
     }

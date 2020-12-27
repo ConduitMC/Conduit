@@ -160,9 +160,12 @@ public abstract class EntityMixin implements systems.conduit.main.api.mixins.Ent
 
     @Inject(method = "changeDimension", at = @At("HEAD"))
     public void changeDimension(ServerLevel level, CallbackInfoReturnable<Entity> callback) {
-        EntityEvents.LevelSwitchEvent event = new EntityEvents.LevelSwitchEvent((Entity) (Object) this, (ServerLevel) this.getLevel(), level);
+        EntityEvents.LevelSwitchEvent event = new EntityEvents.LevelSwitchEvent((systems.conduit.main.api.mixins.Entity) (Object) this, (systems.conduit.main.api.mixins.ServerLevel) this.getLevel(), (systems.conduit.main.api.mixins.ServerLevel) level);
         Conduit.getEventManager().dispatchEvent(event);
 
-        if (event.isCanceled()) return;
+        if (event.isCanceled()) {
+            callback.setReturnValue(null);
+            callback.cancel();
+        }
     }
 }

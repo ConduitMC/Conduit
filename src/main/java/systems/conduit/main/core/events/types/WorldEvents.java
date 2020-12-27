@@ -6,17 +6,18 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.ProgressListener;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import systems.conduit.main.api.mixins.Level;
-import systems.conduit.main.api.mixins.Player;
-import systems.conduit.main.api.mixins.ServerLevel;
+import systems.conduit.main.api.mixins.*;
 import systems.conduit.main.core.events.Cancellable;
 import systems.conduit.main.mixins.item.ItemStackMixin;
 import systems.conduit.main.mixins.level.ServerLevelDataMixin;
@@ -146,7 +147,8 @@ public class WorldEvents {
     @AllArgsConstructor
     @Getter
     public static class LeafDecayEvent extends Cancellable {
-        private Block block;
+        private BlockState block;
+        private ServerLevel level;
     }
 
     @AllArgsConstructor
@@ -155,4 +157,133 @@ public class WorldEvents {
         private Block block;
         // TODO: Ignite source
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SpawnChangeEvent extends EventType {
+        private BlockPos position;
+        private ServerLevel level;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ChestOpenEvent extends Cancellable {
+        private BlockPos position;
+        private Level level;
+        private BlockState state;
+        private ServerPlayer player;
+        private InteractionHand hand;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PiglinAngerEvent extends Cancellable {
+
+        private interface AngerSource {}
+
+        @Getter
+        @AllArgsConstructor
+        public static class ChestSource implements AngerSource {
+            private BlockState state;
+        }
+
+        private ServerPlayer player;
+        private Level level;
+        private AngerSource angerSource;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class EnderChestOpenEvent extends Cancellable {
+        private BlockPos position;
+        private Level level;
+        private BlockState state;
+        private ServerPlayer player;
+        private InteractionHand hand;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemFrameDropItemEvent extends Cancellable {
+        private BlockPos position;
+        private ItemStack item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemFrameDisplayItemEvent extends Cancellable {
+        private BlockPos position;
+        private ItemStack item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PlayerRingBellEvent extends Cancellable {
+        private Level level;
+        private BlockState state;
+        private Player player;
+        private InteractionHand hand;
+        private BlockPos pos;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ProjectileRingBellEvent extends Cancellable {
+        private Level level;
+        private BlockState state;
+        private Projectile projectile;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ShulkerBoxOpenEvent extends Cancellable {
+        private BlockPos position;
+        private Level level;
+        private BlockState state;
+        private ServerPlayer player;
+        private InteractionHand hand;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class NoteBlockPlayNoteEvent extends Cancellable {
+        private Level level;
+        private BlockPos pos;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class NoteBlockTuneEvent extends Cancellable {
+        private BlockState blockState;
+        private Level level;
+        private BlockPos blockPos;
+        private Player player;
+        private InteractionHand interactionHand;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class JukeboxChangeRecordEvent extends Cancellable {
+        private BlockPos position;
+        private BlockState jukebox;
+        private ItemStack record;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class JukeboxDropRecordEvent extends Cancellable {
+        private BlockPos position;
+        private JukeboxBlockEntity jukebox;
+        private ItemStack record;
+        private Level level;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SpawnerSpawnEvent extends Cancellable {
+        private BaseSpawner spawner;
+        private ServerLevel level;
+        private Entity spawned;
+    }
+
 }

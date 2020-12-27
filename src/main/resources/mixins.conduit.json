@@ -28,6 +28,7 @@
     "level.WorldGenSettingsMixin",
 
     "level.block.ChestBlockMixin",
+    "level.block.EnderChestBlockMixin",
 
     "player.AbilitiesMixin",
     "player.DamageMixin",

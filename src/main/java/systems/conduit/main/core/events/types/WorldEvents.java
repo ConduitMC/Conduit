@@ -190,4 +190,14 @@ public class WorldEvents {
         private Level level;
         private AngerSource angerSource;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class EnderChestOpenEvent extends Cancellable {
+        private BlockPos position;
+        private Level level;
+        private BlockState state;
+        private ServerPlayer player;
+        private InteractionHand hand;
+    }
 }

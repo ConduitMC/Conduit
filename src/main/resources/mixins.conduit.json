@@ -43,6 +43,7 @@
     "server.ServerGamePacketListenerMixin",
     "server.StartupMixin",
     "server.VersionMixin",
-    "server.BootstrapMixin"
+    "server.BootstrapMixin",
+    "server.ServerStatusPacketListenerImplMixin"
   ]
 }

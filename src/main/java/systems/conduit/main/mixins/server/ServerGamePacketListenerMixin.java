@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 public class ServerGamePacketListenerMixin {
 
     @Shadow public ServerPlayer player;
-
     @Shadow @Final private Int2ShortMap expectedAcks;
 
     @Redirect(method = "handleChat(Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/ChatType;Ljava/util/UUID;)V"))

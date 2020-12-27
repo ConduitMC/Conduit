@@ -201,4 +201,18 @@ public class WorldEvents {
         private ServerPlayer player;
         private InteractionHand hand;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemFrameDropItemEvent extends Cancellable {
+        private BlockPos position;
+        private ItemStack item;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemFrameDisplayItemEvent extends Cancellable {
+        private BlockPos position;
+        private ItemStack item;
+    }
 }

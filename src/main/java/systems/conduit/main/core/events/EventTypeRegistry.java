@@ -20,6 +20,12 @@ public class EventTypeRegistry {
         eventMappings.add(WorldEvents.RainChangeStateEvent.class);
         eventMappings.add(WorldEvents.ChunkUnloadEvent.class);
         eventMappings.add(WorldEvents.ChunkLoadEvent.class);
+        eventMappings.add(WorldEvents.ChestOpenEvent.class);
+        eventMappings.add(WorldEvents.EnderChestOpenEvent.class);
+        eventMappings.add(WorldEvents.LeafDecayEvent.class);
+        eventMappings.add(WorldEvents.ItemFrameDropItemEvent.class);
+        eventMappings.add(WorldEvents.ItemFrameDisplayItemEvent.class);
+        eventMappings.add(WorldEvents.PiglinAngerEvent.class);
 
         // Player events
         eventMappings.add(PlayerEvents.PlayerJoinEvent.class);

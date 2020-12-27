@@ -10,6 +10,8 @@
     "entity.SheepMixin",
     "entity.CreeperMixin",
     "entity.ZombieMixin",
+    "entity.animal.PigMixin",
+    "entity.animal.TamableAnimalMixin",
 
     "goal.BreedGoalMixin",
 

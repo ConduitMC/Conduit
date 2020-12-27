@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
@@ -109,6 +110,13 @@ public class EntityEvents {
     @Getter
     public static class CreeperChargeEvent extends Cancellable {
         private systems.conduit.main.api.mixins.Entity entity;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class PigConvertToPiglinEvent extends Cancellable {
+        private Pig pig;
+        private systems.conduit.main.api.mixins.ServerLevel level;
     }
 
     @AllArgsConstructor

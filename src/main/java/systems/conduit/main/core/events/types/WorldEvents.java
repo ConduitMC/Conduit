@@ -147,7 +147,8 @@ public class WorldEvents {
     @AllArgsConstructor
     @Getter
     public static class LeafDecayEvent extends Cancellable {
-        private Block block;
+        private BlockState block;
+        private ServerLevel level;
     }
 
     @AllArgsConstructor

@@ -5,9 +5,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.network.protocol.game.ClientboundContainerAckPacket;
-import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
-import net.minecraft.network.protocol.game.ServerboundContainerClickPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.server.players.PlayerList;
@@ -29,10 +27,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Mixin(value = ServerGamePacketListenerImpl.class, remap = false)
-public class ServerGamePacketListenerMixin {
+public abstract class ServerGamePacketListenerMixin {
 
     @Shadow public ServerPlayer player;
     @Shadow @Final private Int2ShortMap expectedAcks;
+
+    @Shadow public abstract void disconnect(Component component);
 
     @Redirect(method = "handleChat(Ljava/lang/String;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/players/PlayerList;broadcastMessage(Lnet/minecraft/network/chat/Component;Lnet/minecraft/network/chat/ChatType;Ljava/util/UUID;)V"))
     private void handleChat(PlayerList playerList, Component component, ChatType chatType, UUID uuid) {
@@ -103,5 +103,13 @@ public class ServerGamePacketListenerMixin {
         player.containerMenu.setSynched(player, false);
 
         player.refreshContainer(player.containerMenu, NonNullList.of(ItemStack.EMPTY, player.containerMenu.slots.stream().map(Slot::getItem).collect(Collectors.toList()).toArray(new ItemStack[]{})));
+    }
+
+    @Inject(method = "handleUseItem", at = @At("HEAD"), cancellable = true)
+    public void handleUseItem(ServerboundUseItemPacket packet, CallbackInfo ci) {
+        PlayerEvents.ItemInteractEvent event = new PlayerEvents.ItemInteractEvent((systems.conduit.main.api.mixins.ServerPlayer) this.player, packet.getHand(), this.player.getItemInHand(packet.getHand()));
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) ci.cancel();
     }
 }

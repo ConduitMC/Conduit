@@ -284,4 +284,12 @@ public class PlayerEvents {
         private ServerPlayer player;
         private HumanoidArm arm;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemInteractEvent extends Cancellable {
+        private ServerPlayer player;
+        private InteractionHand hand;
+        private ItemStack itemInHand;
+    }
 }

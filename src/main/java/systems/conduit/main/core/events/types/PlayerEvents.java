@@ -11,6 +11,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
@@ -198,8 +199,9 @@ public class PlayerEvents {
 
     @AllArgsConstructor
     @Getter
-    public static class FishEvent extends Cancellable {
+    public static class CaughtFishEvent extends Cancellable {
         private Player player;
+        private ItemEntity fish;
     }
 
     /**

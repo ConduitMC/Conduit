@@ -12,6 +12,7 @@
     "entity.ZombieMixin",
     "entity.animal.PigMixin",
     "entity.animal.TamableAnimalMixin",
+    "entity.FishingHookMixin",
 
     "goal.BreedGoalMixin",
 

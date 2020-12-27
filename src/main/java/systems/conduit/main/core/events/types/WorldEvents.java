@@ -9,6 +9,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,10 +17,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import systems.conduit.main.api.mixins.Level;
-import systems.conduit.main.api.mixins.Player;
-import systems.conduit.main.api.mixins.ServerLevel;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.api.mixins.*;
 import systems.conduit.main.core.events.Cancellable;
 import systems.conduit.main.mixins.item.ItemStackMixin;
 import systems.conduit.main.mixins.level.ServerLevelDataMixin;
@@ -279,4 +277,13 @@ public class WorldEvents {
         private ItemStack record;
         private Level level;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class SpawnerSpawnEvent extends Cancellable {
+        private BaseSpawner spawner;
+        private ServerLevel level;
+        private Entity spawned;
+    }
+
 }

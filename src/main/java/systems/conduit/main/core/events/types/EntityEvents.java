@@ -8,19 +8,15 @@ import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.SpawnerBlock;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.api.mixins.Entity;
 import systems.conduit.main.api.mixins.LivingEntity;
 import systems.conduit.main.api.mixins.ServerLevel;
 import systems.conduit.main.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.Cancellable;
-
-import java.util.List;
 
 /*
  * @author Innectic
@@ -49,16 +45,6 @@ public class EntityEvents {
     }
 
     /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.entity.SlimeMixin}
-     */
-    @AllArgsConstructor
-    @Getter
-    public static class SlimeSplitEvent extends EventType {
-        private Slime parent;
-        private List<Slime> children;
-    }
-
-    /**
      * Mixin implementation: {@link systems.conduit.main.mixins.goal.BreedGoalMixin#breed(CallbackInfo)}
      */
     @AllArgsConstructor
@@ -67,13 +53,6 @@ public class EntityEvents {
         private Animal bred;
         private Animal with;
         private Animal child;
-    }
-
-    @AllArgsConstructor
-    @Getter
-    public static class SpawnerSpawnEvent extends Cancellable {
-        private SpawnerBlock spawner;
-        private List<Entity> spawned;
     }
 
     /**

@@ -35,6 +35,7 @@
     "level.block.ShulkerBoxBlockMixin",
     "level.block.NoteBlockMixin",
     "level.block.JukeboxMixin",
+    "level.block.BaseSpawnerMixin",
 
     "player.AbilitiesMixin",
     "player.DamageMixin",

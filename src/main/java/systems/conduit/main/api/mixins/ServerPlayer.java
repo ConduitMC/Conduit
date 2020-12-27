@@ -1,11 +1,19 @@
 package systems.conduit.main.api.mixins;
 
+import net.minecraft.core.SectionPos;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayerGameMode;
+import net.minecraft.server.network.TextFilter;
+import net.minecraft.stats.ServerRecipeBook;
+import net.minecraft.stats.ServerStatsCounter;
+import net.minecraft.world.entity.player.ChatVisiblity;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
 import systems.conduit.main.core.permissions.PermissionNode;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ServerPlayer extends Player {
 
@@ -25,4 +33,27 @@ public interface ServerPlayer extends Player {
     boolean isOp();
 
     net.minecraft.server.level.ServerPlayer down();
+
+    void sendResourcePack(String url, String hash, boolean required);
+    ChatVisiblity getChatVisibility();
+    int getPermissionLevel();
+    void resetLastActionTime();
+    long getLastActionTime();
+
+    ServerStatsCounter getStats();
+    ServerRecipeBook getRecipeBook();
+    PlayerAdvancements getAdvancements();
+
+    void sendRemoveEntity(Entity entity);
+    void cancelRemoveEntity(Entity entity);
+
+    Entity getCamera();
+    void setCamera(Entity camera);
+
+    void untrackChunk(ChunkPos pos);
+    SectionPos getLastSectionPos();
+    void setLastSectionPos(SectionPos pos);
+
+    Optional<TextFilter> getTextFilter();
+
 }

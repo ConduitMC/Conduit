@@ -40,6 +40,7 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.InventoryOpenEvent.class);
         eventMappings.add(PlayerEvents.DropItemEvent.class);
         eventMappings.add(PlayerEvents.InteractAtEntityEvent.class);
+        eventMappings.add(PlayerEvents.MainHandChangeEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);

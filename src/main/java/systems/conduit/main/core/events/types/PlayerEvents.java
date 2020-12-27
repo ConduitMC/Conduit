@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
@@ -275,5 +276,12 @@ public class PlayerEvents {
         private ItemStack itemInHand;
         private InteractionHand hand;
         private systems.conduit.main.api.mixins.Entity entity;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MainHandChangeEvent extends EventType {
+        private ServerPlayer player;
+        private HumanoidArm arm;
     }
 }

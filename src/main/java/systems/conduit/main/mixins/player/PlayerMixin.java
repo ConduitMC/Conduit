@@ -6,6 +6,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.food.FoodData;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,6 +19,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.api.mixins.Player;
@@ -98,5 +100,11 @@ public abstract class PlayerMixin implements Player {
             cir.setReturnValue(InteractionResult.PASS);
             cir.cancel();
         }
+    }
+
+    @Inject(method = "setMainArm", at = @At("HEAD"))
+    public void setMainArm(HumanoidArm humanoidArm, CallbackInfo ci) {
+        PlayerEvents.MainHandChangeEvent event = new PlayerEvents.MainHandChangeEvent((ServerPlayer) (Object) this, humanoidArm);
+        Conduit.getEventManager().dispatchEvent(event);
     }
 }

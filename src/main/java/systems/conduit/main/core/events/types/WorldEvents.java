@@ -234,4 +234,14 @@ public class WorldEvents {
         private BlockState state;
         private Projectile projectile;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ShulkerBoxOpenEvent extends Cancellable {
+        private BlockPos position;
+        private Level level;
+        private BlockState state;
+        private ServerPlayer player;
+        private InteractionHand hand;
+    }
 }

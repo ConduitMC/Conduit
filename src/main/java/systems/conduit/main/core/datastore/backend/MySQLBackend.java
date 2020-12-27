@@ -11,6 +11,7 @@ import systems.conduit.main.core.datastore.schema.utils.DatastoreUtils;
 
 import java.sql.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Datastore backend that stores its information in MySQL / SQLite.
@@ -74,7 +75,7 @@ public class MySQLBackend implements Datastore {
             return;
         }
 
-        StringBuilder statement = new StringBuilder("create table if not exists " + name + " (");
+        StringBuilder statement = new StringBuilder("create table if not exists " + name + " (id mediumint not null auto_increment, ");
 
         // Build a statement to create the table based off of the converted schema.
         Iterator<Map.Entry<String, MySQLTypes>> schemaSet = convertedSchema.entrySet().iterator();
@@ -93,13 +94,14 @@ public class MySQLBackend implements Datastore {
             hasNext = schemaSet.hasNext();
         } while (hasNext);
 
-        statement.append(");");
+        statement.append(", primary key (id));");
 
         // Done building the table creation statement. Insert the new table.
         try {
             PreparedStatement creationStatement = connection.get().prepareStatement(statement.toString());
             creationStatement.execute();
             creationStatement.close();
+            connection.get().close();
         } catch (SQLException e) {
             Conduit.getLogger().error("Failed to attach new schema: " + name);
             e.printStackTrace();
@@ -147,6 +149,7 @@ public class MySQLBackend implements Datastore {
             PreparedStatement insertStatement = connection.get().prepareStatement(statement.toString());
             insertStatement.execute();
             insertStatement.close();
+            connection.get().close();
         } catch (SQLException e) {
             Conduit.getLogger().error("Failed to insert schema: " + name);
             e.printStackTrace();
@@ -154,14 +157,38 @@ public class MySQLBackend implements Datastore {
     }
 
     @Override
-    public void delete(Class<? extends Schema> schema, Object primaryKey) {
+    public void delete(Class<? extends Schema> schema, String key, Object value) {
+        Map<String, Object> filter = new HashMap<>();
+        filter.put(key, value);
+
+        filterAndDelete(schema, filter);
     }
 
     @Override
     public void filterAndDelete(Class<? extends Schema> schema, Map<String, Object> filter) {
-        this.filter(schema, filter).forEach(matched -> {
-            // Delete it
-        });
+        Optional<Connection> connection = getConnection();
+        if (!connection.isPresent()) {
+            Conduit.getLogger().error("Failed to get connection to mysql server");
+            return;
+        }
+
+        List<Schema> schemas = this.filter(schema, filter);
+        if (schemas.size() == 0) {
+            Conduit.getLogger().error("THERE BE NOTHIN");
+            return;
+        }
+        String ids = "(" + schemas.stream().map(Schema::getId).map(String::valueOf).collect(Collectors.joining(",")) + ")";
+        String query = "delete from " + DatastoreUtils.getNameOfSchema(schema) + " where id in " + ids;
+        System.out.println(query);
+
+        try {
+            PreparedStatement statement = connection.get().prepareStatement(query);
+            statement.execute();
+            statement.close();
+            connection.get().close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -204,6 +231,10 @@ public class MySQLBackend implements Datastore {
                 // Now that we have pulled all the data out of this result, convert it into a schema.
                 Schema.of(schema, data).ifPresent(schemas::add);
             }
+
+            results.close();
+            statement.close();
+            connection.get().close();
 
             return schemas;
         } catch (SQLException e) {

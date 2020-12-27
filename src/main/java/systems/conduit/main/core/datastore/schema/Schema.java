@@ -1,5 +1,6 @@
 package systems.conduit.main.core.datastore.schema;
 
+import lombok.Getter;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.datastore.schema.utils.CommonDatastoreUtil;
 import systems.conduit.main.core.datastore.schema.utils.SchemaDeserializeUtil;
@@ -15,10 +16,13 @@ import java.util.stream.Collectors;
  */
 public abstract class Schema {
 
+    // Auto generated and incremented by the database.
+    @systems.conduit.main.core.datastore.schema.annotations.Field @Getter private int id;
+
     public final Map<String, Object> serialize() {
         Map<String, Object> serialized = new HashMap<>();
 
-        List<Field> schemaFields = Arrays.stream(getClass().getDeclaredFields())
+        List<Field> schemaFields = getAllFields(getClass(), new ArrayList<>()).stream()
                 .filter(f -> f.isAnnotationPresent(systems.conduit.main.core.datastore.schema.annotations.Field.class))
                 .collect(Collectors.toList());
 
@@ -58,13 +62,21 @@ public abstract class Schema {
         return serialized;
     }
 
+    public static List<Field> getAllFields(Class<?> clazz, List<Field> last) {
+        last.addAll(Arrays.asList(clazz.getDeclaredFields()));
+
+        if (clazz.getSuperclass() != null) getAllFields(clazz.getSuperclass(), last);
+
+        return last;
+    }
+
     public static <T extends Schema> Optional<T> of(Class<? extends Schema> clazz, Map<String, Object> data) {
         // First create a new schema.
         Optional<Schema> schema = SchemaDeserializeUtil.tryCreateNewSchema(clazz);
         if (!schema.isPresent()) return Optional.empty();
         T actualSchema = (T) schema.get();
 
-        List<Field> fields = Arrays.stream(actualSchema.getClass().getDeclaredFields()).filter(m -> m.isAnnotationPresent(systems.conduit.main.core.datastore.schema.annotations.Field.class)).collect(Collectors.toList());
+        List<Field> fields = getAllFields(actualSchema.getClass(), new ArrayList<>()).stream().filter(m -> m.isAnnotationPresent(systems.conduit.main.core.datastore.schema.annotations.Field.class)).collect(Collectors.toList());
 
         for (Field field : fields) {
             systems.conduit.main.core.datastore.schema.annotations.Field fieldAnnotation = field.getAnnotation(systems.conduit.main.core.datastore.schema.annotations.Field.class);
@@ -92,13 +104,16 @@ public abstract class Schema {
                 }
                 currentValue = result.get();
             }
-            // Now that we have the final data, lets try to fit it into the field.
 
+            // Now that we have the final data, lets try to fit it into the field.
             try {
+                // HACK?
                 field.setAccessible(true);
                 field.set(actualSchema, currentValue);
-            } catch (IllegalAccessException ignored) { }
+            } catch (IllegalAccessException e) { e.printStackTrace(); }
         }
+
+        System.out.println("THE ID: " + actualSchema.getId());
 
         return Optional.of(actualSchema);
     }

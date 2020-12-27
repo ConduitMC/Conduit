@@ -5,9 +5,7 @@ import systems.conduit.main.core.datastore.schema.Schema;
 import systems.conduit.main.core.datastore.schema.types.MySQLTypes;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Innectic
@@ -17,7 +15,6 @@ public class DatabaseSchemaUtil {
 
     private static MySQLTypes convertType(Field field) {
         Class<?> type = field.getType();
-        System.out.println(type);
 
         return Arrays.stream(MySQLTypes.values())
                 .filter(t -> t.getClazz() != null)
@@ -28,12 +25,12 @@ public class DatabaseSchemaUtil {
     public static Map<String, MySQLTypes> convertSchemaToMySQLSchema(Class<? extends Schema> schema) {
         Map<String, MySQLTypes> convertedSchema = new HashMap<>();
 
-        Field[] fields = schema.getDeclaredFields();
-
-        System.out.println(Arrays.toString(fields));
+        List<Field> fields = Schema.getAllFields(schema, new ArrayList<>());
 
         for (Field field : fields) {
-            System.out.println(field.getName() + ": " + field.isAnnotationPresent(systems.conduit.main.core.datastore.schema.annotations.Field.class));
+            // Ignore the ID field.
+            if (field.getName().equals("id")) continue;
+
             if (!field.isAnnotationPresent(systems.conduit.main.core.datastore.schema.annotations.Field.class)) continue;
 
             // First, try to get the mysql type for this

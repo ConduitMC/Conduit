@@ -39,11 +39,13 @@ public interface Datastore {
     void insert(Schema schema);
 
     /**
-     * Delete an object from the datastore by the primary key
+     * Remove a schema from the datastore
      *
-     * @param primaryKey the primary key to search for and remove
+     * @param schema the schema type
+     * @param key the key to filter by
+     * @param value the value to find
      */
-    void delete(Class<? extends Schema> schema, Object primaryKey);
+    void delete(Class<? extends Schema> schema, String key, Object value);
 
     /**
      * Filter the datastore and remove anything that matches

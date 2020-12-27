@@ -12,7 +12,9 @@ import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Abilities;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -158,5 +160,16 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         CompoundTag permissionsTag = new CompoundTag();
         permissionNodes.forEach(node -> permissionsTag.putBoolean(node.getPermission(), true));
         tag.put("ConduitPermissions", permissionsTag);
+    }
+
+    @Inject(method = "drop", at = @At("HEAD"), cancellable = true)
+    public void drop(ItemStack item, boolean dropStyle, boolean setThrower, CallbackInfoReturnable<ItemEntity> cir) {
+        PlayerEvents.DropItemEvent event = new PlayerEvents.DropItemEvent((ServerPlayer) ((Object) this), item);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) {
+            cir.setReturnValue(null);
+            cir.cancel();
+        }
     }
 }

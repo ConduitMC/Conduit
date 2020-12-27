@@ -38,6 +38,7 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.InventoryClickEvent.class);
         eventMappings.add(PlayerEvents.InventoryCloseEvent.class);
         eventMappings.add(PlayerEvents.InventoryOpenEvent.class);
+        eventMappings.add(PlayerEvents.DropItemEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);

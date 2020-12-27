@@ -259,4 +259,11 @@ public class PlayerEvents {
         private Optional<LivingEntity> killer;
         private DamageSource source;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class DropItemEvent extends Cancellable {
+        private ServerPlayer player;
+        private ItemStack item;
+    }
 }

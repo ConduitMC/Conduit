@@ -51,6 +51,6 @@ public abstract class ServerLevelMixin implements ServerLevel {
         WorldEvents.ChunkUnloadEvent event = new WorldEvents.ChunkUnloadEvent(this, chunk);
         Conduit.getEventManager().dispatchEvent(event);
 
-        if (event.isCanceled()) return;
+        if (event.isCanceled()) callback.cancel();
     }
 }

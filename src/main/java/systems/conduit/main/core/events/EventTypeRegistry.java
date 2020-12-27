@@ -49,6 +49,7 @@ public class EventTypeRegistry {
         eventMappings.add(EntityEvents.CreeperChargeEvent.class);
         eventMappings.add(EntityEvents.VillagerZombieConversionEvent.class);
         eventMappings.add(EntityEvents.ZombieKillEntityEvent.class);
+        eventMappings.add(EntityEvents.EntityTameEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);

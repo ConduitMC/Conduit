@@ -6,6 +6,7 @@ import lombok.Setter;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.Slime;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.block.SpawnerBlock;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.api.mixins.LivingEntity;
+import systems.conduit.main.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.Cancellable;
 
 import java.util.List;
@@ -123,5 +125,12 @@ public class EntityEvents {
         private systems.conduit.main.api.mixins.ServerLevel level;
         private Zombie zombie;
         private LivingEntity entity;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class EntityTameEvent extends Cancellable {
+        private TamableAnimal animal;
+        private ServerPlayer player;
     }
 }

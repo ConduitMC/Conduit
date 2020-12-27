@@ -9,6 +9,7 @@
     "entity.LivingEntityMixin",
     "entity.SheepMixin",
     "entity.CreeperMixin",
+    "entity.ZombieMixin",
 
     "goal.BreedGoalMixin",
 

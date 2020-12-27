@@ -47,6 +47,8 @@ public class EventTypeRegistry {
         eventMappings.add(EntityEvents.EffectRemovedFromEntityEvent.class);
         eventMappings.add(EntityEvents.LevelSwitchEvent.class);
         eventMappings.add(EntityEvents.CreeperChargeEvent.class);
+        eventMappings.add(EntityEvents.VillagerZombieConversionEvent.class);
+        eventMappings.add(EntityEvents.ZombieKillEntityEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);

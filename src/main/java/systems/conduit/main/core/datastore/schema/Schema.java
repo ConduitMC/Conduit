@@ -113,8 +113,6 @@ public abstract class Schema {
             } catch (IllegalAccessException e) { e.printStackTrace(); }
         }
 
-        System.out.println("THE ID: " + actualSchema.getId());
-
         return Optional.of(actualSchema);
     }
 }

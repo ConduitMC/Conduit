@@ -173,13 +173,9 @@ public class MySQLBackend implements Datastore {
         }
 
         List<Schema> schemas = this.filter(schema, filter);
-        if (schemas.size() == 0) {
-            Conduit.getLogger().error("THERE BE NOTHIN");
-            return;
-        }
+        if (schemas.size() == 0) return;
         String ids = "(" + schemas.stream().map(Schema::getId).map(String::valueOf).collect(Collectors.joining(",")) + ")";
         String query = "delete from " + DatastoreUtils.getNameOfSchema(schema) + " where id in " + ids;
-        System.out.println(query);
 
         try {
             PreparedStatement statement = connection.get().prepareStatement(query);

@@ -164,7 +164,7 @@ public abstract class PlayerMixin implements Player {
 
     @Inject(method = "interactOn", at = @At("HEAD"))
     public void interactOn(Entity entity, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
-        PlayerEvents.InteractAtEntityEvent event = new PlayerEvents.InteractAtEntityEvent((ServerPlayer) ((Object) this), this.getItemInHand(interactionHand), interactionHand, (systems.conduit.main.api.mixins.Entity) entity);
+        PlayerEvents.EntityClickEvent event = new PlayerEvents.EntityClickEvent((ServerPlayer) ((Object) this), this.getItemInHand(interactionHand), interactionHand, (systems.conduit.main.api.mixins.Entity) entity);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

@@ -271,7 +271,7 @@ public class PlayerEvents {
 
     @AllArgsConstructor
     @Getter
-    public static class InteractAtEntityEvent extends Cancellable {
+    public static class EntityClickEvent extends Cancellable {
         private ServerPlayer player;
         private ItemStack itemInHand;
         private InteractionHand hand;

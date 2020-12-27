@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
@@ -291,5 +292,17 @@ public class PlayerEvents {
         private ServerPlayer player;
         private InteractionHand hand;
         private ItemStack itemInHand;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class EntityRideShoulderEvent extends Cancellable {
+        private Player player;
+        private CompoundTag tag;
+        private Shoulder shoulder;
+
+        public enum Shoulder {
+            LEFT, RIGHT
+        }
     }
 }

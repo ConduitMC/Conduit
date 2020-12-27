@@ -28,6 +28,8 @@ public class EventTypeRegistry {
         eventMappings.add(WorldEvents.PiglinAngerEvent.class);
         eventMappings.add(WorldEvents.PlayerRingBellEvent.class);
         eventMappings.add(WorldEvents.ProjectileRingBellEvent.class);
+        eventMappings.add(WorldEvents.JukeboxDropRecordEvent.class);
+        eventMappings.add(WorldEvents.JukeboxChangeRecordEvent.class);
 
         // Player events
         eventMappings.add(PlayerEvents.PlayerJoinEvent.class);
@@ -50,6 +52,7 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.EntityClickEvent.class);
         eventMappings.add(PlayerEvents.MainHandChangeEvent.class);
         eventMappings.add(PlayerEvents.ItemInteractEvent.class);
+        eventMappings.add(PlayerEvents.EntityRideShoulderEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);

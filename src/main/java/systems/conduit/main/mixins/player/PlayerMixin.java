@@ -178,4 +178,26 @@ public abstract class PlayerMixin implements Player {
         PlayerEvents.MainHandChangeEvent event = new PlayerEvents.MainHandChangeEvent((ServerPlayer) (Object) this, humanoidArm);
         Conduit.getEventManager().dispatchEvent(event);
     }
+
+    @Inject(method = "setEntityOnShoulder", at = @At(value = "HEAD", target = "Lnet/minecraft/world/entity/player/Player;setShoulderEntityLeft(Lnet/minecraft/nbt/CompoundTag;)V"))
+    public void setEntityOnLeftShoulder(CompoundTag compoundTag, CallbackInfoReturnable<Boolean> cir) {
+        PlayerEvents.EntityRideShoulderEvent event = new PlayerEvents.EntityRideShoulderEvent((Player) (Object) this, compoundTag, PlayerEvents.EntityRideShoulderEvent.Shoulder.LEFT);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) {
+            cir.setReturnValue(false);
+            cir.cancel();
+        }
+    }
+
+    @Inject(method = "setEntityOnShoulder", at = @At(value = "HEAD", target = "Lnet/minecraft/world/entity/player/Player;setShoulderEntityRight(Lnet/minecraft/nbt/CompoundTag;)V"))
+    public void setEntityOnRightShoulder(CompoundTag compoundTag, CallbackInfoReturnable<Boolean> cir) {
+        PlayerEvents.EntityRideShoulderEvent event = new PlayerEvents.EntityRideShoulderEvent((Player) (Object) this, compoundTag, PlayerEvents.EntityRideShoulderEvent.Shoulder.RIGHT);
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) {
+            cir.setReturnValue(false);
+            cir.cancel();
+        }
+    }
 }

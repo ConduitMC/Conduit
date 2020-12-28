@@ -48,7 +48,7 @@ public interface ServerPlayer extends Player {
     void cancelRemoveEntity(Entity entity);
 
     Entity getCamera();
-    void setCamera(Entity camera);
+    void conduit_setCamera(Entity camera);
 
     void untrackChunk(ChunkPos pos);
     SectionPos getLastSectionPos();
@@ -56,4 +56,9 @@ public interface ServerPlayer extends Player {
 
     Optional<TextFilter> getTextFilter();
 
+    void setGameType(GameType type);
+
+    void displayTitle(TextComponent title, TextComponent subtitle, int fadeIn, int stay, int fadeOut);
+    void clearTitle();
+    void displayActionBarTitle(TextComponent title, int fadeIn, int stay, int fadeOut);
 }

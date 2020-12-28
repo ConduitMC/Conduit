@@ -23,7 +23,7 @@ public abstract class Plugin {
     @Getter(AccessLevel.MODULE) @Setter(AccessLevel.MODULE) PluginClassLoader classLoader;
     @Getter @Setter(AccessLevel.MODULE) private PluginMeta meta;
     @Getter @Setter(AccessLevel.MODULE) private PluginState pluginState = PluginState.UNLOADED;
-    @Getter(AccessLevel.PUBLIC) private Map<Integer, Map<EventListener, List<Method>>> events = new ConcurrentHashMap<>();
+    @Getter(AccessLevel.PUBLIC) private final Map<Integer, Map<EventListener, List<Method>>> events = new ConcurrentHashMap<>();
     @Setter(AccessLevel.MODULE) private Configuration config = null;
     @Getter private final Map<DatastoreBackend, Datastore> datastores = new HashMap<>();
 

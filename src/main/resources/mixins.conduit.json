@@ -55,6 +55,7 @@
     "server.StartupMixin",
     "server.VersionMixin",
     "server.BootstrapMixin",
-    "server.ServerStatusPacketListenerImplMixin"
+    "server.ServerStatusPacketListenerImplMixin",
+    "server.DedicatedServerMixin"
   ]
 }

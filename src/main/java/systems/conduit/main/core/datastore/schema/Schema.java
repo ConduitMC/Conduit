@@ -90,8 +90,6 @@ public abstract class Schema {
             // We do in fact have data for this key. Now we have to attempt to fill the field.
             Object currentValue = data.get(fieldLabel);
 
-            ItemStack item = new ItemStack(Items.DIAMOND_PICKAXE);
-            item.hurt(100, new Random(), null);
             // Now, check to see if we have a custom data deserializer.
             if (!fieldAnnotation.factoryMethod().equals("")) {
                 // It isn't empty, so we're supposed to be using a custom serializer. Double check that a class was provided.

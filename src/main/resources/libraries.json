@@ -62,7 +62,7 @@
     },
     {
       "type": "maven",
-      "groupId": "com.moandjizana.toml",
+      "groupId": "com.moandjiezana.toml",
       "artifactId": "toml4j",
       "version": "0.7.2"
     }

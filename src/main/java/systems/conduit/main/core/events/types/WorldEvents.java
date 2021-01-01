@@ -2,7 +2,6 @@ package systems.conduit.main.core.events.types;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.ProgressListener;
@@ -57,13 +56,14 @@ public class WorldEvents {
     }
 
     /**
-     * Implemented in: {@link systems.conduit.main.mixins.player.ServerPlayerGameModeMixin#destroyAndAck(BlockPos, CallbackInfoReturnable)}
+     * Implemented in: {@link systems.conduit.main.mixins.player.ServerPlayerGameModeMixin#destroyBlockInitial(BlockPos, CallbackInfoReturnable)}
      */
     @AllArgsConstructor
     @Getter
     public static class BlockBreakEvent extends Cancellable {
         private Player player;
         private BlockState blockState;
+        private BlockPos position;
     }
 
     /**

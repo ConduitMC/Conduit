@@ -20,7 +20,6 @@
 
     "item.ItemStackMixin",
 
-    "level.BaseSpawnerMixin",
     "level.BiomeMixin",
     "level.LevelMixin",
     "level.PortalForcerMixin",

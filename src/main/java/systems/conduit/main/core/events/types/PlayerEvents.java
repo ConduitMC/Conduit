@@ -18,6 +18,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -294,6 +295,15 @@ public class PlayerEvents {
         private ServerPlayer player;
         private InteractionHand hand;
         private ItemStack itemInHand;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemInteractOnEvent extends Cancellable {
+        private ServerPlayer player;
+        private InteractionHand hand;
+        private ItemStack itemInHand;
+        private BlockHitResult result;
     }
 
     @AllArgsConstructor

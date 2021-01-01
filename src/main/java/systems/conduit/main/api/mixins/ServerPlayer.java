@@ -5,6 +5,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.server.network.TextFilter;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.ServerRecipeBook;
 import net.minecraft.stats.ServerStatsCounter;
 import net.minecraft.world.entity.player.ChatVisiblity;
@@ -61,4 +63,6 @@ public interface ServerPlayer extends Player {
     void displayTitle(TextComponent title, TextComponent subtitle, int fadeIn, int stay, int fadeOut);
     void clearTitle();
     void displayActionBarTitle(TextComponent title, int fadeIn, int stay, int fadeOut);
+
+    void playSoundAt(SoundEvent sound, SoundSource source, double x, double y, double z, float volume, float pitch);
 }

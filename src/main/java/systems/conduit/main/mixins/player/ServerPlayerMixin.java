@@ -9,11 +9,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
 import net.minecraft.network.protocol.game.ClientboundSetTitlesPacket;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.server.network.TextFilter;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.ServerRecipeBook;
 import net.minecraft.stats.ServerStatsCounter;
 import net.minecraft.world.damagesource.DamageSource;
@@ -180,6 +183,13 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         titlesPacket = new ClientboundSetTitlesPacket(ClientboundSetTitlesPacket.Type.ACTIONBAR, title);
         connection.send(titlesPacket);
     }
+
+    @Override
+    public void playSoundAt(SoundEvent sound, SoundSource source, double x, double y, double z, float volume, float pitch) {
+        ClientboundSoundPacket packet = new ClientboundSoundPacket(sound, source, x, y, z, volume, pitch);
+        connection.send(packet);
+    }
+
 
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))
     private GameType updateGameMode(GameType gameType) {

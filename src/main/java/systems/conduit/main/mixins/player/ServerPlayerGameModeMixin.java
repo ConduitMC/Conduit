@@ -24,7 +24,7 @@ public abstract class ServerPlayerGameModeMixin {
 
     private List<BlockPos> cancelled = new ArrayList<>();
 
-    @Inject(method = "destroyBlock", at = @At("HEAD"))
+    @Inject(method = "destroyBlock", at = @At("HEAD"), cancellable = true)
     private void destroyBlockInitial(BlockPos blockPos, CallbackInfoReturnable<Boolean> cir) {
         // TODO: Event cancellations
         WorldEvents.BlockBreakEvent event = new WorldEvents.BlockBreakEvent((systems.conduit.main.api.mixins.ServerPlayer) player, level.getBlockState(blockPos));

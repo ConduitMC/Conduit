@@ -63,7 +63,10 @@ public class LevelManager {
 
         PrimaryLevelData newLevelData = generateNewLevelData(levelData, worldGenSettings.dimensions());
         ChunkGenerator chunkGenerator = generateChunkGenerator(levelData, seed, server.get());
-        DimensionType dimensionType = server.get().getRegistryHolder().dimensionTypes().getOrThrow(levelData.getDimensionType());
+        Optional<? extends Registry<DimensionType>> dimensionTypeRegistry = server.get().getRegistryHolder().registry(Registry.DIMENSION_TYPE_REGISTRY);
+        if (!dimensionTypeRegistry.isPresent()) return Optional.empty();
+
+        DimensionType dimensionType = dimensionTypeRegistry.get().getOrThrow(levelData.getDimensionType());
 
         net.minecraft.server.level.ServerLevel newLevel = new net.minecraft.server.level.ServerLevel(
                 (net.minecraft.server.MinecraftServer) server.get(), server.get().getExecutor(), server.get().getStorageSource(),

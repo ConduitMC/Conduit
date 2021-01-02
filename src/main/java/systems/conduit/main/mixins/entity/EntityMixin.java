@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -18,9 +19,13 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.api.mixins.Player;
+import systems.conduit.main.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.EntityEvents;
+import systems.conduit.main.core.events.types.PlayerEvents;
 
 import java.util.List;
 import java.util.Optional;
@@ -166,6 +171,21 @@ public abstract class EntityMixin implements systems.conduit.main.api.mixins.Ent
         if (event.isCanceled()) {
             callback.setReturnValue(null);
             callback.cancel();
+        }
+    }
+
+    @Inject(method = "move", at = @At("HEAD"))
+    public void move(MoverType moverType, Vec3 position, CallbackInfo ci) {
+        if (this instanceof Player) {
+            PlayerEvents.MoveEvent event = new PlayerEvents.MoveEvent((ServerPlayer) this, position, this.position(), moverType);
+            Conduit.getEventManager().dispatchEvent(event);
+
+            if (event.isCanceled()) ci.cancel();
+        } else {
+            EntityEvents.MoveEvent event = new EntityEvents.MoveEvent(this, position, this.position(), moverType);
+            Conduit.getEventManager().dispatchEvent(event);
+
+            if (event.isCanceled()) ci.cancel();
         }
     }
 }

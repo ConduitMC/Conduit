@@ -7,10 +7,12 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -153,11 +155,11 @@ public class PlayerEvents {
         @Setter private String message;
     }
 
-    @AllArgsConstructor
-    @Getter
     /**
      * Mixin implementation: {@link systems.conduit.main.mixins.player.PlayerListMixin}
      */
+    @AllArgsConstructor
+    @Getter
     public static class RespawnEvent extends EventType {
         private ServerPlayer player;
     }
@@ -165,11 +167,15 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class MoveEvent extends Cancellable {
-        private Player player;
+        private ServerPlayer entity;
         private Vec3 to;
         private Vec3 from;
+        private MoverType mover;
     }
 
+    /**
+     * Mixin implementation {@link systems.conduit.main.mixins.player.ServerPlayerMixin#changeDimension(ServerLevel, CallbackInfoReturnable)}
+     */
     @AllArgsConstructor
     @Getter
     public static class LevelSwitchEvent extends Cancellable {

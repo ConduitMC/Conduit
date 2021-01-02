@@ -55,6 +55,7 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.ItemInteractEvent.class);
         eventMappings.add(PlayerEvents.EntityRideShoulderEvent.class);
         eventMappings.add(PlayerEvents.ItemInteractOnEvent.class);
+        eventMappings.add(PlayerEvents.MoveEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);
@@ -68,6 +69,7 @@ public class EventTypeRegistry {
         eventMappings.add(EntityEvents.EntityTameEvent.class);
         eventMappings.add(EntityEvents.PigConvertToPiglinEvent.class);
         eventMappings.add(EntityEvents.SheepSetColorEvent.class);
+        eventMappings.add(EntityEvents.MoveEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);

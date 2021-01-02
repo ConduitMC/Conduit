@@ -52,7 +52,6 @@ public class MongoBackend implements Datastore {
 
     @Override
     public void insert(Schema schema) {
-        //
     }
 
     @Override

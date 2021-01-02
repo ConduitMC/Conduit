@@ -65,6 +65,12 @@
       "groupId": "com.moandjiezana.toml",
       "artifactId": "toml4j",
       "version": "0.7.2"
+    },
+    {
+      "type": "maven",
+      "groupId": "org.mongodb",
+      "artifactId": "mongo-java-driver",
+      "version": "2.12.3"
     }
   ]
 }

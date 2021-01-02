@@ -338,4 +338,11 @@ public class PlayerEvents {
         private ServerPlayer player;
         private Advancement advancement;
     }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemBreakEvent extends Cancellable {
+        private ServerPlayer player;
+        private ItemStack item;
+    }
 }

@@ -287,4 +287,12 @@ public class WorldEvents {
         private Entity spawned;
     }
 
+    @AllArgsConstructor
+    @Getter
+    public static class LecternPlaceBookEvent extends Cancellable {
+        private BlockPos blockPos;
+        private Level level;
+        private ItemStack book;
+        private ServerPlayer player;
+    }
 }

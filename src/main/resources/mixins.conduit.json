@@ -19,6 +19,7 @@
     "inventory.AbstractContainerMenuMixin",
 
     "item.ItemStackMixin",
+    "item.WrittenBookItemMixin",
 
     "level.BiomeMixin",
     "level.LevelMixin",

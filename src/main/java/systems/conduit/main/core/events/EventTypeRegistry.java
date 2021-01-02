@@ -31,6 +31,7 @@ public class EventTypeRegistry {
         eventMappings.add(WorldEvents.JukeboxDropRecordEvent.class);
         eventMappings.add(WorldEvents.JukeboxChangeRecordEvent.class);
         eventMappings.add(WorldEvents.SpawnerSpawnEvent.class);
+        eventMappings.add(WorldEvents.LecternPlaceBookEvent.class);
 
         // Player events
         eventMappings.add(PlayerEvents.PlayerJoinEvent.class);

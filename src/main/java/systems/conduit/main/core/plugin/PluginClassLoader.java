@@ -82,8 +82,9 @@ public class PluginClassLoader extends URLClassLoader {
             plugin.get().setClassLoader(this);
             plugin.get().setMeta(meta);
             // Now, we can try to get the config for this plugin.
-            Class<? extends Configuration> clazz = meta.config();
-            loadConfiguration(plugin.get(), clazz).ifPresent(plugin.get()::setConfig);
+            for (Class<? extends Configuration> clazz : meta.config()) {
+                loadConfiguration(plugin.get(), clazz).ifPresent(plugin.get()::setConfig);
+            }
             return plugin;
         }
         return Optional.empty();

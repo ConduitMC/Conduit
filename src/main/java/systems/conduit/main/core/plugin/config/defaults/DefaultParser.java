@@ -20,10 +20,10 @@ public class DefaultParser {
      * @param configuration the configuration file to create defaults for.
      * @return a default set of configuration options.
      */
-    static Map<String, Object> generateDefaults(Configuration configuration) {
+    static Map<String, Object> generateDefaults(Class<? extends Configuration> configuration) {
         Map<String, Object> defaults = new HashMap<>();
 
-        Field[] fields = configuration.getClass().getDeclaredFields();
+        Field[] fields = configuration.getDeclaredFields();
         for (Field field : fields) {
             // Check if this field should have a different name
             String name = field.isAnnotationPresent(SerializedName.class) ? field.getAnnotation(SerializedName.class).value() : field.getName();

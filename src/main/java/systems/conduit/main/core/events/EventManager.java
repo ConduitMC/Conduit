@@ -59,15 +59,13 @@ public class EventManager {
             return;
         }
 
-        Map<EventListener, List<Method>> current = plugin.getEvents().get(eventId);
-        new HashMap<>(current).forEach((key, value) -> {
-            if (key.getClass() == listener.getClass()) {
-                // If we found another handler that matches this one, then add to it.
-                value.add(method);
-                current.put(key, value);
-            }
-        });
-        plugin.getEvents().put(eventId, current);
+        if (plugin.getEvents().get(eventId).containsKey(listener)) {
+            // We have this class already!
+            plugin.getEvents().get(eventId).get(listener).add(method);
+            return;
+        }
+
+        plugin.getEvents().get(eventId).put(listener, Collections.singletonList(method));
     }
 
     public void dispatchEvent(EventType eventType) {

@@ -31,6 +31,7 @@ public class EventTypeRegistry {
         eventMappings.add(WorldEvents.JukeboxDropRecordEvent.class);
         eventMappings.add(WorldEvents.JukeboxChangeRecordEvent.class);
         eventMappings.add(WorldEvents.SpawnerSpawnEvent.class);
+        eventMappings.add(WorldEvents.LecternPlaceBookEvent.class);
 
         // Player events
         eventMappings.add(PlayerEvents.PlayerJoinEvent.class);
@@ -54,6 +55,11 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.MainHandChangeEvent.class);
         eventMappings.add(PlayerEvents.ItemInteractEvent.class);
         eventMappings.add(PlayerEvents.EntityRideShoulderEvent.class);
+        eventMappings.add(PlayerEvents.ItemInteractOnEvent.class);
+        eventMappings.add(PlayerEvents.MoveEvent.class);
+        eventMappings.add(PlayerEvents.AdvancementCompletedEvent.class);
+        eventMappings.add(PlayerEvents.AdvancementRevokeEvent.class);
+        eventMappings.add(PlayerEvents.ItemBreakEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);
@@ -67,6 +73,7 @@ public class EventTypeRegistry {
         eventMappings.add(EntityEvents.EntityTameEvent.class);
         eventMappings.add(EntityEvents.PigConvertToPiglinEvent.class);
         eventMappings.add(EntityEvents.SheepSetColorEvent.class);
+        eventMappings.add(EntityEvents.MoveEvent.class);
 
         // Server events
         eventMappings.add(ServerEvents.ServerInitializedEvent.class);
@@ -78,5 +85,9 @@ public class EventTypeRegistry {
 
     public static List<Class<? extends EventType>> getEventMappings() {
         return eventMappings;
+    }
+
+    public static void registerCustomEvent(Class<? extends EventType> event) {
+        eventMappings.add(event);
     }
 }

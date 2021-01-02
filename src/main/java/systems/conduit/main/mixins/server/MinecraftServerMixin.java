@@ -12,6 +12,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.WorldData;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,6 +27,7 @@ import systems.conduit.main.console.Console;
 import systems.conduit.main.core.events.types.ServerEvents;
 
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.function.BooleanSupplier;
 
@@ -87,7 +89,10 @@ public abstract class MinecraftServerMixin implements MinecraftServer {
 
         Conduit.getRunnableManager().getActiveRunnables().values().stream()
                 .filter(runnableData -> this.tickCount % runnableData.getEvery() == 0)
-                .filter(data -> !data.isRunning()).forEach(entry -> entry.getRunnable().run());
+                .filter(data -> !data.isRunning()).forEach(entry -> {
+                    if (entry.isAsync()) CompletableFuture.runAsync(entry.getRunnable());
+                    else entry.getRunnable().run();
+        });
 
         this.profiler.pop();
     }

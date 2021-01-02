@@ -66,7 +66,7 @@ public interface Player extends LivingEntity {
     int getScore();
     void setScore(int score);
     void increaseScore(int score);
-    int getFireImmunityTicks();
+    int getFireImmuneTicks();
 
     void playSound(SoundEvent sound, float volume, float pitch);
     int getPortalWaitTime();
@@ -84,7 +84,7 @@ public interface Player extends LivingEntity {
 
     double getMyRidingOffset();
     void removeVehicle();
-    boolean isImmobilized();
+    boolean isImmobile();
     boolean isAffectedByFluids();
     boolean isAboveGround();
 

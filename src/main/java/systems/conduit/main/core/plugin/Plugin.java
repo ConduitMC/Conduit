@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
+import org.apache.logging.log4j.Logger;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.commands.BaseCommand;
 import systems.conduit.main.core.datastore.Datastore;
@@ -23,9 +24,10 @@ public abstract class Plugin {
     @Getter(AccessLevel.MODULE) @Setter(AccessLevel.MODULE) PluginClassLoader classLoader;
     @Getter @Setter(AccessLevel.MODULE) private PluginMeta meta;
     @Getter @Setter(AccessLevel.MODULE) private PluginState pluginState = PluginState.UNLOADED;
-    @Getter(AccessLevel.PUBLIC) private Map<Integer, Map<EventListener, List<Method>>> events = new ConcurrentHashMap<>();
-    @Setter(AccessLevel.MODULE) private Configuration config = null;
+    @Getter(AccessLevel.PUBLIC) private final Map<Integer, Map<EventListener, List<Method>>> events = new ConcurrentHashMap<>();
     @Getter private final Map<DatastoreBackend, Datastore> datastores = new HashMap<>();
+    @Getter private final Map<Class<? extends Configuration>, Configuration> configs = new HashMap<>();
+    @Getter @Setter(AccessLevel.MODULE) private Logger logger;
 
     protected abstract void onEnable();
 
@@ -42,15 +44,19 @@ public abstract class Plugin {
      * @return the plugin's configuration
      */
     @SuppressWarnings("unchecked")
-    public <T extends Configuration> Optional<T> getConfig() {
+    public <T extends Configuration> Optional<T> getConfig(Class<? extends Configuration> config) {
         // TODO: Can this be improved?
 
-        if (this.config == null) return Optional.empty();
+        if (config == null) return Optional.empty();
+        if (this.configs.get(config) == null) return Optional.empty();
         try {
-            return Optional.of((T) this.config);
-        } catch (ClassCastException ignored) {
-            return Optional.empty();
-        }
+            return Optional.of((T) this.configs.get(config));
+        } catch (ClassCastException ignored) { }
+        return Optional.empty();
+    }
+
+    void setConfig(Configuration configuration) {
+        this.configs.put(configuration.getClass(), configuration);
     }
 
     public static <T extends Plugin> Optional<T> getPlugin(Class<T> type) {

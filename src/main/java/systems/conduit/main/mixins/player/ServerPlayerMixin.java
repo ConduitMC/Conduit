@@ -8,11 +8,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
+import net.minecraft.network.protocol.game.ClientboundSetTitlesPacket;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.server.network.TextFilter;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.ServerRecipeBook;
 import net.minecraft.stats.ServerStatsCounter;
 import net.minecraft.world.damagesource.DamageSource;
@@ -69,7 +73,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow public abstract void cancelRemoveEntity(Entity entity);
 
     @Shadow public abstract Entity shadow$getCamera();
-    @Shadow public abstract void setCamera(Entity entity);
+    @Shadow public abstract void shadow$setCamera(Entity entity);
 
     @Shadow public abstract void untrackChunk(ChunkPos pos);
     @Shadow public abstract SectionPos getLastSectionPos();
@@ -77,6 +81,16 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow public abstract TextFilter shadow$getTextFilter();
 
     @Getter private List<PermissionNode> permissionNodes = new ArrayList<>();
+
+    @Override
+    public final void conduit_setCamera(systems.conduit.main.api.mixins.Entity entity) {
+        this.shadow$setCamera((Entity) entity);
+    }
+
+    @Override
+    public void setGameType(GameType type) {
+        this.getGameMode().changeGameModeForPlayer(type);
+    }
 
     @Override
     public final void sendMessage(String message) {
@@ -142,6 +156,40 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     public int getOpPermissionLevel() {
         return getPermissionLevel();
     }
+
+    @Override
+    public void displayTitle(TextComponent title, TextComponent subtitle, int fadeIn, int stay, int fadeOut) {
+        ClientboundSetTitlesPacket titlesPacket = new ClientboundSetTitlesPacket(fadeIn, stay, fadeOut);
+        connection.send(titlesPacket);
+
+        titlesPacket = new ClientboundSetTitlesPacket(ClientboundSetTitlesPacket.Type.TITLE, title);
+        connection.send(titlesPacket);
+
+        titlesPacket = new ClientboundSetTitlesPacket(ClientboundSetTitlesPacket.Type.SUBTITLE, subtitle);
+        connection.send(titlesPacket);
+    }
+
+    @Override
+    public void clearTitle() {
+        ClientboundSetTitlesPacket titlesPacket = new ClientboundSetTitlesPacket(ClientboundSetTitlesPacket.Type.CLEAR, null);
+        connection.send(titlesPacket);
+    }
+
+    @Override
+    public void displayActionBarTitle(TextComponent title, int fadeIn, int stay, int fadeOut) {
+        ClientboundSetTitlesPacket titlesPacket = new ClientboundSetTitlesPacket(fadeIn, stay, fadeOut);
+        connection.send(titlesPacket);
+
+        titlesPacket = new ClientboundSetTitlesPacket(ClientboundSetTitlesPacket.Type.ACTIONBAR, title);
+        connection.send(titlesPacket);
+    }
+
+    @Override
+    public void playSoundAt(SoundEvent sound, SoundSource source, double x, double y, double z, float volume, float pitch) {
+        ClientboundSoundPacket packet = new ClientboundSoundPacket(sound, source, x, y, z, volume, pitch);
+        connection.send(packet);
+    }
+
 
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))
     private GameType updateGameMode(GameType gameType) {

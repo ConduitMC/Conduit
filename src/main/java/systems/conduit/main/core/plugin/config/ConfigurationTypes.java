@@ -2,6 +2,7 @@ package systems.conduit.main.core.plugin.config;
 
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.plugin.config.loader.JsonLoader;
+import systems.conduit.main.core.plugin.config.loader.TomlLoader;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class ConfigurationTypes {
 
     static {
         loaderTypes.put("json", JsonLoader.class);
+        loaderTypes.put("toml", TomlLoader.class);
     }
 
     public static Optional<ConfigurationLoader> getLoaderForExtension(String extension) {

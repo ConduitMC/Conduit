@@ -19,8 +19,8 @@
     "inventory.AbstractContainerMenuMixin",
 
     "item.ItemStackMixin",
+    "item.WrittenBookItemMixin",
 
-    "level.BaseSpawnerMixin",
     "level.BiomeMixin",
     "level.LevelMixin",
     "level.PortalForcerMixin",
@@ -45,6 +45,7 @@
     "player.PlayerMixin",
     "player.ServerPlayerGameModeMixin",
     "player.ServerPlayerMixin",
+    "player.PlayerAdvancementsMixin",
 
     "server.command.CommandSourceMixin",
     "server.command.GamemodeCommandMixin",
@@ -55,6 +56,7 @@
     "server.StartupMixin",
     "server.VersionMixin",
     "server.BootstrapMixin",
-    "server.ServerStatusPacketListenerImplMixin"
+    "server.ServerStatusPacketListenerImplMixin",
+    "server.DedicatedServerMixin"
   ]
 }

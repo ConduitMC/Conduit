@@ -1,6 +1,8 @@
 package systems.conduit.main.core.datastore.schema;
 
 import lombok.Getter;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.datastore.schema.utils.CommonDatastoreUtil;
 import systems.conduit.main.core.datastore.schema.utils.SchemaDeserializeUtil;

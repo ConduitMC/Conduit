@@ -67,7 +67,6 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract int getScore();
     @Shadow public abstract void setScore(int score);
     @Shadow public abstract void increaseScore(int score);
-    @Shadow protected abstract int getFireImmuneTicks();
     @Shadow public abstract void die(DamageSource source);
     @Shadow public abstract float getDestroySpeed(BlockState state);
     @Shadow public abstract boolean hasCorrectToolForDrops(BlockState state);
@@ -79,7 +78,6 @@ public abstract class PlayerMixin implements Player {
 
     @Shadow public abstract double getMyRidingOffset();
     @Shadow public abstract void removeVehicle();
-    @Shadow protected abstract boolean isImmobile();
     @Shadow public abstract boolean isAffectedByFluids();
     @Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
     @Shadow public abstract int getPortalWaitTime();
@@ -104,8 +102,11 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract HumanoidArm getMainArm();
     @Shadow public abstract CompoundTag getShoulderEntityLeft();
     @Shadow public abstract CompoundTag getShoulderEntityRight();
-    @Shadow protected abstract void shadow$setShoulderEntityLeft(CompoundTag tag);
-    @Shadow protected abstract void shadow$setShoulderEntityRight(CompoundTag tag);
+//    @Shadow protected abstract void shadow$setShoulderEntityLeft(CompoundTag tag);
+//    @Shadow protected abstract void shadow$setShoulderEntityRight(CompoundTag tag);
+//    @Invoker public abstract void setShoulderEntityLeft(CompoundTag tag);
+//    @Invoker public abstract void setShoulderEntityRight(CompoundTag tag);
+//    @Invoker public abstract boolean isAboveGround();
 
     @Shadow public abstract ItemCooldowns getCooldowns();
     @Shadow public abstract float getLuck();
@@ -135,16 +136,6 @@ public abstract class PlayerMixin implements Player {
 //    public boolean isAboveGround() {
 //        return shadow$isAboveGround();
 //    }
-
-    @Override
-    public boolean isImmobilized() {
-        return isImmobile();
-    }
-
-    @Override
-    public int getFireImmunityTicks() {
-        return this.getFireImmuneTicks();
-    }
 
     public void closeOpenedContainer() {
         if (this.getContainerMenu() != this.inventoryMenu) {

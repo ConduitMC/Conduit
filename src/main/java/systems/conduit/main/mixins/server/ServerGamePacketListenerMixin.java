@@ -112,4 +112,12 @@ public abstract class ServerGamePacketListenerMixin {
 
         if (event.isCanceled()) ci.cancel();
     }
+
+    @Inject(method = "handleUseItemOn", at = @At("HEAD"), cancellable = true)
+    public void handleUseItemOn(ServerboundUseItemOnPacket packet, CallbackInfo ci) {
+        PlayerEvents.ItemInteractOnEvent event = new PlayerEvents.ItemInteractOnEvent((systems.conduit.main.api.mixins.ServerPlayer) this.player, packet.getHand(), this.player.getItemInHand(packet.getHand()), packet.getHitResult());
+        Conduit.getEventManager().dispatchEvent(event);
+
+        if (event.isCanceled()) ci.cancel();
+    }
 }

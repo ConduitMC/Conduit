@@ -56,13 +56,14 @@ public class WorldEvents {
     }
 
     /**
-     * Implemented in: {@link systems.conduit.main.mixins.player.ServerPlayerGameModeMixin#destroyAndAck(BlockPos, CallbackInfoReturnable)}
+     * Implemented in: {@link systems.conduit.main.mixins.player.ServerPlayerGameModeMixin#destroyBlockInitial(BlockPos, CallbackInfoReturnable)}
      */
     @AllArgsConstructor
     @Getter
     public static class BlockBreakEvent extends Cancellable {
         private Player player;
         private BlockState blockState;
+        private BlockPos position;
     }
 
     /**
@@ -286,4 +287,12 @@ public class WorldEvents {
         private Entity spawned;
     }
 
+    @AllArgsConstructor
+    @Getter
+    public static class LecternPlaceBookEvent extends Cancellable {
+        private BlockPos blockPos;
+        private Level level;
+        private ItemStack book;
+        private ServerPlayer player;
+    }
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Pig;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.api.mixins.Entity;
 import systems.conduit.main.api.mixins.LivingEntity;
@@ -127,5 +129,14 @@ public class EntityEvents {
     public static class SheepSetColorEvent extends Cancellable {
         private Sheep sheep;
         private DyeColor color;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class MoveEvent extends Cancellable {
+        private Entity entity;
+        private Vec3 to;
+        private Vec3 from;
+        private MoverType mover;
     }
 }

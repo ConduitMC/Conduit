@@ -3,14 +3,17 @@ package systems.conduit.main.core.events.types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -18,6 +21,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -152,11 +156,11 @@ public class PlayerEvents {
         @Setter private String message;
     }
 
-    @AllArgsConstructor
-    @Getter
     /**
      * Mixin implementation: {@link systems.conduit.main.mixins.player.PlayerListMixin}
      */
+    @AllArgsConstructor
+    @Getter
     public static class RespawnEvent extends EventType {
         private ServerPlayer player;
     }
@@ -164,11 +168,15 @@ public class PlayerEvents {
     @AllArgsConstructor
     @Getter
     public static class MoveEvent extends Cancellable {
-        private Player player;
+        private ServerPlayer entity;
         private Vec3 to;
         private Vec3 from;
+        private MoverType mover;
     }
 
+    /**
+     * Mixin implementation {@link systems.conduit.main.mixins.player.ServerPlayerMixin#changeDimension(ServerLevel, CallbackInfoReturnable)}
+     */
     @AllArgsConstructor
     @Getter
     public static class LevelSwitchEvent extends Cancellable {
@@ -298,6 +306,15 @@ public class PlayerEvents {
 
     @AllArgsConstructor
     @Getter
+    public static class ItemInteractOnEvent extends Cancellable {
+        private ServerPlayer player;
+        private InteractionHand hand;
+        private ItemStack itemInHand;
+        private BlockHitResult result;
+    }
+
+    @AllArgsConstructor
+    @Getter
     public static class EntityRideShoulderEvent extends Cancellable {
         private Player player;
         private CompoundTag tag;
@@ -306,5 +323,26 @@ public class PlayerEvents {
         public enum Shoulder {
             LEFT, RIGHT
         }
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class AdvancementCompletedEvent extends Cancellable {
+        private ServerPlayer player;
+        private Advancement advancement;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class AdvancementRevokeEvent extends Cancellable {
+        private ServerPlayer player;
+        private Advancement advancement;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemBreakEvent extends Cancellable {
+        private ServerPlayer player;
+        private ItemStack item;
     }
 }

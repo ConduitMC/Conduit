@@ -54,7 +54,6 @@ public class StaticInventory implements EventListener {
     }
 
     public void changeFrame(ServerPlayer player, String frameName) {
-
         InventoryFrame newFrame = frames.get(frameName);
         if (newFrame == null) return;
 

@@ -52,36 +52,4 @@ public class DatastoreUtils {
         }
         return Optional.empty();
     }
-
-    //    public void register(String name, Map<String, Object> meta, DatastoreBackend backend) {
-//        // Make sure the name is valid
-//        if (isInvalidName(name)) return;
-//        name = pluginName + "-" + name;
-//        meta.put("table", name);
-//
-//        // Once we have converted that, we need to make a new instance of the selected handler that we will be using for this store.
-//        Optional<Datastore> handler = createNewHandlerInstance(backend.getHandler());
-//        if (!handler.isPresent()) {
-//            Conduit.getLogger().error("Failed to instantiate datastore handler!");
-//            return;
-//        }
-//        handler.get().attach(meta);
-//
-//        this.handlers.put(name, handler.get());
-//    }
-
-//    public void close(String name) {
-//        if (isInvalidName(name)) return;
-//
-//        Datastore handler = handlers.getOrDefault(pluginName + "-" + name, null);
-//        if (handler == null) return;
-//
-//        handler.detach();
-//        this.handlers.remove(name);
-//    }
-
-//    public Optional<Datastore> get(String name) {
-//        if (isInvalidName(name)) return Optional.empty();
-//        return Optional.ofNullable(handlers.getOrDefault(pluginName + "-" + name, null));
-//    }
 }

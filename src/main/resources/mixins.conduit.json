@@ -44,6 +44,7 @@
     "player.PlayerMixin",
     "player.ServerPlayerGameModeMixin",
     "player.ServerPlayerMixin",
+    "player.PlayerAdvancementsMixin",
 
     "server.command.CommandSourceMixin",
     "server.command.GamemodeCommandMixin",

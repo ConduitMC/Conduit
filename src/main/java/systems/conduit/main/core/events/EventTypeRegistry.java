@@ -56,6 +56,8 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.EntityRideShoulderEvent.class);
         eventMappings.add(PlayerEvents.ItemInteractOnEvent.class);
         eventMappings.add(PlayerEvents.MoveEvent.class);
+        eventMappings.add(PlayerEvents.AdvancementCompletedEvent.class);
+        eventMappings.add(PlayerEvents.AdvancementRevokeEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);

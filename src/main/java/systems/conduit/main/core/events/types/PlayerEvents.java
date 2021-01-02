@@ -3,6 +3,7 @@ package systems.conduit.main.core.events.types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -322,5 +323,19 @@ public class PlayerEvents {
         public enum Shoulder {
             LEFT, RIGHT
         }
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class AdvancementCompletedEvent extends Cancellable {
+        private ServerPlayer player;
+        private Advancement advancement;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class AdvancementRevokeEvent extends Cancellable {
+        private ServerPlayer player;
+        private Advancement advancement;
     }
 }

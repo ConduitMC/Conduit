@@ -80,4 +80,8 @@ public class EventTypeRegistry {
     public static List<Class<? extends EventType>> getEventMappings() {
         return eventMappings;
     }
+
+    public static void registerCustomEvent(Class<? extends EventType> event) {
+        eventMappings.add(event);
+    }
 }

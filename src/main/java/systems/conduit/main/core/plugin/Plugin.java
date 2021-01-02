@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
+import org.apache.logging.log4j.Logger;
 import systems.conduit.main.Conduit;
 import systems.conduit.main.core.commands.BaseCommand;
 import systems.conduit.main.core.datastore.Datastore;
@@ -26,6 +27,7 @@ public abstract class Plugin {
     @Getter(AccessLevel.PUBLIC) private final Map<Integer, Map<EventListener, List<Method>>> events = new ConcurrentHashMap<>();
     @Getter private final Map<DatastoreBackend, Datastore> datastores = new HashMap<>();
     @Getter private final Map<Class<? extends Configuration>, Configuration> configs = new HashMap<>();
+    @Getter @Setter(AccessLevel.MODULE) private Logger logger;
 
     protected abstract void onEnable();
 

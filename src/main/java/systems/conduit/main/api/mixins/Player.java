@@ -86,7 +86,7 @@ public interface Player extends LivingEntity {
     void removeVehicle();
     boolean isImmobile();
     boolean isAffectedByFluids();
-    boolean isAboveGround();
+    boolean conduit_isAboveGround();
 
     GameProfile getGameProfile();
 
@@ -101,8 +101,8 @@ public interface Player extends LivingEntity {
     boolean mayUseItemAt(BlockPos pos, Direction direction, ItemStack with);
 
     boolean setEntityOnShoulder(CompoundTag tag);
-    void removeEntitiesOnShoulder();
-    void respawnEntityOnShoulder(CompoundTag tag);
+    void conduit_removeEntitiesOnShoulder();
+    void conduit_respawnEntityOnShoulder(CompoundTag tag);
 
     float getStandingEyeHeight(Pose pose, EntityDimensions dimensions);
     float getAbsorptionAmount();
@@ -111,10 +111,10 @@ public interface Player extends LivingEntity {
 
     HumanoidArm getMainArm();
 
-    CompoundTag getShoulderEntityLeft();
-    CompoundTag getShoulderEntityRight();
-    void setShoulderEntityLeft(CompoundTag tag);
-    void setShoulderEntityRight(CompoundTag tag);
+    CompoundTag conduit_getShoulderEntityLeft();
+    CompoundTag conduit_getShoulderEntityRight();
+    void conduit_setShoulderEntityLeft(CompoundTag tag);
+    void conduit_setShoulderEntityRight(CompoundTag tag);
 
     ItemCooldowns getCooldowns();
 

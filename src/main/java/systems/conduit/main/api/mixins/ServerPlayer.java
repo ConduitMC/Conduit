@@ -50,14 +50,14 @@ public interface ServerPlayer extends Player {
     void sendRemoveEntity(Entity entity);
     void cancelRemoveEntity(Entity entity);
 
-    Entity getCamera();
+    Entity conduit_getCamera();
     void conduit_setCamera(Entity camera);
 
     void untrackChunk(ChunkPos pos);
     SectionPos getLastSectionPos();
     void setLastSectionPos(SectionPos pos);
 
-    Optional<TextFilter> getTextFilter();
+    Optional<TextFilter> conduit_getTextFilter();
 
     void setGameType(GameType type);
 

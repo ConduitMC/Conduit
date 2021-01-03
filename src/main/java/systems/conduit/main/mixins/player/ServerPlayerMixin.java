@@ -45,6 +45,7 @@ import systems.conduit.main.core.permissions.PermissionNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Mixin(value = net.minecraft.server.level.ServerPlayer.class, remap = false)
@@ -74,19 +75,19 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow public abstract void sendRemoveEntity(Entity entity);
     @Shadow public abstract void cancelRemoveEntity(Entity entity);
 
-    @Shadow public abstract Entity shadow$getCamera();
-    @Shadow public abstract void shadow$setCamera(Entity entity);
+    @Shadow public abstract Entity getCamera();
+    @Shadow public abstract void setCamera(Entity entity);
 
     @Shadow public abstract void untrackChunk(ChunkPos pos);
     @Shadow public abstract SectionPos getLastSectionPos();
     @Shadow public abstract void setLastSectionPos(SectionPos pos);
-    @Shadow public abstract TextFilter shadow$getTextFilter();
+    @Shadow public abstract TextFilter getTextFilter();
 
     @Getter private List<PermissionNode> permissionNodes = new ArrayList<>();
 
     @Override
     public final void conduit_setCamera(systems.conduit.main.api.mixins.Entity entity) {
-        this.shadow$setCamera((Entity) entity);
+        this.setCamera((Entity) entity);
     }
 
     @Override
@@ -114,15 +115,15 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         permissionNodes.removeIf(n -> n.getPermission().equalsIgnoreCase(permission));
     }
 
-//    @Override
-//    public systems.conduit.main.api.mixins.Entity getCamera() {
-//        return (systems.conduit.main.api.mixins.Entity) shadow$getCamera();
-//    }
-//
-//    @Override
-//    public Optional<TextFilter> getTextFilter() {
-//        return Optional.ofNullable(shadow$getTextFilter());
-//    }
+    @Override
+    public systems.conduit.main.api.mixins.Entity conduit_getCamera() {
+        return (systems.conduit.main.api.mixins.Entity) getCamera();
+    }
+
+    @Override
+    public Optional<TextFilter> conduit_getTextFilter() {
+        return Optional.ofNullable(getTextFilter());
+    }
 
     @Override
     public boolean hasPermission(String permission) {
@@ -225,7 +226,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Inject(method = "attack", at = @At(value = "HEAD", target = "Lnet/minecraft/server/level/ServerPlayer;setCamera(Lnet/minecraft/world/entity/Entity;)V"))
     public void attack(Entity entity, CallbackInfo ci) {
-        PlayerEvents.SpectateEvent event = new PlayerEvents.SpectateEvent((ServerPlayer) (Object) this, entity);
+        PlayerEvents.SpectateEvent event = new PlayerEvents.SpectateEvent(this, entity);
         Conduit.getEventManager().dispatchEvent(event);
 
         // If the event is cancelled, prevent the player from continuing to spectate.
@@ -273,7 +274,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Inject(method = "drop", at = @At("HEAD"), cancellable = true)
     public void drop(ItemStack item, boolean dropStyle, boolean setThrower, CallbackInfoReturnable<ItemEntity> cir) {
-        PlayerEvents.DropItemEvent event = new PlayerEvents.DropItemEvent((ServerPlayer) ((Object) this), item);
+        PlayerEvents.DropItemEvent event = new PlayerEvents.DropItemEvent(this, item);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

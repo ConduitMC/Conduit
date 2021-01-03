@@ -1,6 +1,7 @@
 package systems.conduit.main.api.mixins;
 
 import net.minecraft.core.SectionPos;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayerGameMode;
@@ -65,4 +66,5 @@ public interface ServerPlayer extends Player {
     void displayActionBarTitle(TextComponent title, int fadeIn, int stay, int fadeOut);
 
     void playSoundAt(SoundEvent sound, SoundSource source, double x, double y, double z, float volume, float pitch);
+    void showParticle(ParticleOptions particle, boolean overrideLimiter, double x, double y, double z, float xDist, float yDist, float zDist, float maxSpeed, int count);
 }

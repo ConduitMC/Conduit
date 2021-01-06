@@ -5,6 +5,7 @@ import net.minecraft.commands.Commands;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.protocol.status.ServerStatus;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.ServerScoreboard;
 import net.minecraft.server.bossevents.CustomBossEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
@@ -42,4 +43,5 @@ public interface MinecraftServer {
     LevelStorageSource.LevelStorageAccess getStorageSource();
     PlayerList getPlayerList();
     ServerStatus getStatus();
+    ServerScoreboard getScoreboard();
 }

@@ -199,6 +199,31 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         connection.send(packet);
     }
 
+    @Override
+    public void addToTeam(String team) {
+        Conduit.getScoreboardManager().getTeam(team).ifPresent(t -> Conduit.getScoreboardManager().addPlayerToTeam(getGameProfile().getName(), team));
+    }
+
+    @Override
+    public void removeFromTeam(String team) {
+        Conduit.getScoreboardManager().removePlayerFromTeam(getGameProfile().getName(), team);
+    }
+
+    @Override
+    public void setObjectiveScore(String objective, int score) {
+        Conduit.getScoreboardManager().setScore(getGameProfile().getName(), objective, score);
+    }
+
+    @Override
+    public void addObjectiveScore(String objective, int score) {
+        Conduit.getScoreboardManager().getScore(getGameProfile().getName(), objective).ifPresent(current -> Conduit.getScoreboardManager().setScore(getGameProfile().getName(), objective, current + score));
+    }
+
+    @Override
+    public void removeObjectiveScore(String objective, int score) {
+        Conduit.getScoreboardManager().getScore(getGameProfile().getName(), objective).ifPresent(current -> Conduit.getScoreboardManager().setScore(getGameProfile().getName(), objective, current - score));
+    }
+
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))
     private GameType updateGameMode(GameType gameType) {
         // TODO: Allow this event to be cancelled

@@ -67,4 +67,10 @@ public interface ServerPlayer extends Player {
 
     void playSoundAt(SoundEvent sound, SoundSource source, double x, double y, double z, float volume, float pitch);
     void showParticle(ParticleOptions particle, boolean overrideLimiter, double x, double y, double z, float xDist, float yDist, float zDist, float maxSpeed, int count);
+
+    void addToTeam(String team);
+    void removeFromTeam(String team);
+    void setObjectiveScore(String objective, int score);
+    void addObjectiveScore(String objective, int score);
+    void removeObjectiveScore(String objective, int score);
 }

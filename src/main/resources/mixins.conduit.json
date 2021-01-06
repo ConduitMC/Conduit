@@ -57,6 +57,7 @@
     "server.VersionMixin",
     "server.BootstrapMixin",
     "server.ServerStatusPacketListenerImplMixin",
-    "server.DedicatedServerMixin"
+    "server.DedicatedServerMixin",
+    "server.ServerScoreboardMixin"
   ]
 }

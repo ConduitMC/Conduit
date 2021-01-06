@@ -16,6 +16,7 @@ import systems.conduit.main.core.events.EventManager;
 import systems.conduit.main.core.plugin.PluginManager;
 import systems.conduit.main.core.plugin.config.ConfigurationLoader;
 import systems.conduit.main.core.plugin.config.ConfigurationTypes;
+import systems.conduit.main.core.scoreboard.ScoreboardManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class Conduit {
     @Getter private static final LevelManager levelManager = new LevelManager();
     @Getter private static final BossBarManager bossBarManager = new BossBarManager();
     @Getter private static final RunnableManager runnableManager = new RunnableManager();
+    @Getter private static final ScoreboardManager scoreboardManager = new ScoreboardManager();
 
     @Setter private static MinecraftServer server = null;
     @Getter private static String version = "@VERSION@";

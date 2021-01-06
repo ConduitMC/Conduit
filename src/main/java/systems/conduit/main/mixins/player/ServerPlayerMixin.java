@@ -286,8 +286,6 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
                 this.addPermission(permission);
             });
         }
-
-        permissionNodes.forEach(permission -> permission.applies("conduit.testing"));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))

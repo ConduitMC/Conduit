@@ -22,8 +22,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.core.api.mixins.MinecraftServer;
 import systems.conduit.main.console.Console;
+import systems.conduit.main.core.api.mixins.MinecraftServer;
 import systems.conduit.main.core.events.types.ServerEvents;
 
 import java.util.Map;

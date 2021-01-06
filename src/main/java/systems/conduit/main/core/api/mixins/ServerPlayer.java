@@ -2,6 +2,7 @@ package systems.conduit.main.core.api.mixins;
 
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerPlayerGameMode;
@@ -73,4 +74,6 @@ public interface ServerPlayer extends Player {
     void setObjectiveScore(String objective, int score);
     void addObjectiveScore(String objective, int score);
     void removeObjectiveScore(String objective, int score);
+
+    void setTabListHeaderFooter(Component header, Component footer);
 }

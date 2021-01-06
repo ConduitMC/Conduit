@@ -8,10 +8,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
-import net.minecraft.network.protocol.game.ClientboundSetTitlesPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayerGameMode;
@@ -222,6 +219,13 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Override
     public void removeObjectiveScore(String objective, int score) {
         Conduit.getScoreboardManager().getScore(getGameProfile().getName(), objective).ifPresent(current -> Conduit.getScoreboardManager().setScore(getGameProfile().getName(), objective, current - score));
+    }
+
+    @Override
+    public void setTabListHeaderFooter(Component header, Component footer) {
+        systems.conduit.main.core.api.mixins.packets.ClientboundTabListPacket packet = (systems.conduit.main.core.api.mixins.packets.ClientboundTabListPacket) new ClientboundTabListPacket();
+        packet.setHeaderFooter(header, footer);
+        this.connection.send(packet.toPacket());
     }
 
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))

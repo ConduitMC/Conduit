@@ -62,4 +62,12 @@ public class ScoreboardManager {
         if (!team.isPresent()) return;
         Conduit.getServer().ifPresent(s -> s.getScoreboard().removePlayerFromTeam(player, team.get()));
     }
+
+    public void setScore(String player, String objective, int value) {
+        getOrCreateObjective(objective).ifPresent(obj -> Conduit.getServer().ifPresent(s -> s.getScoreboard().getOrCreatePlayerScore(player, obj).setScore(value)));
+    }
+
+    public Optional<Integer> getScore(String player, String objective) {
+        return getOrCreateObjective(objective).map(obj -> Conduit.getServer().map(s -> s.getScoreboard().getOrCreatePlayerScore(player, obj).getScore()).orElse(0));
+    }
 }

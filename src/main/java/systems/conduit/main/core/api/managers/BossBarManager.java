@@ -1,4 +1,4 @@
-package systems.conduit.main.api.managers;
+package systems.conduit.main.core.api.managers;
 
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;

@@ -18,8 +18,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.LivingEntity;
-import systems.conduit.main.api.mixins.Player;
+import systems.conduit.main.core.api.mixins.LivingEntity;
+import systems.conduit.main.core.api.mixins.Player;
 import systems.conduit.main.core.events.types.EntityEvents;
 import systems.conduit.main.core.events.types.PlayerEvents;
 

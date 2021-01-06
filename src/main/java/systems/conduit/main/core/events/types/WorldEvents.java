@@ -17,7 +17,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import systems.conduit.main.api.mixins.*;
+import systems.conduit.main.core.api.mixins.*;
 import systems.conduit.main.core.events.Cancellable;
 import systems.conduit.main.mixins.item.ItemStackMixin;
 import systems.conduit.main.mixins.level.ServerLevelDataMixin;

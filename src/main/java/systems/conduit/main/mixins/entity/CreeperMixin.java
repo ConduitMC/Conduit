@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.Entity;
+import systems.conduit.main.core.api.mixins.Entity;
 import systems.conduit.main.core.events.types.EntityEvents;
 
 /**

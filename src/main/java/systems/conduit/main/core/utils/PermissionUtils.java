@@ -1,7 +1,7 @@
 package systems.conduit.main.core.utils;
 
 import net.minecraft.commands.CommandSourceStack;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 
 /**
  * @author Innectic

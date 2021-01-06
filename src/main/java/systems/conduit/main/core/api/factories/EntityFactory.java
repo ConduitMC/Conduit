@@ -1,4 +1,4 @@
-package systems.conduit.main.api.factories;
+package systems.conduit.main.core.api.factories;
 
 import lombok.Builder;
 import net.minecraft.core.BlockPos;

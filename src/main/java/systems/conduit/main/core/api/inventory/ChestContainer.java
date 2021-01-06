@@ -1,4 +1,4 @@
-package systems.conduit.main.api.inventory;
+package systems.conduit.main.core.api.inventory;
 
 import lombok.Getter;
 import net.minecraft.world.SimpleContainer;

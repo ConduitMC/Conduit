@@ -1,4 +1,4 @@
-package systems.conduit.main.api.managers;
+package systems.conduit.main.core.api.managers;
 
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.core.MappedRegistry;
@@ -17,9 +17,9 @@ import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.levelgen.WorldGenSettings;
 import net.minecraft.world.level.storage.PrimaryLevelData;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.factories.LevelDataFactory;
-import systems.conduit.main.api.mixins.MinecraftServer;
-import systems.conduit.main.api.mixins.ServerLevel;
+import systems.conduit.main.core.api.factories.LevelDataFactory;
+import systems.conduit.main.core.api.mixins.MinecraftServer;
+import systems.conduit.main.core.api.mixins.ServerLevel;
 
 import java.util.Optional;
 
@@ -57,7 +57,7 @@ public class LevelManager {
 
         ResourceKey<Level> resourceKey = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(levelData.getLevelName()));
 
-        systems.conduit.main.api.mixins.WorldGenSettings worldGenSettings = (systems.conduit.main.api.mixins.WorldGenSettings) server.get().getWorldData().worldGenSettings();
+        systems.conduit.main.core.api.mixins.WorldGenSettings worldGenSettings = (systems.conduit.main.core.api.mixins.WorldGenSettings) server.get().getWorldData().worldGenSettings();
         boolean isDebugMode = worldGenSettings.isDebug();
         long seed = BiomeManager.obfuscateSeed(worldGenSettings.seed());
 

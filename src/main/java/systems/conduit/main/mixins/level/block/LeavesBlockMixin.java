@@ -22,7 +22,7 @@ public class LeavesBlockMixin {
 
     @Inject(method = "randomTick", at = @At(value = "HEAD", target = "Lnet/minecraft/world/level/Level;removeBlock(Lnet/minecraft/core/BlockPos;Z)Z"), cancellable = true)
     public void randomTick(BlockState blockState, ServerLevel level, BlockPos blockPos, Random random, CallbackInfo ci) {
-        WorldEvents.LeafDecayEvent event = new WorldEvents.LeafDecayEvent(blockState, (systems.conduit.main.api.mixins.ServerLevel) level);
+        WorldEvents.LeafDecayEvent event = new WorldEvents.LeafDecayEvent(blockState, (systems.conduit.main.core.api.mixins.ServerLevel) level);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();

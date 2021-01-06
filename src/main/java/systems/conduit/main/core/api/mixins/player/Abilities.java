@@ -1,4 +1,4 @@
-package systems.conduit.main.api.mixins.player;
+package systems.conduit.main.core.api.mixins.player;
 
 import net.minecraft.nbt.CompoundTag;
 

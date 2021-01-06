@@ -27,9 +27,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.Player;
-import systems.conduit.main.api.mixins.ServerPlayer;
-import systems.conduit.main.api.mixins.player.Abilities;
+import systems.conduit.main.core.api.mixins.Player;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.player.Abilities;
 import systems.conduit.main.core.events.types.PlayerEvents;
 
 @Mixin(value = net.minecraft.world.entity.player.Player.class, remap = false)
@@ -152,7 +152,7 @@ public abstract class PlayerMixin implements Player {
 
     @Inject(method = "interactOn", at = @At("HEAD"))
     public void interactOn(Entity entity, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
-        PlayerEvents.EntityClickEvent event = new PlayerEvents.EntityClickEvent((ServerPlayer) ((Object) this), this.getItemInHand(interactionHand), interactionHand, (systems.conduit.main.api.mixins.Entity) entity);
+        PlayerEvents.EntityClickEvent event = new PlayerEvents.EntityClickEvent((ServerPlayer) ((Object) this), this.getItemInHand(interactionHand), interactionHand, (systems.conduit.main.core.api.mixins.Entity) entity);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

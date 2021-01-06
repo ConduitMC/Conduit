@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.WorldEvents;
 
 /**
@@ -25,7 +25,7 @@ public class ShulkerBoxBlockMixin {
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     public void use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
-        WorldEvents.ShulkerBoxOpenEvent event = new WorldEvents.ShulkerBoxOpenEvent(blockPos, (systems.conduit.main.api.mixins.Level) level, blockState, (ServerPlayer) player, interactionHand);
+        WorldEvents.ShulkerBoxOpenEvent event = new WorldEvents.ShulkerBoxOpenEvent(blockPos, (systems.conduit.main.core.api.mixins.Level) level, blockState, (ServerPlayer) player, interactionHand);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

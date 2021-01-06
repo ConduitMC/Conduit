@@ -1,9 +1,9 @@
-package systems.conduit.main.api.inventory;
+package systems.conduit.main.core.api.inventory;
 
 import lombok.*;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.item.ItemStack;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 
 import java.util.function.BiConsumer;
 

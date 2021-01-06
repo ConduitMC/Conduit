@@ -1,4 +1,4 @@
-package systems.conduit.main.api.mixins;
+package systems.conduit.main.core.api.mixins;
 
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;

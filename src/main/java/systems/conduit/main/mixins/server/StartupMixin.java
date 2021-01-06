@@ -43,7 +43,7 @@ public abstract class StartupMixin extends MinecraftServer {
     private void initServer(CallbackInfoReturnable<Boolean> callback) {
         Conduit.setupLogger();
         Conduit.loadConfiguration();
-        Conduit.setServer((systems.conduit.main.api.mixins.MinecraftServer) this);
+        Conduit.setServer((systems.conduit.main.core.api.mixins.MinecraftServer) this);
         Conduit.getLogger().info("Server starting initialization...");
         Conduit.getCommandManager().loadDefaultCommands();
         Conduit.getPluginManager().loadPlugins();

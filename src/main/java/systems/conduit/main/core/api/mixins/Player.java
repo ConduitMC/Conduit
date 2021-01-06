@@ -1,4 +1,4 @@
-package systems.conduit.main.api.mixins;
+package systems.conduit.main.core.api.mixins;
 
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
@@ -20,7 +20,7 @@ import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.scores.Scoreboard;
-import systems.conduit.main.api.mixins.player.Abilities;
+import systems.conduit.main.core.api.mixins.player.Abilities;
 
 /**
  * Base Conduit interface for use with mixins.

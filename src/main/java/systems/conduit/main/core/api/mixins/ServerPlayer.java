@@ -1,4 +1,4 @@
-package systems.conduit.main.api.mixins;
+package systems.conduit.main.core.api.mixins;
 
 import net.minecraft.core.SectionPos;
 import net.minecraft.core.particles.ParticleOptions;

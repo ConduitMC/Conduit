@@ -1,9 +1,9 @@
-package systems.conduit.main.core.scoreboard;
+package systems.conduit.main.core.api.managers;
 
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.PlayerTeam;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 
 import java.util.Optional;
 

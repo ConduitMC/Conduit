@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.WorldEvents;
 
 /**
@@ -27,7 +27,7 @@ public class BellBlockMixin {
 
     @Inject(method = "onProjectileHit", at = @At("HEAD"), cancellable = true)
     public void onProjectileHit(Level level, BlockState blockState, BlockHitResult blockHitResult, Projectile projectile, CallbackInfo ci) {
-        WorldEvents.ProjectileRingBellEvent event = new WorldEvents.ProjectileRingBellEvent((systems.conduit.main.api.mixins.Level) level, blockState, projectile);
+        WorldEvents.ProjectileRingBellEvent event = new WorldEvents.ProjectileRingBellEvent((systems.conduit.main.core.api.mixins.Level) level, blockState, projectile);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();
@@ -35,7 +35,7 @@ public class BellBlockMixin {
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     public void use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
-        WorldEvents.PlayerRingBellEvent event = new WorldEvents.PlayerRingBellEvent((systems.conduit.main.api.mixins.Level) level, blockState, (ServerPlayer) player, interactionHand, blockPos);
+        WorldEvents.PlayerRingBellEvent event = new WorldEvents.PlayerRingBellEvent((systems.conduit.main.core.api.mixins.Level) level, blockState, (ServerPlayer) player, interactionHand, blockPos);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

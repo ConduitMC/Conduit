@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.Player;
+import systems.conduit.main.core.api.mixins.Player;
 import systems.conduit.main.core.events.types.PlayerEvents;
 
 import java.util.UUID;
@@ -44,7 +44,7 @@ public abstract class ServerGamePacketListenerMixin {
 
     @Inject(method = "handleCommand", at = @At("HEAD"), cancellable = true)
     private void handleCommand(String message, CallbackInfo ci) {
-        PlayerEvents.PlayerCommandEvent event = new PlayerEvents.PlayerCommandEvent((systems.conduit.main.api.mixins.Player) this.player, message);
+        PlayerEvents.PlayerCommandEvent event = new PlayerEvents.PlayerCommandEvent((systems.conduit.main.core.api.mixins.Player) this.player, message);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();
@@ -61,7 +61,7 @@ public abstract class ServerGamePacketListenerMixin {
                 leaveType = PlayerEvents.LeaveType.LEFT;
             }
         }
-        PlayerEvents.PlayerLeaveEvent event = new PlayerEvents.PlayerLeaveEvent((systems.conduit.main.api.mixins.ServerPlayer) player, message, leaveType);
+        PlayerEvents.PlayerLeaveEvent event = new PlayerEvents.PlayerLeaveEvent((systems.conduit.main.core.api.mixins.ServerPlayer) player, message, leaveType);
         Conduit.getEventManager().dispatchEvent(event);
         Component eventMessage = event.getMessage();
         if (eventMessage != null) playerList.broadcastMessage(event.getMessage(), ChatType.SYSTEM, UUID.randomUUID());
@@ -84,7 +84,7 @@ public abstract class ServerGamePacketListenerMixin {
         }
 
         // If the player isn't a spectator, we need to submit an event to make sure that there's nothing stopping this from happening
-        PlayerEvents.InventoryClickEvent event = new PlayerEvents.InventoryClickEvent((systems.conduit.main.api.mixins.ServerPlayer) player, player.containerMenu, packet.getClickType(), packet.getSlotNum());
+        PlayerEvents.InventoryClickEvent event = new PlayerEvents.InventoryClickEvent((systems.conduit.main.core.api.mixins.ServerPlayer) player, player.containerMenu, packet.getClickType(), packet.getSlotNum());
         Conduit.getEventManager().dispatchEvent(event);
 
         if (!event.isCanceled()) {
@@ -107,7 +107,7 @@ public abstract class ServerGamePacketListenerMixin {
 
     @Inject(method = "handleUseItem", at = @At("HEAD"), cancellable = true)
     public void handleUseItem(ServerboundUseItemPacket packet, CallbackInfo ci) {
-        PlayerEvents.ItemInteractEvent event = new PlayerEvents.ItemInteractEvent((systems.conduit.main.api.mixins.ServerPlayer) this.player, packet.getHand(), this.player.getItemInHand(packet.getHand()));
+        PlayerEvents.ItemInteractEvent event = new PlayerEvents.ItemInteractEvent((systems.conduit.main.core.api.mixins.ServerPlayer) this.player, packet.getHand(), this.player.getItemInHand(packet.getHand()));
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();
@@ -115,7 +115,7 @@ public abstract class ServerGamePacketListenerMixin {
 
     @Inject(method = "handleUseItemOn", at = @At("HEAD"), cancellable = true)
     public void handleUseItemOn(ServerboundUseItemOnPacket packet, CallbackInfo ci) {
-        PlayerEvents.ItemInteractOnEvent event = new PlayerEvents.ItemInteractOnEvent((systems.conduit.main.api.mixins.ServerPlayer) this.player, packet.getHand(), this.player.getItemInHand(packet.getHand()), packet.getHitResult());
+        PlayerEvents.ItemInteractOnEvent event = new PlayerEvents.ItemInteractOnEvent((systems.conduit.main.core.api.mixins.ServerPlayer) this.player, packet.getHand(), this.player.getItemInHand(packet.getHand()), packet.getHitResult());
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();

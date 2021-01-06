@@ -1,7 +1,7 @@
-package systems.conduit.main.api.inventory;
+package systems.conduit.main.core.api.inventory;
 
 import com.google.common.collect.ImmutableList;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 
 /**
  * @author Innectic

@@ -22,7 +22,7 @@ public class PlayerAdvancementsMixin {
 
     @Inject(method = "award", at = @At(value = "HEAD", target = "Lnet/minecraft/advancements/AdvancementRewards;grant(Lnet/minecraft/server/level/ServerPlayer;)V"), cancellable = true)
     public void award(Advancement advancement, String s, CallbackInfoReturnable<Boolean> cir) {
-        PlayerEvents.AdvancementCompletedEvent event = new PlayerEvents.AdvancementCompletedEvent((systems.conduit.main.api.mixins.ServerPlayer) this.player, advancement);
+        PlayerEvents.AdvancementCompletedEvent event = new PlayerEvents.AdvancementCompletedEvent((systems.conduit.main.core.api.mixins.ServerPlayer) this.player, advancement);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {
@@ -33,7 +33,7 @@ public class PlayerAdvancementsMixin {
 
     @Inject(method = "revoke", at = @At("HEAD"), cancellable = true)
     public void revoke(Advancement advancement, String s, CallbackInfoReturnable<Boolean> cir) {
-        PlayerEvents.AdvancementRevokeEvent event = new PlayerEvents.AdvancementRevokeEvent((systems.conduit.main.api.mixins.ServerPlayer) this.player, advancement);
+        PlayerEvents.AdvancementRevokeEvent event = new PlayerEvents.AdvancementRevokeEvent((systems.conduit.main.core.api.mixins.ServerPlayer) this.player, advancement);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

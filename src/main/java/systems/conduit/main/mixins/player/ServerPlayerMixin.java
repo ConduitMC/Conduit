@@ -39,7 +39,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.PlayerEvents;
 import systems.conduit.main.core.permissions.PermissionNode;
 
@@ -86,7 +86,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Getter private List<PermissionNode> permissionNodes = new ArrayList<>();
 
     @Override
-    public final void conduit_setCamera(systems.conduit.main.api.mixins.Entity entity) {
+    public final void conduit_setCamera(systems.conduit.main.core.api.mixins.Entity entity) {
         this.setCamera((Entity) entity);
     }
 
@@ -116,8 +116,8 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     }
 
     @Override
-    public systems.conduit.main.api.mixins.Entity conduit_getCamera() {
-        return (systems.conduit.main.api.mixins.Entity) getCamera();
+    public systems.conduit.main.core.api.mixins.Entity conduit_getCamera() {
+        return (systems.conduit.main.core.api.mixins.Entity) getCamera();
     }
 
     @Override

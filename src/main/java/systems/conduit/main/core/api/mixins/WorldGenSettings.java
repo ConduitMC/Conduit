@@ -1,4 +1,4 @@
-package systems.conduit.main.api.mixins;
+package systems.conduit.main.core.api.mixins;
 
 import net.minecraft.core.MappedRegistry;
 import net.minecraft.world.level.dimension.LevelStem;

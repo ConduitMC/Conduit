@@ -38,7 +38,7 @@ public class JukeboxMixin {
 
         ItemStack record = jukebox.getRecord();
 
-        WorldEvents.JukeboxDropRecordEvent event = new WorldEvents.JukeboxDropRecordEvent(blockPos, jukebox, record, (systems.conduit.main.api.mixins.Level) level);
+        WorldEvents.JukeboxDropRecordEvent event = new WorldEvents.JukeboxDropRecordEvent(blockPos, jukebox, record, (systems.conduit.main.core.api.mixins.Level) level);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();

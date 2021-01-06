@@ -9,7 +9,7 @@ import org.jline.reader.impl.DefaultParser;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.MinecraftServer;
+import systems.conduit.main.core.api.mixins.MinecraftServer;
 
 import java.io.IOException;
 

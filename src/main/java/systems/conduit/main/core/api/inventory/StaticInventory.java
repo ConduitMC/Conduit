@@ -1,11 +1,11 @@
-package systems.conduit.main.api.inventory;
+package systems.conduit.main.core.api.inventory;
 
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.inventory.MenuType;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.EventListener;
 import systems.conduit.main.core.events.annotations.Listener;
 import systems.conduit.main.core.events.types.PlayerEvents;

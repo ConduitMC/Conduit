@@ -14,10 +14,10 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import systems.conduit.main.api.mixins.Entity;
-import systems.conduit.main.api.mixins.LivingEntity;
-import systems.conduit.main.api.mixins.ServerLevel;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.Entity;
+import systems.conduit.main.core.api.mixins.LivingEntity;
+import systems.conduit.main.core.api.mixins.ServerLevel;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.Cancellable;
 
 /*
@@ -91,7 +91,7 @@ public class EntityEvents {
     @AllArgsConstructor
     @Getter
     public static class CreeperChargeEvent extends Cancellable {
-        private systems.conduit.main.api.mixins.Entity entity;
+        private systems.conduit.main.core.api.mixins.Entity entity;
     }
 
     @AllArgsConstructor

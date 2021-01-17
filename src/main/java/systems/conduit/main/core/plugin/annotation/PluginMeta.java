@@ -17,7 +17,7 @@ public @interface PluginMeta {
     String version();
     String author();
     Dependency[] dependencies() default {};
-    Class<? extends Configuration> config() default NoConfig.class;
+    Class<? extends Configuration>[] config() default { NoConfig.class };
     boolean reloadable() default false;
 
 }

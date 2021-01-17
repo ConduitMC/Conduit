@@ -4,12 +4,11 @@ import lombok.Getter;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
-import net.minecraft.network.protocol.game.ClientboundSetTitlesPacket;
-import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.server.PlayerAdvancements;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayerGameMode;
@@ -37,12 +36,13 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.PlayerEvents;
 import systems.conduit.main.core.permissions.PermissionNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Mixin(value = net.minecraft.server.level.ServerPlayer.class, remap = false)
@@ -57,7 +57,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow @Final public ServerPlayerGameMode gameMode;
     @Shadow public abstract void onUpdateAbilities();
     @Shadow public abstract void sendMessage(Component component, UUID uuid);
-    @Shadow public abstract void sendTexturePack(String s, String s1, boolean b);
+    @Shadow public abstract void sendTexturePack(String s, String s1);
 
     @Shadow public abstract ChatVisiblity getChatVisibility();
 
@@ -72,24 +72,24 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow public abstract void sendRemoveEntity(Entity entity);
     @Shadow public abstract void cancelRemoveEntity(Entity entity);
 
-    @Shadow public abstract Entity shadow$getCamera();
-    @Shadow public abstract void shadow$setCamera(Entity entity);
+    @Shadow public abstract Entity getCamera();
+    @Shadow public abstract void setCamera(Entity entity);
 
     @Shadow public abstract void untrackChunk(ChunkPos pos);
     @Shadow public abstract SectionPos getLastSectionPos();
     @Shadow public abstract void setLastSectionPos(SectionPos pos);
-    @Shadow public abstract TextFilter shadow$getTextFilter();
+    @Shadow public abstract TextFilter getTextFilter();
 
     @Getter private List<PermissionNode> permissionNodes = new ArrayList<>();
 
     @Override
-    public final void conduit_setCamera(systems.conduit.main.api.mixins.Entity entity) {
-        this.shadow$setCamera((Entity) entity);
+    public final void conduit_setCamera(systems.conduit.main.core.api.mixins.Entity entity) {
+        this.setCamera((Entity) entity);
     }
 
     @Override
     public void setGameType(GameType type) {
-        this.getGameMode().changeGameModeForPlayer(type);
+        this.getGameMode().updateGameMode(type);
     }
 
     @Override
@@ -112,15 +112,15 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         permissionNodes.removeIf(n -> n.getPermission().equalsIgnoreCase(permission));
     }
 
-//    @Override
-//    public systems.conduit.main.api.mixins.Entity getCamera() {
-//        return (systems.conduit.main.api.mixins.Entity) shadow$getCamera();
-//    }
-//
-//    @Override
-//    public Optional<TextFilter> getTextFilter() {
-//        return Optional.ofNullable(shadow$getTextFilter());
-//    }
+    @Override
+    public systems.conduit.main.core.api.mixins.Entity conduit_getCamera() {
+        return (systems.conduit.main.core.api.mixins.Entity) getCamera();
+    }
+
+    @Override
+    public Optional<TextFilter> conduit_getTextFilter() {
+        return Optional.ofNullable(getTextFilter());
+    }
 
     @Override
     public boolean hasPermission(String permission) {
@@ -133,8 +133,8 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     }
 
     @Override
-    public void sendResourcePack(String url, String hash, boolean required) {
-        this.sendTexturePack(url, hash, required);
+    public void sendResourcePack(String url, String hash) {
+        this.sendTexturePack(url, hash);
     }
 
     @Override
@@ -190,6 +190,43 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
         connection.send(packet);
     }
 
+    @Override
+    public void showParticle(ParticleOptions particle, boolean overrideLimiter, double x, double y, double z, float xDist, float yDist, float zDist, float maxSpeed, int count) {
+        ClientboundLevelParticlesPacket packet = new ClientboundLevelParticlesPacket(particle, overrideLimiter, x, y, z, xDist, yDist, zDist, maxSpeed, count);
+        connection.send(packet);
+    }
+
+    @Override
+    public void addToTeam(String team) {
+        Conduit.getScoreboardManager().getTeam(team).ifPresent(t -> Conduit.getScoreboardManager().addPlayerToTeam(getGameProfile().getName(), team));
+    }
+
+    @Override
+    public void removeFromTeam(String team) {
+        Conduit.getScoreboardManager().removePlayerFromTeam(getGameProfile().getName(), team);
+    }
+
+    @Override
+    public void setObjectiveScore(String objective, int score) {
+        Conduit.getScoreboardManager().setScore(getGameProfile().getName(), objective, score);
+    }
+
+    @Override
+    public void addObjectiveScore(String objective, int score) {
+        Conduit.getScoreboardManager().getScore(getGameProfile().getName(), objective).ifPresent(current -> Conduit.getScoreboardManager().setScore(getGameProfile().getName(), objective, current + score));
+    }
+
+    @Override
+    public void removeObjectiveScore(String objective, int score) {
+        Conduit.getScoreboardManager().getScore(getGameProfile().getName(), objective).ifPresent(current -> Conduit.getScoreboardManager().setScore(getGameProfile().getName(), objective, current - score));
+    }
+
+    @Override
+    public void setTabListHeaderFooter(Component header, Component footer) {
+        systems.conduit.main.core.api.mixins.packets.ClientboundTabListPacket packet = (systems.conduit.main.core.api.mixins.packets.ClientboundTabListPacket) new ClientboundTabListPacket();
+        packet.setHeaderFooter(header, footer);
+        this.connection.send(packet.toPacket());
+    }
 
     @ModifyVariable(method = "setGameMode", at = @At("HEAD"))
     private GameType updateGameMode(GameType gameType) {
@@ -218,7 +255,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Inject(method = "attack", at = @At(value = "HEAD", target = "Lnet/minecraft/server/level/ServerPlayer;setCamera(Lnet/minecraft/world/entity/Entity;)V"))
     public void attack(Entity entity, CallbackInfo ci) {
-        PlayerEvents.SpectateEvent event = new PlayerEvents.SpectateEvent((ServerPlayer) (Object) this, entity);
+        PlayerEvents.SpectateEvent event = new PlayerEvents.SpectateEvent(this, entity);
         Conduit.getEventManager().dispatchEvent(event);
 
         // If the event is cancelled, prevent the player from continuing to spectate.
@@ -253,8 +290,6 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
                 this.addPermission(permission);
             });
         }
-
-        permissionNodes.forEach(permission -> permission.applies("conduit.testing"));
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
@@ -266,7 +301,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Inject(method = "drop", at = @At("HEAD"), cancellable = true)
     public void drop(ItemStack item, boolean dropStyle, boolean setThrower, CallbackInfoReturnable<ItemEntity> cir) {
-        PlayerEvents.DropItemEvent event = new PlayerEvents.DropItemEvent((ServerPlayer) ((Object) this), item);
+        PlayerEvents.DropItemEvent event = new PlayerEvents.DropItemEvent(this, item);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

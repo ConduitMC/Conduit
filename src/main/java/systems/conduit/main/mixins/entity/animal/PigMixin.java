@@ -19,7 +19,7 @@ public class PigMixin {
 
     @Inject(method = "thunderHit", at = @At(value = "HEAD", target = "Lnet/minecraft/world/entity/EntityType;create(Lnet/minecraft/world/level/Level;)Lnet/minecraft/world/entity/Entity;"), cancellable = true)
     public void thunderHit(ServerLevel level, LightningBolt bolt, CallbackInfo ci) {
-        EntityEvents.PigConvertToPiglinEvent event = new EntityEvents.PigConvertToPiglinEvent((Pig) ((Object) this), (systems.conduit.main.api.mixins.ServerLevel) level);
+        EntityEvents.PigConvertToPiglinEvent event = new EntityEvents.PigConvertToPiglinEvent((Pig) ((Object) this), (systems.conduit.main.core.api.mixins.ServerLevel) level);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();

@@ -26,7 +26,7 @@ public abstract class FishingHookMixin {
     @Redirect(method = "retrieve", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/LevelWriter;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"))
     public boolean addFreshEntity(LevelWriter levelWriter, Entity entity) {
         if (entity instanceof ItemEntity) {
-            PlayerEvents.CaughtFishEvent event = new PlayerEvents.CaughtFishEvent((systems.conduit.main.api.mixins.Player) this.getPlayerOwner(), (ItemEntity) entity);
+            PlayerEvents.CaughtFishEvent event = new PlayerEvents.CaughtFishEvent((systems.conduit.main.core.api.mixins.Player) this.getPlayerOwner(), (ItemEntity) entity);
             Conduit.getEventManager().dispatchEvent(event);
 
             if (!event.isCanceled()) entity.level.addFreshEntity(entity);

@@ -1,9 +1,11 @@
 package systems.conduit.main.core.plugin;
 
 import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 import systems.conduit.main.Conduit;
+import systems.conduit.main.console.MessageFactory;
 import systems.conduit.main.core.plugin.annotation.PluginMeta;
 import systems.conduit.main.core.plugin.config.Configuration;
 import systems.conduit.main.core.plugin.config.ConfigurationLoader;
@@ -81,9 +83,11 @@ public class PluginClassLoader extends URLClassLoader {
             }
             plugin.get().setClassLoader(this);
             plugin.get().setMeta(meta);
+            plugin.get().setLogger(LogManager.getLogger(meta.name(), new MessageFactory()));
             // Now, we can try to get the config for this plugin.
-            Class<? extends Configuration> clazz = meta.config();
-            loadConfiguration(plugin.get(), clazz).ifPresent(plugin.get()::setConfig);
+            for (Class<? extends Configuration> clazz : meta.config()) {
+                loadConfiguration(plugin.get(), clazz).ifPresent(plugin.get()::setConfig);
+            }
             return plugin;
         }
         return Optional.empty();

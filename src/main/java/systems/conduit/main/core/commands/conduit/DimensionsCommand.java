@@ -10,8 +10,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.MinecraftServer;
-import systems.conduit.main.api.mixins.ServerLevel;
+import systems.conduit.main.core.api.mixins.MinecraftServer;
+import systems.conduit.main.core.api.mixins.ServerLevel;
 import systems.conduit.main.core.utils.PermissionUtils;
 
 import java.util.Map;

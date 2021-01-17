@@ -31,6 +31,7 @@ public class EventTypeRegistry {
         eventMappings.add(WorldEvents.JukeboxDropRecordEvent.class);
         eventMappings.add(WorldEvents.JukeboxChangeRecordEvent.class);
         eventMappings.add(WorldEvents.SpawnerSpawnEvent.class);
+        eventMappings.add(WorldEvents.LecternPlaceBookEvent.class);
 
         // Player events
         eventMappings.add(PlayerEvents.PlayerJoinEvent.class);
@@ -56,6 +57,9 @@ public class EventTypeRegistry {
         eventMappings.add(PlayerEvents.EntityRideShoulderEvent.class);
         eventMappings.add(PlayerEvents.ItemInteractOnEvent.class);
         eventMappings.add(PlayerEvents.MoveEvent.class);
+        eventMappings.add(PlayerEvents.AdvancementCompletedEvent.class);
+        eventMappings.add(PlayerEvents.AdvancementRevokeEvent.class);
+        eventMappings.add(PlayerEvents.ItemBreakEvent.class);
 
         // Entity events
         eventMappings.add(EntityEvents.SheepGrowWoolEvent.class);
@@ -77,6 +81,20 @@ public class EventTypeRegistry {
         eventMappings.add(ServerEvents.ServerShuttingDownEvent.class);
         eventMappings.add(ServerEvents.PluginReloadEvent.class);
         eventMappings.add(ServerEvents.ServerStatusRequestEvent.class);
+
+        // Scoreboard events
+        eventMappings.add(ScoreboardEvents.ScoreChangedEvent.class);
+        eventMappings.add(ScoreboardEvents.PlayerRemovedFromScoreboardEvent.class);
+        eventMappings.add(ScoreboardEvents.PlayerScoreRemovedEvent.class);
+        eventMappings.add(ScoreboardEvents.ScoreboardSetDisplayObjectiveEvent.class);
+        eventMappings.add(ScoreboardEvents.AddPlayerToTeamEvent.class);
+        eventMappings.add(ScoreboardEvents.RemovePlayerFromTeamEvent.class);
+        eventMappings.add(ScoreboardEvents.ObjectiveAddedEvent.class);
+        eventMappings.add(ScoreboardEvents.ObjectiveChangedEvent.class);
+        eventMappings.add(ScoreboardEvents.ObjectiveRemovedEvent.class);
+        eventMappings.add(ScoreboardEvents.TeamAddedEvent.class);
+        eventMappings.add(ScoreboardEvents.TeamChangedEvent.class);
+        eventMappings.add(ScoreboardEvents.TeamRemovedEvent.class);
     }
 
     public static List<Class<? extends EventType>> getEventMappings() {

@@ -3,6 +3,7 @@ package systems.conduit.main.core.events.types;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -24,9 +25,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import systems.conduit.main.api.mixins.LivingEntity;
-import systems.conduit.main.api.mixins.Player;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.LivingEntity;
+import systems.conduit.main.core.api.mixins.Player;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.Cancellable;
 import systems.conduit.main.mixins.server.ServerGamePacketListenerMixin;
 
@@ -285,7 +286,7 @@ public class PlayerEvents {
         private ServerPlayer player;
         private ItemStack itemInHand;
         private InteractionHand hand;
-        private systems.conduit.main.api.mixins.Entity entity;
+        private systems.conduit.main.core.api.mixins.Entity entity;
     }
 
     @AllArgsConstructor
@@ -322,5 +323,26 @@ public class PlayerEvents {
         public enum Shoulder {
             LEFT, RIGHT
         }
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class AdvancementCompletedEvent extends Cancellable {
+        private ServerPlayer player;
+        private Advancement advancement;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class AdvancementRevokeEvent extends Cancellable {
+        private ServerPlayer player;
+        private Advancement advancement;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    public static class ItemBreakEvent extends Cancellable {
+        private ServerPlayer player;
+        private ItemStack item;
     }
 }

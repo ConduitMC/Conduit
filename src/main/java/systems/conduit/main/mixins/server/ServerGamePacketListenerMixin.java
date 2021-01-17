@@ -93,7 +93,7 @@ public abstract class ServerGamePacketListenerMixin {
             if (ItemStack.matches(packet.getItem(), clickResult) && !event.isCanceled()) {
                 player.connection.send(new ClientboundContainerAckPacket(packet.getContainerId(), packet.getUid(), true));
                 player.containerMenu.broadcastChanges();
-                player.connection.send(new ClientboundContainerSetSlotPacket(-1, -1, player.getInventory().getCarried()));
+                player.connection.send(new ClientboundContainerSetSlotPacket(-1, -1, player.inventory.getCarried()));
                 return;
             }
         }

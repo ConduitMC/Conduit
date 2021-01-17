@@ -38,7 +38,7 @@ public interface ServerPlayer extends Player {
 
     net.minecraft.server.level.ServerPlayer down();
 
-    void sendResourcePack(String url, String hash, boolean required);
+    void sendResourcePack(String url, String hash);
     ChatVisiblity getChatVisibility();
     int getOpPermissionLevel();
     void resetLastActionTime();

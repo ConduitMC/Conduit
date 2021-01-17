@@ -57,7 +57,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow @Final public ServerPlayerGameMode gameMode;
     @Shadow public abstract void onUpdateAbilities();
     @Shadow public abstract void sendMessage(Component component, UUID uuid);
-    @Shadow public abstract void sendTexturePack(String s, String s1, boolean b);
+    @Shadow public abstract void sendTexturePack(String s, String s1);
 
     @Shadow public abstract ChatVisiblity getChatVisibility();
 
@@ -89,7 +89,7 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
 
     @Override
     public void setGameType(GameType type) {
-        this.getGameMode().changeGameModeForPlayer(type);
+        this.getGameMode().updateGameMode(type);
     }
 
     @Override
@@ -133,8 +133,8 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     }
 
     @Override
-    public void sendResourcePack(String url, String hash, boolean required) {
-        this.sendTexturePack(url, hash, required);
+    public void sendResourcePack(String url, String hash) {
+        this.sendTexturePack(url, hash);
     }
 
     @Override

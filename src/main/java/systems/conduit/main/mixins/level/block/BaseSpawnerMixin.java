@@ -18,7 +18,7 @@ public class BaseSpawnerMixin {
 
     @Redirect(method = "serverTick", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerLevel;tryAddFreshEntityWithPassengers(Lnet/minecraft/world/entity/Entity;)Z"))
     public boolean serverTick(ServerLevel serverLevel, Entity entity) {
-        WorldEvents.SpawnerSpawnEvent event = new WorldEvents.SpawnerSpawnEvent((BaseSpawner) (Object) this, (systems.conduit.main.api.mixins.ServerLevel) serverLevel, (systems.conduit.main.api.mixins.Entity) entity);
+        WorldEvents.SpawnerSpawnEvent event = new WorldEvents.SpawnerSpawnEvent((BaseSpawner) (Object) this, (systems.conduit.main.core.api.mixins.ServerLevel) serverLevel, (systems.conduit.main.core.api.mixins.Entity) entity);
         Conduit.getEventManager().dispatchEvent(event);
 
         return event.isCanceled();

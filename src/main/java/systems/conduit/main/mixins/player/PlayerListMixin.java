@@ -18,7 +18,7 @@ public class PlayerListMixin {
 
     @Inject(method = "respawn", at = @At("TAIL"))
     public void respawn(ServerPlayer player, boolean b, CallbackInfoReturnable<ServerPlayer> cir) {
-        PlayerEvents.RespawnEvent event = new PlayerEvents.RespawnEvent((systems.conduit.main.api.mixins.ServerPlayer) player);
+        PlayerEvents.RespawnEvent event = new PlayerEvents.RespawnEvent((systems.conduit.main.core.api.mixins.ServerPlayer) player);
         Conduit.getEventManager().dispatchEvent(event);
     }
 }

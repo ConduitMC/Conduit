@@ -5,10 +5,10 @@ import lombok.Setter;
 import net.minecraft.network.chat.TextComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import systems.conduit.main.api.managers.BossBarManager;
-import systems.conduit.main.api.managers.LevelManager;
-import systems.conduit.main.api.managers.PlayerManager;
-import systems.conduit.main.api.mixins.MinecraftServer;
+import systems.conduit.main.core.api.managers.BossBarManager;
+import systems.conduit.main.core.api.managers.LevelManager;
+import systems.conduit.main.core.api.managers.PlayerManager;
+import systems.conduit.main.core.api.mixins.MinecraftServer;
 import systems.conduit.main.console.MessageFactory;
 import systems.conduit.main.core.RunnableManager;
 import systems.conduit.main.core.commands.CommandManager;
@@ -16,6 +16,7 @@ import systems.conduit.main.core.events.EventManager;
 import systems.conduit.main.core.plugin.PluginManager;
 import systems.conduit.main.core.plugin.config.ConfigurationLoader;
 import systems.conduit.main.core.plugin.config.ConfigurationTypes;
+import systems.conduit.main.core.api.managers.ScoreboardManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class Conduit {
     @Getter private static final LevelManager levelManager = new LevelManager();
     @Getter private static final BossBarManager bossBarManager = new BossBarManager();
     @Getter private static final RunnableManager runnableManager = new RunnableManager();
+    @Getter private static final ScoreboardManager scoreboardManager = new ScoreboardManager();
 
     @Setter private static MinecraftServer server = null;
     @Getter private static String version = "@VERSION@";

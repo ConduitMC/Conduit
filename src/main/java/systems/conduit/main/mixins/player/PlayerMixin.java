@@ -27,9 +27,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.Player;
-import systems.conduit.main.api.mixins.ServerPlayer;
-import systems.conduit.main.api.mixins.player.Abilities;
+import systems.conduit.main.core.api.mixins.Player;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.player.Abilities;
 import systems.conduit.main.core.events.types.PlayerEvents;
 
 @Mixin(value = net.minecraft.world.entity.player.Player.class, remap = false)
@@ -37,7 +37,6 @@ public abstract class PlayerMixin implements Player {
 
     @Accessor public abstract AbstractContainerMenu getContainerMenu();
     @Shadow @Final public InventoryMenu inventoryMenu;
-    @Shadow public abstract Inventory getInventory();
     @Shadow public abstract Iterable<ItemStack> getArmorSlots();
     @Shadow public abstract Iterable<ItemStack> getHandSlots();
     @Shadow public abstract boolean addItem(ItemStack item);
@@ -83,7 +82,7 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract int getPortalWaitTime();
     @Shadow @Final private net.minecraft.world.entity.player.Abilities abilities;
     @Shadow public abstract void onUpdateAbilities();
-    @Shadow protected abstract boolean shadow$isAboveGround();
+    @Shadow protected abstract boolean isAboveGround();
     @Shadow public abstract void awardStat(ResourceLocation location);
     @Shadow public abstract void awardStat(ResourceLocation location, int amount);
     @Shadow public abstract void updateSwimming();
@@ -91,8 +90,8 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract int getEnchantmentSeed();
 
     @Shadow public abstract boolean setEntityOnShoulder(CompoundTag tag);
-    @Shadow protected abstract void shadow$removeEntitiesOnShoulder();
-    @Shadow protected abstract void shadow$respawnEntityOnShoulder(CompoundTag tag);
+    @Shadow protected abstract void removeEntitiesOnShoulder();
+    @Shadow protected abstract void respawnEntityOnShoulder(CompoundTag tag);
 
     @Shadow public abstract float getStandingEyeHeight(Pose pose, EntityDimensions dimensions);
     @Shadow public abstract float getAbsorptionAmount();
@@ -102,40 +101,44 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract HumanoidArm getMainArm();
     @Shadow public abstract CompoundTag getShoulderEntityLeft();
     @Shadow public abstract CompoundTag getShoulderEntityRight();
-//    @Shadow protected abstract void shadow$setShoulderEntityLeft(CompoundTag tag);
-//    @Shadow protected abstract void shadow$setShoulderEntityRight(CompoundTag tag);
-//    @Invoker public abstract void setShoulderEntityLeft(CompoundTag tag);
-//    @Invoker public abstract void setShoulderEntityRight(CompoundTag tag);
-//    @Invoker public abstract boolean isAboveGround();
+    @Shadow protected abstract void setShoulderEntityLeft(CompoundTag tag);
+    @Shadow protected abstract void setShoulderEntityRight(CompoundTag tag);
 
     @Shadow public abstract ItemCooldowns getCooldowns();
     @Shadow public abstract float getLuck();
     @Shadow public abstract boolean canUseGameMasterBlocks();
 
-//    @Override
-//    public void setShoulderEntityLeft(CompoundTag tag) {
-//        shadow$setShoulderEntityLeft(tag);
-//    }
-//
-//    @Override
-//    public void setShoulderEntityRight(CompoundTag tag) {
-//        shadow$setShoulderEntityRight(tag);
-//    }
-//
-//    @Override
-//    public void removeEntitiesOnShoulder() {
-//        shadow$removeEntitiesOnShoulder();
-//    }
-//
-//    @Override
-//    public void respawnEntityOnShoulder(CompoundTag tag) {
-//        shadow$respawnEntityOnShoulder(tag);
-//    }
-//
-//    @Override
-//    public boolean isAboveGround() {
-//        return shadow$isAboveGround();
-//    }
+    @Shadow @Final public Inventory inventory;
+
+    @Override
+    public void conduit_setShoulderEntityLeft(CompoundTag tag) {
+        setShoulderEntityLeft(tag);
+    }
+
+    @Override
+    public void conduit_setShoulderEntityRight(CompoundTag tag) {
+        setShoulderEntityRight(tag);
+    }
+
+    @Override
+    public void conduit_removeEntitiesOnShoulder() {
+        removeEntitiesOnShoulder();
+    }
+
+    @Override
+    public void conduit_respawnEntityOnShoulder(CompoundTag tag) {
+        respawnEntityOnShoulder(tag);
+    }
+
+    @Override
+    public boolean conduit_isAboveGround() {
+        return isAboveGround();
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return inventory;
+    }
 
     public void closeOpenedContainer() {
         if (this.getContainerMenu() != this.inventoryMenu) {
@@ -155,7 +158,7 @@ public abstract class PlayerMixin implements Player {
 
     @Inject(method = "interactOn", at = @At("HEAD"))
     public void interactOn(Entity entity, InteractionHand interactionHand, CallbackInfoReturnable<InteractionResult> cir) {
-        PlayerEvents.EntityClickEvent event = new PlayerEvents.EntityClickEvent((ServerPlayer) ((Object) this), this.getItemInHand(interactionHand), interactionHand, (systems.conduit.main.api.mixins.Entity) entity);
+        PlayerEvents.EntityClickEvent event = new PlayerEvents.EntityClickEvent((ServerPlayer) ((Object) this), this.getItemInHand(interactionHand), interactionHand, (systems.conduit.main.core.api.mixins.Entity) entity);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

@@ -28,7 +28,7 @@ public abstract class JoinMixin {
 
     @Inject(method = "placeNewPlayer", at = @At(value = "TAIL"))
     private void onPlayerJoined(Connection connection, ServerPlayer serverPlayer, CallbackInfo ci) {
-        PlayerEvents.PlayerJoinEvent event = new PlayerEvents.PlayerJoinEvent((systems.conduit.main.api.mixins.ServerPlayer) serverPlayer, new TranslatableComponent("multiplayer.player.joined", serverPlayer.getDisplayName())); // TODO: Join message when renamed
+        PlayerEvents.PlayerJoinEvent event = new PlayerEvents.PlayerJoinEvent((systems.conduit.main.core.api.mixins.ServerPlayer) serverPlayer, new TranslatableComponent("multiplayer.player.joined", serverPlayer.getDisplayName())); // TODO: Join message when renamed
         Conduit.getEventManager().dispatchEvent(event);
         Component eventMessage = event.getMessage();
         if (eventMessage != null) this.broadcastMessage(event.getMessage(), ChatType.CHAT, UUID.randomUUID());

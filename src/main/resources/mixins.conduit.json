@@ -57,6 +57,8 @@
     "server.VersionMixin",
     "server.BootstrapMixin",
     "server.ServerStatusPacketListenerImplMixin",
-    "server.DedicatedServerMixin"
+    "server.DedicatedServerMixin",
+    "server.ServerScoreboardMixin",
+    "server.packets.ClientboundTabListPacketMixin"
   ]
 }

@@ -43,20 +43,20 @@ public abstract class DamageMixin extends Player {
                 AbstractArrow arrow = (AbstractArrow) entitySource.getEntity();
                 if (arrow == null) return;
 
-                PlayerEvents.PlayerDamageByArrowEvent event = new PlayerEvents.PlayerDamageByArrowEvent((systems.conduit.main.api.mixins.ServerPlayer) damaged, arrow.getOwner(), arrow, damage, meta);
+                PlayerEvents.PlayerDamageByArrowEvent event = new PlayerEvents.PlayerDamageByArrowEvent((systems.conduit.main.core.api.mixins.ServerPlayer) damaged, arrow.getOwner(), arrow, damage, meta);
                 Conduit.getEventManager().dispatchEvent(event);
                 if (event.isCanceled()) cir.cancel();
                 return;
             } else if (entity instanceof ServerPlayer) {
                 // Player was attached by another player
                 ServerPlayer damager = (ServerPlayer) entitySource.getEntity();
-                PlayerEvents.PlayerDamageByPlayerEvent event = new PlayerEvents.PlayerDamageByPlayerEvent((systems.conduit.main.api.mixins.ServerPlayer) damaged, (systems.conduit.main.api.mixins.ServerPlayer) damager, damage, meta);
+                PlayerEvents.PlayerDamageByPlayerEvent event = new PlayerEvents.PlayerDamageByPlayerEvent((systems.conduit.main.core.api.mixins.ServerPlayer) damaged, (systems.conduit.main.core.api.mixins.ServerPlayer) damager, damage, meta);
                 Conduit.getEventManager().dispatchEvent(event);
                 if (event.isCanceled()) cir.cancel();
                 return;
             }
 
-            PlayerEvents.PlayerDamageByEntityEvent event = new PlayerEvents.PlayerDamageByEntityEvent((systems.conduit.main.api.mixins.ServerPlayer) damaged, entitySource.getEntity(), damage, meta);
+            PlayerEvents.PlayerDamageByEntityEvent event = new PlayerEvents.PlayerDamageByEntityEvent((systems.conduit.main.core.api.mixins.ServerPlayer) damaged, entitySource.getEntity(), damage, meta);
             Conduit.getEventManager().dispatchEvent(event);
             if (event.isCanceled()) cir.cancel();
         }

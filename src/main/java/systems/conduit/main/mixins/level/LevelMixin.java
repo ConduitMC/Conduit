@@ -18,7 +18,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.LevelData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import systems.conduit.main.api.mixins.Biome;
+import systems.conduit.main.core.api.mixins.Biome;
 
 import java.util.Optional;
 
@@ -29,7 +29,7 @@ import java.util.Optional;
  * @since 11/28/2019
  */
 @Mixin(value = Level.class, remap = false)
-public abstract class LevelMixin implements systems.conduit.main.api.mixins.Level {
+public abstract class LevelMixin implements systems.conduit.main.core.api.mixins.Level {
 
     @Shadow public abstract BiomeManager shadow$getBiomeManager();
 
@@ -48,7 +48,7 @@ public abstract class LevelMixin implements systems.conduit.main.api.mixins.Leve
     @Shadow public abstract boolean isDay();
     @Shadow public abstract void playSound(Player player, BlockPos pos, SoundEvent event, SoundSource source, float pitch, float volume);
     @Shadow public abstract BlockEntity shadow$getBlockEntity(BlockPos pos);
-    @Shadow public abstract void setBlockEntity(BlockEntity entity);
+    @Shadow public abstract void setBlockEntity(BlockPos pos, BlockEntity entity);
     @Shadow public abstract void removeBlockEntity(BlockPos pos);
     @Shadow public abstract boolean isLoaded(BlockPos pos);
     @Shadow public abstract int getSeaLevel();

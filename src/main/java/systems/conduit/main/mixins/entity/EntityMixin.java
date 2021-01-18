@@ -22,20 +22,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.Player;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.Player;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.EntityEvents;
 import systems.conduit.main.core.events.types.PlayerEvents;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Predicate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Mixin(value = Entity.class, remap = false)
-public abstract class EntityMixin implements systems.conduit.main.api.mixins.Entity {
+public abstract class EntityMixin implements systems.conduit.main.core.api.mixins.Entity {
 
     @Accessor public abstract Level getLevel();
 
@@ -59,7 +55,7 @@ public abstract class EntityMixin implements systems.conduit.main.api.mixins.Ent
     @Shadow public abstract double getZ();
 
     @Override
-    public void teleport(systems.conduit.main.api.mixins.Entity entity) {
+    public void teleport(systems.conduit.main.core.api.mixins.Entity entity) {
         this.teleport(entity.getX(), entity.getY(), entity.getZ());
     }
 
@@ -127,9 +123,8 @@ public abstract class EntityMixin implements systems.conduit.main.api.mixins.Ent
     @Shadow public abstract Entity shadow$getControllingPassenger();
     @Shadow public abstract List<Entity> shadow$getPassengers();
     @Shadow public abstract boolean hasPassenger(Entity entity);
-    @Shadow public abstract boolean hasPassenger(Predicate<Entity> entity);
-    @Shadow public abstract Iterable<Entity> getIndirectPassengers();
-    @Shadow public abstract boolean hasExactlyOnePlayerPassenger();
+    @Shadow public abstract Collection<Entity> getIndirectPassengers();
+    @Shadow public abstract boolean hasOnePlayerPassenger();
     @Shadow public abstract boolean isPassengerOfSameVehicle(Entity entity);
     @Shadow public abstract Vec3 position();
 
@@ -153,19 +148,19 @@ public abstract class EntityMixin implements systems.conduit.main.api.mixins.Ent
         return shadow$getSwimHighSpeedSplashSound();
     }
 
-    public List<systems.conduit.main.api.mixins.Entity> conduit_getPassengers() {
-        return this.shadow$getPassengers().stream().map(systems.conduit.main.api.mixins.Entity.class::cast).collect(Collectors.toList());
+    public List<systems.conduit.main.core.api.mixins.Entity> conduit_getPassengers() {
+        return this.shadow$getPassengers().stream().map(systems.conduit.main.core.api.mixins.Entity.class::cast).collect(Collectors.toList());
     }
 
-    public Optional<systems.conduit.main.api.mixins.Entity> conduit_getControllingPassenger() {
+    public Optional<systems.conduit.main.core.api.mixins.Entity> conduit_getControllingPassenger() {
         Entity entity = this.shadow$getControllingPassenger();
         if (entity == null) return Optional.empty();
-        return Optional.of((systems.conduit.main.api.mixins.Entity) entity);
+        return Optional.of((systems.conduit.main.core.api.mixins.Entity) entity);
     }
 
     @Inject(method = "changeDimension", at = @At("HEAD"))
     public void changeDimension(ServerLevel level, CallbackInfoReturnable<Entity> callback) {
-        EntityEvents.LevelSwitchEvent event = new EntityEvents.LevelSwitchEvent((systems.conduit.main.api.mixins.Entity) (Object) this, (systems.conduit.main.api.mixins.ServerLevel) this.getLevel(), (systems.conduit.main.api.mixins.ServerLevel) level);
+        EntityEvents.LevelSwitchEvent event = new EntityEvents.LevelSwitchEvent((systems.conduit.main.core.api.mixins.Entity) (Object) this, (systems.conduit.main.core.api.mixins.ServerLevel) this.getLevel(), (systems.conduit.main.core.api.mixins.ServerLevel) level);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

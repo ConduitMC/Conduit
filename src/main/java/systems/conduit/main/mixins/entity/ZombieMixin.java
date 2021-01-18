@@ -20,7 +20,7 @@ public class ZombieMixin {
 
     @Inject(method = "killed", at = @At("HEAD"), cancellable = true)
     public void onZombieKill(ServerLevel level, LivingEntity killed, CallbackInfo ci) {
-        EntityEvents.ZombieKillEntityEvent event = new EntityEvents.ZombieKillEntityEvent((systems.conduit.main.api.mixins.ServerLevel) level, (Zombie) ((Object) this), (systems.conduit.main.api.mixins.LivingEntity) killed);
+        EntityEvents.ZombieKillEntityEvent event = new EntityEvents.ZombieKillEntityEvent((systems.conduit.main.core.api.mixins.ServerLevel) level, (Zombie) ((Object) this), (systems.conduit.main.core.api.mixins.LivingEntity) killed);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();
@@ -28,7 +28,7 @@ public class ZombieMixin {
 
     @Inject(method = "killed", at = @At(value = "HEAD", target = "Lnet/minecraft/world/entity/monster/ZombieVillager;finalizeSpawn(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/world/DifficultyInstance;Lnet/minecraft/world/entity/MobSpawnType;Lnet/minecraft/world/entity/SpawnGroupData;Lnet/minecraft/nbt/CompoundTag;)Lnet/minecraft/world/entity/SpawnGroupData;"), cancellable = true)
     public void killedVillager(ServerLevel level, LivingEntity livingEntity, CallbackInfo ci) {
-        EntityEvents.VillagerZombieConversionEvent event = new EntityEvents.VillagerZombieConversionEvent((systems.conduit.main.api.mixins.ServerLevel) level, (Zombie) ((Object) this), (Villager) livingEntity);
+        EntityEvents.VillagerZombieConversionEvent event = new EntityEvents.VillagerZombieConversionEvent((systems.conduit.main.core.api.mixins.ServerLevel) level, (Zombie) ((Object) this), (Villager) livingEntity);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.MinecraftServer;
+import systems.conduit.main.core.api.mixins.MinecraftServer;
 import systems.conduit.main.core.events.types.ServerEvents;
 
 import java.util.Optional;

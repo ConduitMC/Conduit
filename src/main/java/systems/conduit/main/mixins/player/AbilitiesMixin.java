@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.gen.Accessor;
  * @since 12/2/2020
  */
 @Mixin(value = Abilities.class, remap = false)
-public abstract class AbilitiesMixin implements systems.conduit.main.api.mixins.player.Abilities {
+public abstract class AbilitiesMixin implements systems.conduit.main.core.api.mixins.player.Abilities {
 
     @Shadow public abstract void addSaveData(CompoundTag tag);
     @Shadow public abstract void loadSaveData(CompoundTag tag);

@@ -3,7 +3,6 @@ package systems.conduit.main.mixins.level;
 import lombok.Getter;
 import net.minecraft.util.ProgressListener;
 import net.minecraft.world.level.chunk.LevelChunk;
-import net.minecraft.world.level.entity.PersistentEntitySectionManager;
 import net.minecraft.world.level.storage.ServerLevelData;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,9 +11,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.Entity;
-import systems.conduit.main.api.mixins.ServerLevel;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.Entity;
+import systems.conduit.main.core.api.mixins.ServerLevel;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.WorldEvents;
 
 import java.util.List;
@@ -31,13 +30,11 @@ public abstract class ServerLevelMixin implements ServerLevel {
     @Shadow @Final @Getter private List<ServerPlayer> players;
     @Shadow @Final @Getter private ServerLevelData serverLevelData;
 
-    @Shadow @Final private PersistentEntitySectionManager<net.minecraft.world.entity.Entity> entityManager;
-
     @Override
     public Optional<Entity> getEntityByUuid(UUID uuid) {
-        net.minecraft.world.entity.Entity entity = this.entityManager.getEntityGetter().get(uuid);
+        Entity entity = this.getEntitiesByUuid().get(uuid);
         if (entity == null) return Optional.empty();
-        return Optional.of((Entity) entity);
+        return Optional.of(entity);
     }
 
     @Inject(method = "save", at = @At("HEAD"))

@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.LevelReader;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import systems.conduit.main.api.mixins.Biome;
+import systems.conduit.main.core.api.mixins.Biome;
 
 /**
  * The exposed Biome API.

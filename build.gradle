@@ -24,11 +24,12 @@ dependencies {
     implementation "com.zaxxer:HikariCP:3.4.5"
     implementation "redis.clients:jedis:3.4.0"
     implementation "com.moandjiezana.toml:toml4j:0.7.2"
+    implementation "org.mongodb:mongo-java-driver:3.6.0"
 }
 
 conduit {
     version = null
-    minecraft = "20w51a"
+    minecraft = "1.16.5"
     java = "1.8"
 }
 

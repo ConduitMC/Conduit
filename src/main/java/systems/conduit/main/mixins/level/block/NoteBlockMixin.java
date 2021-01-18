@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.Conduit;
-import systems.conduit.main.api.mixins.ServerPlayer;
+import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.WorldEvents;
 
 /**
@@ -26,7 +26,7 @@ public class NoteBlockMixin {
 
     @Inject(method = "playNote", at = @At(value = "HEAD", target = "Lnet/minecraft/world/level/Level;blockEvent(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/Block;II)V"), cancellable = true)
     private void playNote(Level level, BlockPos blockPos, CallbackInfo ci) {
-        WorldEvents.NoteBlockPlayNoteEvent event = new WorldEvents.NoteBlockPlayNoteEvent((systems.conduit.main.api.mixins.Level) level, blockPos);
+        WorldEvents.NoteBlockPlayNoteEvent event = new WorldEvents.NoteBlockPlayNoteEvent((systems.conduit.main.core.api.mixins.Level) level, blockPos);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) ci.cancel();
@@ -34,7 +34,7 @@ public class NoteBlockMixin {
 
     @Inject(method = "use", at = @At(value = "HEAD", target = "Lnet/minecraft/world/level/Level;setBlock(Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/block/state/BlockState;I)Z"), cancellable = true)
     public void use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> cir) {
-        WorldEvents.NoteBlockTuneEvent event = new WorldEvents.NoteBlockTuneEvent(blockState, (systems.conduit.main.api.mixins.Level) level, blockPos, (ServerPlayer) player, interactionHand);
+        WorldEvents.NoteBlockTuneEvent event = new WorldEvents.NoteBlockTuneEvent(blockState, (systems.conduit.main.core.api.mixins.Level) level, blockPos, (ServerPlayer) player, interactionHand);
         Conduit.getEventManager().dispatchEvent(event);
 
         if (event.isCanceled()) {

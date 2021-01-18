@@ -57,7 +57,6 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow @Final public ServerPlayerGameMode gameMode;
     @Shadow public abstract void onUpdateAbilities();
     @Shadow public abstract void sendMessage(Component component, UUID uuid);
-    @Shadow public abstract void sendTexturePack(String s, String s1);
 
     @Shadow public abstract ChatVisiblity getChatVisibility();
 
@@ -79,6 +78,8 @@ public abstract class ServerPlayerMixin implements ServerPlayer {
     @Shadow public abstract SectionPos getLastSectionPos();
     @Shadow public abstract void setLastSectionPos(SectionPos pos);
     @Shadow public abstract TextFilter getTextFilter();
+
+    @Shadow public abstract void sendTexturePack(String s, String s1);
 
     @Getter private List<PermissionNode> permissionNodes = new ArrayList<>();
 

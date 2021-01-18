@@ -70,7 +70,13 @@
       "type": "maven",
       "groupId": "org.mongodb",
       "artifactId": "mongo-java-driver",
-      "version": "2.12.3"
+      "version": "3.6.0"
+    },
+    {
+      "type": "maven",
+      "groupId": "org.mongodb",
+      "artifactId": "bson",
+      "version": "4.2.0-beta1"
     }
   ]
 }

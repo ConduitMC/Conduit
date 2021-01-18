@@ -27,11 +27,7 @@ import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.types.EntityEvents;
 import systems.conduit.main.core.events.types.PlayerEvents;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Predicate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Mixin(value = Entity.class, remap = false)
@@ -127,9 +123,8 @@ public abstract class EntityMixin implements systems.conduit.main.core.api.mixin
     @Shadow public abstract Entity shadow$getControllingPassenger();
     @Shadow public abstract List<Entity> shadow$getPassengers();
     @Shadow public abstract boolean hasPassenger(Entity entity);
-    @Shadow public abstract boolean hasPassenger(Predicate<Entity> entity);
-    @Shadow public abstract Iterable<Entity> getIndirectPassengers();
-    @Shadow public abstract boolean hasExactlyOnePlayerPassenger();
+    @Shadow public abstract Collection<Entity> getIndirectPassengers();
+    @Shadow public abstract boolean hasOnePlayerPassenger();
     @Shadow public abstract boolean isPassengerOfSameVehicle(Entity entity);
     @Shadow public abstract Vec3 position();
 

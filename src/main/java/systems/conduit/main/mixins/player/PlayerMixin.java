@@ -37,7 +37,6 @@ public abstract class PlayerMixin implements Player {
 
     @Accessor public abstract AbstractContainerMenu getContainerMenu();
     @Shadow @Final public InventoryMenu inventoryMenu;
-    @Shadow public abstract Inventory getInventory();
     @Shadow public abstract Iterable<ItemStack> getArmorSlots();
     @Shadow public abstract Iterable<ItemStack> getHandSlots();
     @Shadow public abstract boolean addItem(ItemStack item);
@@ -109,6 +108,8 @@ public abstract class PlayerMixin implements Player {
     @Shadow public abstract float getLuck();
     @Shadow public abstract boolean canUseGameMasterBlocks();
 
+    @Shadow @Final public Inventory inventory;
+
     @Override
     public void conduit_setShoulderEntityLeft(CompoundTag tag) {
         setShoulderEntityLeft(tag);
@@ -132,6 +133,11 @@ public abstract class PlayerMixin implements Player {
     @Override
     public boolean conduit_isAboveGround() {
         return isAboveGround();
+    }
+
+    @Override
+    public Inventory getInventory() {
+        return inventory;
     }
 
     public void closeOpenedContainer() {

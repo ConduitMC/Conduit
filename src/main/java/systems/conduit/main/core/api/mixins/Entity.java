@@ -92,9 +92,8 @@ public interface Entity {
     Optional<Entity> conduit_getControllingPassenger();
     List<Entity> conduit_getPassengers();
     boolean hasPassenger(Entity entity);
-    boolean hasPassenger(Predicate<net.minecraft.world.entity.Entity> entity);  // TODO: Convert to Conduit entity
-    Iterable<net.minecraft.world.entity.Entity> getIndirectPassengers();  // TODO: Convert to Conduit entity
-    boolean hasExactlyOnePlayerPassenger();
+    Collection<net.minecraft.world.entity.Entity> getIndirectPassengers();  // TODO: Convert to Conduit entity
+    boolean hasOnePlayerPassenger();
     boolean isPassengerOfSameVehicle(Entity entity);
     Vec3 position();
 

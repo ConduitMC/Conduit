@@ -40,7 +40,7 @@ public interface Level {
     boolean isDay();
     void playSound(Player player, BlockPos pos, SoundEvent event, SoundSource source, float pitch, float volume);
     Optional<BlockEntity> getBlockEntity(BlockPos pos);
-    void setBlockEntity(BlockEntity entity);
+    void setBlockEntity(BlockPos pos, BlockEntity entity);
     void removeBlockEntity(BlockPos pos);
     boolean isLoaded(BlockPos pos);
     int getSeaLevel();

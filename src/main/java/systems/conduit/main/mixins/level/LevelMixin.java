@@ -48,7 +48,7 @@ public abstract class LevelMixin implements systems.conduit.main.core.api.mixins
     @Shadow public abstract boolean isDay();
     @Shadow public abstract void playSound(Player player, BlockPos pos, SoundEvent event, SoundSource source, float pitch, float volume);
     @Shadow public abstract BlockEntity shadow$getBlockEntity(BlockPos pos);
-    @Shadow public abstract void setBlockEntity(BlockEntity entity);
+    @Shadow public abstract void setBlockEntity(BlockPos pos, BlockEntity entity);
     @Shadow public abstract void removeBlockEntity(BlockPos pos);
     @Shadow public abstract boolean isLoaded(BlockPos pos);
     @Shadow public abstract int getSeaLevel();

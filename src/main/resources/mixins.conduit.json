@@ -1,0 +1,8 @@
+{
+  "required": true,
+  "minVersion": "0.6.15",
+  "package": "systems.conduit.main.mixins",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": []
+}

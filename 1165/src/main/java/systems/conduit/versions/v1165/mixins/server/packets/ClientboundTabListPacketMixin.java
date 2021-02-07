@@ -32,6 +32,6 @@ public abstract class ClientboundTabListPacketMixin implements systems.conduit.m
 
     @Override
     public Packet<ClientGamePacketListener> toPacket() {
-        return (Packet<ClientGamePacketListener>) ((Object) this);
+        return (Packet<ClientGamePacketListener>) this;
     }
 }

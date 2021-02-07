@@ -41,7 +41,6 @@ public class Conduit {
 
     @Setter private static MinecraftServer server = null;
     @Getter private static String version = "@VERSION@";
-    @Getter private static ConduitConfiguration configuration;
 
     public static void setupLogger() {
         // Redirect print to logger
@@ -78,7 +77,7 @@ public class Conduit {
             Conduit.getLogger().error("Failed to find loader for JSON extension");
             return;
         }
-        if (file.exists()) Conduit.configuration = (ConduitConfiguration) loader.get().load(file, ConduitConfiguration.class).orElse(null);
+//        if (file.exists()) Conduit.configuration = (ConduitConfiguration) loader.get().load(file, ConduitConfiguration.class).orElse(null);
     }
 
     public static Optional<MinecraftServer> getServer() {

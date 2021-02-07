@@ -82,11 +82,11 @@ public abstract class Plugin {
             return Optional.empty();
         }
 
-        Map<String, Object> meta = Conduit.getConfiguration().getDatastores().getMysql().toMeta();
-        meta.put("database", getMeta().name());
-
-        datastore.get().attach(meta);
-        datastores.put(backend, datastore.get());
+//        Map<String, Object> meta = Conduit.getConfiguration().getDatastores().getMysql().toMeta();
+//        meta.put("database", getMeta().name());
+//
+//        datastore.get().attach(meta);
+//        datastores.put(backend, datastore.get());
 
         return datastore;
     }

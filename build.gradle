@@ -25,6 +25,12 @@ dependencies {
     implementation "redis.clients:jedis:3.4.0"
     implementation "com.moandjiezana.toml:toml4j:0.7.2"
     implementation "org.mongodb:mongo-java-driver:3.6.0"
+
+    // Minecraft Version Support
+    // compile project(":1165")
+    subprojects.forEach{sub ->
+        compile sub
+    }
 }
 
 conduit {
@@ -53,6 +59,13 @@ compileJava {
 
 java {
     withSourcesJar()
+}
+
+jar {
+    subprojects.forEach{sub ->
+        dependsOn(sub.name + ":classes")
+        from {sub.sourceSets.main.output.collect()}
+    }
 }
 
 task copyResources {

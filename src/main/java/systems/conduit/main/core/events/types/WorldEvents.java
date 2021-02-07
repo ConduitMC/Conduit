@@ -4,24 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.util.ProgressListener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.phys.Vec3;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import systems.conduit.main.core.api.mixins.*;
 import systems.conduit.main.core.events.Cancellable;
-import systems.conduit.main.mixins.item.ItemStackMixin;
-import systems.conduit.main.mixins.level.ServerLevelDataMixin;
-import systems.conduit.main.mixins.level.ServerLevelMixin;
 
 import java.util.Optional;
 
@@ -40,9 +33,6 @@ public class WorldEvents {
         private Direction clickedFace;
     }
 
-    /**
-     * Implemented in: {@link ItemStackMixin#useOn(UseOnContext, CallbackInfoReturnable)}
-     */
     @AllArgsConstructor
     @Getter
     public static class BlockInteractEvent extends Cancellable {
@@ -55,9 +45,6 @@ public class WorldEvents {
         private boolean inside;
     }
 
-    /**
-     * Implemented in: {@link systems.conduit.main.mixins.player.ServerPlayerGameModeMixin#destroyBlockInitial(BlockPos, CallbackInfoReturnable)}
-     */
     @AllArgsConstructor
     @Getter
     public static class BlockBreakEvent extends Cancellable {
@@ -66,9 +53,6 @@ public class WorldEvents {
         private BlockPos position;
     }
 
-    /**
-     * Implemented in {@link ServerLevelMixin#onLevelSave(ProgressListener, boolean, boolean, CallbackInfo)}
-     */
     @AllArgsConstructor
     @Getter
     public static class WorldSaveEvent extends EventType {
@@ -96,9 +80,6 @@ public class WorldEvents {
         private Direction.Axis axis;
     }
 
-    /**
-     * Implemented in: {@link ServerLevelDataMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class ThunderChangeStateEvent extends Cancellable {
@@ -106,27 +87,18 @@ public class WorldEvents {
         private Optional<Integer> time;
     }
 
-    /**
-     * Implemented in: {@link ServerLevelDataMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class RainChangeStateEvent extends Cancellable {
         private int rainTime;
     }
 
-    /**
-     * Implemented in: {@link ServerLevelDataMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class LightningStrikeEvent extends Cancellable {
         private Vec3 location;
     }
 
-    /**
-     * Implemented in {@link ServerLevelDataMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class WeatherClearEvent extends Cancellable {

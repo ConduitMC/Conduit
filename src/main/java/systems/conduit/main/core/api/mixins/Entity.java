@@ -13,11 +13,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Team;
 
 import java.util.*;
-import java.util.function.Predicate;
 
 /**
  * Base Conduit interface for use with mixins.
- * Implementation: {@link systems.conduit.main.mixins.entity.EntityMixin}
  *
  * @since API 0.1
  */

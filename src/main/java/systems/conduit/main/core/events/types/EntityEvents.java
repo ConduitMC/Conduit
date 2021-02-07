@@ -13,7 +13,6 @@ import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.phys.Vec3;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import systems.conduit.main.core.api.mixins.Entity;
 import systems.conduit.main.core.api.mixins.LivingEntity;
 import systems.conduit.main.core.api.mixins.ServerLevel;
@@ -26,18 +25,12 @@ import systems.conduit.main.core.events.Cancellable;
  */
 public class EntityEvents {
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.entity.SheepMixin#ate()}
-     */
     @AllArgsConstructor
     @Getter
     public static class SheepGrowWoolEvent extends Cancellable {
         private Sheep sheep;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.entity.SheepMixin#ate()}
-     */
     @AllArgsConstructor
     @Getter
     @Setter
@@ -46,9 +39,6 @@ public class EntityEvents {
         private int ageUpAmount;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.goal.BreedGoalMixin#breed(CallbackInfo)}
-     */
     @AllArgsConstructor
     @Getter
     public static class EntityBreedEvent extends Cancellable {
@@ -57,9 +47,6 @@ public class EntityEvents {
         private Animal child;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.entity.LivingEntityMixin#onEffectAdded(MobEffectInstance, CallbackInfo)}
-     */
     @AllArgsConstructor
     @Getter
     public static class EffectAddedToEntityEvent extends Cancellable {
@@ -67,9 +54,6 @@ public class EntityEvents {
         private MobEffectInstance effect;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.entity.LivingEntityMixin#onEffectRemoved(MobEffectInstance, CallbackInfo)}
-     */
     @AllArgsConstructor
     @Getter
     public static class EffectRemovedFromEntityEvent extends Cancellable {
@@ -77,9 +61,6 @@ public class EntityEvents {
         private MobEffectInstance effect;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.entity.EntityMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class LevelSwitchEvent extends Cancellable {

@@ -14,7 +14,6 @@ import java.util.Optional;
 
 /**
  * Base Conduit interface for use with mixins.
- * Implementation: {@link systems.conduit.main.mixins.entity.LivingEntityMixin}
  *
  * @since API 0.1
  */

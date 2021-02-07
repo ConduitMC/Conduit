@@ -1,4 +1,4 @@
-package systems.conduit.versions.v1165.mixins.command;
+package systems.conduit.versions.v1165.mixins.server.command;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSource;

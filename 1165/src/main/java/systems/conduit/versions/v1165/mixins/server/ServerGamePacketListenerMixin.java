@@ -1,4 +1,4 @@
-package systems.conduit.versions.v1165.mixins;
+package systems.conduit.versions.v1165.mixins.server;
 
 import it.unimi.dsi.fastutil.ints.Int2ShortMap;
 import net.minecraft.core.NonNullList;

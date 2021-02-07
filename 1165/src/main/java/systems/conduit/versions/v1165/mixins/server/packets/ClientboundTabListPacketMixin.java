@@ -1,4 +1,4 @@
-package systems.conduit.versions.v1165.mixins.packets;
+package systems.conduit.versions.v1165.mixins.server.packets;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;

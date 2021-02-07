@@ -1,4 +1,4 @@
-package systems.conduit.versions.v1165.mixins;
+package systems.conduit.versions.v1165.mixins.server;
 
 import net.minecraft.server.ServerScoreboard;
 import net.minecraft.world.scores.Objective;

@@ -1,0 +1,22 @@
+
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            url "https://repo.conduit.systems/repositories/releases/"
+        }
+    }
+
+    dependencies {
+        classpath "systems.conduit:Stream:1.0.3"
+    }
+}
+
+apply plugin: "Stream"
+
+conduit {
+    version = "0.0.10"
+    minecraft = "1.16.5"
+    java = "1.8"
+}

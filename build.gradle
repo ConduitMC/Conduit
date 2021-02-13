@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
@@ -25,6 +27,11 @@ dependencies {
     implementation "redis.clients:jedis:3.4.0"
     implementation "com.moandjiezana.toml:toml4j:0.7.2"
     implementation "org.mongodb:mongo-java-driver:3.6.0"
+
+    // Minecraft Version Support
+    subprojects.forEach{sub ->
+        compile sub
+    }
 }
 
 conduit {
@@ -47,12 +54,59 @@ task processSource(type: Sync) {
     into "$buildDir/src"
 }
 
+task generateMixinDefinitions(type: Sync) {
+    def mixinDefinitions = new File("$rootDir/src/main/resources/mixin_definitions.json")
+    def mixinDefinitionsJson = new JsonSlurper().parseText(mixinDefinitions.text)
+
+    Map<String, List<String>> dependenciesMap = new HashMap()
+
+    for (ver in mixinDefinitionsJson.keySet()) {
+        def version = (String) ver
+        def mixinDefinitionData = mixinDefinitionsJson[version]
+
+        // First, get the set of known mixins from the definition.
+        def appliedMixins = (List) mixinDefinitionData["mixins"]
+        def inheritsFrom = mixinDefinitionData["inherits"]
+
+        // Next, we need to build the json meta file to be loaded later by Stream.
+        if (inheritsFrom != null) {
+            List<String> currentDependencies = dependenciesMap.getOrDefault(version, new ArrayList<String>())
+            currentDependencies.addAll(inheritsFrom)
+            dependenciesMap.put(version, currentDependencies)
+        }
+
+        // Now that we have handled the basic parts of dependencies, we can actually build the mixin file.
+        Map<String, Object> mixinFile = new HashMap()
+        mixinFile.put("required", true)
+        mixinFile.put("minVersion", "0.6.15")
+        mixinFile.put("package", mixinDefinitionData["mixin_path"])
+        mixinFile.put("target", "@env(DEFAULT)")
+        mixinFile.put("compatibilityLevel", "JAVA_8")
+        mixinFile.put("mixins", appliedMixins)
+
+        def readyToOutput = JsonOutput.prettyPrint(JsonOutput.toJson(mixinFile))
+        def mixinOutputFile = new File("$rootDir/src/main/resources/mixins.conduit.${version}.json")
+        mixinOutputFile.write(readyToOutput)
+    }
+
+    def readyToOutput = JsonOutput.prettyPrint(JsonOutput.toJson(dependenciesMap))
+    def dependenciesOutputFile = new File("$rootDir/src/main/resources/mixin_dependencies.json")
+    dependenciesOutputFile.write(readyToOutput)
+}
+
 compileJava {
     source = processSource.outputs
 }
 
 java {
     withSourcesJar()
+}
+
+jar {
+    subprojects.forEach{sub ->
+        dependsOn(sub.name + ":classes")
+        from {sub.sourceSets.main.output.collect()}
+    }
 }
 
 task copyResources {

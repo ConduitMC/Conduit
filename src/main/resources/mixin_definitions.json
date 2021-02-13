@@ -1,0 +1,9 @@
+{
+  "1.16.5": {
+    "inherits": "1.16",
+    "mixin_path": "systems.conduit.versions.v1165.mixins",
+    "api_path": "systems.conduit.versions.v1165.api",
+    "mixins": [
+    ]
+  }
+}

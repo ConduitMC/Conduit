@@ -85,7 +85,7 @@ task generateMixinDefinitions(type: Sync) {
         mixinFile.put("mixins", appliedMixins)
 
         def readyToOutput = JsonOutput.prettyPrint(JsonOutput.toJson(mixinFile))
-        def mixinOutputFile = new File("$rootDir/src/main/resources/mixins.conduit.${version}.json")
+        def mixinOutputFile = new File("$rootDir/src/main/resources/mixins.conduit.${version.replace(".", "")}.json")
         mixinOutputFile.write(readyToOutput)
     }
 

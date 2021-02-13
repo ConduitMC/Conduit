@@ -1,8 +1,7 @@
 {
-  "1.16.5": {
-    "inherits": "1.16",
-    "mixin_path": "systems.conduit.main.mixins",
-    "api_path": "systems.conduit.main.core.api",
+  "1.16_common": {
+    "mixin_path": "systems.conduit.versions.v116.common.mixins",
+    "api_path": "systems.conduit.versions.v116.common.api",
     "mixins": [
       "entity.EntityMixin",
       "entity.LivingEntityMixin",
@@ -17,12 +16,8 @@
 
       "inventory.AbstractContainerMenuMixin",
 
-      "item.ItemStackMixin",
-      "item.WrittenBookItemMixin",
-
       "level.BiomeMixin",
       "level.LevelMixin",
-      "level.PortalForcerMixin",
       "level.ServerLevelDataMixin",
       "level.ServerLevelMixin",
       "level.WorldGenSettingsMixin",
@@ -38,7 +33,6 @@
       "level.block.BaseSpawnerMixin",
 
       "player.AbilitiesMixin",
-      "player.DamageMixin",
       "player.JoinMixin",
       "player.PlayerListMixin",
       "player.PlayerMixin",
@@ -59,6 +53,18 @@
       "server.DedicatedServerMixin",
       "server.ServerScoreboardMixin",
       "server.packets.ClientboundTabListPacketMixin"
+    ]
+  },
+  "1.16.5": {
+    "inherits": "1.16_common",
+    "mixin_path": "systems.conduit.versions.v1165.mixins",
+    "api_path": "systems.conduit.versions.v1165.api",
+    "mixins": [
+      "items.ItemStackMixin",
+      "items.WrittenBookItemMixin",
+      "level.PortalForcerMixin",
+      "player.DamageMixin",
+      "server.ServerGamePacketListenerMixin"
     ]
   }
 }

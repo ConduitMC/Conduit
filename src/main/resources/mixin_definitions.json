@@ -55,7 +55,8 @@
       "server.packets.ClientboundTabListPacketMixin"
     ]
   },
-  "1.16.5": {
+  "1.16.2": {
+    "otherVersions": ["1.16.3", "1.16.4", "1.16.5"],
     "inherits": "1.16_common",
     "mixin_path": "systems.conduit.versions.v1165.mixins",
     "api_path": "systems.conduit.versions.v1165.api",

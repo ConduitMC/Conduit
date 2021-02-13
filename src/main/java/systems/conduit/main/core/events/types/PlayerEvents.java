@@ -29,7 +29,6 @@ import systems.conduit.main.core.api.mixins.LivingEntity;
 import systems.conduit.main.core.api.mixins.Player;
 import systems.conduit.main.core.api.mixins.ServerPlayer;
 import systems.conduit.main.core.events.Cancellable;
-import systems.conduit.main.mixins.server.ServerGamePacketListenerMixin;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -40,9 +39,6 @@ import java.util.Optional;
  */
 public class PlayerEvents {
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.player.JoinMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class PlayerJoinEvent extends EventType {
@@ -50,9 +46,6 @@ public class PlayerEvents {
         @Setter private Component message;
     }
 
-    /**
-     * Mixin implementation: {@link ServerGamePacketListenerMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class PlayerLeaveEvent extends EventType {
@@ -89,9 +82,6 @@ public class PlayerEvents {
         private boolean isProjectile;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.player.DamageMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class PlayerDamageByEntityEvent extends Cancellable {
@@ -101,9 +91,6 @@ public class PlayerEvents {
         private DamageMeta meta;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.player.DamageMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class PlayerDamageByPlayerEvent extends Cancellable {
@@ -113,9 +100,6 @@ public class PlayerEvents {
         private DamageMeta meta;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.player.DamageMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class PlayerDamageByArrowEvent extends Cancellable {
@@ -126,9 +110,6 @@ public class PlayerEvents {
         private DamageMeta meta;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class PlayerGameModeChangeEvent extends Cancellable {
@@ -136,9 +117,6 @@ public class PlayerEvents {
         @Setter private GameType gamemode;
     }
 
-    /**
-     * Mixin implementation: {@link ServerGamePacketListenerMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class PlayerChatEvent extends Cancellable {
@@ -146,9 +124,6 @@ public class PlayerEvents {
         @Setter private Component message;
     }
 
-    /**
-     * Mixin implementation: {@link ServerGamePacketListenerMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class PlayerCommandEvent extends Cancellable {
@@ -156,9 +131,6 @@ public class PlayerEvents {
         @Setter private String message;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.player.PlayerListMixin}
-     */
     @AllArgsConstructor
     @Getter
     public static class RespawnEvent extends EventType {
@@ -174,9 +146,6 @@ public class PlayerEvents {
         private MoverType mover;
     }
 
-    /**
-     * Mixin implementation {@link systems.conduit.main.mixins.player.ServerPlayerMixin#changeDimension(ServerLevel, CallbackInfoReturnable)}
-     */
     @AllArgsConstructor
     @Getter
     public static class LevelSwitchEvent extends Cancellable {
@@ -185,9 +154,6 @@ public class PlayerEvents {
         private Level destination;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.server.command.KickCommandMixin#kickPlayers(CommandSourceStack, Collection, Component, CallbackInfoReturnable)}
-     */
     @AllArgsConstructor
     @Getter
     public static class KickEvent extends Cancellable {
@@ -195,9 +161,6 @@ public class PlayerEvents {
         private Component reason;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.entity.LivingEntityMixin#eat(Level, ItemStack, CallbackInfoReturnable)}
-     */
     @AllArgsConstructor
     @Getter
     public static class ConsumeEvent extends EventType {
@@ -212,9 +175,6 @@ public class PlayerEvents {
         private ItemEntity fish;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin#startSleeping(BlockPos, CallbackInfo)}
-     */
     @AllArgsConstructor
     @Getter
     public static class EnterBedEvent extends Cancellable {
@@ -222,9 +182,6 @@ public class PlayerEvents {
         private BlockPos bed;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin#stopSleeping(CallbackInfo)}
-     */
     @AllArgsConstructor
     @Getter
     public static class LeaveBedEvent extends EventType {
@@ -232,9 +189,6 @@ public class PlayerEvents {
         private BlockPos bed;
     }
 
-    /**
-     * Mixin implementation: {@link systems.conduit.main.mixins.player.ServerPlayerMixin#attack(Entity, CallbackInfo)}
-     */
     @AllArgsConstructor
     @Getter
     public static class SpectateEvent extends Cancellable {

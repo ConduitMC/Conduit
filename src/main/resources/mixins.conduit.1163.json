@@ -1,0 +1,14 @@
+{
+    "mixins": [
+        "items.ItemStackMixin",
+        "items.WrittenBookItemMixin",
+        "level.PortalForcerMixin",
+        "player.DamageMixin",
+        "server.ServerGamePacketListenerMixin"
+    ],
+    "minVersion": "0.6.15",
+    "package": "systems.conduit.versions.v1165.mixins",
+    "compatibilityLevel": "JAVA_8",
+    "required": true,
+    "target": "@env(DEFAULT)"
+}

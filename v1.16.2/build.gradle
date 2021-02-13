@@ -20,6 +20,6 @@ version = theVersion
 
 conduit {
     version = "0.0.10"
-    minecraft = "1.16.5"
+    minecraft = "1.16.2"
     java = "1.8"
 }

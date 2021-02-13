@@ -13,14 +13,12 @@ import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.WorldData;
-import systems.conduit.main.mixins.server.MinecraftServerMixin;
 
 import java.util.Map;
 import java.util.concurrent.Executor;
 
 /**
  * Base Conduit interface for use with mixins.
- * Implementation: {@link MinecraftServerMixin}
  *
  * @since API 0.1
  */

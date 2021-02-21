@@ -19,7 +19,11 @@ group = theGroup
 version = theVersion
 
 conduit {
-    version = "0.0.10"
     minecraft = "1.16.2"
     java = "1.8"
+}
+
+dependencies {
+    compile project(":shared")
+    compile project(":v116_common")
 }

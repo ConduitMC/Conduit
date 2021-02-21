@@ -25,4 +25,5 @@ conduit {
 
 dependencies {
     compile project(":shared")
+    compile project(":v116_common")
 }

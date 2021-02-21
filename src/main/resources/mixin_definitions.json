@@ -58,8 +58,21 @@
   "1.16.2": {
     "otherVersions": ["1.16.3", "1.16.4", "1.16.5"],
     "inherits": "1.16_common",
-    "mixin_path": "systems.conduit.versions.v1165.mixins",
-    "api_path": "systems.conduit.versions.v1165.api",
+    "mixin_path": "systems.conduit.versions.v1162.mixins",
+    "api_path": "systems.conduit.versions.v1162.api",
+    "mixins": [
+      "items.ItemStackMixin",
+      "items.WrittenBookItemMixin",
+      "level.PortalForcerMixin",
+      "player.DamageMixin",
+      "server.ServerGamePacketListenerMixin"
+    ]
+  },
+  "1.16": {
+    "otherVersions": ["1.16.1"],
+    "inherits": "1.16_common",
+    "mixin_path": "systems.conduit.versions.v116.mixins",
+    "api_path": "systems.conduit.versions.v116.api",
     "mixins": [
       "items.ItemStackMixin",
       "items.WrittenBookItemMixin",

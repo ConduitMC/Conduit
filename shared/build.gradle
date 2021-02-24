@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven {
+            url "https://repo.conduit.systems/repository/releases/"
+        }
+    }
+    dependencies {
+        classpath "systems.conduit:Stream:1.0.3"
+    }
+}
+apply plugin: "Stream"
+
+dependencies {
+    api "org.reflections:reflections:0.9.12"
+    api "org.jline:jline:3.18.0"
+    api "org.apache.logging.log4j:log4j-slf4j-impl:2.14.0"
+    implementation "com.zaxxer:HikariCP:3.4.5"
+    implementation "redis.clients:jedis:3.4.0"
+    implementation "com.moandjiezana.toml:toml4j:0.7.2"
+    implementation "org.mongodb:mongo-java-driver:3.6.0"
+    implementation "systems.conduit:shared:0.0.1"
+}
+
+conduit {
+    version = null
+    minecraft = "1.16.5"
+    java = "1.8"
+}
+
+group = theGroup
+version = theVersion
+
+task copyResources {
+    copy {
+        from "build/resources/main"
+        into "build/classes/java/main"
+    }
+}
+
+compileJava.doLast {
+    tasks.copyResources
+}

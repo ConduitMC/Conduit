@@ -1,1 +1,4 @@
 rootProject.name = theName
+
+include 'shared', 'v116_common', 'v1.16.2', 'v1.16'
+
